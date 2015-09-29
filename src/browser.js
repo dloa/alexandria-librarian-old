@@ -1,11 +1,9 @@
 import app from 'app';
 import BrowserWindow from 'browser-window';
-import os from 'os';
 import ipc from 'ipc';
-import net from 'net';
 import fs from 'fs';
 import path from 'path';
-import child_process from 'child_process';
+
 
 process.env.NODE_PATH = path.join(__dirname, 'node_modules');
 

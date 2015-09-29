@@ -3,9 +3,9 @@ import child_process from 'child_process';
 import Promise from 'bluebird';
 import fs from 'fs';
 import path from 'path';
-import crypto from 'crypto';
 
 module.exports = {
+  /*
   exec: function (args, options) {
     options = options || {};
 
@@ -29,6 +29,7 @@ module.exports = {
       });
     });
   },
+  */
   isWindows: function () {
     return process.platform === ('win32' || 'win64');
   },

@@ -9,10 +9,18 @@ var Preferences = React.createClass({
     return {
       Analytics: true,
       RemoteWeb: true, 
+      MinToTray: true,
       WebPort: 80
     };
   },
+  handleChangeMinimizeToTray: function (e) {
+    var checked = e.target.checked;
+    console.log(checked);
+    this.setState({
+      Analytics: checked
+    });
 
+  },
   handleChangeAnalytics: function (e) {
     var checked = e.target.checked;
     console.log(checked);
@@ -45,6 +53,11 @@ var Preferences = React.createClass({
                     <input id='startOnBoot' type='checkbox' checked={this.state.Analytics} onChange={this.handleChangeAnalytics}/>
                     <label htmlFor="startOnBoot"></label>
                     <p>Start ΛLΞXΛNDRIΛ Librarian on boot</p>
+                </div>
+                <div className='checkbox'>
+                    <input id='minToTray' type='checkbox' checked={this.state.MinToTray} onChange={this.handleChangeMinimizeToTray}/>
+                    <label htmlFor="minToTray"></label>
+                    <p>Minimize to system tray</p>
                 </div>
         </section>
         <section>
