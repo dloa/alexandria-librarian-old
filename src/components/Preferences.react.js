@@ -46,17 +46,17 @@ var Preferences = React.createClass({
                 <h1 className='title'>General</h1>
                 <div className='checkbox'>
                     <input id='reportAnon' type='checkbox' checked={this.state.Analytics} onChange={this.handleChangeAnalytics}/>
-                    <label htmlFor='reportAnon'></label>
+                    <label className='checkbox' htmlFor='reportAnon'></label>
                     <p>Report anonymous usage analytics</p>
                 </div>
                 <div className='checkbox'>
                     <input id='startOnBoot' type='checkbox' checked={this.state.Analytics} onChange={this.handleChangeAnalytics}/>
-                    <label htmlFor="startOnBoot"></label>
+                    <label className='checkbox' htmlFor="startOnBoot"></label>
                     <p>Start ΛLΞXΛNDRIΛ Librarian on boot</p>
                 </div>
                 <div className='checkbox'>
                     <input id='minToTray' type='checkbox' checked={this.state.MinToTray} onChange={this.handleChangeMinimizeToTray}/>
-                    <label htmlFor="minToTray"></label>
+                    <label className='checkbox' htmlFor="minToTray"></label>
                     <p>Minimize to system tray</p>
                 </div>
         </section>
@@ -64,7 +64,7 @@ var Preferences = React.createClass({
                 <h1 className='title'>Web Interface</h1>
                  <div className='checkbox'>
                     <input id='webEnabled' type='checkbox' checked={this.state.RemoteWeb} onChange={this.handleChangeWebAccsess}/>
-                    <label htmlFor='webEnabled'></label>
+                    <label className='checkbox' htmlFor='webEnabled'></label>
                     <p>Enable remote accsess</p>
                 </div>
         </section>
