@@ -43,7 +43,7 @@ app.on('ready', function() {
         show: false
     });
 
-    mainWindow.loadUrl('app://host/index.html');
+    mainWindow.loadUrl('file://' + process.cwd() + '/index.html');
 
 
     mainWindow.webContents.on('new-window', function(e) {
