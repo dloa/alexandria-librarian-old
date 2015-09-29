@@ -33,30 +33,30 @@ var Preferences = React.createClass({
 
   render: function () {
     return (
-      <div className="content-scroller" id="content">
+      <div className='content-scroller' id='content'>
         <section>
-                <h1 className="title">General</h1>
-                <div className="checkbox">
-                    <input id="reportAnon" type="checkbox" checked={this.state.Analytics} onChange={this.handleChangeAnalytics}/>
-                    <label htmlFor="reportAnon"></label>
+                <h1 className='title'>General</h1>
+                <div className='checkbox'>
+                    <input id='reportAnon' type='checkbox' checked={this.state.Analytics} onChange={this.handleChangeAnalytics}/>
+                    <label htmlFor='reportAnon'></label>
                     <p>Report anonymous usage analytics</p>
                 </div>
-                <div className="checkbox">
-                    <input id="startOnBoot" type="checkbox" checked={this.state.Analytics} onChange={this.handleChangeAnalytics}/>
+                <div className='checkbox'>
+                    <input id='startOnBoot' type='checkbox' checked={this.state.Analytics} onChange={this.handleChangeAnalytics}/>
                     <label htmlFor="startOnBoot"></label>
                     <p>Start ΛLΞXΛNDRIΛ Librarian on boot</p>
                 </div>
         </section>
         <section>
-                <h1 className="title">Web Interface</h1>
-                 <div className="checkbox">
-                    <input id="webEnabled" type="checkbox" checked={this.state.RemoteWeb} onChange={this.handleChangeWebAccsess}/>
-                    <label htmlFor="webEnabled"></label>
+                <h1 className='title'>Web Interface</h1>
+                 <div className='checkbox'>
+                    <input id='webEnabled' type='checkbox' checked={this.state.RemoteWeb} onChange={this.handleChangeWebAccsess}/>
+                    <label htmlFor='webEnabled'></label>
                     <p>Enable remote accsess</p>
                 </div>
         </section>
         <section>
-                <h1 className="title">Authentication</h1>
+                <h1 className='title'>Authentication</h1>
         </section>
       </div>
     );
