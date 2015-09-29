@@ -7,14 +7,25 @@ var Preferences = React.createClass({
  
   getInitialState: function () {
     return {
-      Analytics: true     
+      Analytics: true,
+      RemoteWeb: true, 
+      WebPort: 80
     };
   },
 
   handleChangeAnalytics: function (e) {
     var checked = e.target.checked;
+    console.log(checked);
     this.setState({
       Analytics: checked
+    });
+
+  },
+  handleChangeWebAccsess: function (e) {
+    var checked = e.target.checked;
+    console.log(checked);
+    this.setState({
+      RemoteWeb: checked
     });
 
   },
@@ -35,7 +46,17 @@ var Preferences = React.createClass({
                     <label htmlFor="startOnBoot"></label>
                     <p>Start ΛLΞXΛNDRIΛ Librarian on boot</p>
                 </div>
-              
+        </section>
+        <section>
+                <h1 className="title">Web Interface</h1>
+                 <div className="checkbox">
+                    <input id="webEnabled" type="checkbox" checked={this.state.RemoteWeb} onChange={this.handleChangeWebAccsess}/>
+                    <label htmlFor="webEnabled"></label>
+                    <p>Enable remote accsess</p>
+                </div>
+        </section>
+        <section>
+                <h1 className="title">Authentication</h1>
         </section>
       </div>
     );
