@@ -36,6 +36,7 @@ app.on('ready', function() {
         width: windowSize.width,
         height: windowSize.height,
         'standard-window': true,
+        'auto-hide-menu-bar': true,
         resizable: true,
         transparent: true,
         title: 'ΛLΞXΛNDRIΛ Librarian',

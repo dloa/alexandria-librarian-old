@@ -1,5 +1,7 @@
 import React from 'react/addons';
 import Router from 'react-router';
+import Isvg from 'react-inlinesvg';
+
 
 var Sidebar = React.createClass({
   componentWillMount: function () {
@@ -8,6 +10,9 @@ var Sidebar = React.createClass({
   render: function () {
     return (
       <ul className="sidebar">
+      <div className="sidebar-logo">
+        <Isvg src="./images/logo.svg" />
+      </div>
         <Router.Link to="dashboard">
           <li>
             <p>Dashboard</p>

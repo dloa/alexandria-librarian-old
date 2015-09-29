@@ -26,6 +26,7 @@
     "node-cache": "^3.0.0",
     "osx-release": "^1.1.0",
     "react": "^0.13.1",
+    "react-inlinesvg": "^0.4.2",
     "react-retina-image": "^1.1.2",
     "react-router": "^0.13.3",
     "request": "^2.55.0"
