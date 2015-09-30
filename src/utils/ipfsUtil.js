@@ -11,7 +11,7 @@ let AppData = path.join(app.getPath('appData'), 'Alexandria-Librarian');
 
 module.exports = {
     download: function() {
-    	// To be done later.
+        // To be done later.
     },
     install: function(tmppath) {
         var os = util.getOS();
@@ -24,8 +24,11 @@ module.exports = {
                 .catch(reject);
         });
     },
-    run: function(path) {
-        return util.exec([path.join(process.cwd(), '/bin/win/ipfs.exe'), 'daemon'])
+    enable: function() {
+        return util.exec([path.join(AppData, 'bin/ipfs', (util.getOS() === 'win') ? 'ipfs.exe' : 'ipfs'), 'init'])
+            .then(function() {
+                return util.exec([path.join(AppData, 'bin/ipfs', (util.getOS() === 'win') ? 'ipfs.exe' : 'ipfs'), 'daemon']);
+            })
     }
 
 };

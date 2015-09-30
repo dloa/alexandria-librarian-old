@@ -64,6 +64,8 @@ var Preferences = React.createClass({
         this.setState({
             IPFSEnabled: checked
         });
+    
+        IPFS.toggle(checked);
         Settings.save('IPFSEnabled', checked);
     },
 
