@@ -5,7 +5,6 @@ import fs from 'fs';
 import path from 'path';
 
 module.exports = {
-  /*
   exec: function (args, options) {
     options = options || {};
 
@@ -29,7 +28,6 @@ module.exports = {
       });
     });
   },
-  */
   isWindows: function () {
     return process.platform === ('win32' || 'win64');
   },
