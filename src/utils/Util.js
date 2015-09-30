@@ -20,6 +20,36 @@ module.exports = {
                 resolve(true);
         });
     },
+    getOS: function() {
+        switch (process.platform) {
+            case 'win32':
+                return 'win';
+                break;
+            case 'linux':
+                return 'linux';
+                break;
+            case 'darwin':
+                return 'osx';
+                break;
+            default:
+                return process.platform;
+        }
+    },
+    getExsecutableExt: function(os) {
+        switch (process.platform) {
+            case 'win':
+                return '.exe';
+                break;
+            case 'linux':
+                return '';
+                break;
+            case 'darwin':
+                return 'osx';
+                break;
+            default:
+                return process.platform;
+        }
+    },
     copyfile: function(source, target) {
         return new Promise((resolve, reject) => {
             var rd = fs.createReadStream(source);

@@ -10,12 +10,15 @@ let app = remote.require('app');
 let AppData = path.join(app.getPath('appData'), 'Alexandria-Librarian');
 
 module.exports = {
-    download: function() {},
+    download: function() {
+    	// To be done later.
+    },
     install: function(tmppath) {
+        var os = util.getOS();
         return new Promise((resolve, reject) => {
             util.createDir(path.join(AppData, 'bin/ipfs'))
                 .then(function() {
-                    return util.copyfile(path.join(process.cwd(), 'bin/win', 'ipfs.exe'), path.join(AppData, 'bin/ipfs', 'ipfs.exe'));
+                    return util.copyfile(path.join(process.cwd(), 'bin', os, 'ipfs.exe'), path.join(AppData, 'bin/ipfs'));
                 })
                 .then(resolve)
                 .catch(reject);
