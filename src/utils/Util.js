@@ -71,7 +71,7 @@ module.exports = {
             },
             // [Optional] On Output 
             cbStdout: function(data) {
-                console.log('out ' + data)
+                console.log(data)
             },
             // [Optional] On Error 
             cbStderr: function(data) {
@@ -79,7 +79,7 @@ module.exports = {
             },
             // [Optional] On Exit 
             cbClose: function(exitCode) {
-                console.log('bye ' + exitCode)
+                console.log(exitCode)
             },
         })
     },
