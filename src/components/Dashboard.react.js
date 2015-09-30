@@ -1,9 +1,44 @@
 import React from 'react/addons';
-
 import Router from 'react-router';
+import Settings from '../utils/SettingsUtil';
+
+let If = React.createClass({
+    render: function() {
+        if (this.props.test) {
+            return this.props.children;
+        }
+        else {
+            return false;
+        }
+    }
+});
+
 
 var Preferences = React.createClass({
   mixins: [Router.Navigation],
+
+  getInitialState: function () {
+    return {
+      LibrarydInstalled: Settings.get('LibrarydInstalled'),
+      LibrarydEnabled: Settings.get('LibrarydEnabled'),
+      IPFSInstalled: Settings.get('IPFSInstalled'),
+      IPFSEnabled: Settings.get('IPFSEnabled')
+    };
+  },
+
+  handleChangeLibrarydEnabled: function (e) {
+    var checked = e.target.checked;
+    this.setState({
+      LibrarydEnabled: checked
+    });
+  },
+  handleChangeIPFSEnabled: function (e) {
+    var checked = e.target.checked;
+    this.setState({
+      LibrarydEnabled: checked
+    });
+
+  },
 
    render: function () {
 
@@ -12,22 +47,30 @@ var Preferences = React.createClass({
         <section>
             <h1 className='title'>Local Daemons</h1>
             <div className="DaemonWrapper">
+            	<If test={this.state.LibrarydInstalled}>
             	<div className="toggle-wrapper">
-        			<input type="checkbox" id="LibrarydToggle" className="toggle" />
+        			<input checked={this.state.LibrarydEnabled} onChange={this.handleChangeLibrarydEnabled} type="checkbox" id="LibrarydToggle" className="toggle" />
         			<label htmlFor="LibrarydToggle"></label>
     			</div>
+    			</If>
     			<p>Libraryd</p>
     			<i className="ion-information-circled"/>
+    			<If test={!this.state.LibrarydInstalled}>
     			<div className="install">install</div>
+    			</If>
     		</div>
     		<div className="DaemonWrapper">
+    		<If test={this.state.IPFSInstalled}>
             	<div className="toggle-wrapper">
-        			<input type="checkbox" id="IPFStoggle" className="toggle" />
+        			<input checked={this.state.IPFSEnabled} onChange={this.handleChangeIPFSEnabled} type="checkbox" id="IPFStoggle" className="toggle" />
         			<label htmlFor="IPFStoggle"></label>
     			</div>
+    		</If>
     			<p>IPFS</p>
     			<i className="ion-information-circled"/>
+    		<If test={!this.state.IPFSInstalled}>
     			<div className="install">install</div>
+    		</If>
     		</div>
         </section>
         <section>
