@@ -19,6 +19,7 @@
   "dependencies": {
     "alt": "^0.16.2",
     "bluebird": "^2.9.24",
+    "child": "0.0.3",
     "exec": "0.2.0",
     "get-port": "^1.0.0",
     "is-running": "^1.0.5",

@@ -4,6 +4,7 @@ import Promise from 'bluebird';
 import fs from 'fs';
 import path from 'path';
 import mkdirp from 'mkdirp';
+import child from 'child';
 
 module.exports = {
     createDir: function(dir) {
@@ -35,21 +36,6 @@ module.exports = {
                 return process.platform;
         }
     },
-    getExsecutableExt: function(os) {
-        switch (process.platform) {
-            case 'win':
-                return '.exe';
-                break;
-            case 'linux':
-                return '';
-                break;
-            case 'darwin':
-                return 'osx';
-                break;
-            default:
-                return process.platform;
-        }
-    },
     copyfile: function(source, target) {
         return new Promise((resolve, reject) => {
             var rd = fs.createReadStream(source);
@@ -67,6 +53,37 @@ module.exports = {
 
         });
     },
+    child: function(cmd, args) {
+        return child({
+            // Command to execute 
+            command: cmd,
+            // [Optional] Command arguments (same as nodejs.org/api/child_process.html) 
+            args: args,
+            // [Optional] Extra Options (same as nodejs.org/api/child_process.html) 
+            options: [],
+            // [Optional] Auto restart? 
+            autoRestart: true,
+            // [Optional] Timeout beetwen restart's 
+            restartTimeout: 200,
+            // [Optional] Callback when the process is Auto-restarted 
+            cbRestart: function(data) {
+                console.log('restart ' + data)
+            },
+            // [Optional] On Output 
+            cbStdout: function(data) {
+                console.log('out ' + data)
+            },
+            // [Optional] On Error 
+            cbStderr: function(data) {
+                console.log('err ' + data)
+            },
+            // [Optional] On Exit 
+            cbClose: function(exitCode) {
+                console.log('bye ' + exitCode)
+            },
+        })
+    },
+
     exec: function(args, options) {
         options = options || {};
 
