@@ -25,22 +25,32 @@ var Preferences = React.createClass({
       IPFSEnabled: Settings.get('IPFSEnabled')
     };
   },
-
+  InstallLibraryd:function(){
+  	this.setState({
+      LibrarydInstalled: true
+    });
+  },
+  InstallIPFS:function(){
+	this.setState({
+      IPFSInstalled: true
+    });
+  },
   handleChangeLibrarydEnabled: function (e) {
     var checked = e.target.checked;
     this.setState({
       LibrarydEnabled: checked
     });
+    Settings.save('LibrarydEnabled', checked);
   },
   handleChangeIPFSEnabled: function (e) {
     var checked = e.target.checked;
     this.setState({
-      LibrarydEnabled: checked
+      IPFSEnabled: checked
     });
-
+	Settings.save('IPFSEnabled', checked);
   },
 
-   render: function () {
+  render: function () {
 
     return (
 	<div className='content-scroller' id='content'>
@@ -56,7 +66,7 @@ var Preferences = React.createClass({
     			<p>Libraryd</p>
     			<i className="ion-information-circled"/>
     			<If test={!this.state.LibrarydInstalled}>
-    			<div className="install">install</div>
+    			<div onClick={this.InstallLibraryd} className="install">install</div>
     			</If>
     		</div>
     		<div className="DaemonWrapper">
@@ -69,7 +79,7 @@ var Preferences = React.createClass({
     			<p>IPFS</p>
     			<i className="ion-information-circled"/>
     		<If test={!this.state.IPFSInstalled}>
-    			<div className="install">install</div>
+    			<div onClick={this.InstallIPFS} className="install">install</div>
     		</If>
     		</div>
         </section>
