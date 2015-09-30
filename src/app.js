@@ -3,6 +3,7 @@ import remote from 'remote';
 import React from 'react';
 import ipc from 'ipc';
 import webUtil from './utils/WebUtil';
+import util from './utils/Util';
 import path from 'path';
 import Router from 'react-router';
 import routes from './routes';
@@ -12,7 +13,11 @@ import routerContainer from './router';
 var app = remote.require('app');
 var Menu = remote.require('menu');
 
+let AppData = path.join(app.getPath('appData'), 'Alexandria-Librarian');
+
+
 // Init process
+util.createDir(AppData);
 webUtil.addLiveReload();
 webUtil.disableGlobalBackspace();
 

@@ -1,6 +1,6 @@
 import ipc from 'ipc';
 import alt from '../alt';
-import ifps from '../utils/ifpsUtil';
+import ifps from '../utils/ipfsUtil';
 
 class ipfsActions {
 
@@ -17,7 +17,10 @@ class ipfsActions {
   }
 
   install () {
-
+    this.dispatch();
+    ifps.install().then(() => {
+          console.log('IPFS installed')
+    })
   }
 
 

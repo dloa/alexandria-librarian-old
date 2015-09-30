@@ -132,6 +132,11 @@ module.exports = function(grunt) {
                     dest: 'build/images/'
                 }, {
                     expand: true,
+                    cwd: 'bin/',
+                    src: ['**/*'],
+                    dest: 'build/bin/'
+                }, {
+                    expand: true,
                     cwd: 'fonts/',
                     src: ['**/*'],
                     dest: 'build/fonts/'

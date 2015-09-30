@@ -1,6 +1,7 @@
 import React from 'react/addons';
 import Router from 'react-router';
 import Settings from '../utils/SettingsUtil';
+import IPFS from '../actions/ipfsActions'
 
 let If = React.createClass({
     render: function() {
@@ -31,7 +32,8 @@ var Preferences = React.createClass({
     });
   },
   InstallIPFS:function(){
-	this.setState({
+    IPFS.install();
+	   this.setState({
       IPFSInstalled: true
     });
   },
