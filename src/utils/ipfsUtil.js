@@ -18,7 +18,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
             util.createDir(path.join(AppData, 'bin/ipfs'))
                 .then(function() {
-                    return util.copyfile(path.join(process.cwd(), 'bin', os, 'ipfs.exe'), path.join(AppData, 'bin/ipfs'));
+                    return util.copyfile(path.join(process.cwd(), 'bin', os, (os === 'win') ? 'ipfs.exe' : 'ipfs'), path.join(AppData, 'bin/ipfs', (os === 'win') ? 'ipfs.exe' : 'ipfs'));
                 })
                 .then(resolve)
                 .catch(reject);

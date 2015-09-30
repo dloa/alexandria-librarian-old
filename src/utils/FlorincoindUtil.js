@@ -11,21 +11,21 @@ let AppData = path.join(app.getPath('appData'), 'Alexandria-Librarian');
 
 module.exports = {
     download: function() {
-    	// To be done later.
+        // To be done later.
     },
     install: function(tmppath) {
         var os = util.getOS();
         return new Promise((resolve, reject) => {
             util.createDir(path.join(AppData, 'bin/florincoind'))
                 .then(function() {
-                    return util.copyfile(path.join(process.cwd(), 'bin', os, 'florincoind.exe'), path.join(AppData, 'bin', 'florincoind.exe'));
+                    return util.copyfile(path.join(process.cwd(), 'bin', os, (os === 'win') ? 'florincoind.exe' : 'florincoind'), path.join(AppData, 'bin/florincoind', (os === 'win') ? 'florincoind.exe' : 'florincoind'));
                 })
                 .then(resolve)
                 .catch(reject);
         });
     },
     run: function(path) {
-        return util.exec([path.join(process.cwd(), '/bin/win','florincoind.exe'), 'daemon'])
+        return util.exec([path.join(process.cwd(), '/bin/win', 'florincoind.exe'), 'daemon'])
     }
 
 };
