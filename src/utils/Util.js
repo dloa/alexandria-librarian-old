@@ -19,6 +19,15 @@ module.exports = {
             })
         });
     },
+    chmod: function(file, mode) {
+        return new Promise((resolve, reject) => {
+            fs.chmod(file, mode, function(err) {
+                if (err)
+                    return reject(err);
+                resolve(true);
+            });
+        });
+    },
     createDir: function(dir) {
         dir = path.normalize(dir);
         return new Promise((resolve, reject) => {
