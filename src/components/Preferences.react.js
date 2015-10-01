@@ -87,7 +87,7 @@ var Preferences = React.createClass({
                 <h1 className='title'>Authentication</h1>
         </section>
         <section>
-            <h1 className='title'>Authentication</h1>
+            <h1 className='title'>Florincoind Credentials</h1>
 
               <input name="username" id='Florincoind-username' onChange={this.handleChangeFlorincoindCreds} value={this.state.FlorincoindUsername} placeholder="Username" type="text" />
               <input name="password" id='Florincoind-password' onChange={this.handleChangeFlorincoindCreds} value={this.state.FlorincoindPassword} placeholder="Password" type="text" />
