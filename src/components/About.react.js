@@ -1,6 +1,5 @@
 import React from 'react/addons';
 import Router from 'react-router';
-import hub from '../utils/HubUtil';
 
 var About = React.createClass({
   mixins: [Router.Navigation],
