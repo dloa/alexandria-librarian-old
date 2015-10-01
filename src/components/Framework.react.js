@@ -2,7 +2,6 @@ import _ from 'lodash';
 import React from 'react';
 import Router from 'react-router';
 import Sidebar from './Sidebar.react';
-import RetinaImage from 'react-retina-image';
 
 var Client = React.createClass({
 
