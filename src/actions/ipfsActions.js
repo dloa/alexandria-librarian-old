@@ -5,7 +5,6 @@ import ifps from '../utils/ipfsUtil';
 class ipfsActions {
 
     download() {
-
         this.dispatch();
         ifps.download()
             .then((DLpath) => {

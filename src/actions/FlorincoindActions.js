@@ -5,7 +5,6 @@ import Florincoind from '../utils/FlorincoindUtil';
 class FlorincoindActions {
 
     download() {
-
         this.dispatch();
         Florincoind.download()
             .then((DLpath) => {
@@ -20,10 +19,21 @@ class FlorincoindActions {
         this.dispatch();
         Florincoind.install()
             .then(() => {
-                console.log('Florincoind installed')
+                console.log('Florincoind installed');
             })
     }
-
+    
+    toggle(status) {
+        this.dispatch();
+        if (status)
+            Florincoind.enable().then(() => {
+                console.log('Florincoind enabled');
+            });
+        else
+            Florincoind.disable().then(() => {
+                console.log('Florincoind disabled');
+            });
+    }
 
 }
 

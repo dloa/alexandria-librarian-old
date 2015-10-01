@@ -50,6 +50,7 @@ var Preferences = React.createClass({
         this.setState({
             FlorincoindEnabled: checked
         });
+		Florincoind.toggle(checked);
         Settings.save('FlorincoindEnabled', checked);
     },
     handleChangeLibrarydEnabled: function(e) {
@@ -64,13 +65,11 @@ var Preferences = React.createClass({
         this.setState({
             IPFSEnabled: checked
         });
-    
         IPFS.toggle(checked);
         Settings.save('IPFSEnabled', checked);
     },
 
     render: function() {
-
         return (
       <div className='content-scroller' id='content'>
         <section>

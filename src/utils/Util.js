@@ -67,23 +67,26 @@ module.exports = {
             restartTimeout: 200,
             // [Optional] Callback when the process is Auto-restarted 
             cbRestart: function(data) {
-                console.log('restart ' + data)
+                if (data)
+                    console.log('restart ' + data)
             },
             // [Optional] On Output 
             cbStdout: function(data) {
-                console.log(data.toString())
+                if (data)
+                    console.log(data.toString())
             },
             // [Optional] On Error 
             cbStderr: function(data) {
-                console.log('err ' + data)
+                if (data)
+                    console.log('err ' + data)
             },
             // [Optional] On Exit 
             cbClose: function(exitCode) {
-                console.log(exitCode.toString())
+                if (exitCode)
+                    console.log(exitCode.toString())
             },
         })
     },
-
     exec: function(args, options) {
         options = options || {};
 
@@ -106,6 +109,14 @@ module.exports = {
                 }
             });
         });
+    },
+    generatePassword: function(length) {
+        var charset = "abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+            retVal = "";
+        for (var i = 0, n = charset.length; i < length; ++i) {
+            retVal += charset.charAt(Math.floor(Math.random() * n));
+        }
+        return retVal;
     },
     isWindows: function() {
         return process.platform === ('win32' || 'win64');
