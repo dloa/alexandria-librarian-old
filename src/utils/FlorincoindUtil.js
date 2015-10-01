@@ -18,18 +18,15 @@ module.exports = {
     install: function(tmppath) {
         var os = util.getOS();
         return new Promise((resolve, reject) => {
-            util.createDir(path.join(AppData, 'bin/florincoind'))
-                .then(function() {
-                    return util.copyfile(path.join(process.cwd(), 'bin', os, (os === 'win') ? 'florincoind.exe' : 'florincoind'), path.join(AppData, 'bin/florincoind', (os === 'win') ? 'florincoind.exe' : 'florincoind'));
-                })
+            util.copyfile(path.join(process.cwd(), 'bin', os, (os === 'win') ? 'florincoind.exe' : 'florincoind'), path.join(AppData, 'bin', (os === 'win') ? 'florincoind.exe' : 'florincoind'))
                 .then(resolve)
                 .catch(reject);
         });
     },
     saveConf: function(params) {
         var AutoGenPass = util.generatePassword(125);
-        Settings.save('Florincoind-password', AutoGenPass);
         Settings.save('Florincoind-username', 'admin');
+        Settings.save('Florincoind-password', AutoGenPass);
         var FlorincoinTmp = path.join(app.getPath('appData'), 'Florincoin');
         return new Promise((resolve, reject) => {
             util.createDir(FlorincoinTmp)
@@ -50,7 +47,7 @@ module.exports = {
             });
             this.saveConf();
         }
-        this.daemon = util.child(path.join(AppData, 'bin/florincoind', (util.getOS() === 'win') ? 'florincoind.exe' : 'florincoind'), ['daemon']);
+        this.daemon = util.child(path.join(AppData, 'bin', (util.getOS() === 'win') ? 'florincoind.exe' : 'florincoind'), ['daemon']);
         return new Promise((resolve, reject) => {
             try {
                 this.daemon.start(function(pid) {

@@ -20,12 +20,12 @@ var Preferences = React.createClass({
 
     getInitialState: function() {
         return {
-            LibrarydInstalled: Settings.get('LibrarydInstalled'),
-            LibrarydEnabled: Settings.get('LibrarydEnabled'),
-            IPFSInstalled: Settings.get('IPFSInstalled'),
-            IPFSEnabled: Settings.get('IPFSEnabled'),
-            FlorincoindInstalled: Settings.get('FlorincoindInstalled'),
-            FlorincoindEnabled: Settings.get('FlorincoindEnabled')
+            LibrarydInstalled: Settings.get('librarydInstalled'),
+            LibrarydEnabled: Settings.get('librarydEnabled'),
+            IPFSInstalled: Settings.get('ipfsInstalled'),
+            IPFSEnabled: Settings.get('ipfsEnabled'),
+            FlorincoindInstalled: Settings.get('florincoindInstalled'),
+            FlorincoindEnabled: Settings.get('florincoindEnabled')
         };
     },
     InstallLibraryd: function() {
@@ -50,15 +50,15 @@ var Preferences = React.createClass({
         this.setState({
             FlorincoindEnabled: checked
         });
-		Florincoind.toggle(checked);
-        Settings.save('FlorincoindEnabled', checked);
+		    Florincoind.toggle(checked);
+        Settings.save('florincoindEnabled', checked);
     },
     handleChangeLibrarydEnabled: function(e) {
         var checked = e.target.checked;
         this.setState({
             LibrarydEnabled: checked
         });
-        Settings.save('LibrarydEnabled', checked);
+        Settings.save('librarydEnabled', checked);
     },
     handleChangeIPFSEnabled: function(e) {
         var checked = e.target.checked;
@@ -66,7 +66,7 @@ var Preferences = React.createClass({
             IPFSEnabled: checked
         });
         IPFS.toggle(checked);
-        Settings.save('IPFSEnabled', checked);
+        Settings.save('ipfsEnabled', checked);
     },
 
     render: function() {

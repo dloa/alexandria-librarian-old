@@ -5,8 +5,19 @@ import fs from 'fs';
 import path from 'path';
 import mkdirp from 'mkdirp';
 import child from 'child';
+import find from 'find';
 
 module.exports = {
+    findfile: function(dir, file) {
+        return new Promise((resolve, reject) => {
+            find.file(file, dir, function(files) {
+                if (files.length > 0)
+                    resolve(true);
+                else
+                    resolve(false);
+            })
+        });
+    },
     createDir: function(dir) {
         dir = path.normalize(dir);
         return new Promise((resolve, reject) => {

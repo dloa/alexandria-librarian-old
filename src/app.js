@@ -8,16 +8,18 @@ import path from 'path';
 import Router from 'react-router';
 import routes from './routes';
 import routerContainer from './router';
+import Settings from './utils/SettingsUtil';
 
 
 var app = remote.require('app');
 var Menu = remote.require('menu');
 
 let AppData = path.join(app.getPath('appData'), 'Alexandria-Librarian');
-
+let AppBinDir = path.join(AppData, 'bin');
 
 // Init process
 util.createDir(AppData);
+util.createDir(AppBinDir);
 webUtil.addLiveReload();
 webUtil.disableGlobalBackspace();
 
@@ -29,7 +31,10 @@ router.run(Handler => React.render( < Handler / > , document.body));
 routerContainer.set(router);
 
 // Default Route
-router.transitionTo('dashboard');
+Settings.setInstalled(AppBinDir).then(function() {
+    router.transitionTo('dashboard');
+});
+
 ipc.on('application:quitting', () => {});
 
 // Event fires when the app receives a vpnht:// URL
