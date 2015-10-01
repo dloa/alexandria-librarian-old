@@ -146,3 +146,30 @@ section label.checkbox:after {
     top: -9px;
     transform: rotate(-10deg);
 }
+
+section input[type="text"]::-webkit-input-placeholder {
+    font-style: italic;
+}
+
+section input[type="password"]::-webkit-input-placeholder {
+    font-style: italic;
+}
+
+section input[type="text"],
+input[type="password"] {
+    color: #595959;
+    height: 40px;
+    outline: 0;
+    width: calc(~"(100vw - 250px - 120px - 58px - 5px)/2");
+    position: relative;
+    font-size: 14px;
+    font-weight: 300;
+    padding-left: 26px;
+    line-height: 28px;
+    border: 1px solid #ccc;
+    margin-bottom: 22px;
+}
+
+section input[type="password"] {
+    margin-left:5px;
+}

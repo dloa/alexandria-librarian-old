@@ -1,6 +1,8 @@
 import React from 'react/addons';
 import Router from 'react-router';
 import hub from '../utils/HubUtil';
+import Settings from '../utils/SettingsUtil';
+
 
 var Preferences = React.createClass({
   mixins: [Router.Navigation],
@@ -10,7 +12,9 @@ var Preferences = React.createClass({
       Analytics: true,
       RemoteWeb: true, 
       MinToTray: true,
-      WebPort: 80
+      WebPort: 80,
+      FlorincoindUsername: Settings.get('Florincoind-username'), 
+      FlorincoindPassword: Settings.get('Florincoind-password')
     };
   },
   handleChangeMinimizeToTray: function (e) {
@@ -35,10 +39,21 @@ var Preferences = React.createClass({
     this.setState({
       RemoteWeb: checked
     });
+  },
+  handleChangeFlorincoindCreds: function(e){
+    var target = e.target.id;
+
+    if(target === 'Florincoind-username')
+      this.setState({
+        FlorincoindUsername: e.target.value
+      });
+    else
+      this.setState({
+        FlorincoindPassword: e.target.value
+      });
+    Settings.save(e.target.id, e.target.value);
 
   },
-
-
   render: function () {
     return (
       <div className='content-scroller' id='content'>
@@ -71,6 +86,14 @@ var Preferences = React.createClass({
         <section>
                 <h1 className='title'>Authentication</h1>
         </section>
+        <section>
+            <h1 className='title'>Authentication</h1>
+
+              <input name="username" id='Florincoind-username' onChange={this.handleChangeFlorincoindCreds} value={this.state.FlorincoindUsername} placeholder="Username" type="text" />
+              <input name="password" id='Florincoind-password' onChange={this.handleChangeFlorincoindCreds} value={this.state.FlorincoindPassword} placeholder="Password" type="text" />
+
+        </section>
+         
       </div>
     );
   }
