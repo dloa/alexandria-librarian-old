@@ -6,6 +6,7 @@ import path from 'path';
 import mkdirp from 'mkdirp';
 import child from 'child';
 import find from 'find';
+import log from '../stores/LogStore';
 
 module.exports = {
     findfile: function(dir, file) {
@@ -61,7 +62,6 @@ module.exports = {
                 resolve();
             });
             rd.pipe(wr);
-
         });
     },
     child: function(cmd, args) {
@@ -78,23 +78,31 @@ module.exports = {
             restartTimeout: 200,
             // [Optional] Callback when the process is Auto-restarted 
             cbRestart: function(data) {
-                if (data)
-                    console.log('restart ' + data)
+                if (data) {
+                    console.log('restart ' + data);
+                    log.info('Restarting: ' + data);
+                }
             },
             // [Optional] On Output 
             cbStdout: function(data) {
-                if (data)
-                    console.log(data.toString())
+                if (data) {
+                    console.log(data.toString());
+                    log.info(data);
+                }
             },
             // [Optional] On Error 
             cbStderr: function(data) {
-                if (data)
-                    console.log('err ' + data)
+                if (data) {
+                    console.log('err: ' + data);
+                    log.error(data);
+                }
             },
             // [Optional] On Exit 
             cbClose: function(exitCode) {
-                if (exitCode)
-                    console.log(exitCode.toString())
+                if (exitCode) {
+                    console.log(exitCode.toString());
+                    log.info('Terminated With Exit Code: ' + exitCode);
+                }
             },
         })
     },

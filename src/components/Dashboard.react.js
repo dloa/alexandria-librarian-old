@@ -3,6 +3,7 @@ import Router from 'react-router';
 import Settings from '../utils/SettingsUtil';
 import IPFS from '../actions/ipfsActions';
 import Florincoind from '../actions/FlorincoindActions';
+import Logs from './DashboardLogs.react';
 
 let If = React.createClass({
     render: function() {
@@ -133,9 +134,7 @@ var Preferences = React.createClass({
           <i className="ion-android-settings"/>
         </div>
         </section>
-        <section>
-            <h1 className='title'>Other Libary Services</h1>
-        </section>
+        <Logs />
       </div>
         );
 

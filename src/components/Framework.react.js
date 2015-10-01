@@ -5,6 +5,26 @@ import Sidebar from './Sidebar.react';
 import RetinaImage from 'react-retina-image';
 
 var Client = React.createClass({
+
+  getInitialState: function () {
+    return {
+      sidebarOffset: 0
+    };
+  },
+
+  handleScroll: function (e) {
+    if (e.target.scrollTop > 0 && !this.state.sidebarOffset) {
+      this.setState({
+        sidebarOffset: e.target.scrollTop
+      });
+    } else if (e.target.scrollTop === 0 && this.state.sidebarOffset) {
+      this.setState({
+        sidebarOffset: 0
+      });
+    }
+  },
+
+  
   render: function () {
     return (
       <div>

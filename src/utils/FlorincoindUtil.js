@@ -2,7 +2,6 @@ import _ from 'lodash';
 import path from 'path';
 import Promise from 'bluebird';
 import request from 'request';
-import fs from 'fs';
 import util from './Util';
 import remote from 'remote';
 import Settings from '../utils/SettingsUtil';
