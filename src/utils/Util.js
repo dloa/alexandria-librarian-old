@@ -131,8 +131,10 @@ module.exports = {
             fn(args, options, (stderr, stdout, code) => {
                 if (code) {
                     var cmd = Array.isArray(args) ? args.join(' ') : args;
+                    log.error(stderr);
                     reject(new Error(cmd + ' returned non zero exit code. Stderr: ' + stderr));
                 } else {
+                    log.info(stdout);
                     resolve(stdout);
                 }
             });
