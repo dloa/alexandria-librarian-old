@@ -3,6 +3,8 @@ import BrowserWindow from 'browser-window';
 import ipc from 'ipc';
 import fs from 'fs';
 import path from 'path';
+import IPFS from '../actions/ipfsActions';
+import Florincoind from '../actions/FlorincoindActions';
 
 
 process.env.NODE_PATH = path.join(__dirname, 'node_modules');
@@ -17,6 +19,19 @@ var openURL = null;
 app.on('open-url', function(event, url) {
     event.preventDefault();
     openURL = url;
+});
+app.on('before-quit', function(event) {
+    event.preventDefault()
+    Florincoind.toggle(false)
+        .then(function() {
+            return IPFS.toggle(false);
+        })
+        .then(function() {
+            app.quit();
+        })
+        .catch(function() {
+            app.quit();
+        });
 });
 
 app.on('ready', function() {
