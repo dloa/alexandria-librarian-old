@@ -22,13 +22,27 @@ class ipfsActions {
         });
     }
 
-    pin() {
+    addFile() {
         this.dispatch();
-        var pins = ifps.pinfiles();
+        ifps.addFile();
+    }
+
+    pinremote() {
+        this.dispatch();
+        var pins = ifps.pinlocalfiles();
         pins.on('pinned', function(file) {
             console.log(file)
         });
     }
+
+    pinlocal() {
+        this.dispatch();
+        var pins = ifps.pinlocalfiles();
+        pins.on('pinned', function(file) {
+            console.log(file)
+        });
+    }
+
     getPinned() {
         this.dispatch();
         ifps.getPinned();

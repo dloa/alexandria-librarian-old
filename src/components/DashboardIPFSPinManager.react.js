@@ -11,10 +11,13 @@ var PinManager = React.createClass({
       pinned:{}
     };
   },
-  handleAddPin: function(){
+  handleAddPinLocal: function(){
     
-    IPFS.pin();
+    IPFS.pinlocal();
 
+    
+  },
+  handleAddPinHash: function(){
     
   },
   handlePinRefresh: function(){
@@ -29,7 +32,8 @@ var PinManager = React.createClass({
         <section>
             <h1 className="title">IPFS pin manager</h1>
             
-            <button className="left" type="submit" onClick={this.handleAddPin}><p>Pin File</p></button>
+            <button className="left" type="submit" onClick={this.handleAddPinLocal}><p>Pin local File</p></button>
+             <button className="left" type="submit" onClick={this.handleAddPinHash}><p>Pin hash</p></button>
             <button className="left" type="submit" onClick={this.handlePinRefresh}><p>Refresh all pins</p></button>
         </section>
     );

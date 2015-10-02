@@ -34,22 +34,22 @@ module.exports = {
                 });
         });
     },
-    pinfiles: function(filepath) {
+    pinlocalfiles: function(filepath) {
         let pinEmmiter = new EventEmitter();
         dialog.showOpenDialog({
             title: 'Select file',
             properties: ['openFile', 'createDirectory', 'multiSelections'],
         }, function(filenames) {
             filenames.forEach(function(filename) {
-                util.exec([path.join(AppData, 'bin', (os === 'win') ? 'ipfs.exe' : 'ipfs'), 'add', path.normalize(filename)])
+                module.exports.addFile(filename)
                     .then(function(res) {
-                        res = res.split(' ');
-                        module.exports.pinFile(res[1]).then(function(pinRes) {
-                            pinEmmiter.emit('pinned', {
-                                hash: res[1],
-                                name: filename,
-                                message: pinRes
-                            });
+                        return module.exports.pinFile(res.hash);
+                    })
+                    .then(function(pinRes) {
+                        pinEmmiter.emit('pinned', {
+                            hash: res[1],
+                            name: filename,
+                            message: pinRes
                         });
                     });
             });
@@ -58,9 +58,12 @@ module.exports = {
     },
     pinFile: function(hash) {
         return new Promise((resolve, reject) => {
-            util.exec([path.join(AppData, 'bin', (os === 'win') ? 'ipfs.exe' : 'ipfs'), 'pin', 'add', hash]).then(function(res) {
-                resolve(res);
-            })
+            util.exec([path.join(AppData, 'bin', (os === 'win') ? 'ipfs.exe' : 'ipfs'), 'get', hash])
+                .then(function(res) {
+                    return util.exec([path.join(AppData, 'bin', (os === 'win') ? 'ipfs.exe' : 'ipfs'), 'pin', '-r', 'add', hash]);
+                })
+                .then(resolve)
+                .catch(reject)
         });
     },
     addFile: function(filepath) {
@@ -68,10 +71,10 @@ module.exports = {
             util.exec([path.join(AppData, 'bin', (os === 'win') ? 'ipfs.exe' : 'ipfs'), 'add', path.normalize(filename)])
                 .then(function(res) {
                     res = res.split(' ');
-                        resolve({
-                            hash: res[1],
-                            name: filename
-                        });
+                    resolve({
+                        hash: res[1],
+                        name: filename
+                    });
                 });
         });
     },
