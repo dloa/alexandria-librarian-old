@@ -6,6 +6,7 @@ import fs from 'fs';
 import util from './Util';
 import remote from 'remote';
 import nodeUtil from 'util';
+import Settings from '../utils/SettingsUtil';
 
 let dialog = remote.require('dialog');
 let AppData = process.env.APP_DATA_PATH;
@@ -37,9 +38,9 @@ module.exports = {
     },
     pinfile: function(filepath) {
         console.log(filepath)
-        this.pinUp = util.child(path.join(AppData, 'bin', (util.getOS() === 'win') ? 'ipfs.exe' : 'ipfs'), [nodeUtil.format('add "%s"', filepath)], false);
+        this.pinUp = util.child(path.join(AppData, 'bin', (util.getOS() === 'win') ? 'ipfs.exe' : 'ipfs'), ['add', nodeUtil.format('"%s"', filepath), '-w'], false);
         this.pinUp.start(function(pid) {
-          
+
         });
     },
     removePin: function(hash) {
@@ -63,6 +64,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
             try {
                 this.daemon.start(function(pid) {
+                    Settings.save('ipfsTaskPID', pid);
                     resolve(pid);
                 });
             } catch (e) {
@@ -72,12 +74,15 @@ module.exports = {
     },
     disable: function() {
         return new Promise((resolve, reject) => {
-            try {
-                this.daemon.stop(function(code) {
-                    resolve(code);
-                });
-            } catch (e) {
-                reject(e);
+            if (this.daemon) {
+                try {
+                    this.daemon.stop(function(code) {
+                        Settings.save('ipfsTaskPID', false);
+                        resolve(code);
+                    });
+                } catch (e) {
+                    reject(e);
+                }
             }
         });
     }

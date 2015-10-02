@@ -92,7 +92,9 @@ module.exports = {
             // [Optional] Command arguments (same as nodejs.org/api/child_process.html) 
             args: args,
             // [Optional] Extra Options (same as nodejs.org/api/child_process.html) 
-            options: [],
+            options: {
+                detached: true
+            },
             // [Optional] Auto restart? 
             autoRestart: norestart ? true : false,
             // [Optional] Timeout beetwen restart's 
