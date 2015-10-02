@@ -42,21 +42,19 @@ module.exports = {
                 });
         });
     },
-    pinlocalfiles: function(filepath) {
+    pinlocalfiles: function() {
         let pinEmmiter = new EventEmitter();
         dialog.showOpenDialog({
             title: 'Select file',
             properties: ['openFile', 'createDirectory', 'multiSelections'],
         }, function(filenames) {
-            filenames.forEach(function(filename) {
-                module.exports.addFile(filename)
-                    .then(function(res) {
-                        return module.exports.pinFile(res.hash);
-                    })
+            filenames.forEach(function(filepath) {
+               module.exports.addFile(filepath)
+                    .then(module.exports.pinFile)
                     .then(function(pinRes) {
                         pinEmmiter.emit('pinned', {
-                            hash: res[1],
-                            name: filename,
+                            hash: pinRes,
+                            name: path.normalize(filepath),
                             message: pinRes
                         });
                     });
@@ -73,13 +71,10 @@ module.exports = {
     },
     addFile: function(filepath) {
         return new Promise((resolve, reject) => {
-            util.exec([path.join(AppData, 'bin', (os === 'win') ? 'ipfs.exe' : 'ipfs'), 'add', path.normalize(filename)])
-                .then(function(res) {
-                    res = res.split(' ');
-                    resolve({
-                        hash: res[1],
-                        name: filename
-                    });
+            util.exec([path.join(AppData, 'bin', (os === 'win') ? 'ipfs.exe' : 'ipfs'), 'add', path.normalize(filepath)])
+                .then(function(addedResponce) {
+                    addedResponce = addedResponce.split(' ');
+                    resolve(addedResponce[1]);
                 });
         });
     },
