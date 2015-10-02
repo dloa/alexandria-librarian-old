@@ -32,21 +32,42 @@ module.exports = {
                 properties: ['openFile', 'createDirectory', 'multiSelections'],
             };
             dialog.showOpenDialog(args, function(filenames) {
-                console.log(filenames);
 
-                ipfsInstance.add(filenames, function(err, res) {
-                    if (err || !res) return console.error(err)
+                module.exports.addFiles(filenames)
+                    .then(function(result) {
+                        result.forEach(function(file) {
+                            console.log(file.Hash)
+                            console.log(file.Name)
+                            module.exports.pinFile(file.Hash)
+                                .then(function(pinRes) {
+                                    console.log(pinRes)
+                                })
+                        })
 
-                    res.forEach(function(file) {
-                        console.log(file.Hash)
-                        console.log(file.Name)
-                    })
-                })
+                    });
+
 
             })
         });
     },
-
+    pinFile: function(hash, opts) {
+        return new Promise((resolve, reject) => {
+            ipfsInstance.pin(hash, function(err, res) {
+                if (err || !res)
+                    return reject(err);
+                resolve(res);
+            })
+        });
+    },
+    addFiles: function(filenames) {
+        return new Promise((resolve, reject) => {
+            ipfsInstance.add(filenames, function(err, res) {
+                if (err || !res)
+                    return reject(err);
+                resolve(res);
+            })
+        });
+    },
     removePin: function(hash) {
 
     },
