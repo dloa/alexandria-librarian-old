@@ -6,13 +6,23 @@ import fs from 'fs';
 import util from './Util';
 
 let AppData = process.env.APP_DATA_PATH;
-
+let os = util.getOS();
 module.exports = {
     download: function() {
         // To be done later.
     },
+    getPinned: function() {
+        return new Promise((resolve, reject) => {
+
+        });
+    },
+    pin: function(filepath) {
+        this.pinup = util.child(path.join(AppData, 'bin', (util.getOS() === 'win') ? 'ipfs.exe' : 'ipfs'), ['daemon']);
+    },
+    removePin: function(hash) {
+
+    },
     install: function(tmppath) {
-        var os = util.getOS();
         return new Promise((resolve, reject) => {
             util.copyfile(path.join(process.cwd(), 'bin', os, (os === 'win') ? 'ipfs.exe' : 'ipfs'), path.join(AppData, 'bin', (os === 'win') ? 'ipfs.exe' : 'ipfs'))
                 .then(function() {

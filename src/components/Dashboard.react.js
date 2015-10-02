@@ -4,6 +4,8 @@ import Settings from '../utils/SettingsUtil';
 import IPFS from '../actions/ipfsActions';
 import Florincoind from '../actions/FlorincoindActions';
 import Logs from './DashboardLogs.react';
+import IPFSPinManager from './DashboardIPFSPinManager.react';
+
 
 let If = React.createClass({
     render: function() {
@@ -115,25 +117,9 @@ var Preferences = React.createClass({
         </If>
         </div>
         </section>
-        <section>
-            <h1 className='title'>Mining</h1>
-      <div className="DaemonWrapper">
-              <div className="toggle-wrapper">
-              <input type="checkbox" id="mineFileconeToggle" className="toggle" />
-              <label htmlFor="mineFileconeToggle"></label>
-          </div>
-          <p>Mine Filecoin</p>
-          <i className="ion-android-settings"/>
-        </div>
-        <div className="DaemonWrapper">
-              <div className="toggle-wrapper">
-              <input type="checkbox" id="mineFlorincoinToggle" className="toggle" />
-              <label htmlFor="mineFlorincoinToggle"></label>
-          </div>
-          <p>Mine Florincoin</p>
-          <i className="ion-android-settings"/>
-        </div>
-        </section>
+        <If test={this.state.IPFSInstalled}>
+          <IPFSPinManager />
+        </If>
         <Logs />
       </div>
         );
