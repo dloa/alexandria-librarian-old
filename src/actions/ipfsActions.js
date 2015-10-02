@@ -27,12 +27,9 @@ class ipfsActions {
         ifps.addFile();
     }
 
-    pinremote() {
+    pinRemote(hash) {
         this.dispatch();
-        var pins = ifps.pinlocalfiles();
-        pins.on('pinned', function(file) {
-            console.log(file)
-        });
+        return ifps.pinFile(hash)
     }
 
     pinlocal() {
@@ -46,7 +43,6 @@ class ipfsActions {
     getPinned() {
         this.dispatch();
         return new Promise((resolve) => {
-            
             ifps.getPinned().then(resolve)
         });
 

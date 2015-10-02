@@ -8,9 +8,7 @@ import TableView from 'react-table-view'
  
 // must ensure all of your fields have values 
 let PINNEDDATA = [ 
-  { hash: 'something'},
-   { hash: 'something'},
-    { hash: 'something'}
+  { hash: ''}
 ]
  console.log(PINNEDDATA)
 
@@ -22,6 +20,12 @@ var PinManager = React.createClass({
       enteredHash: null
     };
   },
+
+  componentDidMount: function() {
+      IPFS.getPinned()
+        .then(this.update);
+  },
+
 
   update: function (newhash) {
     if (this.isMounted()) {
@@ -38,10 +42,12 @@ var PinManager = React.createClass({
     
     IPFS.pinlocal();
 
-    
   },
   handleAddPinHash: function(){
-     IPFS.pinlocal();
+
+    console.log(this.state.enteredHash)
+    var remotehash = this.state.enteredHash
+     IPFS.pinRemote(remotehash);
   },
   handlePinRefresh: function(){
     var self = this;
@@ -60,7 +66,7 @@ var PinManager = React.createClass({
             <h1 className="title">IPFS pin manager</h1>
             <TableView data={this.state.pinned}  />
             <br></br>
-            <input name="username"  onChange={this.handlehashinput} id='Florincoind-username' placeholder="Remote Hash" type="text" />
+            <input name="username"  onChange={this.handleHashInput} placeholder="Remote Hash" type="text" />
             <br></br>
             <button className="left" type="submit" onClick={this.handleAddPinLocal}><p>Pin local File</p></button>
              <button className="left" type="submit" onClick={this.handleAddPinHash}><p>Pin hash</p></button>

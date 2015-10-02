@@ -34,7 +34,9 @@ module.exports = {
                     allres = allres.filter(Boolean);
                     var returnObject = [];
                     allres.forEach(function(subres) {
-                        returnObject.push({hash: subres.split(' ')[0]})
+                        returnObject.push({
+                            hash: subres.split(' ')[0]
+                        })
                     })
                     resolve(returnObject);
                 });
@@ -64,10 +66,7 @@ module.exports = {
     },
     pinFile: function(hash) {
         return new Promise((resolve, reject) => {
-            util.exec([path.join(AppData, 'bin', (os === 'win') ? 'ipfs.exe' : 'ipfs'), 'get', hash])
-                .then(function(res) {
-                    return util.exec([path.join(AppData, 'bin', (os === 'win') ? 'ipfs.exe' : 'ipfs'), 'pin', '-r', 'add', hash]);
-                })
+            util.exec([path.join(AppData, 'bin', (os === 'win') ? 'ipfs.exe' : 'ipfs'), 'pin', 'add', hash, '-r'])
                 .then(resolve)
                 .catch(reject)
         });
