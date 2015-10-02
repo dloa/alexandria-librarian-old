@@ -22,6 +22,7 @@ module.exports = {
                             reject(error);
                         },
                         function() {
+                            log.info('FORCE KILLING: ' + task.name + ' PID: ' + task.pid);
                             resolve();
                         }
                     );
