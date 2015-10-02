@@ -29,7 +29,6 @@ module.exports = {
         return new Promise((resolve, reject) => {
             util.exists(path.join(app.getPath('appData'), 'Florincoin', 'Florincoin.conf'))
                 .then(function(exists) {
-                    console.log(exists);
                     if (!exists)
                         var needsConf = true
                     else
@@ -41,7 +40,7 @@ module.exports = {
                     if (Confexsist && needsConf)
                         var importConf = true;
                     console.log(needsConf, justsave, path.join(app.getPath('appData'), 'Florincoin', 'Florincoin.conf'))
-                    if (needsConf) {
+                    if (needsConf || importConf) {
                         var FlorincoinTmp = path.join(app.getPath('appData'), 'Florincoin');
                         var FlorincoinConf = path.join(FlorincoinTmp, 'florincoin.conf');
                         if (!importConf) {
@@ -90,7 +89,7 @@ module.exports = {
                             var userfound = false;
                             var userpassfound = false;
                             readline.createInterface({
-                                input: require('fs').createReadStream('file.in')
+                                input: require('fs').createReadStream(FlorincoinConf)
                             }).on('line', function(line) {
                                 line = line.split('=');
                                 if (line[0] === 'rpcuser') {

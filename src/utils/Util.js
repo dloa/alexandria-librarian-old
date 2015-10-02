@@ -40,8 +40,9 @@ module.exports = {
     createDir: function(dir) {
         dir = path.normalize(dir);
         return new Promise((resolve, reject) => {
-            module.exports.exists(dir).then(function(should) {
-                if (should)
+            module.exports.exists(dir).then(function(exists) {
+                console.log(exists);
+                if (!exists)
                     mkdirp(dir, function(err) {
                         if (err)
                             reject(err);

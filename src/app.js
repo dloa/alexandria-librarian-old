@@ -30,7 +30,9 @@ router.run(Handler => React.render( < Handler / > , document.body));
 routerContainer.set(router);
 
 // Default Route
-Settings.setInstalled(AppBinDir).then(function() {
+util.createDir(AppBinDir).then(function() {
+    return Settings.setInstalled(AppBinDir);
+}).then(function() {
     router.transitionTo('dashboard');
 });
 
