@@ -7,15 +7,11 @@ import util from './Util';
 import remote from 'remote';
 import nodeUtil from 'util';
 import Settings from '../utils/SettingsUtil';
-import ipfsApi from 'ipfs-api';
 import {
     EventEmitter
 }
 from 'events';
 
-
-
-let ipfsInstance = null;
 let dialog = remote.require('dialog');
 let AppData = process.env.APP_DATA_PATH;
 let os = util.getOS();
@@ -29,10 +25,11 @@ module.exports = {
 
     getPinned: function() {
         return new Promise((resolve) => {
-            ipfsInstance.pin.list(function(res) {
-                console.log(res)
-                resolve(res);
-            })
+            util.exec([path.join(AppData, 'bin', (os === 'win') ? 'ipfs.exe' : 'ipfs'), 'pin', 'ls'])
+                .then(function(res) {
+                  console.log(res);
+                   
+                });
         });
     },
     pinfiles: function(filepath) {
@@ -42,17 +39,15 @@ module.exports = {
             properties: ['openFile', 'createDirectory', 'multiSelections'],
         }, function(filenames) {
             filenames.forEach(function(filename) {
-                module.exports.addFiles(filename)
-                    .then(function(result) {
-                        result.forEach(function(file) {
-                            module.exports.pinFile(file.Hash)
-                                .then(function(pinRes) {
-                                    pinEmmiter.emit('pinned', {
-                                        hash: file.Hash,
-                                        name: filename,
-                                        message: pinRes
-                                    });
-                                });
+                util.exec([path.join(AppData, 'bin', (os === 'win') ? 'ipfs.exe' : 'ipfs'), 'add', path.normalize(filename)])
+                    .then(function(res) {
+                        res = res.split(' ');
+                        module.exports.pinFile(res[1]).then(function(pinRes) {
+                            pinEmmiter.emit('pinned', {
+                                hash: res[1],
+                                name: filename,
+                                message: pinRes
+                            });
                         });
                     });
             });
@@ -61,20 +56,12 @@ module.exports = {
     },
     pinFile: function(hash) {
         return new Promise((resolve, reject) => {
-            ipfsInstance.pin.add(hash, function(res) {
+            util.exec([path.join(AppData, 'bin', (os === 'win') ? 'ipfs.exe' : 'ipfs'), 'pin', 'add', hash]).then(function(res) {
                 resolve(res);
             })
         });
     },
-    addFiles: function(filenames) {
-        return new Promise((resolve, reject) => {
-            ipfsInstance.add(filenames, function(err, res) {
-                if (err || !res)
-                    return reject(err);
-                resolve(res);
-            })
-        });
-    },
+
     removePin: function(hash) {
 
     },
@@ -96,7 +83,6 @@ module.exports = {
         return new Promise((resolve, reject) => {
             try {
                 this.daemon.start(function(pid) {
-                    ipfsInstance = ipfsApi('localhost', '5001');
                     resolve(pid);
                 });
             } catch (e) {

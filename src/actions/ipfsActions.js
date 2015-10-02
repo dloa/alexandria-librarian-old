@@ -25,9 +25,14 @@ class ipfsActions {
     pin() {
         this.dispatch();
         var pins = ifps.pinfiles();
-        pins.on('pinned', function(file) { 
+        pins.on('pinned', function(file) {
             console.log(file)
         });
+    }
+    getPinned() {
+        this.dispatch();
+        ifps.getPinned();
+
     }
 
     toggle(status) {
