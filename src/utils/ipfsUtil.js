@@ -22,13 +22,15 @@ module.exports = {
     download: function() {
         // To be done later.
     },
-
     getPinned: function() {
         return new Promise((resolve) => {
             util.exec([path.join(AppData, 'bin', (os === 'win') ? 'ipfs.exe' : 'ipfs'), 'pin', 'ls'])
                 .then(function(res) {
-                  console.log(res);
-                   
+                    var allres = [];
+                    res.split('\n').forEach(function(subres) {
+                        allres.push(subres.split(' ')[0]);
+                    })
+                    resolve(allres.filter(Boolean));
                 });
         });
     },
