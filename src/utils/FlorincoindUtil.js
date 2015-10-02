@@ -89,7 +89,7 @@ module.exports = {
                             var userfound = false;
                             var userpassfound = false;
                             readline.createInterface({
-                                input: require('fs').createReadStream(FlorincoinConf)
+                                input: fs.createReadStream(FlorincoinConf)
                             }).on('line', function(line) {
                                 line = line.split('=');
                                 if (line[0] === 'rpcuser') {
