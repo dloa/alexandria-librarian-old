@@ -68,7 +68,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
             try {
                 this.daemon.start(function(pid) {
-                    ipfsInstance = ipfsAPI('localhost', '5001');
+                    ipfsInstance = ipfsApi('localhost', '5001');
                     resolve(pid);
                 });
             } catch (e) {
