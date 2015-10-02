@@ -31,7 +31,9 @@ routerContainer.set(router);
 
 // Default Route
 util.createDir(AppBinDir).then(function() {
-    return Settings.setInstalled(AppBinDir);
+    return new Promise((resolve) => {
+        Settings.setInstalledAndRunning(AppBinDir).then(resolve);
+    });
 }).then(function() {
     router.transitionTo('dashboard');
 });

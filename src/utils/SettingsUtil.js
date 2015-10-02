@@ -14,19 +14,28 @@ var defaultSettings = {
 };
 
 module.exports = {
-    setInstalled: function(appdatapath) {
+    setInstalledAndRunning: function(appdatapath) {
         var daemons = ['ipfs', 'florincoind', 'libraryd'];
         var os = util.getOS();
         var checked = 0;
         return new Promise((resolve, reject) => {
             daemons.forEach(function(entry) {
+                checked++;
                 var filename = (os === 'win') ? entry + '.exe' : entry;
                 util.findfile(appdatapath, filename).then(function(found) {
-                    checked++;
-                    module.exports.save(entry + 'Installed', found).then(function() {
-                        if (checked === daemons.length)
-                            resolve();
-                    });
+                    module.exports.save(entry + 'Installed', found)
+                        .then(function() {
+                            util.checktaskrunning(filename)
+                                .then(function(running) {
+                                    running = running ? true : false;
+                                    module.exports.save(entry + 'Enabled', running)
+                                        .then(function() {
+                                            if (checked === daemons.length) {
+                                                resolve();
+                                            }
+                                        });
+                                })
+                        });
                 }).catch(reject);
             });
         });

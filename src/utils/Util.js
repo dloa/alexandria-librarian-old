@@ -15,14 +15,18 @@ module.exports = {
     killtask: function(name) {
         return new Promise((resolve, reject) => {
             module.exports.checktaskrunning(name).then(function(task) {
-                ps.kill(task.pid).fork(
-                    function(error) {
-                        reject(error);
-                    },
-                    function() {
-                        resolve();
-                    }
-                );
+                var taskon = task ? true : false;
+                if (taskon)
+                    ps.kill(task.pid).fork(
+                        function(error) {
+                            reject(error);
+                        },
+                        function() {
+                            resolve();
+                        }
+                    );
+                else
+                    resolve();
             });
         });
     },
