@@ -30,9 +30,11 @@ module.exports = {
     },
     exists: function(file) {
         return new Promise((resolve) => {
-            fs.stat(file, function(status) {
+            fs.stat(file, function(err, status) {
+                if (err)
+                    return resolve(false);
                 resolve(status);
-            })
+            });
         });
     },
     createDir: function(dir) {

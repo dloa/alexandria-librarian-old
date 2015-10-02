@@ -6,6 +6,7 @@ import util from './Util';
 import remote from 'remote';
 import Settings from '../utils/SettingsUtil';
 import nodeUtil from 'util';
+import fs from 'fs';
 
 let dialog = remote.require('dialog');
 let app = remote.require('app');
@@ -27,13 +28,14 @@ module.exports = {
         return new Promise((resolve, reject) => {
             util.exists(path.join(app.getPath('appData'), 'Florincoin', 'Florincoin.conf'))
                 .then(function(exists) {
+                    console.log(exists);
                     if (!exists)
                         var needsConf = true
                     if (!Settings.get('Florincoind-username') || !Settings.get('Florincoind-password'))
                         var needsConf = true;
                     else
                         var justsave = true;
-                    console.log(needsConf, justsave)
+                    console.log(needsConf, justsave, path.join(app.getPath('appData'), 'Florincoin', 'Florincoin.conf'))
                     if (needsConf) {
                         var AutoGenPass = util.generatePassword(125);
                         console.log(AutoGenPass);
