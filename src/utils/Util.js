@@ -85,6 +85,7 @@ module.exports = {
         });
     },
     child: function(cmd, args) {
+        log.info('Starting : ' + cmd + ' --' + args);
         return child({
             // Command to execute 
             command: cmd,
@@ -119,6 +120,7 @@ module.exports = {
             },
             // [Optional] On Exit 
             cbClose: function(exitCode) {
+                log.info('Killing : ' + cmd + ' --' + args);
                 if (exitCode) {
                     console.log(exitCode.toString());
                     log.info('Terminated With Exit Code: ' + exitCode);

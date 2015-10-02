@@ -117,7 +117,7 @@ module.exports = {
         var self = this;
         return new Promise((resolve, reject) => {
             module.exports.checkConf().then(function() {
-                self.daemon = util.child(path.join(AppData, 'bin', (util.getOS() === 'win') ? 'florincoind.exe' : 'florincoind'), ['daemon']);
+                self.daemon = util.child(path.join(AppData, 'bin', (util.getOS() === 'win') ? 'florincoind.exe' : 'florincoind'),[]);
                 try {
                     self.daemon.start(function(pid) {
                         resolve(pid);
