@@ -14,11 +14,10 @@ import Settings from './utils/SettingsUtil';
 var app = remote.require('app');
 var Menu = remote.require('menu');
 
-let AppData = path.join(app.getPath('appData'), 'Alexandria-Librarian');
+let AppData = process.env.APP_DATA_PATH;
 let AppBinDir = path.join(AppData, 'bin');
 
 // Init process
-util.createDir(AppData);
 util.createDir(AppBinDir);
 webUtil.addLiveReload();
 webUtil.disableGlobalBackspace();

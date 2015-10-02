@@ -6,6 +6,7 @@ import path from 'path';
 
 
 process.env.NODE_PATH = path.join(__dirname, 'node_modules');
+process.env.APP_DATA_PATH = path.join(app.getPath('userData'));
 
 var settingsjson = {};
 try {

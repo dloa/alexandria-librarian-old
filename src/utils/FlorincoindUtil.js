@@ -5,10 +5,11 @@ import request from 'request';
 import util from './Util';
 import remote from 'remote';
 import Settings from '../utils/SettingsUtil';
+import nodeUtil from 'util';
 
 let dialog = remote.require('dialog');
 let app = remote.require('app');
-let AppData = path.join(app.getPath('appData'), 'Alexandria-Librarian');
+let AppData = process.env.APP_DATA_PATH;
 
 module.exports = {
     download: function() {
@@ -22,39 +23,62 @@ module.exports = {
                 .catch(reject);
         });
     },
-    saveConf: function(params) {
-        var AutoGenPass = util.generatePassword(125);
-        Settings.save('Florincoind-username', 'admin');
-        Settings.save('Florincoind-password', AutoGenPass);
-        var FlorincoinTmp = path.join(app.getPath('appData'), 'Florincoin');
+    checkConf: function() {
         return new Promise((resolve, reject) => {
-            util.createDir(FlorincoinTmp)
-                .then(function() {
-
+            util.exists(path.join(app.getPath('appData'), 'Florincoin', 'Florincoin.conf'))
+                .then(function(exists) {
+                    if (!exists)
+                        var needsConf = true
+                    if (!Settings.get('Florincoind-username') || !Settings.get('Florincoind-password'))
+                        var needsConf = true;
+                    else
+                        var justsave = true;
+                    console.log(needsConf, justsave)
+                    if (needsConf) {
+                        var AutoGenPass = util.generatePassword(125);
+                        console.log(AutoGenPass);
+                        Settings.save('Florincoind-username', 'admin');
+                        Settings.save('Florincoind-password', AutoGenPass);
+                        var FlorincoinTmp = path.join(app.getPath('appData'), 'Florincoin');
+                        if (!justsave) {
+                            dialog.showMessageBox({
+                                title: 'Alexandria-Librarian: Information',
+                                message: 'No RPC username/password found for Florincoin Wallet',
+                                detail: 'Username & password will be auto generated. See preferences for more info.',
+                                buttons: ['OK']
+                            });
+                        }
+                        util.createDir(FlorincoinTmp)
+                            .then(function() {
+                                var config = ['rpcallowip=127.0.0.1', 'rpcallowip=192.168.*.*', 'rpcport=18322', 'server=1', 'daemon=1', 'txindex=1', nodeUtil.format('rpcuser=%s', Settings.get('Florincoind-username')), nodeUtil.format('rpcpassword=%s', AutoGenPass)];
+                                return new Promise((resolve, reject) => {
+                                    fs.writeFile(path.join(FlorincoinTmp, 'florincoin.conf'), config.join('\n'), function(err) {
+                                        if (err)
+                                            return reject(err);
+                                        resolve('Config saved sucsessfuly');
+                                    });
+                                });
+                            })
+                            .then(resolve)
+                            .catch(reject);
+                    } else
+                        resolve();
                 })
-                .then(resolve)
-                .catch(reject);
         });
     },
     enable: function() {
-        if (!Settings.get('Florincoind-username') || !Settings.get('Florincoind-password')) {
-            dialog.showMessageBox({
-                title: 'Alexandria-Librarian: Information',
-                message: 'No RPC username/password found for Florincoin Wallet',
-                detail: 'Username & password will be auto generated. See preferences for more info.',
-                buttons: ['OK']
-            });
-            this.saveConf();
-        }
-        this.daemon = util.child(path.join(AppData, 'bin', (util.getOS() === 'win') ? 'florincoind.exe' : 'florincoind'), ['daemon']);
+        var self = this;
         return new Promise((resolve, reject) => {
-            try {
-                this.daemon.start(function(pid) {
-                    resolve(pid);
-                });
-            } catch (e) {
-                reject(e);
-            }
+            module.exports.checkConf().then(function() {
+                self.daemon = util.child(path.join(AppData, 'bin', (util.getOS() === 'win') ? 'florincoind.exe' : 'florincoind'), ['daemon']);
+                try {
+                    self.daemon.start(function(pid) {
+                        resolve(pid);
+                    });
+                } catch (e) {
+                    reject(e);
+                }
+            });
         });
     },
     disable: function() {

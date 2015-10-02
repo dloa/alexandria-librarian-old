@@ -4,10 +4,8 @@ import Promise from 'bluebird';
 import request from 'request';
 import fs from 'fs';
 import util from './Util';
-import remote from 'remote';
 
-let app = remote.require('app');
-let AppData = path.join(app.getPath('appData'), 'Alexandria-Librarian');
+let AppData = process.env.APP_DATA_PATH;
 
 module.exports = {
     download: function() {

@@ -28,18 +28,27 @@ module.exports = {
             });
         });
     },
+    exists: function(file) {
+        return new Promise((resolve) => {
+            fs.stat(file, function(status) {
+                resolve(status);
+            })
+        });
+    },
     createDir: function(dir) {
         dir = path.normalize(dir);
         return new Promise((resolve, reject) => {
-            if (!fs.existsSync(dir)) {
-                mkdirp(dir, function(err) {
-                    if (err)
-                        reject(err);
-                    else
-                        resolve(true);
-                });
-            } else
-                resolve(true);
+            module.exports.exists(dir).then(function(should) {
+                if (should)
+                    mkdirp(dir, function(err) {
+                        if (err)
+                            reject(err);
+                        else
+                            resolve(true);
+                    });
+                else
+                    resolve(true);
+            })
         });
     },
     getOS: function() {
