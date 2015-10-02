@@ -1,8 +1,8 @@
 import React from 'react/addons';
 import Router from 'react-router';
 import LogStore from '../stores/LogStore';
+import IPFS from '../actions/ipfsActions';
 
-var _prevBottom = 0;
 
 var PinManager = React.createClass({
 
@@ -12,7 +12,10 @@ var PinManager = React.createClass({
     };
   },
   handleAddPin: function(){
+    
+    IPFS.pin();
 
+    
   },
   render: function () {
 

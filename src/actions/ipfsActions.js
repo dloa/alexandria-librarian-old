@@ -22,6 +22,13 @@ class ipfsActions {
         });
     }
 
+    pin() {
+        this.dispatch();
+        ifps.pinfiles().then((file) => {
+            console.log(file)
+        });
+    }
+
     toggle(status) {
         this.dispatch();
         if (status)

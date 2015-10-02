@@ -41,7 +41,6 @@ module.exports = {
         dir = path.normalize(dir);
         return new Promise((resolve, reject) => {
             module.exports.exists(dir).then(function(exists) {
-                console.log(exists);
                 if (!exists)
                     mkdirp(dir, function(err) {
                         if (err)
@@ -85,8 +84,8 @@ module.exports = {
             rd.pipe(wr);
         });
     },
-    child: function(cmd, args) {
-        log.info('Starting : ' + cmd + ' --' + args);
+    child: function(cmd, args, norestart) {
+        log.info('Running : ' + cmd + ' --' + args);
         return child({
             // Command to execute 
             command: cmd,
@@ -95,7 +94,7 @@ module.exports = {
             // [Optional] Extra Options (same as nodejs.org/api/child_process.html) 
             options: [],
             // [Optional] Auto restart? 
-            autoRestart: true,
+            autoRestart: norestart ? true : false,
             // [Optional] Timeout beetwen restart's 
             restartTimeout: 200,
             // [Optional] Callback when the process is Auto-restarted 

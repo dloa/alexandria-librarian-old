@@ -4,9 +4,13 @@ import Promise from 'bluebird';
 import request from 'request';
 import fs from 'fs';
 import util from './Util';
+import remote from 'remote';
+import nodeUtil from 'util';
 
+let dialog = remote.require('dialog');
 let AppData = process.env.APP_DATA_PATH;
 let os = util.getOS();
+
 module.exports = {
     download: function() {
         // To be done later.
@@ -16,8 +20,27 @@ module.exports = {
 
         });
     },
-    pin: function(filepath) {
-        this.pinup = util.child(path.join(AppData, 'bin', (util.getOS() === 'win') ? 'ipfs.exe' : 'ipfs'), ['daemon']);
+    pinfiles: function(filepath) {
+        return new Promise((resolve, reject) => {
+            var args = {
+                title: 'Select file',
+                properties: ['openFile', 'createDirectory', 'multiSelections'],
+            };
+            dialog.showOpenDialog(args, function(filenames) {
+                console.log(filenames);
+                filenames.forEach(function(filepath) {
+                    module.exports.pinfile(filepath);
+                });
+
+            })
+        });
+    },
+    pinfile: function(filepath) {
+        console.log(filepath)
+        this.pinUp = util.child(path.join(AppData, 'bin', (util.getOS() === 'win') ? 'ipfs.exe' : 'ipfs'), [nodeUtil.format('add "%s"', filepath)], false);
+        this.pinUp.start(function(pid) {
+          
+        });
     },
     removePin: function(hash) {
 
