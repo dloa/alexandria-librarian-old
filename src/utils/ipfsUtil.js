@@ -8,6 +8,10 @@ import remote from 'remote';
 import nodeUtil from 'util';
 import Settings from '../utils/SettingsUtil';
 import ipfsApi from 'ipfs-api';
+import {
+    EventEmitter
+}
+from 'events';
 
 
 
@@ -16,45 +20,48 @@ let dialog = remote.require('dialog');
 let AppData = process.env.APP_DATA_PATH;
 let os = util.getOS();
 
+let pinEmmiter = new EventEmitter();
+
 module.exports = {
     download: function() {
         // To be done later.
     },
+
     getPinned: function() {
-        return new Promise((resolve, reject) => {
-
-        });
-    },
-    pinfiles: function(filepath) {
-        return new Promise((resolve, reject) => {
-            var args = {
-                title: 'Select file',
-                properties: ['openFile', 'createDirectory', 'multiSelections'],
-            };
-            dialog.showOpenDialog(args, function(filenames) {
-
-                module.exports.addFiles(filenames)
-                    .then(function(result) {
-                        result.forEach(function(file) {
-                            console.log(file.Hash)
-                            console.log(file.Name)
-                            module.exports.pinFile(file.Hash)
-                                .then(function(pinRes) {
-                                    console.log(pinRes)
-                                })
-                        })
-
-                    });
-
-
+        return new Promise((resolve) => {
+            ipfsInstance.pin.list(function(res) {
+                console.log(res)
+                resolve(res);
             })
         });
     },
-    pinFile: function(hash, opts) {
+    pinfiles: function(filepath) {
+        let pinEmmiter = new EventEmitter();
+        dialog.showOpenDialog({
+            title: 'Select file',
+            properties: ['openFile', 'createDirectory', 'multiSelections'],
+        }, function(filenames) {
+            filenames.forEach(function(filename) {
+                module.exports.addFiles(filename)
+                    .then(function(result) {
+                        result.forEach(function(file) {
+                            module.exports.pinFile(file.Hash)
+                                .then(function(pinRes) {
+                                    pinEmmiter.emit('pinned', {
+                                        hash: file.Hash,
+                                        name: filename,
+                                        message: pinRes
+                                    });
+                                });
+                        });
+                    });
+            });
+        });
+        return pinEmmiter;
+    },
+    pinFile: function(hash) {
         return new Promise((resolve, reject) => {
-            ipfsInstance.pin(hash, function(err, res) {
-                if (err || !res)
-                    return reject(err);
+            ipfsInstance.pin.add(hash, function(res) {
                 resolve(res);
             })
         });

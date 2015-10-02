@@ -24,7 +24,8 @@ class ipfsActions {
 
     pin() {
         this.dispatch();
-        ifps.pinfiles().then((file) => {
+        var pins = ifps.pinfiles();
+        pins.on('pinned', function(file) { 
             console.log(file)
         });
     }
@@ -43,4 +44,5 @@ class ipfsActions {
 }
 
 
-export default alt.createActions(ipfsActions);
+export
+default alt.createActions(ipfsActions);
