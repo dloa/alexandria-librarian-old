@@ -63,7 +63,18 @@ module.exports = {
             })
         });
     },
-
+    addFile: function(filepath) {
+        return new Promise((resolve, reject) => {
+            util.exec([path.join(AppData, 'bin', (os === 'win') ? 'ipfs.exe' : 'ipfs'), 'add', path.normalize(filename)])
+                .then(function(res) {
+                    res = res.split(' ');
+                        resolve({
+                            hash: res[1],
+                            name: filename
+                        });
+                });
+        });
+    },
     removePin: function(hash) {
 
     },
