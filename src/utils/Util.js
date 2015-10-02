@@ -7,8 +7,41 @@ import mkdirp from 'mkdirp';
 import child from 'child';
 import find from 'find';
 import log from '../stores/LogStore';
+import ps from 'xps';
+import _ from 'lodash';
+
 
 module.exports = {
+    killtask: function(name) {
+        return new Promise((resolve, reject) => {
+            module.exports.checktaskrunning(name).then(function(task) {
+                ps.kill(task.pid).fork(
+                    function(error) {
+                        reject(error);
+                    },
+                    function() {
+                        resolve();
+                    }
+                );
+            });
+        });
+    },
+    checktaskrunning: function(name) {
+        return new Promise((resolve, reject) => {
+            ps.list().fork(
+                function(error) {
+                    reject(error)
+                },
+                function(processes) {
+                    resolve(_.filter(processes, function(value) {
+                        if (value.name === name) {
+                            return value;
+                        }
+                    })[0]);
+                }
+            );
+        });
+    },
     findfile: function(dir, file) {
         return new Promise((resolve, reject) => {
             find.file(file, dir, function(files) {

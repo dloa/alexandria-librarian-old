@@ -7,7 +7,11 @@ import util from './Util';
 import remote from 'remote';
 import nodeUtil from 'util';
 import Settings from '../utils/SettingsUtil';
+import ipfsApi from 'ipfs-api';
 
+
+
+let ipfsInstance = null;
 let dialog = remote.require('dialog');
 let AppData = process.env.APP_DATA_PATH;
 let os = util.getOS();
@@ -29,20 +33,20 @@ module.exports = {
             };
             dialog.showOpenDialog(args, function(filenames) {
                 console.log(filenames);
-                filenames.forEach(function(filepath) {
-                    module.exports.pinfile(filepath);
-                });
+
+                ipfsInstance.add(filenames, function(err, res) {
+                    if (err || !res) return console.error(err)
+
+                    res.forEach(function(file) {
+                        console.log(file.Hash)
+                        console.log(file.Name)
+                    })
+                })
 
             })
         });
     },
-    pinfile: function(filepath) {
-        console.log(filepath)
-        this.pinUp = util.child(path.join(AppData, 'bin', (util.getOS() === 'win') ? 'ipfs.exe' : 'ipfs'), ['add', nodeUtil.format('"%s"', filepath), '-w'], false);
-        this.pinUp.start(function(pid) {
 
-        });
-    },
     removePin: function(hash) {
 
     },
@@ -65,6 +69,7 @@ module.exports = {
             try {
                 this.daemon.start(function(pid) {
                     Settings.save('ipfsTaskPID', pid);
+                    ipfsInstance = ipfsAPI();
                     resolve(pid);
                 });
             } catch (e) {
@@ -73,17 +78,7 @@ module.exports = {
         });
     },
     disable: function() {
-        return new Promise((resolve, reject) => {
-            if (this.daemon) {
-                try {
-                    this.daemon.stop(function(code) {
-                        Settings.save('ipfsTaskPID', false);
-                        resolve(code);
-                    });
-                } catch (e) {
-                    reject(e);
-                }
-            }
-        });
+        var ipfsname = (os === 'win') ? 'ipfs.exe' : 'ipfs';
+        return util.killtask(ipfsname);
     }
 };
