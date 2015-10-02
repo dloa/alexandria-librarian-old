@@ -68,8 +68,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
             try {
                 this.daemon.start(function(pid) {
-                    Settings.save('ipfsTaskPID', pid);
-                    ipfsInstance = ipfsAPI();
+                    ipfsInstance = ipfsAPI('localhost', '5001');
                     resolve(pid);
                 });
             } catch (e) {
@@ -82,7 +81,6 @@ module.exports = {
             if (this.daemon) {
                 try {
                     this.daemon.stop(function(code) {
-                        Settings.save('ipfsTaskPID', false);
                         resolve(code);
                     });
                 } catch (e) {

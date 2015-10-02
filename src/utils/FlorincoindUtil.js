@@ -12,6 +12,7 @@ import readline from 'readline';
 let dialog = remote.require('dialog');
 let app = remote.require('app');
 let AppData = process.env.APP_DATA_PATH;
+let os = util.getOS();
 
 module.exports = {
     download: function() {
@@ -129,14 +130,22 @@ module.exports = {
     },
     disable: function() {
         return new Promise((resolve, reject) => {
-            try {
-                this.daemon.stop(function(code) {
-                    resolve(code);
-                });
-            } catch (e) {
-                reject(e);
+            if (this.daemon) {
+                try {
+                    this.daemon.stop(function(code) {
+                        resolve(code);
+                    });
+                } catch (e) {
+                    module.exports.forceKill().then(resolve).catch(reject);
+                }
+            } else {
+                module.exports.forceKill();
             }
         });
+    },
+    forceKill: function() {
+        var florincoindname = (os === 'win') ? 'florincoind.exe' : 'florincoind';
+        return util.killtask(florincoindname);
     }
 
 };
