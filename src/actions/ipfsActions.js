@@ -45,7 +45,10 @@ class ipfsActions {
 
     getPinned() {
         this.dispatch();
-        ifps.getPinned();
+        return new Promise((resolve) => {
+            
+            ifps.getPinned().then(resolve)
+        });
 
     }
 

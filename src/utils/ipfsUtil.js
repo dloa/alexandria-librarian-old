@@ -30,7 +30,13 @@ module.exports = {
                     res.split('\n').forEach(function(subres) {
                         allres.push(subres.split(' ')[0]);
                     })
-                    resolve(allres.filter(Boolean));
+
+                    allres = allres.filter(Boolean);
+                    var returnObject = [];
+                    allres.forEach(function(subres) {
+                        returnObject.push({hash: subres.split(' ')[0]})
+                    })
+                    resolve(returnObject);
                 });
         });
     },

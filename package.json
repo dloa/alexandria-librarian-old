@@ -33,6 +33,7 @@
     "react": "^0.13.1",
     "react-inlinesvg": "^0.4.2",
     "react-router": "^0.13.3",
+    "react-table-view": "^1.0.0",
     "request": "^2.55.0",
     "xps": "^1.0.2"
   },
