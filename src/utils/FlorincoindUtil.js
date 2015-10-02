@@ -52,7 +52,22 @@ module.exports = {
                         }
                         util.createDir(FlorincoinTmp)
                             .then(function() {
-                                var config = ['rpcallowip=127.0.0.1', 'rpcallowip=192.168.*.*', 'rpcport=18322', 'server=1', 'daemon=1', 'txindex=1', nodeUtil.format('rpcuser=%s', Settings.get('Florincoind-username')), nodeUtil.format('rpcpassword=%s', AutoGenPass)];
+                                var config = [
+                                    'rpcserver=1',
+                                    'rpcallowip=192.168.0.*',
+                                    'rpcallowip=127.0.0.1',
+                                    'rpcport=7313',
+                                    'daemon=1',
+                                    'server=1',
+                                    'listen=1',
+                                    'port=7312',
+                                    'noirc=0',
+                                    'maxconnections=30',
+                                    'addnode=146.185.148.114',
+                                    'addnode=192.241.171.45',
+                                    nodeUtil.format('rpcuser=%s', Settings.get('Florincoind-username')),
+                                    nodeUtil.format('rpcpassword=%s', AutoGenPass)
+                                ];
                                 return new Promise((resolve, reject) => {
                                     fs.writeFile(path.join(FlorincoinTmp, 'florincoin.conf'), config.join('\n'), function(err) {
                                         if (err)
