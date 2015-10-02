@@ -78,6 +78,22 @@ module.exports = {
         });
     },
     disable: function() {
+        return new Promise((resolve, reject) => {
+            if (this.daemon) {
+                try {
+                    this.daemon.stop(function(code) {
+                        Settings.save('ipfsTaskPID', false);
+                        resolve(code);
+                    });
+                } catch (e) {
+                    module.exports.forceKill().then(resolve).catch(reject);
+                }
+            } else {
+                module.exports.forceKill();
+            }
+        });
+    },
+    forceKill: function() {
         var ipfsname = (os === 'win') ? 'ipfs.exe' : 'ipfs';
         return util.killtask(ipfsname);
     }
