@@ -4,7 +4,10 @@ import Settings from '../utils/SettingsUtil';
 import IPFS from '../actions/ipfsActions';
 import Florincoind from '../actions/FlorincoindActions';
 import Logs from './DashboardLogs.react';
+import utils from '../utils/Util';
 import IPFSPinManager from './DashboardIPFSPinManager.react';
+import { Tooltip as Tooltip } from 'react-bootstrap';
+
 
 
 let If = React.createClass({
@@ -71,7 +74,9 @@ var Preferences = React.createClass({
         IPFS.toggle(checked);
         Settings.save('ipfsEnabled', checked);
     },
-
+    handleOpenIPFSWebUI: function(e) {
+       utils.openUrl('http://localhost:5001/webui')
+    },
     render: function() {
         return (
       <div className='content-scroller' id='content'>
@@ -99,6 +104,11 @@ var Preferences = React.createClass({
         </If>
           <p>IPFS</p>
           <i className="ion-information-circled"/>
+        <If test={this.state.IPFSEnabled}>
+    <Tooltip placement="left" className="in">
+            <i onClick={this.handleOpenIPFSWebUI} className="ion-cube"/>
+           </Tooltip>
+        </If>
         <If test={!this.state.IPFSInstalled}>
           <div onClick={this.InstallIPFS} className="install">install</div>
         </If>

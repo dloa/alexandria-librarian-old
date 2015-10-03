@@ -9,6 +9,7 @@ import find from 'find';
 import log from '../stores/LogStore';
 import ps from 'xps';
 import _ from 'lodash';
+import shell from 'shell';
 
 
 module.exports = {
@@ -56,6 +57,9 @@ module.exports = {
                     resolve(false);
             })
         });
+    },
+    openUrl: function(url) {
+        return shell.openExternal(url);
     },
     chmod: function(file, mode) {
         return new Promise((resolve, reject) => {
