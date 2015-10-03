@@ -35,18 +35,18 @@ module.exports = assign(Object.create(EventEmitter.prototype), {
     push: function(line, obj) {
         var log = false;
         if (obj) {
-            log = "\n" + line.toUpperCase();
+            log = "\n" + line.toString();
             _.each(obj, function(elem, key) {
                 if (typeof elem === 'object') {
-                    log += "\n\t" + key.toUpperCase();
+                    log += "\n\t" + key.toString();
                     _.each(elem, function(subElem, subKey) {
                         if (typeof subElem === 'object') {
                             _.each(subElem, function(subSubElem, subSubKey) {
-                                log += "\n\t\t" + subSubKey.toUpperCase() + ": " + subSubElem;
+                                log += "\n\t\t" + subSubKey.toString() + ": " + subSubElem;
                             });
                         } else {
                             if (typeof subKey === 'string') {
-                                log += "\n\t\t" + subKey.toUpperCase() + ": " + subElem;
+                                log += "\n\t\t" + subKey.toString() + ": " + subElem;
                             } else {
                                 log += "\n\t\t" + subElem;
                             }
@@ -54,11 +54,11 @@ module.exports = assign(Object.create(EventEmitter.prototype), {
                         }
                     });
                 } else {
-                    log += "\n\t" + key.toUpperCase() + ": " + elem;
+                    log += "\n\t" + key.toString() + ": " + elem;
                 }
             });
         } else {
-            log = line.toUpperCase();
+            log = line.toString();
         }
 
         _logs.push(log);
