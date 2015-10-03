@@ -6,7 +6,7 @@ import Florincoind from '../actions/FlorincoindActions';
 import Logs from './DashboardLogs.react';
 import utils from '../utils/Util';
 import IPFSPinManager from './DashboardIPFSPinManager.react';
-import { Tooltip as Tooltip } from 'react-bootstrap';
+import  ReactTooltip from 'react-tooltip';
 
 
 
@@ -105,9 +105,9 @@ var Preferences = React.createClass({
           <p>IPFS</p>
           <i className="ion-information-circled"/>
         <If test={this.state.IPFSEnabled}>
-    <Tooltip placement="left" className="in">
-            <i onClick={this.handleOpenIPFSWebUI} className="ion-cube"/>
-           </Tooltip>
+
+            <i data-tip="Open IPFS Web Interface" onClick={this.handleOpenIPFSWebUI} className="ion-cube"/>
+         
         </If>
         <If test={!this.state.IPFSInstalled}>
           <div onClick={this.InstallIPFS} className="install">install</div>
@@ -131,6 +131,7 @@ var Preferences = React.createClass({
           <IPFSPinManager />
         </If>
         <Logs />
+        <ReactTooltip place="right" data-type="dark" multiline={true} data-effect="float" />
       </div>
         );
 
