@@ -30,7 +30,7 @@ app.on('ready', function() {
         width: 800,
         height: 600
     }
-    
+
     var mainWindow = new BrowserWindow({
         width: windowSize.width,
         height: windowSize.height,
@@ -43,9 +43,9 @@ app.on('ready', function() {
         show: false
     });
 
-    mainWindow.loadUrl('file://' + process.cwd() + '/index.html');
+    mainWindow.loadUrl(path.normalize('file://' + path.join(__dirname, '../index.html')));
 
-
+    mainWindow.openDevTools();
     mainWindow.webContents.on('new-window', function(e) {
         e.preventDefault();
     });

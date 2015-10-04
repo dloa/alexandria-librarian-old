@@ -53,8 +53,7 @@ module.exports = function(grunt) {
                     version: packagejson['electron-version'],
                     platform: 'win32',
                     arch: 'ia32',
-                    asar: true,
-                    icon: 'images/icons/icon.ico'
+                    asar: true
                 }
             },
             osx: {
