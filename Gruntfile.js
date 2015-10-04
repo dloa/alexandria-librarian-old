@@ -80,7 +80,6 @@ module.exports = function(grunt) {
                     src: [BASENAME + '.exe']
                 }],
                 options: {
-                    icon: 'util/logo.ico',
                     'file-version': packagejson.version,
                     'product-version': packagejson.version,
                     'version-string': {
@@ -103,7 +102,7 @@ module.exports = function(grunt) {
                 authors: 'ΛLΞXΛNDRIΛ Limited',
                 loadingGif: 'images/loading.gif',
                 setupIcon: 'images/icons/setup.ico',
-                iconUrl: 'images/icons/icon.ico',
+                iconUrl: 'https://raw.githubusercontent.com/dloa/alexandria-librarian/master/util/alexandria-librarian.ico',
                 description: APPNAME,
                 title: APPNAME,
                 exe: BASENAME + '.exe',
