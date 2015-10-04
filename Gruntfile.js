@@ -17,7 +17,7 @@ module.exports = function(grunt) {
         return match ? match[1] : null;
     };
 
-    var BASENAME = 'ΛLΞXΛNDRIΛ';
+    var BASENAME = 'ΛLΞXΛNDRIΛ Librarian';
     var APPNAME = BASENAME;
 
     if (alpha) {
@@ -65,7 +65,7 @@ module.exports = function(grunt) {
                     platform: 'darwin',
                     arch: 'x64',
                     asar: true,
-                    'app-bundle-id': 'io.ΛLΞXΛNDRIΛ.Desktop',
+                    'app-bundle-id': 'io.ΛLΞXΛNDRIΛ.Librarian',
                     'app-version': packagejson.version
                 }
             }
@@ -80,7 +80,7 @@ module.exports = function(grunt) {
                     src: [BASENAME + '.exe']
                 }],
                 options: {
-                    icon: 'images/icons/icon.ico',
+                    icon: 'util/logo.ico',
                     'file-version': packagejson.version,
                     'product-version': packagejson.version,
                     'version-string': {
@@ -150,7 +150,7 @@ module.exports = function(grunt) {
             },
             osx: {
                 files: [{
-                    src: 'images/icons/icon.icns',
+                    src: 'util/alexandria_logo_grey_pyramid.icns',
                     dest: '<%= OSX_FILENAME %>/Contents/Resources/atom.icns'
                 }],
                 options: {
@@ -271,7 +271,7 @@ module.exports = function(grunt) {
     if (process.platform === 'win32') {
         grunt.registerTask('release', ['clean:release', 'babel', 'less', 'copy:dev', 'electron:windows', 'rcedit:exes', 'compress']);
     } else {
-        grunt.registerTask('release', ['clean:release', 'babel', 'less', 'copy:dev', 'electron:osx', 'copy:osx', 'shell:zip', 'shell:macdist']);
+        grunt.registerTask('release', ['clean:release', 'babel', 'less', 'copy:dev', 'electron:osx', 'copy:osx', 'shell:zip']);
     }
 
     process.on('SIGINT', function() {
