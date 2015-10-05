@@ -29,6 +29,11 @@ var About = React.createClass({
                 github: 'luigiplr'
             },
             {
+                name: 'Niv Sardi',
+                email: 'xaiki@debian.org',
+                github: 'Xaiki'
+            },
+            {
                 name: 'Devon Read',
                 email: 'devon@blocktech.com',
                 github: 'DevonJames'
