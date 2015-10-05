@@ -34,7 +34,7 @@ var About = React.createClass({
                 github: 'DevonJames'
             },
         ];
-  
+        var version = 'v0.5.1 α';
 
         var License = fs.readFileSync(path.normalize(path.join(__dirname, '../../', 'LICENSE.md')), 'utf8');
 
@@ -43,6 +43,8 @@ var About = React.createClass({
         <section>
                 <h1 className="title">About</h1>
                 <p className="about" >This is a prototype developer build, and is not representative of the final product.</p>
+                <br/>
+                <p className="about" >ΛLΞXΛNDRIΛ Librarian, {version} </p>
                
         </section>
         <section>
