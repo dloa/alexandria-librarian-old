@@ -15,7 +15,7 @@ from 'events';
 let dialog = remote.require('dialog');
 let AppData = process.env.APP_DATA_PATH;
 let os = util.getOS();
-
+let asarBIN = path.normalize(path.join(__dirname, '../../', 'bin'));
 let pinEmmiter = new EventEmitter();
 
 module.exports = {
@@ -83,7 +83,7 @@ module.exports = {
     },
     install: function(tmppath) {
         return new Promise((resolve, reject) => {
-            util.copyfile(path.join(process.cwd(), 'bin', os, (os === 'win') ? 'ipfs.exe' : 'ipfs'), path.join(AppData, 'bin', (os === 'win') ? 'ipfs.exe' : 'ipfs'))
+            util.copyfile(path.join(asarBIN, os, (os === 'win') ? 'ipfs.exe' : 'ipfs'), path.join(AppData, 'bin', (os === 'win') ? 'ipfs.exe' : 'ipfs'))
                 .then(function() {
                     return util.chmod(path.join(AppData, 'bin', (os === 'win') ? 'ipfs.exe' : 'ipfs'), '0777');
                 })
