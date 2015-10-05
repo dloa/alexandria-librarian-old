@@ -1,8 +1,8 @@
 {
-  "name": "Alexandria",
+  "name": "Alexandria_librarian",
   "version": "0.0.1",
   "author": "dloa",
-  "description": "ΛLΞXΛNDRIΛ",
+  "description": "ΛLΞXΛNDRIΛ Librarian",
   "homepage": "TBA",
   "main": "js/browser.js",
   "repository": {
