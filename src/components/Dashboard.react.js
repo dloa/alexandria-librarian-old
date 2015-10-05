@@ -35,9 +35,9 @@ var Preferences = React.createClass({
         };
     },
     InstallLibraryd: function() {
-        this.setState({
-            LibrarydInstalled: true
-        });
+        //this.setState({
+        //    LibrarydInstalled: true
+        //});
     },
     InstallIPFS: function() {
         IPFS.install();
@@ -46,17 +46,19 @@ var Preferences = React.createClass({
         });
     },
     InstallFlorincoind: function() {
-        Florincoind.install();
+        //Florincoind.install();
+        /*
         this.setState({
             FlorincoindInstalled: true
         });
+		*/
     },
     handleChangeFlorincoindEnabled: function(e) {
         var checked = e.target.checked;
         this.setState({
             FlorincoindEnabled: checked
         });
-		    Florincoind.toggle(checked);
+		Florincoind.toggle(checked);
         Settings.save('florincoindEnabled', checked);
     },
     handleChangeLibrarydEnabled: function(e) {
