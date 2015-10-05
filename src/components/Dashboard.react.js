@@ -6,7 +6,7 @@ import Florincoind from '../actions/FlorincoindActions';
 import Logs from './DashboardLogs.react';
 import utils from '../utils/Util';
 import IPFSPinManager from './DashboardIPFSPinManager.react';
-import  ReactTooltip from 'react-tooltip';
+import ReactTooltip from 'react-tooltip';
 
 
 
