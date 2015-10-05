@@ -45,7 +45,7 @@ app.on('ready', function() {
 
     mainWindow.loadUrl(path.normalize('file://' + path.join(__dirname, '../index.html')));
 
-    mainWindow.openDevTools();
+
     mainWindow.webContents.on('new-window', function(e) {
         e.preventDefault();
     });
