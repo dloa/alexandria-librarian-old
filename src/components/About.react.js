@@ -1,6 +1,8 @@
 import React from 'react/addons';
 import Router from 'react-router';
 import utils from '../utils/Util';
+import fs from 'fs';
+import path from 'path';
 
 let Contributors = {
     'luigiplr': {
@@ -33,6 +35,9 @@ var About = React.createClass({
             },
         ];
   
+
+        var License = fs.readFileSync(path.normalize(path.join(__dirname, '../../', 'LICENSE.md')), 'utf8');
+
         return (
         <div className="content-scroller" id="content">
         <section>
@@ -46,9 +51,11 @@ var About = React.createClass({
                     return (
                       <p className="Contributor">{Contributor.name} {'<' + Contributor.email + '>'} <i data-github={Contributor.github}  onClick={this.openGithub} className="ion-social-github" /></p>
                     );
-
-
                    }, this)}             
+        </section>
+         <section>
+                <h1 className="title">License</h1>
+                <textarea className="License"  value={License} readOnly />
         </section>
       </div>
         );

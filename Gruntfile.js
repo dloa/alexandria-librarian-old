@@ -116,13 +116,8 @@ module.exports = function(grunt) {
                 files: [{
                     expand: true,
                     cwd: '.',
-                    src: ['package.json', 'settings.json', 'index.html'],
+                    src: ['LICENSE.md', 'package.json', 'settings.json', 'index.html'],
                     dest: 'build/'
-                }, {
-                    expand: true,
-                    cwd: 'templates/',
-                    src: ['**/*'],
-                    dest: 'build/templates/'
                 }, {
                     expand: true,
                     cwd: 'images/',
