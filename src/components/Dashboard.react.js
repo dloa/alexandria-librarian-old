@@ -3,7 +3,7 @@ import Router from 'react-router';
 import Settings from '../utils/SettingsUtil';
 import IPFS from '../actions/ipfsActions';
 import Florincoind from '../actions/FlorincoindActions';
-import Libraryd from '../actions/librarydActions';
+import Libraryd from '../actions/LibrarydActions';
 import Logs from './DashboardLogs.react';
 import utils from '../utils/Util';
 import IPFSPinManager from './DashboardIPFSPinManager.react';
@@ -36,9 +36,10 @@ var Preferences = React.createClass({
         };
     },
     InstallLibraryd: function() {
+      var self = this;
         Libraryd.install().then(function(state) {
             if (state)
-                this.setState({
+                self.setState({
                     LibrarydInstalled: true
                 });
         });
@@ -70,6 +71,8 @@ var Preferences = React.createClass({
         this.setState({
             LibrarydEnabled: checked
         });
+        
+        Libraryd.toggle(checked);
         Settings.save('librarydEnabled', checked);
     },
     handleChangeIPFSEnabled: function(e) {

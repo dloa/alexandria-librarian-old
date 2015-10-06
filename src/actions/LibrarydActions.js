@@ -1,6 +1,6 @@
 import ipc from 'ipc';
 import alt from '../alt';
-import libraryd from '../utils/librarydUtil';
+import libraryd from '../utils/libarydUtil';
 
 class librarydActions {
 
@@ -23,7 +23,7 @@ class librarydActions {
     toggle(status) {
         this.dispatch();
         if (status)
-            return libraryd.enable()
+            return libraryd.enable();
         else
             return libraryd.disable()
     }
