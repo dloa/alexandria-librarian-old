@@ -66,5 +66,11 @@ module.exports = {
             localStorage.setItem('settings.' + key, JSON.stringify(value));
             resolve();
         });
+    },
+    reset:function(){
+        return new Promise((resolve) => {
+            localStorage.clear();
+            resolve();
+        });
     }
 }

@@ -10,6 +10,7 @@ import log from '../stores/LogStore';
 import ps from 'xps';
 import _ from 'lodash';
 import shell from 'shell';
+import rimraf from 'rimraf';
 
 
 module.exports = {
@@ -46,6 +47,19 @@ module.exports = {
                     })[0]);
                 }
             );
+        });
+    },
+    purgeBins: function(binPath) {
+        if (binPath === 'all')
+            binPath = process.env.APP_DATA_PATH;
+        return new Promise((resolve, reject) => {
+            rimraf(binPath, function(err) {
+                if (err) {
+                    console.error(err);
+                    return reject(err);
+                }
+                resolve();
+            })
         });
     },
     findfile: function(dir, file) {

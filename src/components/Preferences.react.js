@@ -1,7 +1,7 @@
 import React from 'react/addons';
 import Router from 'react-router';
 import Settings from '../utils/SettingsUtil';
-
+import utils from '../utils/Util';
 
 var Preferences = React.createClass({
   mixins: [Router.Navigation],
@@ -30,6 +30,16 @@ var Preferences = React.createClass({
     this.setState({
       Analytics: checked
     });
+
+  },
+  handleResetSettings: function () {
+      Settings.reset();
+  },
+  handlePurgeBins: function () {
+      utils.purgeBins('all');
+  },
+  handleResetPurge: function () {
+  utils.purgeBins('all').then(Settings.reset);
 
   },
   handleChangeWebAccsess: function (e) {
@@ -91,6 +101,13 @@ var Preferences = React.createClass({
               <input name="username" id='Florincoind-username' onChange={this.handleChangeFlorincoindCreds} value={this.state.FlorincoindUsername} placeholder="Username" type="text" />
               <input name="password" id='Florincoind-password' onChange={this.handleChangeFlorincoindCreds} value={this.state.FlorincoindPassword} placeholder="Password" type="text" />
 
+        </section>
+        <section>
+            <h1 className='title'>Other</h1>
+
+              <button className="left" type="submit" onClick={this.handleResetSettings}><p>Reset Settings</p></button> 
+              <button className="left" type="submit" onClick={this.handlePurgeBins}><p>Uninstall All Daemons</p></button>
+              <button className="left" type="submit" onClick={this.handleResetPurge}><p>Uninstall & Reset Settings (dev)</p></button>
         </section>
          
       </div>
