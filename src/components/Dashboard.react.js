@@ -3,6 +3,7 @@ import Router from 'react-router';
 import Settings from '../utils/SettingsUtil';
 import IPFS from '../actions/ipfsActions';
 import Florincoind from '../actions/FlorincoindActions';
+import Libraryd from '../actions/librarydActions';
 import Logs from './DashboardLogs.react';
 import utils from '../utils/Util';
 import IPFSPinManager from './DashboardIPFSPinManager.react';
@@ -35,9 +36,12 @@ var Preferences = React.createClass({
         };
     },
     InstallLibraryd: function() {
-        //this.setState({
-        //    LibrarydInstalled: true
-        //});
+        Libraryd.install().then(function(state) {
+            if (state)
+                this.setState({
+                    LibrarydInstalled: true
+                });
+        });
     },
     InstallIPFS: function() {
         IPFS.install();
@@ -58,7 +62,7 @@ var Preferences = React.createClass({
         this.setState({
             FlorincoindEnabled: checked
         });
-		Florincoind.toggle(checked);
+        Florincoind.toggle(checked);
         Settings.save('florincoindEnabled', checked);
     },
     handleChangeLibrarydEnabled: function(e) {
@@ -77,7 +81,7 @@ var Preferences = React.createClass({
         Settings.save('ipfsEnabled', checked);
     },
     handleOpenIPFSWebUI: function(e) {
-       utils.openUrl('http://localhost:5001/webui')
+        utils.openUrl('http://localhost:5001/webui')
     },
     render: function() {
         return (

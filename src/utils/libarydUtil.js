@@ -6,7 +6,7 @@ import fs from 'fs';
 import util from './Util';
 
 let AppData = process.env.APP_DATA_PATH;
-
+let asarBIN = path.normalize(path.join(__dirname, '../../', 'bin'));
 module.exports = {
     download: function() {
         // To be done later.
@@ -14,19 +14,16 @@ module.exports = {
     install: function(tmppath) {
         var os = util.getOS();
         return new Promise((resolve, reject) => {
-            util.copyfile(path.join(process.cwd(), 'bin', os, (os === 'win') ? 'libraryd.exe' : 'libraryd'), path.join(AppData, 'bin', (os === 'win') ? 'libraryd.exe' : 'ipfs'))
+            util.copyfile(path.join(asarBIN, os, (os === 'win') ? 'libraryd.exe' : 'libraryd'), path.join(AppData, 'bin', (os === 'win') ? 'libraryd.exe' : 'libraryd'))
                 .then(function() {
                     return util.chmod(path.join(AppData, 'bin', (os === 'win') ? 'libraryd.exe' : 'libraryd'), '0777');
-                })
-                .then(function() {
-                    return util.exec([path.join(AppData, 'bin', (os === 'win') ? 'libraryd.exe' : 'libraryd'), 'init']);
                 })
                 .then(resolve)
                 .catch(reject);
         });
     },
     enable: function() {
-        this.daemon = util.child(path.join(AppData, 'bin', (util.getOS() === 'win') ? 'libraryd.exe' : 'libraryd'), ['daemon']);
+        this.daemon = util.child(path.join(AppData, 'bin', (util.getOS() === 'win') ? 'libraryd.exe' : 'libraryd'), []);
         return new Promise((resolve, reject) => {
             try {
                 this.daemon.start(function(pid) {
@@ -39,13 +36,21 @@ module.exports = {
     },
     disable: function() {
         return new Promise((resolve, reject) => {
-            try {
-                this.daemon.stop(function(code) {
-                    resolve(code);
-                });
-            } catch (e) {
-                reject(e);
+            if (this.daemon) {
+                try {
+                    this.daemon.stop(function(code) {
+                        resolve(code);
+                    });
+                } catch (e) {
+                    module.exports.forceKill().then(resolve).catch(reject);
+                }
+            } else {
+                module.exports.forceKill();
             }
         });
+    },
+    forceKill: function() {
+        var ipfsname = (os === 'win') ? 'libraryd.exe' : 'libraryd';
+        return util.killtask(ipfsname);
     }
 };
