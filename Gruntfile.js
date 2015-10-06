@@ -144,7 +144,7 @@ module.exports = function(grunt) {
             },
             osx: {
                 files: [{
-                    src: 'util/alexandria_logo_grey_pyramid.icns',
+                    src: 'util/librarian_icon.icns',
                     dest: '<%= OSX_FILENAME %>/Contents/Resources/atom.icns'
                 }],
                 options: {
