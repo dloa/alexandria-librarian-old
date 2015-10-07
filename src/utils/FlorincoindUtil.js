@@ -21,7 +21,7 @@ module.exports = {
     install: function(tmppath) {
         var os = util.getOS();
         return new Promise((resolve, reject) => {
-            util.copyfile(path.join(process.cwd(), 'bin', os, (os === 'win') ? 'florincoind.exe' : ((os === 'osx') ? 'florincoind.app' : 'florincoind')), path.join(AppData, 'bin', (os === 'win') ? 'florincoind.exe' : ((os === 'osx') ? 'florincoind.app' : 'florincoind'))
+            util.copyfile(path.join(process.cwd(), 'bin', os, (os === 'win') ? 'florincoind.exe' : ((os === 'osx') ? 'florincoind.app' : 'florincoind')), path.join(AppData, 'bin', (os === 'win') ? 'florincoind.exe' : ((os === 'osx') ? 'florincoind.app' : 'florincoind')))
                 .then(resolve)
                 .catch(reject);
         });
