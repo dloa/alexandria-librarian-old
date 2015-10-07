@@ -20,6 +20,7 @@
     "alt": "^0.16.2",
     "bluebird": "^2.9.24",
     "child": "0.0.3",
+    "decompress-zip": "^0.2.0",
     "exec": "0.2.0",
     "executable": "^1.1.0",
     "find": "^0.2.3",

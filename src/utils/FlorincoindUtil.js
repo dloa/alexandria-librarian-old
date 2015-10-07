@@ -8,6 +8,7 @@ import Settings from '../utils/SettingsUtil';
 import nodeUtil from 'util';
 import fs from 'fs';
 import readline from 'readline';
+import DecompressZip from 'decompress-zip';
 
 let dialog = remote.require('dialog');
 let app = remote.require('app');
@@ -21,13 +22,36 @@ module.exports = {
     install: function(tmppath) {
         var os = util.getOS();
         return new Promise((resolve, reject) => {
-            var filename = (os === 'win') ? 'florincoind.exe' : 'florincoind';
+           // var filename = (os === 'win') ? 'florincoind.exe' : 'florincoind';
             if (os === 'osx')
-                filename = 'florincoind.app';
+               var filename = 'florincoind.zip';
 
-            util.copyfile(path.join(process.cwd(), 'bin', os, filename), path.join(AppData, 'bin', filename))
-                .then(resolve)
-                .catch(reject);
+            var files = [];
+            new DecompressZip(path.join(process.cwd(), 'bin', os, filename))
+                .on('error', function(err) {
+                    reject(err);
+                })
+                .on('extract', function(log) {
+                    // Setup chmodSync to fix permissions
+                    files.forEach(function(file) {
+                        fs.chmodSync(path.join(AppData, 'bin', file.path), file.mode);
+                    });
+
+                    resolve({
+                        files: files,
+                        destination: destination
+                    });
+                })
+                .extract({
+                    path: destination,
+                    filter: function(entry) {
+                        files.push({
+                            path: entry.path,
+                            mode: entry.mode.toString(8)
+                        });
+                        return true;
+                    }
+                });
         });
     },
     checkConf: function() {
