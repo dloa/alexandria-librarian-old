@@ -51,7 +51,7 @@ module.exports = {
     },
     purgeBins: function(binPath) {
         if (binPath === 'all')
-            binPath = process.env.APP_DATA_PATH;
+            binPath = path.join(process.env.APP_DATA_PATH, 'bin');
         return new Promise((resolve, reject) => {
             rimraf(binPath, function(err) {
                 if (err) {
