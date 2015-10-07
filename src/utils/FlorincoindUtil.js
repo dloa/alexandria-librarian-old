@@ -13,6 +13,7 @@ import DecompressZip from 'decompress-zip';
 let dialog = remote.require('dialog');
 let app = remote.require('app');
 let AppData = process.env.APP_DATA_PATH;
+let asarBIN = path.normalize(path.join(__dirname, '../../', 'bin'));
 let os = util.getOS();
 
 module.exports = {
@@ -22,28 +23,26 @@ module.exports = {
     install: function(tmppath) {
         var os = util.getOS();
         return new Promise((resolve, reject) => {
-           // var filename = (os === 'win') ? 'florincoind.exe' : 'florincoind';
-            if (os === 'osx')
-               var filename = 'florincoind.zip';
+            // var filename = (os === 'win') ? 'florincoind.exe' : 'florincoind';
+            // if (os === 'osx')
+            var filename = 'florincoind.zip';
 
             var files = [];
-            new DecompressZip(path.join(process.cwd(), 'bin', os, filename))
+            new DecompressZip(path.join(asarBIN, os, filename))
                 .on('error', function(err) {
                     reject(err);
                 })
                 .on('extract', function(log) {
                     // Setup chmodSync to fix permissions
+                    console.log(files)
                     files.forEach(function(file) {
                         fs.chmodSync(path.join(AppData, 'bin', file.path), file.mode);
                     });
 
-                    resolve({
-                        files: files,
-                        destination: destination
-                    });
+                    resolve();
                 })
                 .extract({
-                    path: destination,
+                    path: path.join(AppData, 'bin'),
                     filter: function(entry) {
                         files.push({
                             path: entry.path,
