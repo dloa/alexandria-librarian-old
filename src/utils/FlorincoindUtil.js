@@ -21,7 +21,7 @@ module.exports = {
     install: function(tmppath) {
         var os = util.getOS();
         return new Promise((resolve, reject) => {
-            util.copyfile(path.join(process.cwd(), 'bin', os, (os === 'win') ? 'florincoind.exe' : ((os === 'osx') ? 'florincoind.app' : 'florincoind')), path.join(AppData, 'bin', (os === 'win') ? 'florincoind.exe' : ((os === 'osx') ? 'florincoind.app' : 'florincoind'))
+            util.copyfile(path.join(process.cwd(), 'bin', os, (os === 'win') ? 'florincoind.exe' : 'florincoind'), path.join(AppData, 'bin', (os === 'win') ? 'florincoind.exe' : 'florincoind'))
                 .then(resolve)
                 .catch(reject);
         });
@@ -117,7 +117,7 @@ module.exports = {
         var self = this;
         return new Promise((resolve, reject) => {
             module.exports.checkConf().then(function() {
-                self.daemon = util.child(path.join(AppData, 'bin', (util.getOS() === 'win') ? 'florincoind.exe' : 'florincoind'), []);
+                self.daemon = util.child(path.join(AppData, 'bin', (util.getOS() === 'win') ? 'florincoind.exe' : 'florincoind'),[]);
                 try {
                     self.daemon.start(function(pid) {
                         resolve(pid);
