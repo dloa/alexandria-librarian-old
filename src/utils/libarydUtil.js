@@ -3,6 +3,7 @@ import path from 'path';
 import Promise from 'bluebird';
 import request from 'request';
 import fs from 'fs';
+import Settings from '../utils/SettingsUtil';
 import util from './Util';
 
 let AppData = process.env.APP_DATA_PATH;
@@ -23,7 +24,12 @@ module.exports = {
         });
     },
     enable: function() {
-        this.daemon = util.child(path.join(AppData, 'bin', (util.getOS() === 'win') ? 'libraryd.exe' : 'libraryd'), []);
+        this.daemon = util.child(path.join(AppData, 'bin', (util.getOS() === 'win') ? 'libraryd.exe' : 'libraryd'), {
+            env: {
+                F_USER: Settings.get('Florincoind-username'),
+                F_TOKEN: Settings.get('Florincoind-password')
+            }
+        });
         return new Promise((resolve, reject) => {
             try {
                 this.daemon.start(function(pid) {

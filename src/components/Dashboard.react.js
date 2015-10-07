@@ -51,12 +51,12 @@ var Preferences = React.createClass({
         });
     },
     InstallFlorincoind: function() {
-        //Florincoind.install();
-        /*
+        Florincoind.install();
+        
         this.setState({
             FlorincoindInstalled: true
         });
-		*/
+		
     },
     handleChangeFlorincoindEnabled: function(e) {
         var checked = e.target.checked;
