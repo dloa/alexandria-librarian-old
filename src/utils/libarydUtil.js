@@ -17,7 +17,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
             util.copyfile(path.join(asarBIN, os, (os === 'win') ? 'libraryd.exe' : 'libraryd'), path.join(AppData, 'bin', (os === 'win') ? 'libraryd.exe' : 'libraryd'))
                 .then(function() {
-                    return util.chmod(path.join(AppData, 'bin', (os === 'win') ? 'libraryd.exe' : 'libraryd'), '0777');
+                    return util.chmod(path.join(AppData, 'bin', (os === 'win') ? 'libraryd.exe' : 'libraryd'), '0777').catch(resolve);
                 })
                 .then(resolve)
                 .catch(reject);
@@ -25,6 +25,7 @@ module.exports = {
     },
     enable: function() {
         this.daemon = util.child(path.join(AppData, 'bin', (util.getOS() === 'win') ? 'libraryd.exe' : 'libraryd'), {
+            cwd: path.join(AppData, 'bin'),
             env: {
                 F_USER: Settings.get('Florincoind-username'),
                 F_TOKEN: Settings.get('Florincoind-password')
