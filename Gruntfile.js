@@ -243,7 +243,7 @@ module.exports = function(grunt) {
                 files: [{
                     expand: true,
                     dot: true,
-                    cwd: './dist/ΛLΞXΛNDRIΛ-win32-ia32',
+                    cwd: './dist/ΛLΞXΛNDRIΛ Librarian-win32-ia32',
                     src: '**/*'
                 }]
             },
