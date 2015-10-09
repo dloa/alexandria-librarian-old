@@ -46,19 +46,25 @@ var Preferences = React.createClass({
         });
     },
     InstallIPFS: function() {
-        IPFS.install();
-        this.setState({
-            IPFSInstalled: true
+    	 var self = this;
+        IPFS.install().then(function(state) {
+        	console.log('ITS INATLLED BITCHA')
+            if (state)
+ 				self.setState({
+            		IPFSInstalled: true
+        		});
+        	Settings.save('ipfsInstalled', true);
         });
-        Settings.save('ipfsInstalled', true);
     },
     InstallFlorincoind: function() {
-        Florincoind.install();
-        
-        this.setState({
-            FlorincoindInstalled: true
+    	var self = this;
+        Florincoind.install().then(function(state) {
+            if (state)
+ 				self.setState({
+            		FlorincoindInstalled: true
+        		});
+			Settings.save('florincoindInstalled', true);
         });
-		Settings.save('florincoindInstalled', true);
     },
     handleChangeFlorincoindEnabled: function(e) {
         var checked = e.target.checked;

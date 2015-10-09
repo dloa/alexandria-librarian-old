@@ -17,22 +17,15 @@ class FlorincoindActions {
 
     install() {
         this.dispatch();
-        Florincoind.install()
-            .then(() => {
-                console.log('Florincoind installed');
-            })
+        return Florincoind.install()
     }
     
     toggle(status) {
         this.dispatch();
         if (status)
-            Florincoind.enable().then(() => {
-                console.log('Florincoind enabled');
-            });
+            return Florincoind.enable()
         else
-            Florincoind.disable().then(() => {
-                console.log('Florincoind disabled');
-            });
+            return Florincoind.disable()
     }
 
 }

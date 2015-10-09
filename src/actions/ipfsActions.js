@@ -17,9 +17,7 @@ class ipfsActions {
 
     install() {
         this.dispatch();
-        ifps.install().then(() => {
-            console.log('IPFS installed')
-        });
+        return ifps.install()
     }
 
     addFile() {
@@ -51,13 +49,9 @@ class ipfsActions {
     toggle(status) {
         this.dispatch();
         if (status)
-            ifps.enable().then(() => {
-                console.log('IPFS enabled')
-            });
+            return ifps.enable()
         else
-            ifps.disable().then(() => {
-                console.log('IPFS disabled')
-            });
+            return ifps.disable()
     }
 }
 
