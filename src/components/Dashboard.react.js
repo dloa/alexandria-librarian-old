@@ -42,6 +42,7 @@ var Preferences = React.createClass({
                 self.setState({
                     LibrarydInstalled: true
                 });
+              	Settings.save('librarydInstalled', true);
         });
     },
     InstallIPFS: function() {
@@ -49,6 +50,7 @@ var Preferences = React.createClass({
         this.setState({
             IPFSInstalled: true
         });
+        Settings.save('ipfsInstalled', true);
     },
     InstallFlorincoind: function() {
         Florincoind.install();
@@ -56,7 +58,7 @@ var Preferences = React.createClass({
         this.setState({
             FlorincoindInstalled: true
         });
-		
+		Settings.save('florincoindInstalled', true);
     },
     handleChangeFlorincoindEnabled: function(e) {
         var checked = e.target.checked;
