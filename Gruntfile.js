@@ -11,6 +11,21 @@ module.exports = function(grunt) {
     var env = process.env;
     env.NODE_PATH = '..:' + env.NODE_PATH;
     env.NODE_ENV = target;
+    var os;
+    switch (process.platform) {
+        case 'win32':
+            os = 'win';
+            break;
+        case 'linux':
+            os = 'linux';
+            break;
+        case 'darwin':
+            os = 'osx';
+            break;
+        default:
+            os = process.platform;
+    }
+
 
     var version = function(str) {
         var match = str.match(/(\d+\.\d+\.\d+)/);
@@ -125,9 +140,9 @@ module.exports = function(grunt) {
                     dest: 'build/images/'
                 }, {
                     expand: true,
-                    cwd: 'bin/',
+                    cwd: 'bin/' + os + '/',
                     src: ['**/*'],
-                    dest: 'build/bin/'
+                    dest: 'build/bin/' + os + '/'
                 }, {
                     expand: true,
                     cwd: 'fonts/',
