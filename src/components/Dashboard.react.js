@@ -48,7 +48,6 @@ var Preferences = React.createClass({
     InstallIPFS: function() {
     	 var self = this;
         IPFS.install().then(function(state) {
-        	console.log('ITS INATLLED BITCHA')
             if (state)
  				self.setState({
             		IPFSInstalled: true
