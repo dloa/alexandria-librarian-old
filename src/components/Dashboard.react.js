@@ -129,7 +129,7 @@ var Preferences = React.createClass({
               <label htmlFor="Florincoindtoggle"></label>
           </div>
         </If>
-          <p>Florincoind</p>
+          <p>Florincoin</p>
           <i className="ion-information-circled"/>
         <If test={!this.state.FlorincoindInstalled}>
           <div onClick={this.InstallFlorincoind} className="install">install</div>
