@@ -183,6 +183,8 @@ module.exports = {
     },
     forceKill: function() {
         var florincoindname = (os === 'win') ? 'florincoind.exe' : 'florincoind';
+        if (os === 'osx')
+            florincoindname = 'Florincoin-Qt';
         return util.killtask(florincoindname);
     }
 
