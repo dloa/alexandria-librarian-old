@@ -22,7 +22,6 @@ module.exports = {
             daemons.forEach(function(entry) {
                 checked++;
                 var filename = (os === 'win') ? entry + '.exe' : entry;
-
                 util.findfile(appdatapath, filename).then(function(found) {
                     module.exports.save(entry + 'Installed', found)
                         .then(function() {
@@ -45,13 +44,14 @@ module.exports = {
 
     checkflorincoin: function(appdatapath) {
         var Namevariants = ['florincoind', 'florincoind.exe', 'Florincoin-Qt', 'Florincoin-Qt.app'];
+        var checked = 0;
         return new Promise((resolve, reject) => {
             Namevariants.forEach(function(entry) {
                 checked++;
-                util.findfile(appdatapath, filename).then(function(found) {
+                util.findfile(appdatapath, entry).then(function(found) {
                     module.exports.save('florincoindInstalled', found)
                         .then(function() {
-                            util.checktaskrunning(filename)
+                            util.checktaskrunning(entry)
                                 .then(function(running) {
                                     running = running ? true : false;
                                     module.exports.save('florincoindEnabled', running)
