@@ -148,16 +148,20 @@ module.exports = {
         var self = this;
         return new Promise((resolve, reject) => {
             module.exports.checkConf().then(function() {
-                var filename = (os === 'win') ? 'florincoind.exe' : 'florincoind';
-                if (os === 'osx')
-                    filename = 'florincoind.app';
-                self.daemon = util.child(path.join(AppData, 'bin', filename), []);
-                try {
-                    self.daemon.start(function(pid) {
-                        resolve(pid);
-                    });
-                } catch (e) {
-                    reject(e);
+                if (os === 'osx') {
+                    util.exec(['open', path.join(AppData, 'bin', 'florincoind.app')])
+                        .then(resolve)
+                        .catch(reject);
+                } else {
+                    var filename = (os === 'win') ? 'florincoind.exe' : 'florincoind';
+                    self.daemon = util.child(path.join(AppData, 'bin', filename), []);
+                    try {
+                        self.daemon.start(function(pid) {
+                            resolve(pid);
+                        });
+                    } catch (e) {
+                        reject(e);
+                    }
                 }
             });
         });
