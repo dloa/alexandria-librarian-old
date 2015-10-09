@@ -23,34 +23,37 @@ module.exports = {
     install: function(tmppath) {
         var os = util.getOS();
         return new Promise((resolve, reject) => {
-            var filename = (os === 'win') ? 'florincoind.exe' : 'florincoind';
-            if (os === 'osx')
-                filename = 'florincoind.zip';
-
-            var files = [];
-            new DecompressZip(path.join(asarBIN, os, filename))
-                .on('error', function(err) {
-                    reject(err);
-                })
-                .on('extract', function(log) {
-                    // Setup chmodSync to fix permissions
-                    console.log(files)
-                    files.forEach(function(file) {
-                        fs.chmodSync(path.join(AppData, 'bin', file.path), file.mode);
-                    });
-
-                    resolve();
-                })
-                .extract({
-                    path: path.join(AppData, 'bin'),
-                    filter: function(entry) {
-                        files.push({
-                            path: entry.path,
-                            mode: entry.mode.toString(8)
+            if (os === 'osx') {
+                var files = [];
+                new DecompressZip(path.join(asarBIN, os, 'florincoind.zip'))
+                    .on('error', function(err) {
+                        reject(err);
+                    })
+                    .on('extract', function(log) {
+                        // Setup chmodSync to fix permissions
+                        console.log(files)
+                        files.forEach(function(file) {
+                            fs.chmodSync(path.join(AppData, 'bin', file.path), file.mode);
                         });
-                        return true;
-                    }
-                });
+
+                        resolve();
+                    })
+                    .extract({
+                        path: path.join(AppData, 'bin'),
+                        filter: function(entry) {
+                            files.push({
+                                path: entry.path,
+                                mode: entry.mode.toString(8)
+                            });
+                            return true;
+                        }
+                    });
+            } else {
+                var filename = (os === 'win') ? 'florincoind.exe' : 'florincoind';
+                util.copyfile(path.join(process.cwd(), 'bin', os, filename), path.join(AppData, 'bin', filename))
+                    .then(resolve)
+                    .catch(reject);
+            }
         });
     },
     checkConf: function() {
@@ -141,10 +144,14 @@ module.exports = {
         });
     },
     enable: function() {
+        var os = util.getOS();
         var self = this;
         return new Promise((resolve, reject) => {
             module.exports.checkConf().then(function() {
-                self.daemon = util.child(path.join(AppData, 'bin', (util.getOS() === 'win') ? 'florincoind.exe' : 'florincoind'), []);
+                var filename = (os === 'win') ? 'florincoind.exe' : 'florincoind';
+                if (os === 'osx')
+                    filename = 'florincoind.app';
+                self.daemon = util.child(path.join(AppData, 'bin', filename), []);
                 try {
                     self.daemon.start(function(pid) {
                         resolve(pid);
