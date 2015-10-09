@@ -43,7 +43,7 @@ module.exports = {
     },
 
     checkflorincoin: function(appdatapath) {
-        var Namevariants = ['florincoind', 'florincoind.exe', 'Florincoin-Qt', 'Florincoin-Qt.app'];
+        var Namevariants = ['florincoind', 'florincoind.exe', 'Florincoin-Qt', 'florincoind.app'];
         var checked = 0;
         return new Promise((resolve, reject) => {
             Namevariants.forEach(function(entry) {
