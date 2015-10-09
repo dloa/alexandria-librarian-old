@@ -15,13 +15,14 @@ var defaultSettings = {
 
 module.exports = {
     setInstalledAndRunning: function(appdatapath) {
-        var daemons = ['ipfs', 'florincoind', 'libraryd'];
+        var daemons = ['ipfs', 'libraryd'];
         var os = util.getOS();
         var checked = 0;
         return new Promise((resolve, reject) => {
             daemons.forEach(function(entry) {
                 checked++;
                 var filename = (os === 'win') ? entry + '.exe' : entry;
+
                 util.findfile(appdatapath, filename).then(function(found) {
                     module.exports.save(entry + 'Installed', found)
                         .then(function() {
@@ -31,6 +32,31 @@ module.exports = {
                                     module.exports.save(entry + 'Enabled', running)
                                         .then(function() {
                                             if (checked === daemons.length) {
+                                                module.exports.checkflorincoin(appdatapath)
+                                                    .then(resolve);
+                                            }
+                                        });
+                                })
+                        });
+                }).catch(reject);
+            });
+        });
+    },
+
+    checkflorincoin: function(appdatapath) {
+        var Namevariants = ['florincoind', 'florincoind.exe', 'Florincoin-Qt', 'Florincoin-Qt.app'];
+        return new Promise((resolve, reject) => {
+            Namevariants.forEach(function(entry) {
+                checked++;
+                util.findfile(appdatapath, filename).then(function(found) {
+                    module.exports.save('florincoindInstalled', found)
+                        .then(function() {
+                            util.checktaskrunning(filename)
+                                .then(function(running) {
+                                    running = running ? true : false;
+                                    module.exports.save('florincoindEnabled', running)
+                                        .then(function() {
+                                            if (checked === Namevariants.length) {
                                                 resolve();
                                             }
                                         });
@@ -40,6 +66,7 @@ module.exports = {
             });
         });
     },
+
     get: function(item) {
         var haveDefault = null,
             value = localStorage.getItem('settings.' + item);
@@ -67,7 +94,7 @@ module.exports = {
             resolve();
         });
     },
-    reset:function(){
+    reset: function() {
         return new Promise((resolve) => {
             localStorage.clear();
             resolve();
