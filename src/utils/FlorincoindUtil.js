@@ -23,9 +23,9 @@ module.exports = {
     install: function(tmppath) {
         var os = util.getOS();
         return new Promise((resolve, reject) => {
-            // var filename = (os === 'win') ? 'florincoind.exe' : 'florincoind';
-            // if (os === 'osx')
-            var filename = 'florincoind.zip';
+            var filename = (os === 'win') ? 'florincoind.exe' : 'florincoind';
+            if (os === 'osx')
+                filename = 'florincoind.zip';
 
             var files = [];
             new DecompressZip(path.join(asarBIN, os, filename))
