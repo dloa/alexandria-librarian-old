@@ -38,6 +38,11 @@ var About = React.createClass({
                 email: 'devon@blocktech.com',
                 github: 'DevonJames'
             },
+            {
+                name: 'Avery Dodd',
+                email: 'averyhvdodd@gmail.com',
+                github: 'AveryDodd'
+            }
         ];
         var version = 'v0.5.1 α';
 
