@@ -145,6 +145,11 @@ module.exports = function(grunt) {
                     dest: 'build/bin/' + os + '/'
                 }, {
                     expand: true,
+                    cwd: 'resources/' + os + '/',
+                    src: ['**/*'],
+                    dest: 'build/resources/' + os + '/'
+                }, {
+                    expand: true,
                     cwd: 'fonts/',
                     src: ['**/*'],
                     dest: 'build/fonts/'
