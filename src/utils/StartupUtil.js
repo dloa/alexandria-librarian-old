@@ -20,7 +20,7 @@ module.exports = {
                     'AlexandriaLibrarian'
                 ]);
                 break;
-            case 'win32':
+            case 'win':
                 return new Promise((resolve) => {
                     regKey.set('AlexandriaLibrarian', Winreg.REG_SZ, "\"" + require('remote').require('app').getPath('exe') + "\"", function() {
                         resolve();
