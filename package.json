@@ -37,6 +37,7 @@
     "react-tooltip": "^0.6.4",
     "request": "^2.55.0",
     "rimraf": "^2.4.3",
+    "winreg": "0.0.12",
     "xps": "^1.0.2"
   },
   "devDependencies": {
