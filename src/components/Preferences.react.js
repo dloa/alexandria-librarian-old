@@ -12,7 +12,7 @@ var Preferences = React.createClass({
       RemoteWeb: true, 
       MinToTray: true,
       WebPort: 80,
-      startOnBoot: true,
+      startOnBoot: Settings.get('startOnBoot'),
       FlorincoindUsername: Settings.get('Florincoind-username'), 
       FlorincoindPassword: Settings.get('Florincoind-password')
     };
@@ -39,7 +39,7 @@ var Preferences = React.createClass({
     this.setState({
       startOnBoot: checked
     });
-
+	Settings.save('startOnBoot', checked);
   },
   handleResetSettings: function () {
       Settings.reset();
