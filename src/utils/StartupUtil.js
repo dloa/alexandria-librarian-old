@@ -1,7 +1,7 @@
 import log from '../stores/LogStore';
 import Winreg from 'winreg';
 import path from 'path';
-import util from 'util';
+import util from './Util';
 import Promise from 'bluebird';
 import fs from 'fs';
 
@@ -11,9 +11,9 @@ var regKey = new Winreg({
 });
 
 module.exports = {
-    enableStartOnBoot: function(hidden) {
-        switch (process.platform) {
-            case 'darwin':
+    enableStartOnBoot: function() {
+        switch (util.getOS()) {
+            case 'osx':
                 return util.exec([
                     'osascript',
                     path.join(resources.resourceDir(), 'scripts/LoginItemAdd.scpt'),
@@ -32,15 +32,15 @@ module.exports = {
         };
     },
     disableStartOnBoot: function() {
-        switch (process.platform) {
-            case 'darwin':
+        switch (util.getOS()) {
+            case 'osx':
                 return util.exec([
                     'osascript',
                     path.join(resources.resourceDir(), 'scripts/LoginItemRemove.scpt'),
                     'AlexandriaLibrarian'
                 ]);
                 break;
-            case 'win32':
+            case 'win':
                 return new Promise((resolve) => {
                     regKey.remove('AlexandriaLibrarian', function() {
                         resolve();
@@ -52,8 +52,8 @@ module.exports = {
         };
     },
     statusStartOnBoot: function() {
-        switch (process.platform) {
-            case 'darwin':
+        switch (util.getOS()) {
+            case 'osx':
                 return util.exec([
                     'osascript',
                     path.join(resources.resourceDir(), 'scripts/LoginItemCheck.scpt')
@@ -61,7 +61,7 @@ module.exports = {
                     return stdout == 1 ? true : false;
                 });
                 break;
-            case 'win32':
+            case 'win':
                 return new Promise((resolve) => {
                     regKey.get('AlexandriaLibrarian', function(error, item) {
                         resolve(item != null);
