@@ -1,6 +1,9 @@
 import log from '../stores/LogStore';
 import Winreg from 'winreg';
 import path from 'path';
+import util from 'util';
+import Promise from 'bluebird';
+import fs from 'fs';
 
 var regKey = new Winreg({
     hive: Winreg.HKCU,
