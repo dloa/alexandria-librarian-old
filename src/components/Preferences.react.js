@@ -12,6 +12,7 @@ var Preferences = React.createClass({
       RemoteWeb: true, 
       MinToTray: true,
       WebPort: 80,
+      startOnBoot: true,
       FlorincoindUsername: Settings.get('Florincoind-username'), 
       FlorincoindPassword: Settings.get('Florincoind-password')
     };
@@ -26,9 +27,17 @@ var Preferences = React.createClass({
   },
   handleChangeAnalytics: function (e) {
     var checked = e.target.checked;
-    console.log(checked);
+
     this.setState({
       Analytics: checked
+    });
+
+  },
+  handleChangeStartOnBoot: function (e) {
+    var checked = e.target.checked;
+
+    this.setState({
+      startOnBoot: checked
     });
 
   },
@@ -39,8 +48,7 @@ var Preferences = React.createClass({
       utils.purgeBins('all');
   },
   handleResetPurge: function () {
-  utils.purgeBins('all').then(Settings.reset);
-
+  		utils.purgeBins('all').then(Settings.reset);
   },
   handleChangeWebAccsess: function (e) {
     var checked = e.target.checked;
@@ -68,21 +76,13 @@ var Preferences = React.createClass({
       <div className='content-scroller' id='content'>
         <section>
                 <h1 className='title'>General</h1>
-                <div className='checkbox'>
-                    <input id='reportAnon' type='checkbox' checked={this.state.Analytics} onChange={this.handleChangeAnalytics}/>
-                    <label className='checkbox' htmlFor='reportAnon'></label>
-                    <p>Report anonymous usage analytics</p>
-                </div>
-                <div className='checkbox'>
-                    <input id='startOnBoot' type='checkbox' checked={this.state.Analytics} onChange={this.handleChangeAnalytics}/>
-                    <label className='checkbox' htmlFor="startOnBoot"></label>
-                    <p>Start ΛLΞXΛNDRIΛ Librarian on boot</p>
-                </div>
-                <div className='checkbox'>
-                    <input id='minToTray' type='checkbox' checked={this.state.MinToTray} onChange={this.handleChangeMinimizeToTray}/>
-                    <label className='checkbox' htmlFor="minToTray"></label>
-                    <p>Minimize to system tray</p>
-                </div>
+                <div className="DaemonWrapper">
+                <div className="toggle-wrapper">
+              		<input checked={this.state.startOnBoot} onChange={this.handleChangeStartOnBoot} type="checkbox" id="startOnBoot" className="toggle" />
+              		<label htmlFor="startOnBoot"></label>
+          		</div>
+          		<p>Start ΛLΞXΛNDRIΛ Librarian on boot</p>
+          		</div>
         </section>
         <section>
                 <h1 className='title'>Web Interface</h1>
