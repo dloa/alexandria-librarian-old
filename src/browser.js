@@ -85,7 +85,7 @@ app.on('ready', function() {
 
 
 
-    trayTemplate.init();
+    trayTemplate.init(helper);
 
 });
 
