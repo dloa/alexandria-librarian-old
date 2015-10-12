@@ -2,7 +2,7 @@ import Menu from 'menu';
 import MenuItem from 'menu-item';
 import Tray from 'tray';
 import ipc from 'ipc';
-import path from 'path';
+
 var trayMenu = null;
 
 // Define a function to set up our tray icon
@@ -25,14 +25,12 @@ exports.init = function(helper) {
 	}));
 
 
-	
+
 	var tray = new Tray(__dirname + '/images/icons/tray.png');
 	tray.setContextMenu(trayMenu);
 
 	tray.on('clicked', helper.toggleVisibility);
-	
-	let trayImage = path.normalize(path.join(_dirname, '../','images/icons/tray.png'));
-	
 
+	
 
 };
