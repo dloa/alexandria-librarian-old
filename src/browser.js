@@ -61,7 +61,27 @@ app.on('ready', function() {
         mainWindow.show();
         mainWindow.focus();
     });
-
+ var helper = {
+        toggleVisibility: function() {
+            if (mainWindow) {
+                var isVisible = mainWindow.isVisible();
+                if (isVisible) {
+                    if (process.platform == 'darwin') {
+                        app.dock.hide();
+                    }
+                    mainWindow.hide();
+                } else {
+                    if (process.platform == 'darwin') {
+                        app.dock.show();
+                    }
+                    mainWindow.show();
+                }
+            }
+        },
+        quit: function() {
+            app.quit();
+        }
+    };
     trayTemplate.init();
 
 });
