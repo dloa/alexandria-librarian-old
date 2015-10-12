@@ -2,6 +2,7 @@ import Menu from 'menu';
 import MenuItem from 'menu-item';
 import Tray from 'tray';
 import ipc from 'ipc';
+import path from 'path';
 
 var trayMenu = null;
 
@@ -30,6 +31,8 @@ exports.init = function(helper) {
 	tray.setContextMenu(trayMenu);
 
 	tray.on('clicked', helper.toggleVisibility);
+
+	let trayImage = path.normalize(path.join(__dirname, '../', 'images/icons/tray.png'));
 
 	
 
