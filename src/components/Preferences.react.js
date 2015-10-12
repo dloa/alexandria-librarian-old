@@ -40,10 +40,10 @@ var Preferences = React.createClass({
             startOnBoot: checked
         });
         if (checked)
-            startupUtil.enableStartOnBoot()
+            startupUtil.enableStartOnBoot().then(console.log)
         else
             startupUtil.disableStartOnBoot()
-          
+
         Settings.save('startOnBoot', checked);
     },
     handleResetSettings: function() {
