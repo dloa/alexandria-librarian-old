@@ -9,14 +9,14 @@ var regKey = new Winreg({
     hive: Winreg.HKCU,
     key: '\\Software\\Microsoft\\Windows\\CurrentVersion\\Run'
 });
-let resourceDir = path.normalize(path.join(__dirname, '../../', 'resources'))
+let resourceDir = path.normalize(path.join(__dirname, '../../', 'bin', util.getOS(), 'scripts'));
 module.exports = {
     enableStartOnBoot: function() {
         switch (util.getOS()) {
             case 'osx':
                 return util.exec([
                     'osascript',
-                    path.join(resourceDir, 'bin', 'osx/scripts/LoginItemAdd.scpt'),
+                    path.join(resourceDir, 'LoginItemAdd.scpt'),
                     'AlexandriaLibrarian'
                 ]);
                 break;
@@ -36,7 +36,7 @@ module.exports = {
             case 'osx':
                 return util.exec([
                     'osascript',
-                    path.join(resourceDir, 'bin', 'osx/scripts/LoginItemRemove.scpt'),
+                    path.join(resourceDir, 'LoginItemRemove.scpt'),
                     'AlexandriaLibrarian'
                 ]);
                 break;
@@ -56,7 +56,7 @@ module.exports = {
             case 'osx':
                 return util.exec([
                     'osascript',
-                    path.join(resourceDir, 'bin', 'osx/scripts/LoginItemCheck.scpt')
+                    path.join(resourceDir, 'LoginItemCheck.scpt')
                 ]).then(function(stdout) {
                     return stdout == 1 ? true : false;
                 });
