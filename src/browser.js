@@ -3,7 +3,7 @@ import BrowserWindow from 'browser-window';
 import ipc from 'ipc';
 import fs from 'fs';
 import path from 'path';
-
+import trayTemplate from './app-tray'
 
 process.env.NODE_PATH = path.join(__dirname, 'node_modules');
 process.env.APP_DATA_PATH = path.join(app.getPath('userData'));
@@ -62,6 +62,8 @@ app.on('ready', function() {
         mainWindow.focus();
     });
 
+    trayTemplate.init();
+    
 
 });
 
