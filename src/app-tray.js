@@ -4,13 +4,11 @@ import Tray from 'tray';
 import ipc from 'ipc';
 import path from 'path';
 
-var trayMenu = null;
-
 // Define a function to set up our tray icon
 exports.init = function(helper) {
 
 	// Disconnected State
-	trayMenu = new Menu();
+	var trayMenu = new Menu();
 	trayMenu.append(new MenuItem({
 		label: 'Toggle ΛLΞXΛNDRIΛ Librarian',
 		click: helper.toggleVisibility
@@ -19,20 +17,20 @@ exports.init = function(helper) {
 		type: 'separator'
 	}));
 	
-	
 	trayMenu.append(new MenuItem({
 		label: 'Quit',
 		click: helper.quit
 	}));
 
 
+	let trayImage = path.normalize(path.join(__dirname, '../', 'images/icons/tray.png'));
 
-	var tray = new Tray(__dirname + '/images/icons/tray.png');
+	var tray = new Tray(trayImage);
 	tray.setContextMenu(trayMenu);
 
 	tray.on('clicked', helper.toggleVisibility);
 
-	let trayImage = path.normalize(path.join(__dirname, '../', 'images/icons/tray.png'));
+
 
 	
 
