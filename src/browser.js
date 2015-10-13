@@ -3,7 +3,7 @@ import BrowserWindow from 'browser-window';
 import ipc from 'ipc';
 import fs from 'fs';
 import path from 'path';
-
+import trayTemplate from './app-tray';
 
 process.env.NODE_PATH = path.join(__dirname, 'node_modules');
 process.env.APP_DATA_PATH = path.join(app.getPath('userData'));
@@ -61,11 +61,35 @@ app.on('ready', function() {
         mainWindow.show();
         mainWindow.focus();
     });
+    var helper = {
+        toggleVisibility: function() {
+            if (mainWindow) {
+                var isVisible = mainWindow.isVisible();
+                if (isVisible) {
+                    if (process.platform == 'darwin') {
+                        app.dock.hide();
+                    }
+                    mainWindow.hide();
+                } else {
+                    if (process.platform == 'darwin') {
+                        app.dock.show();
+                    }
+                    mainWindow.show();
+                }
+            }
+        },
+        quit: function() {
+            app.quit();
+        }
+    };
 
+
+
+    trayTemplate.init(helper);
 
 });
 
 
 app.on('window-all-closed', function() {
-  app.quit();
+    app.quit();
 });

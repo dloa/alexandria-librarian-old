@@ -111,6 +111,7 @@ module.exports = {
     },
     getOS: function() {
         switch (process.platform) {
+            case 'win64':
             case 'win32':
                 return 'win';
                 break;
