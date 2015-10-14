@@ -15,7 +15,6 @@
     "release": "grunt release"
   },
   "license": "GPL-3.0",
-  "electron-version": "0.33.3",
   "dependencies": {
     "alt": "^0.16.2",
     "bluebird": "^2.9.24",
@@ -70,6 +69,6 @@
     "source-map-support": "^0.3.2"
   },
   "optionalDependencies": {
-    "electron-prebuilt": "^0.33.3"
+    "electron-prebuilt": "0.33.8"
   }
 }
