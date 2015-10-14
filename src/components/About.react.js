@@ -49,7 +49,7 @@ var About = React.createClass({
                 github: 'AveryDodd'
             }
         ];
-        var version = 'v0.5.1 α';
+        var version = 'v0.5.2 α';
 
         var License = fs.readFileSync(path.normalize(path.join(__dirname, '../../', 'LICENSE.md')), 'utf8');
 
