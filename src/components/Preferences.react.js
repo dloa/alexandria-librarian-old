@@ -2,7 +2,7 @@ import React from 'react/addons';
 import Router from 'react-router';
 import Settings from '../utils/SettingsUtil';
 import utils from '../utils/Util';
-import startupUtil from '../utils/StartupUtil';
+import startupManager from 'node-startup-manager';
 
 var Preferences = React.createClass({
     mixins: [Router.Navigation],
@@ -39,10 +39,27 @@ var Preferences = React.createClass({
         this.setState({
             startOnBoot: checked
         });
-        if (checked)
-            startupUtil.enableStartOnBoot().then(console.log)
-        else
-            startupUtil.disableStartOnBoot()
+
+        if (checked) {
+            startupManager.addStartup({
+                    appPath: require('remote').require('app').getPath('exe'),
+                    appName: 'AlexandriaLibrarian'
+                })
+                .then(function() {
+                    console.log('App added to startup')
+                })
+                .catch(function(e) {
+                    Console.log('Something went wrong; Perms?', e)
+                });
+        } else {
+            startupManager.removeStartup('AlexandriaLibrarian')
+                .then(function() {
+                    console.log('App removed from startup')
+                })
+                .catch(function(e) {
+                    Console.log('Something went wrong; Perms?', e)
+                });
+        }
 
         Settings.save('startOnBoot', checked);
     },
@@ -77,8 +94,8 @@ var Preferences = React.createClass({
 
     },
     render: function() {
-      return (
-      <div className='content-scroller' id='content'>
+        return (
+            <div className='content-scroller' id='content'>
         <section>
                 <h1 className='title'>General</h1>
                 <div className="DaemonWrapper">
@@ -116,7 +133,7 @@ var Preferences = React.createClass({
         </section>
          
       </div>
-      );
+        );
     }
 });
 
