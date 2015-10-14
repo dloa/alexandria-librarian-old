@@ -2,14 +2,10 @@ import React from 'react/addons';
 import Router from 'react-router';
 import IPFS from '../actions/ipfsActions';
 
-var PINNEDDATA = [{
-    hash: ''
-}];
-
 var PinManager = React.createClass({
     getInitialState: function() {
         return {
-            pinned: PINNEDDATA,
+            pinned: [],
             enteredHash: null
         };
     },
