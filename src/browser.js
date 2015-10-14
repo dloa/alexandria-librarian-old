@@ -4,6 +4,8 @@ import ipc from 'ipc';
 import fs from 'fs';
 import path from 'path';
 import trayTemplate from './app-tray';
+import util from './utils/Util';
+
 
 process.env.NODE_PATH = path.join(__dirname, 'node_modules');
 process.env.APP_DATA_PATH = path.join(app.getPath('userData'));
@@ -81,14 +83,16 @@ app.on('ready', function() {
         },
         quit: function() {
             canQuit = true;
-            app.quit();
+            util.killAllDaemons()
+                .then(app.quit)
+                .catch(app.quit);
         }
     };
 
     mainWindow.on('close', function(event) {
         if (!canQuit) {
             helper.toggleVisibility();
-            event.preventDefault();
+            return event.preventDefault();
         } else
             app.quit();
     });
