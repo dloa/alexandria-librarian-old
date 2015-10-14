@@ -11,7 +11,7 @@ exports.init = function(helper) {
     // Disconnected State
     var trayMenu = new Menu();
     trayMenu.append(new MenuItem({
-        label: 'Toggle ΛLΞXΛNDRIΛ Librarian',
+        label: 'Show/Hide Settings Window',
         click: helper.toggleVisibility
     }));
     trayMenu.append(new MenuItem({
