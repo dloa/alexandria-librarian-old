@@ -47,7 +47,7 @@ var PinManager = React.createClass({
         return (
             <section>
                 <h1 className="title">IPFS pin manager</h1>
-                <textarea className="logs" name="description" value={pintext} readOnly />
+                <textarea className="pins" name="description" value={pintext} readOnly />
                     <br></br>
                 <input name="username"  onChange={this.handleHashInput} placeholder="Remote Hash" type="text" />
                     <br></br>
