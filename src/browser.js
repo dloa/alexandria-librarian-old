@@ -61,6 +61,7 @@ app.on('ready', function() {
         mainWindow.show();
         mainWindow.focus();
     });
+
     var helper = {
         toggleVisibility: function() {
             if (mainWindow) {
@@ -79,11 +80,18 @@ app.on('ready', function() {
             }
         },
         quit: function() {
+            canQuit = true;
             app.quit();
         }
     };
 
-
+    mainWindow.on('close', function(event) {
+        if (!canQuit) {
+            helper.toggleVisibility();
+            event.preventDefault();
+        } else
+            app.quit();
+    });
 
     trayTemplate.init(helper);
 
