@@ -44,10 +44,14 @@ var PinManager = React.createClass({
             });
     },
     render: function() {
+        var pintext = '';
+        this.state.pinned.forEach(function(entry) {
+            pintext = pintext + '\n' + JSON.stringify(entry);
+        });
         return (
             <section>
                 <h1 className="title">IPFS pin manager</h1>
-                <textarea className="logs" name="description" value={this.state.pinned} readOnly />
+                <textarea className="logs" name="description" value={pintext} readOnly />
                     <br></br>
                 <input name="username"  onChange={this.handleHashInput} placeholder="Remote Hash" type="text" />
                     <br></br>
