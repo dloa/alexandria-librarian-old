@@ -28,7 +28,7 @@
     "is-running": "^1.0.5",
     "lodash": "^3.10.1",
     "mkdirp": "^0.5.1",
-    "node-startup-manager": "0.0.4",
+    "node-startup-manager": "^0.0.5",
     "object-assign": "^4.0.1",
     "osx-release": "^1.1.0",
     "react": "^0.13.1",
