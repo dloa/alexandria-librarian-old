@@ -2,35 +2,30 @@ import Menu from 'menu';
 import MenuItem from 'menu-item';
 import Tray from 'tray';
 import ipc from 'ipc';
-
-var trayMenu = null;
+import path from 'path';
+import util from './utils/Util';
 
 // Define a function to set up our tray icon
 exports.init = function(helper) {
 
-	// Disconnected State
-	trayMenu = new Menu();
-	trayMenu.append(new MenuItem({
-		label: 'Toggle ΛLΞXΛNDRIΛ Librarian',
-		click: helper.toggleVisibility
-	}));
-	trayMenu.append(new MenuItem({
-		type: 'separator'
-	}));
-	
-	
-	trayMenu.append(new MenuItem({
-		label: 'Quit',
-		click: helper.quit
-	}));
+    // Disconnected State
+    var trayMenu = new Menu();
+    trayMenu.append(new MenuItem({
+        label: 'Show/Hide Settings Window',
+        click: helper.toggleVisibility
+    }));
+    trayMenu.append(new MenuItem({
+        type: 'separator'
+    }));
 
+    trayMenu.append(new MenuItem({
+        label: 'Quit',
+        click: helper.quit
+    }));
 
+    var tray = new Tray(path.normalize(path.join(__dirname, '../', 'images/icons/tray/tray_' + util.getOS() + '.png')));
+    tray.setContextMenu(trayMenu);
 
-	var tray = new Tray(__dirname + '/images/icons/tray.png');
-	tray.setContextMenu(trayMenu);
-
-	tray.on('clicked', helper.toggleVisibility);
-
-	
+    tray.on('clicked', helper.toggleVisibility);
 
 };

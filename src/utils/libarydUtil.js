@@ -57,7 +57,7 @@ module.exports = {
         });
     },
     forceKill: function() {
-        var ipfsname = (os === 'win') ? 'libraryd.exe' : 'libraryd';
-        return util.killtask(ipfsname);
+        var librarydname = (os === 'win') ? 'libraryd.exe' : 'libraryd';
+        return util.killtask(librarydname);
     }
 };

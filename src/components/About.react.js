@@ -38,8 +38,18 @@ var About = React.createClass({
                 email: 'devon@blocktech.com',
                 github: 'DevonJames'
             },
+            {
+                name: 'Colin Bishop',
+                email: 'colin_bishop@outlook.com',
+                github: 'cobis2798'
+            },
+            {
+                name: 'Avery Dodd',
+                email: 'averyhvdodd@gmail.com',
+                github: 'AveryDodd'
+            }
         ];
-        var version = 'v0.5.1 α';
+        var version = 'v0.5.2 α';
 
         var License = fs.readFileSync(path.normalize(path.join(__dirname, '../../', 'LICENSE.md')), 'utf8');
 

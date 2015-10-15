@@ -3,6 +3,8 @@ import BrowserWindow from 'browser-window';
 import ipc from 'ipc';
 import fs from 'fs';
 import path from 'path';
+import trayTemplate from './app-tray';
+import util from './utils/Util';
 
 
 process.env.NODE_PATH = path.join(__dirname, 'node_modules');
@@ -62,10 +64,44 @@ app.on('ready', function() {
         mainWindow.focus();
     });
 
+    var helper = {
+        toggleVisibility: function() {
+            if (mainWindow) {
+                var isVisible = mainWindow.isVisible();
+                if (isVisible) {
+                    if (process.platform == 'darwin') {
+                        app.dock.hide();
+                    }
+                    mainWindow.hide();
+                } else {
+                    if (process.platform == 'darwin') {
+                        app.dock.show();
+                    }
+                    mainWindow.show();
+                }
+            }
+        },
+        quit: function() {
+            canQuit = true;
+            util.killAllDaemons()
+                .then(app.quit)
+                .catch(app.quit);
+        }
+    };
+
+    mainWindow.on('close', function(event) {
+        if (!canQuit) {
+            helper.toggleVisibility();
+            return event.preventDefault();
+        } else
+            app.quit();
+    });
+
+    trayTemplate.init(helper);
 
 });
 
 
 app.on('window-all-closed', function() {
-  app.quit();
+    app.quit();
 });
