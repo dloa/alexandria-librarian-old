@@ -37,7 +37,8 @@
     "react-tooltip": "^0.6.4",
     "request": "^2.55.0",
     "rimraf": "^2.4.3",
-    "xps": "^1.0.2"
+    "xps": "^1.0.2",
+    "yargs": "^3.27.0"
   },
   "devDependencies": {
     "babel": "^5.1.10",
