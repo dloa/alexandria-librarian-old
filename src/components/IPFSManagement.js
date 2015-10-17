@@ -28,7 +28,7 @@ var IPFSManagement = React.createClass({
     },
     render: function() {
         return (
-      <div className='content-scroller' id='content'>
+      <div className='content-scroller'>
         <section className="ipfsStatus">
             <p>Status:</p><span>Connected to 7 peers</span>
         </section>
