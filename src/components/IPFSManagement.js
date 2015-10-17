@@ -3,7 +3,7 @@ import Router from 'react-router';
 import IPFS from '../actions/ipfsActions';
 import Logs from './DashboardLogs.react';
 import utils from '../utils/Util';
-
+import terminal from './Terminal-Emulator.react';
 
 let If = React.createClass({
     render: function() {
@@ -33,7 +33,7 @@ var IPFSManagement = React.createClass({
             <p>Status:</p><span>Connected to 7 peers</span>
         </section>
         <section className="cli-emulator">
-            
+            <terminal />
         </section>
         <section className="ipfsPinManager">
             
