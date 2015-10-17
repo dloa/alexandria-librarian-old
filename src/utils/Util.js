@@ -14,18 +14,40 @@ import rimraf from 'rimraf';
 
 
 module.exports = {
+    killAllDaemons: function() {
+        var os = module.exports.getOS();
+        return new Promise((resolve) => {
+            var ipfsName = (os === 'win') ? 'ipfs.exe' : 'ipfs';
+            module.exports.killtask(ipfsName)
+                .then(function() {
+                    return new Promise((resolve) => {
+                        var librarydName = (os === 'win') ? 'libraryd.exe' : 'libraryd';
+                        module.exports.killtask(librarydName).then(resolve);
+                    });
+                })
+                .then(function() {
+                    return new Promise((resolve) => {
+                        var florincoindname = (os === 'win') ? 'florincoind.exe' : 'florincoind';
+                        if (os === 'osx')
+                            florincoindname = 'Florincoin-Qt';
+                        module.exports.killtask(florincoindname).then(resolve);
+                    });
+                })
+                .then(resolve);
+        });
+    },
     killtask: function(name) {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             module.exports.checktaskrunning(name).then(function(task) {
                 var taskon = task ? true : false;
                 if (taskon)
                     ps.kill(task.pid).fork(
                         function(error) {
-                            reject(error);
+                            resolve(false);
                         },
                         function() {
                             log.info('FORCE KILLING: ' + task.name + ' PID: ' + task.pid);
-                            resolve();
+                            resolve(true);
                         }
                     );
                 else

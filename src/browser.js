@@ -4,6 +4,9 @@ import ipc from 'ipc';
 import fs from 'fs';
 import path from 'path';
 import trayTemplate from './app-tray';
+import util from './utils/Util';
+import yargs from 'yargs';
+
 
 process.env.NODE_PATH = path.join(__dirname, 'node_modules');
 process.env.APP_DATA_PATH = path.join(app.getPath('userData'));
@@ -20,7 +23,7 @@ app.on('open-url', function(event, url) {
 });
 
 app.on('ready', function() {
-
+    var args = yargs(process.argv.slice(1)).wrap(100).argv;
     var checkingQuit = false;
     var canQuit = false;
     var screen = require('screen');
@@ -58,9 +61,12 @@ app.on('ready', function() {
 
     mainWindow.webContents.on('did-finish-load', function() {
         mainWindow.setTitle('ΛLΞXΛNDRIΛ Librarian');
-        mainWindow.show();
-        mainWindow.focus();
+        if (!args.hide) {
+            mainWindow.show();
+            mainWindow.focus();
+        }
     });
+
     var helper = {
         toggleVisibility: function() {
             if (mainWindow) {
@@ -79,11 +85,20 @@ app.on('ready', function() {
             }
         },
         quit: function() {
-            app.quit();
+            canQuit = true;
+            util.killAllDaemons()
+                .then(app.quit)
+                .catch(app.quit);
         }
     };
 
-
+    mainWindow.on('close', function(event) {
+        if (!canQuit) {
+            helper.toggleVisibility();
+            return event.preventDefault();
+        } else
+            app.quit();
+    });
 
     trayTemplate.init(helper);
 

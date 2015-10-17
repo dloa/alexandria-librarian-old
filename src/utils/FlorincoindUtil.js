@@ -52,7 +52,7 @@ module.exports = {
                 var filename = (os === 'win') ? 'florincoind.exe' : 'florincoind';
                 util.copyfile(path.join(process.cwd(), 'bin', os, filename), path.join(AppData, 'bin', filename))
                     .then(resolve)
-                    .catch(reject);
+                    .catch(resolve);
             }
         });
     },

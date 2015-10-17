@@ -14,8 +14,8 @@
     "start": "grunt",
     "release": "grunt release"
   },
+  "electron-version": "0.33.8",
   "license": "GPL-3.0",
-  "electron-version": "0.33.3",
   "dependencies": {
     "alt": "^0.16.2",
     "bluebird": "^2.9.24",
@@ -28,7 +28,7 @@
     "is-running": "^1.0.5",
     "lodash": "^3.10.1",
     "mkdirp": "^0.5.1",
-    "node-startup-manager": "0.0.4",
+    "node-startup-manager": "^0.0.5",
     "object-assign": "^4.0.1",
     "osx-release": "^1.1.0",
     "react": "^0.13.1",
@@ -37,7 +37,8 @@
     "react-tooltip": "^0.6.4",
     "request": "^2.55.0",
     "rimraf": "^2.4.3",
-    "xps": "^1.0.2"
+    "xps": "^1.0.2",
+    "yargs": "^3.27.0"
   },
   "devDependencies": {
     "babel": "^5.1.10",
@@ -70,6 +71,6 @@
     "source-map-support": "^0.3.2"
   },
   "optionalDependencies": {
-    "electron-prebuilt": "^0.33.3"
+    "electron-prebuilt": "0.33.8"
   }
 }

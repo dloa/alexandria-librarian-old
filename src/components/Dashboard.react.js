@@ -38,7 +38,6 @@ var Preferences = React.createClass({
     InstallLibraryd: function() {
       var self = this;
         Libraryd.install().then(function(state) {
-            if (state)
                 self.setState({
                     LibrarydInstalled: true
                 });
@@ -48,7 +47,6 @@ var Preferences = React.createClass({
     InstallIPFS: function() {
     	 var self = this;
         IPFS.install().then(function(state) {
-            if (state)
  				self.setState({
             		IPFSInstalled: true
         		});
@@ -58,7 +56,6 @@ var Preferences = React.createClass({
     InstallFlorincoind: function() {
     	var self = this;
         Florincoind.install().then(function(state) {
-            if (state)
  				self.setState({
             		FlorincoindInstalled: true
         		});
