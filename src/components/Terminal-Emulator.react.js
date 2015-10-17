@@ -82,13 +82,15 @@ var termainalEmu = React.createClass({
         });
         console.log(output)
         return (
-            <div className='input-area' onClick={this.handleClick}>
-                {output}
-                <p>
-                    <span className="prompt">{this.state.prompt}</span> 
-                    <input type="text" onKeyPress={this.handleInput} ref="term" />
-                </p>
-            </div>
+            <section className="cli-emulator">
+                <div className='input-area' onClick={this.handleClick}>
+                    {output}
+                    <p>
+                        <span className="prompt">{this.state.prompt}</span> 
+                        <input type="text" onKeyPress={this.handleInput} ref="term" />
+                    </p>
+                </div>
+            </section>
         )
     }
 });
