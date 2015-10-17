@@ -6,7 +6,6 @@ var termainalEmu = React.createClass({
     mixins: [Router.Navigation],
 
     getInitialState: function() {
-            console.log('test')
         return {
             commands: {},
             history: [],
@@ -36,10 +35,14 @@ var termainalEmu = React.createClass({
         this.addHistory("command - commandinfo");
     },
     componentDidMount: function() {
-        console.log('test')
         var term = this.refs.term.getDOMNode();
         this.registerCommands();
         this.showWelcomeMsg();
+    },
+    componentDidUpdate: function() {
+        var el = React.findDOMNode(this);
+        var container = document.getElementById("main");
+        container.scrollTop = el.scrollHeight;
     },
     handleInput: function(e) {
         if (e.key === "Enter") {
