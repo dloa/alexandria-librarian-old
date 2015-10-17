@@ -1,7 +1,12 @@
-import React from 'react';
+import React from 'react/addons';
+import Router from 'react-router';
+
 
 var termainalEmu = React.createClass({
+    mixins: [Router.Navigation],
+
     getInitialState: function() {
+            console.log('test')
         return {
             commands: {},
             history: [],
@@ -13,11 +18,10 @@ var termainalEmu = React.createClass({
             history: []
         });
     },
-    registerCommands: function() { //dynmaicly populate this object via calling relevent command list from daemon its being used for
+    registerCommands: function() {
         this.setState({
             commands: {
-                'help': this.showHelp,
-                'logs': null
+                'help': this.showHelp
             }
         });
     },
@@ -30,19 +34,12 @@ var termainalEmu = React.createClass({
     },
     showHelp: function() {
         this.addHistory("command - commandinfo");
-        this.addHistory("command - commandinfo");
-        this.addHistory("command - commandinfo"); //dynamicly populate this aswell later
     },
     componentDidMount: function() {
+        console.log('test')
         var term = this.refs.term.getDOMNode();
         this.registerCommands();
         this.showWelcomeMsg();
-        term.focus();
-    },
-    componentDidUpdate: function() {
-        var el = React.findDOMNode(this);
-        var container = document.getElementById("main");
-        container.scrollTop = el.scrollHeight;
     },
     handleInput: function(e) {
         if (e.key === "Enter") {
@@ -80,14 +77,15 @@ var termainalEmu = React.createClass({
         var output = this.state.history.map(function(op, i) {
             return <p key={i}>{op}</p>
         });
+        console.log(output)
         return (
             <div className='input-area' onClick={this.handleClick}>
-          		{output}
-          		<p>
-            		<span className="prompt">{this.state.prompt}</span> 
-            		<input type="text" onKeyPress={this.handleInput} ref="term" />
-          		</p>
-        	</div>
+                {output}
+                <p>
+                    <span className="prompt">{this.state.prompt}</span> 
+                    <input type="text" onKeyPress={this.handleInput} ref="term" />
+                </p>
+            </div>
         )
     }
 });
