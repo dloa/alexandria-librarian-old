@@ -6,7 +6,7 @@ import Florincoind from '../actions/FlorincoindActions';
 import Libraryd from '../actions/LibrarydActions';
 import Logs from './DashboardLogs.react';
 import utils from '../utils/Util';
-import IPFSPinManager from './DashboardIPFSPinManager.react';
+
 import ReactTooltip from 'react-tooltip';
 
 
@@ -140,9 +140,6 @@ var Preferences = React.createClass({
         </If>
         </div>
         </section>
-        <If test={this.state.IPFSInstalled}>
-          <IPFSPinManager />
-        </If>
         <Logs />
         <ReactTooltip place="right" data-type="dark" multiline={true} data-effect="float" />
       </div>

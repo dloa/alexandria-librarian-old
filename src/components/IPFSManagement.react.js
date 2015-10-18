@@ -3,7 +3,7 @@ import Router from 'react-router';
 import IPFS from '../actions/ipfsActions';
 import utils from '../utils/Util';
 import TerminalEmu from './Terminal-Emulator.react';
-
+import IPFSPinManager from './DashboardIPFSPinManager.react';
 
 
 var IPFSManagementView = React.createClass({
@@ -22,10 +22,7 @@ var IPFSManagementView = React.createClass({
             		<p>Status:</p><span>Connected to 7 peers</span>
         		</section>
                 <TerminalEmu />
-        		
-        		<section className="ipfsPinManager">
-            
-        		</section>
+        		<IPFSPinManager />
       		</div>
         );
     }
