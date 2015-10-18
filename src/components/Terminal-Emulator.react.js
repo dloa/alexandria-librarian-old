@@ -80,7 +80,6 @@ var termainalEmu = React.createClass({
         var output = this.state.history.map(function(op, i) {
             return <p key={i}>{op}</p>
         });
-        console.log(output)
         return (
             <section>
                 <div className="cli-emulator">
