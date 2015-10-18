@@ -4,13 +4,6 @@ import utils from '../utils/Util';
 import fs from 'fs';
 import path from 'path';
 
-let Contributors = {
-    'luigiplr': {
-        name: 'Luigi Poole',
-        email: 'luigipoole@outlook.com',
-        github: 'luigiplr'
-    },
-};
 
 var About = React.createClass({
     mixins: [Router.Navigation],
@@ -37,11 +30,6 @@ var About = React.createClass({
                 name: 'Devon Read',
                 email: 'devon@blocktech.com',
                 github: 'DevonJames'
-            },
-            {
-                name: 'Colin Bishop',
-                email: 'colin_bishop@outlook.com',
-                github: 'cobis2798'
             },
             {
                 name: 'Avery Dodd',
