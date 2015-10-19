@@ -40,7 +40,7 @@ var termainalEmu = React.createClass({
     },
     componentDidUpdate: function() {
         var el = React.findDOMNode(this);
-        var container = document.getElementById("main");
+        var container = document.getElementById("cli-emulator");
         container.scrollTop = el.scrollHeight;
     },
     handleInput: function(e) {
@@ -81,7 +81,7 @@ var termainalEmu = React.createClass({
         });
         return (
             <section>
-                <div className="cli-emulator">
+                <div id="cli-emulator" className="cli-emulator">
                     <div className='input-area' onClick={this.handleClick}>
                         {output}
                         <p>
