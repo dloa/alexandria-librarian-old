@@ -42,14 +42,23 @@ module.exports = {
             port = 8079;
 
         return new Promise((resolve, reject) => {
-            if (state)
-                this.app.listen(port, function() {
-                    resolve();
-                });
-            else
-                this.app.close(function() {
-                    resolve();
-                });
+            if (state) {
+                try {
+                    this.app.listen(port, function(err) {
+                        resolve();
+                    });
+                } catch (e) {
+                    reject(e);
+                }
+            } else {
+                try {
+                    this.app.close(function(err) {
+                        resolve();
+                    });
+                } catch (e) {
+                    reject(e);
+                }
+            }
         });
     }
 };

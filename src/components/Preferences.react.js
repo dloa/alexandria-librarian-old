@@ -67,15 +67,21 @@ var Preferences = React.createClass({
     },
     handleChangeHTTPAPIEnabled: function(e) {
         var checked = e.target.checked;
-
-        HTTPAPI.toggle(checked, HTTPAPIPort).then(function() {
-            this.setState({
+        var self = this;
+        HTTPAPI.toggle(checked, this.state.HTTPAPIPort).then(function() {
+            self.setState({
                 HTTPAPIEnabled: checked
             });
             Settings.save('HTTPAPIEnabled', checked);
-        }).bind(this);
+        }).catch(function(e) {
+            self.setState({
+                HTTPAPIEnabled: false
+            });
+            Settings.save('HTTPAPIEnabled', false);
 
-        
+        });
+
+
     },
     handleResetSettings: function() {
         Settings.reset();
