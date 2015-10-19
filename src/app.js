@@ -9,18 +9,16 @@ import Router from 'react-router';
 import routes from './routes';
 import routerContainer from './router';
 import Settings from './utils/SettingsUtil';
-
+import HttpAPI from './utils/HttpUtil'
 
 var app = remote.require('app');
 var Menu = remote.require('menu');
 
-let AppData = process.env.APP_DATA_PATH;
-let AppBinDir = path.join(AppData, 'bin');
-
 // Init process
-util.createDir(AppBinDir);
+util.createDir(path.join(process.env.APP_DATA_PATH, 'bin'));
 webUtil.addLiveReload();
 webUtil.disableGlobalBackspace();
+HttpAPI.init();
 
 var router = Router.create({
     routes: routes
@@ -30,9 +28,9 @@ router.run(Handler => React.render( < Handler / > , document.body));
 routerContainer.set(router);
 
 // Default Route
-util.createDir(AppBinDir).then(function() {
+util.createDir(path.join(process.env.APP_DATA_PATH, 'bin')).then(function() {
     return new Promise((resolve) => {
-        Settings.setInstalledAndRunning(AppBinDir).then(resolve);
+        Settings.setInstalledAndRunning(path.join(process.env.APP_DATA_PATH, 'bin')).then(resolve);
     });
 }).then(function() {
     router.transitionTo('dashboard');
