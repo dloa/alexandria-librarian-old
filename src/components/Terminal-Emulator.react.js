@@ -25,8 +25,7 @@ var termainalEmu = React.createClass({
         });
     },
     showWelcomeMsg: function() {
-        this.addHistory("ΛLΞXΛNDRIΛ Librarian Terminal Emulator");
-        this.addHistory("Type `help` to see what all commands are available");
+        this.addHistory("type help for available commands");
     },
     openLink: function(link) {
 
