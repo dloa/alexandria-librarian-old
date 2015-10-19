@@ -10,7 +10,7 @@ var Preferences = React.createClass({
     getInitialState: function() {
         return {
             Analytics: true,
-            HTTPAPI: true,
+            HTTPAPIEnabled: Settings.get('HTTPAPIEnabled'),
             MinToTray: true,
             WebPort: 80,
             startOnBoot: Settings.get('startOnBoot'),
@@ -63,6 +63,20 @@ var Preferences = React.createClass({
 
         Settings.save('startOnBoot', checked);
     },
+    handleChangeHTTPAPIEnabled: function(e) {
+        var checked = e.target.checked;
+        this.setState({
+            HTTPAPIEnabled: checked
+        });
+
+        if (checked) {
+          
+        } else {
+           
+        }
+
+        Settings.save('HTTPAPIEnabled', checked);
+    },
     handleResetSettings: function() {
         Settings.reset();
     },
@@ -110,8 +124,8 @@ var Preferences = React.createClass({
                     <h1 className='title'>Web Interface</h1>
                     <div className="DaemonWrapper">
                         <div className="toggle-wrapper">
-                            <input checked={this.state.HTTPAPI} onChange={this.handleChangeStartOnBoot} type="checkbox" id="startOnBoot" className="toggle" />
-                            <label htmlFor="startOnBoot"></label>
+                            <input checked={this.state.HTTPAPIEnabled} onChange={this.handleChangeHTTPAPIEnabled} type="checkbox" id="HTTPAPIEnabled" className="toggle" />
+                            <label htmlFor="HTTPAPIEnabled"></label>
                         </div>
                         <p>Enable HTTP API</p>
                     </div>
