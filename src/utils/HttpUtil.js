@@ -16,23 +16,24 @@ module.exports = {
 
         this.router.get('/', function(req, res) {
             res.json({
-                message: 'Librarian API online'
+                status: 'Librarian API online'
             });
         });
 
-
-        this.router.use(function(req, res, next) {
-            console.log('Something is happening.');
-            next();
-        });
+        var Daemons = ['/ipfs', '/libraryd', '/florincoin'];
 
 
-        this.router.route('/ipfs/:action/:command')
-            .get(function(req, res) {
+        Daemons.forEach(function(name) {
+            this.router.get(name + '/:action/:command', function(req, res) {
                 var action = req.params.action;
                 var command = req.params.command;
                 console.log(action, command)
+                res.json({
+                    action: command
+                });
             });
+        }.bind(this));
+
 
         this.app.use('/api', this.router);
 
