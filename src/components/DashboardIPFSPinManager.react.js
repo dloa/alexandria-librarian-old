@@ -3,13 +3,24 @@ import Router from 'react-router';
 import IPFS from '../actions/ipfsActions';
 import ReactDataGrid from 'react-data-grid';
 
+var _rows = [];
+for (var i = 1; i < 5; i++) {
+    _rows.push({
+        filename: 'LibrarianSetup.exe',
+        hash: 'F9xGeGDrkMXRTu3WUPpXrYgVp295jN5ybP',
+        filesize: '24.5 MB',
+        seeds: '1521',
+        unpin: 'icon'
+    });
+}
+
 var rowGetter = function(i) {
     return _rows[i];
 };
 
 var unpinFormatter = React.createClass({
     render: function() {
-        return (<img width='75' src={this.props.value} />);
+        return (<img  src={this.props.value} />);
     }
 });
 
@@ -30,23 +41,11 @@ var columns = [{
     key: 'seeds',
     name: 'seeds'
 }, {
-    key: 'up-pin',
+    key: 'uppin',
     name: 'up-pin',
     formatter: unpinFormatter
 }];
 
-
-var RowRenderer = React.createClass({
-    displayName: "RowRenderer",
-    getRowStyle: function() {
-        return {
-            height: '75px'
-        }
-    },
-    render: function() {
-        return (<div style={this.getRowStyle()}><ReactDataGrid.Row ref="row" {...this.props}/></div>)
-    }
-});
 
 
 
@@ -99,7 +98,11 @@ var PinManager = React.createClass({
                 <span className="ipfsspan">or</span>
                 <input name="ipfshash" className="ipfshash" placeholder="enter IPFS hash or URL" type="text" />
                 <button className="left PinManager" onClick={this.handleAddPinHash}><p>pin file</p></button>
-           
+                <ReactDataGrid
+                    className='ipfsDatatable'
+                    columns={columns}
+                    rowGetter={rowGetter}
+                    rowsCount={_rows.length} />   
                 
 
             </section>
