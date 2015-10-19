@@ -45,6 +45,8 @@ app.on('ready', function() {
         frame: true,
         show: false
     });
+    
+    mainWindow.setMenu(null);
 
     mainWindow.loadUrl(path.normalize('file://' + path.join(__dirname, '../index.html')));
 
