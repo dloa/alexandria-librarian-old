@@ -1,6 +1,10 @@
-import React from 'react';
+import React from 'react/addons';
+import Router from 'react-router';
+
 
 var termainalEmu = React.createClass({
+    mixins: [Router.Navigation],
+
     getInitialState: function() {
         return {
             commands: {},
@@ -13,35 +17,30 @@ var termainalEmu = React.createClass({
             history: []
         });
     },
-    registerCommands: function() { //dynmaicly populate this object via calling relevent command list from daemon its being used for
+    registerCommands: function() {
         this.setState({
             commands: {
-                'help': this.showHelp,
-                'logs': null
+                'help': this.showHelp
             }
         });
     },
     showWelcomeMsg: function() {
-        this.addHistory("ΛLΞXΛNDRIΛ Librarian Terminal Emulator");
-        this.addHistory("Type `help` to see what all commands are available");
+        this.addHistory("type help for available commands");
     },
     openLink: function(link) {
 
     },
     showHelp: function() {
         this.addHistory("command - commandinfo");
-        this.addHistory("command - commandinfo");
-        this.addHistory("command - commandinfo"); //dynamicly populate this aswell later
     },
     componentDidMount: function() {
         var term = this.refs.term.getDOMNode();
         this.registerCommands();
         this.showWelcomeMsg();
-        term.focus();
     },
     componentDidUpdate: function() {
         var el = React.findDOMNode(this);
-        var container = document.getElementById("main");
+        var container = document.getElementById("cli-emulator");
         container.scrollTop = el.scrollHeight;
     },
     handleInput: function(e) {
@@ -81,13 +80,17 @@ var termainalEmu = React.createClass({
             return <p key={i}>{op}</p>
         });
         return (
-            <div className='input-area' onClick={this.handleClick}>
-          		{output}
-          		<p>
-            		<span className="prompt">{this.state.prompt}</span> 
-            		<input type="text" onKeyPress={this.handleInput} ref="term" />
-          		</p>
-        	</div>
+            <section>
+                <div id="cli-emulator" className="cli-emulator">
+                    <div className='input-area' onClick={this.handleClick}>
+                        {output}
+                        <p>
+                            <span className="prompt">{this.state.prompt}</span> 
+                            <input type="text" onKeyPress={this.handleInput} ref="term" />
+                        </p>
+                    </div>
+                </div>
+            </section>
         )
     }
 });
