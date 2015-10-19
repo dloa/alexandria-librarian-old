@@ -32,7 +32,7 @@
     "object-assign": "^4.0.1",
     "osx-release": "^1.1.0",
     "react": "^0.13.1",
-    "react-data-grid": "^0.13.12",
+    "react-datagrid": "^1.2.15",
     "react-inlinesvg": "^0.4.2",
     "react-router": "^0.13.3",
     "react-tooltip": "^0.6.4",

@@ -1,50 +1,36 @@
 import React from 'react/addons';
 import Router from 'react-router';
 import IPFS from '../actions/ipfsActions';
-import ReactDataGrid from 'react-data-grid';
-
-var _rows = [];
-for (var i = 1; i < 5; i++) {
-    _rows.push({
-        filename: 'LibrarianSetup.exe',
-        hash: 'F9xGeGDrkMXRTu3WUPpXrYgVp295jN5ybP',
-        filesize: '24.5 MB',
-        seeds: '1521',
-        unpin: 'icon'
-    });
-}
-
-var rowGetter = function(i) {
-    return _rows[i];
-};
-
-var unpinFormatter = React.createClass({
-    render: function() {
-        return (<img  src={this.props.value} />);
-    }
-});
+import DataGrid from 'react-datagrid';
 
 
-//Columns definition
+
+var data = [{
+    'file name': 'LibrarianSetup.exe',
+    hash: 'F9xGeGDrkMXRTu3WUPpXrYgVp295jN5ybP',
+    filesize: '24.5 MB',
+    seeds: '1521',
+    unpin: 'icon'
+}];
+
+
+
 var columns = [{
-    key: 'filename',
-    name: 'file name',
-    width: 75
+    name: 'file name'
 }, {
-    key: 'hash',
-    name: 'hash',
-    width: 120
+    name: 'hash'
 }, {
-    key: 'filesize',
-    name: 'file size'
+    name: 'filesize'
 }, {
-    key: 'seeds',
     name: 'seeds'
 }, {
-    key: 'uppin',
-    name: 'up-pin',
-    formatter: unpinFormatter
+    name: 'unpin'
 }];
+
+
+
+
+
 
 
 
@@ -98,12 +84,12 @@ var PinManager = React.createClass({
                 <span className="ipfsspan">or</span>
                 <input name="ipfshash" className="ipfshash" placeholder="enter IPFS hash or URL" type="text" />
                 <button className="left PinManager" onClick={this.handleAddPinHash}><p>pin file</p></button>
-                <ReactDataGrid
-                    className='ipfsDatatable'
+                <DataGrid
+                    idProperty='id'
+                    dataSource={data}
                     columns={columns}
-                    rowGetter={rowGetter}
-                    rowsCount={_rows.length} />   
-                
+                    style={{height: 400}}
+                />
 
             </section>
         );
