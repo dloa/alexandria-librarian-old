@@ -46,14 +46,14 @@ var PinManager = React.createClass({
         });
         return (
             <section>
-                <h1 className="title">IPFS pin manager</h1>
-                <textarea className="pins" name="description" value={pintext} readOnly />
-                    <br></br>
-                <input name="username"  onChange={this.handleHashInput} placeholder="Remote Hash" type="text" />
-                    <br></br>
-                <button className="left" type="submit" onClick={this.handleAddPinLocal}><p>Pin local File</p></button>
-                <button className="left" type="submit" onClick={this.handleAddPinHash}><p>Pin hash</p></button>
-                <button className="left" type="submit" onClick={this.handlePinRefresh}><p>Refresh all pins</p></button>
+                <h1 className="title">Pinned IPFS Files</h1>
+                <button className="left PinManager" onClick={this.handleAddPinLocal}><p>Pin local File</p></button> 
+                <span className="ipfsspan">or</span>
+                <input name="ipfshash" className="ipfshash" placeholder="enter IPFS hash or URL" type="text" />
+                <button className="left PinManager" onClick={this.handleAddPinHash}><p>pin file</p></button>
+           
+                
+
             </section>
         );
     }

@@ -30,7 +30,7 @@ var Sidebar = React.createClass({
         </Router.Link>
         <Router.Link to="IPFSManagement">
           <li>
-            <p>IPFSManagement</p>
+            <p>IPFS</p>
           </li>
         </Router.Link>
       </ul>
