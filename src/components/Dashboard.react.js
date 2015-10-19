@@ -118,9 +118,7 @@ var Preferences = React.createClass({
           <p>IPFS</p>
           <i className="ion-information-circled"/>
         <If test={this.state.IPFSEnabled}>
-
             <i data-tip="Open IPFS Web Interface" onClick={this.handleOpenIPFSWebUI} className="ion-cube"/>
-         
         </If>
         <If test={!this.state.IPFSInstalled}>
           <div onClick={this.InstallIPFS} className="install">install</div>
