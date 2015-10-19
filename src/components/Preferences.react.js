@@ -2,6 +2,7 @@ import React from 'react/addons';
 import Router from 'react-router';
 import Settings from '../utils/SettingsUtil';
 import utils from '../utils/Util';
+import HTTPAPI from '../utils/HttpUtil';
 import startupManager from 'node-startup-manager';
 
 var Preferences = React.createClass({
@@ -11,6 +12,7 @@ var Preferences = React.createClass({
         return {
             Analytics: true,
             HTTPAPIEnabled: Settings.get('HTTPAPIEnabled'),
+            HTTPAPIPort: Settings.get('HTTPAPIPort'),
             MinToTray: true,
             WebPort: 80,
             startOnBoot: Settings.get('startOnBoot'),
@@ -65,17 +67,15 @@ var Preferences = React.createClass({
     },
     handleChangeHTTPAPIEnabled: function(e) {
         var checked = e.target.checked;
-        this.setState({
-            HTTPAPIEnabled: checked
-        });
 
-        if (checked) {
-          
-        } else {
-           
-        }
+        HTTPAPI.toggle(checked, HTTPAPIPort).then(function() {
+            this.setState({
+                HTTPAPIEnabled: checked
+            });
+            Settings.save('HTTPAPIEnabled', checked);
+        }).bind(this);
 
-        Settings.save('HTTPAPIEnabled', checked);
+        
     },
     handleResetSettings: function() {
         Settings.reset();
@@ -129,6 +129,7 @@ var Preferences = React.createClass({
                         </div>
                         <p>Enable HTTP API</p>
                     </div>
+                    <span>Port:</span><input name="username" value={this.state.HTTPAPIPort} placeholder="HTTP API Port" type="text" />
                 </section>
                 <section>
                     <h1 className='title'>Authentication</h1>

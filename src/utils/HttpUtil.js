@@ -37,13 +37,19 @@ module.exports = {
         this.app.use('/api', this.router);
 
     },
-    start: function(parms) {
-        var port = 2710;
+    toggle: function(state, port) {
+        if (!port)
+            port = 8079;
 
         return new Promise((resolve, reject) => {
-
-            this.app.listen(port);
-
+            if (state)
+                this.app.listen(port, function() {
+                    resolve();
+                });
+            else
+                this.app.close(function() {
+                    resolve();
+                });
         });
     }
 };
