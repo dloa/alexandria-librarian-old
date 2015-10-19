@@ -10,7 +10,7 @@ var Preferences = React.createClass({
     getInitialState: function() {
         return {
             Analytics: true,
-            RemoteWeb: true,
+            HTTPAPI: true,
             MinToTray: true,
             WebPort: 80,
             startOnBoot: Settings.get('startOnBoot'),
@@ -96,43 +96,43 @@ var Preferences = React.createClass({
     render: function() {
         return (
             <div className='content-scroller' id='content'>
-        <section>
-                <h1 className='title'>General</h1>
-                <div className="DaemonWrapper">
-                <div className="toggle-wrapper">
-                  <input checked={this.state.startOnBoot} onChange={this.handleChangeStartOnBoot} type="checkbox" id="startOnBoot" className="toggle" />
-                  <label htmlFor="startOnBoot"></label>
-              </div>
-              <p>Start ΛLΞXΛNDRIΛ Librarian on boot</p>
-              </div>
-        </section>
-        <section>
-                <h1 className='title'>Web Interface</h1>
-                 <div className='checkbox'>
-                    <input id='webEnabled' type='checkbox' checked={this.state.RemoteWeb} onChange={this.handleChangeWebAccsess}/>
-                    <label className='checkbox' htmlFor='webEnabled'></label>
-                    <p>Enable remote accsess</p>
-                </div>
-        </section>
-        <section>
-                <h1 className='title'>Authentication</h1>
-        </section>
-        <section>
-            <h1 className='title'>Florincoind Credentials</h1>
+                <section>
+                    <h1 className='title'>General</h1>
+                    <div className="DaemonWrapper">
+                        <div className="toggle-wrapper">
+                            <input checked={this.state.startOnBoot} onChange={this.handleChangeStartOnBoot} type="checkbox" id="startOnBoot" className="toggle" />
+                            <label htmlFor="startOnBoot"></label>
+                        </div>
+                        <p>Start ΛLΞXΛNDRIΛ Librarian on boot</p>
+                    </div>
+                </section>
+                <section>
+                    <h1 className='title'>Web Interface</h1>
+                    <div className="DaemonWrapper">
+                        <div className="toggle-wrapper">
+                            <input checked={this.state.HTTPAPI} onChange={this.handleChangeStartOnBoot} type="checkbox" id="startOnBoot" className="toggle" />
+                            <label htmlFor="startOnBoot"></label>
+                        </div>
+                        <p>Enable HTTP API</p>
+                    </div>
+                </section>
+                <section>
+                    <h1 className='title'>Authentication</h1>
+                </section>
+                <section>
+                    <h1 className='title'>Florincoind Credentials</h1>
 
-              <input name="username" id='Florincoind-username' onChange={this.handleChangeFlorincoindCreds} value={this.state.FlorincoindUsername} placeholder="Username" type="text" />
-              <input name="password" id='Florincoind-password' onChange={this.handleChangeFlorincoindCreds} value={this.state.FlorincoindPassword} placeholder="Password" type="text" />
+                    <input name="username" id='Florincoind-username' onChange={this.handleChangeFlorincoindCreds} value={this.state.FlorincoindUsername} placeholder="Username" type="text" />
+                    <input name="password" id='Florincoind-password' onChange={this.handleChangeFlorincoindCreds} value={this.state.FlorincoindPassword} placeholder="Password" type="text" />
+                </section>
+                <section>
+                    <h1 className='title'>Other</h1>
 
-        </section>
-        <section>
-            <h1 className='title'>Other</h1>
-
-              <button className="left" type="submit" onClick={this.handleResetSettings}><p>Reset Settings</p></button> 
-              <button className="left" type="submit" onClick={this.handlePurgeBins}><p>Uninstall All Daemons</p></button>
-              <button className="left" type="submit" onClick={this.handleResetPurge}><p>Uninstall & Reset Settings (dev)</p></button>
-        </section>
-         
-      </div>
+                    <button className="left" type="submit" onClick={this.handleResetSettings}><p>Reset Settings</p></button> 
+                    <button className="left" type="submit" onClick={this.handlePurgeBins}><p>Uninstall All Daemons</p></button>
+                    <button className="left" type="submit" onClick={this.handleResetPurge}><p>Uninstall & Reset Settings (dev)</p></button>
+                </section>
+            </div>
         );
     }
 });
