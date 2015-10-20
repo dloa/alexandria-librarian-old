@@ -30,7 +30,16 @@ routerContainer.set(router);
 // Default Route
 util.createDir(path.join(process.env.APP_DATA_PATH, 'bin')).then(function() {
     return new Promise((resolve) => {
-        Settings.setInstalledAndRunning(path.join(process.env.APP_DATA_PATH, 'bin')).then(resolve);
+        Settings.setInstalledAndRunning(path.join(process.env.APP_DATA_PATH, 'bin'))
+            .then(function() {
+                HttpAPI.toggle(Settings.get('HTTPAPIEnabled'), Settings.get('HTTPAPIPort'))
+                    .then(resolve)
+                    .catch(function(e) {
+                    	console.log(e);
+                        Settings.save('HTTPAPIEnabled', false);
+                        resolve();
+                    });
+            });
     });
 }).then(function() {
     router.transitionTo('dashboard');
