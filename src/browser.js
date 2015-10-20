@@ -5,6 +5,7 @@ import fs from 'fs';
 import path from 'path';
 import trayTemplate from './app-tray';
 import util from './utils/Util';
+import yargs from 'yargs';
 
 
 process.env.NODE_PATH = path.join(__dirname, 'node_modules');
@@ -22,7 +23,7 @@ app.on('open-url', function(event, url) {
 });
 
 app.on('ready', function() {
-
+    var args = yargs(process.argv.slice(1)).wrap(100).argv;
     var checkingQuit = false;
     var canQuit = false;
     var screen = require('screen');
@@ -44,6 +45,8 @@ app.on('ready', function() {
         frame: true,
         show: false
     });
+    
+    mainWindow.setMenu(null);
 
     mainWindow.loadUrl(path.normalize('file://' + path.join(__dirname, '../index.html')));
 
@@ -60,8 +63,10 @@ app.on('ready', function() {
 
     mainWindow.webContents.on('did-finish-load', function() {
         mainWindow.setTitle('ΛLΞXΛNDRIΛ Librarian');
-        mainWindow.show();
-        mainWindow.focus();
+        if (!args.hide) {
+            mainWindow.show();
+            mainWindow.focus();
+        }
     });
 
     var helper = {

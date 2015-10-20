@@ -2,6 +2,7 @@ import React from 'react/addons';
 import Router from 'react-router';
 import Settings from '../utils/SettingsUtil';
 import utils from '../utils/Util';
+import HTTPAPI from '../utils/HttpUtil';
 import startupManager from 'node-startup-manager';
 
 var Preferences = React.createClass({
@@ -10,7 +11,8 @@ var Preferences = React.createClass({
     getInitialState: function() {
         return {
             Analytics: true,
-            RemoteWeb: true,
+            HTTPAPIEnabled: Settings.get('HTTPAPIEnabled'),
+            HTTPAPIPort: Settings.get('HTTPAPIPort'),
             MinToTray: true,
             WebPort: 80,
             startOnBoot: Settings.get('startOnBoot'),
@@ -63,6 +65,24 @@ var Preferences = React.createClass({
 
         Settings.save('startOnBoot', checked);
     },
+    handleChangeHTTPAPIEnabled: function(e) {
+        var checked = e.target.checked;
+        var self = this;
+        HTTPAPI.toggle(checked, this.state.HTTPAPIPort).then(function() {
+            self.setState({
+                HTTPAPIEnabled: checked
+            });
+            Settings.save('HTTPAPIEnabled', checked);
+        }).catch(function(e) {
+            self.setState({
+                HTTPAPIEnabled: false
+            });
+            Settings.save('HTTPAPIEnabled', false);
+
+        });
+
+
+    },
     handleResetSettings: function() {
         Settings.reset();
     },
@@ -93,46 +113,51 @@ var Preferences = React.createClass({
         Settings.save(e.target.id, e.target.value);
 
     },
+    handleOpenDevTools: function() {
+        require('remote').getCurrentWindow().toggleDevTools();
+    },
     render: function() {
         return (
             <div className='content-scroller' id='content'>
-        <section>
-                <h1 className='title'>General</h1>
-                <div className="DaemonWrapper">
-                <div className="toggle-wrapper">
-                  <input checked={this.state.startOnBoot} onChange={this.handleChangeStartOnBoot} type="checkbox" id="startOnBoot" className="toggle" />
-                  <label htmlFor="startOnBoot"></label>
-              </div>
-              <p>Start ΛLΞXΛNDRIΛ Librarian on boot</p>
-              </div>
-        </section>
-        <section>
-                <h1 className='title'>Web Interface</h1>
-                 <div className='checkbox'>
-                    <input id='webEnabled' type='checkbox' checked={this.state.RemoteWeb} onChange={this.handleChangeWebAccsess}/>
-                    <label className='checkbox' htmlFor='webEnabled'></label>
-                    <p>Enable remote accsess</p>
-                </div>
-        </section>
-        <section>
-                <h1 className='title'>Authentication</h1>
-        </section>
-        <section>
-            <h1 className='title'>Florincoind Credentials</h1>
+                <section>
+                    <h1 className='title'>General</h1>
+                    <div className="DaemonWrapper">
+                        <div className="toggle-wrapper">
+                            <input checked={this.state.startOnBoot} onChange={this.handleChangeStartOnBoot} type="checkbox" id="startOnBoot" className="toggle" />
+                            <label htmlFor="startOnBoot"></label>
+                        </div>
+                        <p>Start ΛLΞXΛNDRIΛ Librarian on boot</p>
+                    </div>
+                </section>
+                <section>
+                    <h1 className='title'>Web Interface</h1>
+                    <div className="DaemonWrapper">
+                        <div className="toggle-wrapper">
+                            <input checked={this.state.HTTPAPIEnabled} onChange={this.handleChangeHTTPAPIEnabled} type="checkbox" id="HTTPAPIEnabled" className="toggle" />
+                            <label htmlFor="HTTPAPIEnabled"></label>
+                        </div>
+                        <p>Enable HTTP API</p>
+                    </div>
+                    <span>Port:</span><input name="username" value={this.state.HTTPAPIPort} placeholder="HTTP API Port" type="text" />
+                </section>
+                <section>
+                    <h1 className='title'>Authentication</h1>
+                </section>
+                <section>
+                    <h1 className='title'>Florincoind Credentials</h1>
 
-              <input name="username" id='Florincoind-username' onChange={this.handleChangeFlorincoindCreds} value={this.state.FlorincoindUsername} placeholder="Username" type="text" />
-              <input name="password" id='Florincoind-password' onChange={this.handleChangeFlorincoindCreds} value={this.state.FlorincoindPassword} placeholder="Password" type="text" />
+                    <input name="username" id='Florincoind-username' onChange={this.handleChangeFlorincoindCreds} value={this.state.FlorincoindUsername} placeholder="Username" type="text" />
+                    <input name="password" id='Florincoind-password' onChange={this.handleChangeFlorincoindCreds} value={this.state.FlorincoindPassword} placeholder="Password" type="text" />
+                </section>
+                <section>
+                    <h1 className='title'>Other</h1>
 
-        </section>
-        <section>
-            <h1 className='title'>Other</h1>
-
-              <button className="left" type="submit" onClick={this.handleResetSettings}><p>Reset Settings</p></button> 
-              <button className="left" type="submit" onClick={this.handlePurgeBins}><p>Uninstall All Daemons</p></button>
-              <button className="left" type="submit" onClick={this.handleResetPurge}><p>Uninstall & Reset Settings (dev)</p></button>
-        </section>
-         
-      </div>
+                    <button className="left" type="submit" onClick={this.handleResetSettings}><p>Reset Settings</p></button> 
+                    <button className="left" type="submit" onClick={this.handlePurgeBins}><p>Uninstall All Daemons</p></button>
+                    <button className="left" type="submit" onClick={this.handleResetPurge}><p>Uninstall & Reset Settings (dev)</p></button>
+                    <button className="left" type="submit" onClick={this.handleOpenDevTools}><p>Open Dev Tools</p></button>
+                </section>
+            </div>
         );
     }
 });
