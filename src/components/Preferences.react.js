@@ -16,6 +16,7 @@ var Preferences = React.createClass({
             MinToTray: true,
             WebPort: 80,
             startOnBoot: Settings.get('startOnBoot'),
+            startMinimized: Settings.get('startMinimized'),
             FlorincoindUsername: Settings.get('Florincoind-username'),
             FlorincoindPassword: Settings.get('Florincoind-password')
         };
@@ -65,6 +66,13 @@ var Preferences = React.createClass({
 
         Settings.save('startOnBoot', checked);
     },
+    handlestartMinimized: function(e) {
+        var checked = e.target.checked;
+        this.setState({
+            startMinimized: checked
+        });
+        Settings.save('startMinimized', checked);
+    },
     handleChangeHTTPAPIEnabled: function(e) {
         var checked = e.target.checked;
         var self = this;
@@ -78,10 +86,7 @@ var Preferences = React.createClass({
                 HTTPAPIEnabled: false
             });
             Settings.save('HTTPAPIEnabled', false);
-
         });
-
-
     },
     handleResetSettings: function() {
         Settings.reset();
@@ -127,6 +132,13 @@ var Preferences = React.createClass({
                             <label htmlFor="startOnBoot"></label>
                         </div>
                         <p>Start ΛLΞXΛNDRIΛ Librarian on boot</p>
+                    </div>
+                    <div className="DaemonWrapper">
+                        <div className="toggle-wrapper">
+                            <input checked={this.state.startMinimized} onChange={this.handleChangestartMinimized} type="checkbox" id="startMinimized" className="toggle" />
+                            <label htmlFor="startMinimized"></label>
+                        </div>
+                        <p>Start in tray</p>
                     </div>
                 </section>
                 <section>

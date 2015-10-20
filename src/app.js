@@ -11,6 +11,8 @@ import routerContainer from './router';
 import Settings from './utils/SettingsUtil';
 import HttpAPI from './utils/HttpUtil'
 import LogStore from './stores/LogStore'
+import yargs from 'yargs';
+
 
 
 var app = remote.require('app');
@@ -38,13 +40,18 @@ util.createDir(path.join(process.env.APP_DATA_PATH, 'bin')).then(function() {
                 HttpAPI.toggle(Settings.get('HTTPAPIEnabled'), Settings.get('HTTPAPIPort'))
                     .then(resolve)
                     .catch(function(e) {
-                    	console.log(e);
+                        console.log(e);
                         Settings.save('HTTPAPIEnabled', false);
                         resolve();
                     });
             });
     });
 }).then(function() {
+    var args = yargs(process.argv.slice(1)).wrap(100).argv;
+    if (!args.hide && !Settings.get('startMinimized')) {
+        console.log(args.hide, Settings.get('startMinimized'))
+        ipc.send('application:show');
+    }
     router.transitionTo('dashboard');
 });
 
