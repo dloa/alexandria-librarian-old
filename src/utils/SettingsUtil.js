@@ -1,16 +1,21 @@
 import util from './Util';
 
 var defaultSettings = {
+    /* Startup */
     launchStartup: false,
-    connectLaunch: false,
+    startMinimized: false,
+
     saveCredentials: false,
-    minToTaskbar: true,
+
+    /* Daemons */
     librarydInstalled: false,
     librarydEnabled: false,
     ipfsInstalled: false,
     ipfsEnabled: false,
     florincoindInstalled: false,
     florincoindEnabled: false,
+
+    /* HTTP API */
     HTTPAPIPort: 8079,
     HTTPAPIEnabled: true
 };
