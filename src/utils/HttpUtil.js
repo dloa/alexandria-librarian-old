@@ -14,12 +14,26 @@ module.exports = {
         }));
         this.app.use(bodyParser.json());
 
+        this.api();
 
-        this.router.get('/', function(req, res) {
+
+        this.app.get('/', function(req, res) { //base path 
             res.json({
-                status: 'Librarian API online'
+                paths: ['/api/<Daemon>/<action>/<command>/<OptionalParams>', '/web/']
             });
         });
+
+        this.app.get('*', function(req, res) { // 404 redirect
+            res.redirect('/');
+        });
+
+    },
+
+    api: function() {
+
+        this.app.use('/api', this.router);
+
+
 
         var Daemons = ['ipfs', 'libraryd', 'florincoin'];
 
@@ -54,10 +68,17 @@ module.exports = {
             });
         }.bind(this));
 
+        this.router.get('/', function(req, res) {
+            res.json({
+                status: 'Librarian API online',
+                'availabled-daemons': Daemons
+            });
+        });
 
-        this.app.use('/api', this.router);
 
     },
+
+
     toggle: function(state, port) {
         if (!port)
             port = 8079;
