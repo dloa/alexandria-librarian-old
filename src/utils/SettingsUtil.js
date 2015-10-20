@@ -10,7 +10,9 @@ var defaultSettings = {
     ipfsInstalled: false,
     ipfsEnabled: false,
     florincoindInstalled: false,
-    florincoindEnabled: false
+    florincoindEnabled: false,
+    HTTPAPIPort: 8079,
+    HTTPAPIEnabled: true
 };
 
 module.exports = {
