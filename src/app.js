@@ -10,11 +10,14 @@ import routes from './routes';
 import routerContainer from './router';
 import Settings from './utils/SettingsUtil';
 import HttpAPI from './utils/HttpUtil'
+import LogStore from './stores/LogStore'
+
 
 var app = remote.require('app');
 var Menu = remote.require('menu');
 
 // Init process
+LogStore.initLogs();
 util.createDir(path.join(process.env.APP_DATA_PATH, 'bin'));
 webUtil.addLiveReload();
 webUtil.disableGlobalBackspace();
