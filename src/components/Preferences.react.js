@@ -113,6 +113,9 @@ var Preferences = React.createClass({
         Settings.save(e.target.id, e.target.value);
 
     },
+    handleOpenDevTools: function() {
+        require('remote').getCurrentWindow().toggleDevTools();
+    },
     render: function() {
         return (
             <div className='content-scroller' id='content'>
@@ -152,6 +155,7 @@ var Preferences = React.createClass({
                     <button className="left" type="submit" onClick={this.handleResetSettings}><p>Reset Settings</p></button> 
                     <button className="left" type="submit" onClick={this.handlePurgeBins}><p>Uninstall All Daemons</p></button>
                     <button className="left" type="submit" onClick={this.handleResetPurge}><p>Uninstall & Reset Settings (dev)</p></button>
+                    <button className="left" type="submit" onClick={this.handleOpenDevTools}><p>Open Dev Tools</p></button>
                 </section>
             </div>
         );

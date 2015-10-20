@@ -1,8 +1,8 @@
 import Promise from 'bluebird';
 import express from 'express';
 import bodyParser from 'body-parser';
-
-
+import util from './Util';
+import ipfsUtil from './ipfsUtil';
 
 module.exports = {
     init: function() {
@@ -20,17 +20,32 @@ module.exports = {
             });
         });
 
-        var Daemons = ['/ipfs', '/libraryd', '/florincoin'];
-
+        var Daemons = ['ipfs', 'libraryd', 'florincoin'];
 
         Daemons.forEach(function(name) {
-            this.router.get(name + '/:action/:command', function(req, res) {
+            this.router.get('/' + name + '/:action/:command', function(req, res) {
                 var action = req.params.action;
                 var command = req.params.command;
-                console.log(action, command)
-                res.json({
-                    action: command
-                });
+                switch (name) {
+                    case 'ipfs':
+                        ipfsUtil.cli([action, command]).then(function(output) {
+                            res.json({
+                                status: 'ok',
+                                output: output
+                            });
+                        }).catch(function(err) {
+                            res.json({
+                                status: 'error',
+                                error: err
+                            });
+                        });
+                        break;
+                    case 'libraryd':
+                        break;
+                    default:
+
+                }
+
             });
         }.bind(this));
 

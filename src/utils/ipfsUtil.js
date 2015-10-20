@@ -22,9 +22,16 @@ module.exports = {
     download: function() {
         // To be done later.
     },
+    cli: function(command) {
+        return new Promise((resolve, reject) => {
+            util.exec([path.join(AppData, 'bin', (os === 'win') ? 'ipfs.exe' : 'ipfs')].concat(command))
+                .then(resolve)
+                .catch(reject);
+        });
+    },
     getPinned: function() {
         return new Promise((resolve) => {
-            util.exec([path.join(AppData, 'bin', (os === 'win') ? 'ipfs.exe' : 'ipfs'), 'pin', 'ls'])
+            this.cli(['pin', 'ls'])
                 .then(function(res) {
                     var allres = [];
                     res.split('\n').forEach(function(subres) {
@@ -49,7 +56,7 @@ module.exports = {
             properties: ['openFile', 'createDirectory', 'multiSelections'],
         }, function(filenames) {
             filenames.forEach(function(filepath) {
-               module.exports.addFile(filepath)
+                module.exports.addFile(filepath)
                     .then(module.exports.pinFile)
                     .then(function(pinRes) {
                         pinEmmiter.emit('pinned', {
@@ -64,14 +71,14 @@ module.exports = {
     },
     pinFile: function(hash) {
         return new Promise((resolve, reject) => {
-            util.exec([path.join(AppData, 'bin', (os === 'win') ? 'ipfs.exe' : 'ipfs'), 'pin', 'add', hash, '-r'])
+            this.cli(['pin', 'add', hash, '-r'])
                 .then(resolve)
                 .catch(reject)
         });
     },
     addFile: function(filepath) {
         return new Promise((resolve, reject) => {
-            util.exec([path.join(AppData, 'bin', (os === 'win') ? 'ipfs.exe' : 'ipfs'), 'add', path.normalize(filepath)])
+            this.cli(['add', path.normalize(filepath)])
                 .then(function(addedResponce) {
                     addedResponce = addedResponce.split(' ');
                     resolve(addedResponce[1]);
