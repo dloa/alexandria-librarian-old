@@ -27,13 +27,11 @@ module.exports = {
                 var action = req.params.action;
                 var command = req.params.command;
                 var params = req.params.params ? req.params.params.split('&&') : undefined;
-
                 switch (name) {
                     case 'ipfs':
                         var cliArray = [action, command].concat(params).filter(function(n) {
                             return n != undefined
                         });
-                        console.log(cliArray);
                         ipfsUtil.cli(cliArray).then(function(output) {
                             res.json({
                                 status: 'ok',
