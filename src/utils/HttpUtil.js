@@ -3,6 +3,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import util from './Util';
 import ipfsUtil from './ipfsUtil';
+import LogStore from '../stores/LogStore';
 
 module.exports = {
     init: function() {
@@ -64,20 +65,26 @@ module.exports = {
         return new Promise((resolve, reject) => {
             if (state) {
                 try {
-                    this.app.listen(port, function(err) {
-                        resolve();
+                    this.httpapi = this.app.listen(port, function() {
+                        resolve(LogStore.info('HTTP API Started at port: ' + port));
                     });
                 } catch (e) {
+                    LogStore.error('HTTP API startup error: ' + e)
                     reject(e);
                 }
             } else {
-                try {
-                    this.app.close(function(err) {
-                        resolve();
-                    });
-                } catch (e) {
-                    reject(e);
-                }
+                if (this.httpapi) {
+                    try {
+                        this.httpapi.close(function() {
+                            resolve(LogStore.info('HTTP API Shutdown'));
+                            this.httpapi = false;
+                        });
+                    } catch (e) {
+                        LogStore.error('HTTP API shutdown error: ' + e)
+                        reject(e);
+                    }
+                } else
+                    resolve();
             }
         });
     }
