@@ -21,7 +21,7 @@ var IPFSManagementView = React.createClass({
         		<section className="ipfsStatus">
             		<p>Status:</p><span>Connected to 7 peers</span>
         		</section>
-                <TerminalEmu daemonbin={daemonbin} />
+                <TerminalEmu daemonname="ipfs" daemonbin={daemonbin} />
         		<IPFSPinManager />
       		</div>
         );
