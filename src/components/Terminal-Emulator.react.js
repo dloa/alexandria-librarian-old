@@ -1,13 +1,15 @@
 import React from 'react/addons';
 import Router from 'react-router';
 
+import ipfsUtil from '../utils/ipfsUtil';
+import utils from '../utils/Util';
+
 
 var termainalEmu = React.createClass({
     mixins: [Router.Navigation],
 
     getInitialState: function() {
         return {
-            commands: {},
             history: [],
             prompt: '$ '
         }
@@ -17,15 +19,8 @@ var termainalEmu = React.createClass({
             history: []
         });
     },
-    registerCommands: function() {
-        this.setState({
-            commands: {
-                'help': this.showHelp
-            }
-        });
-    },
     showWelcomeMsg: function() {
-        this.addHistory("type help for available commands");
+        this.addHistory("type " + this.props.daemonname + " --help for available commands");
     },
     openLink: function(link) {
 
@@ -35,7 +30,6 @@ var termainalEmu = React.createClass({
     },
     componentDidMount: function() {
         var term = this.refs.term.getDOMNode();
-        this.registerCommands();
         this.showWelcomeMsg();
     },
     componentDidUpdate: function() {
@@ -47,17 +41,15 @@ var termainalEmu = React.createClass({
         if (e.key === "Enter") {
             var input_text = this.refs.term.getDOMNode().value;
             var input_array = input_text.split(' ');
-            var input = input_array[0];
-            var arg = input_array[1];
-            var command = this.state.commands[input];
 
             this.addHistory(this.state.prompt + " " + input_text);
+            input_array.shift();
 
-            if (command === undefined) {
-                this.addHistory("sh: command not found: " + input);
-            } else {
-                command(arg);
-            }
+            utils.exec([this.props.daemonbin].concat(input_array))
+                .then(this.addHistory)
+                .catch(this.addHistory)
+
+
             this.clearInput();
         }
     },

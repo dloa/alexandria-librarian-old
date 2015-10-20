@@ -1,10 +1,22 @@
 .cli-emulator {
     background-color: #74787a;
-    min-height: 200px;
+    height: 200px;
+    overflow-y: scroll;
     border-radius: 3px;
     padding-right: 10px;
     padding-left: 20px;
     padding-top: 20px;
+}
+
+.cli-emulator::-webkit-scrollbar {
+    width: 6px;
+}
+
+.cli-emulator::-webkit-scrollbar-track {}
+
+.cli-emulator::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: #919191;
 }
 
 .input-area {
