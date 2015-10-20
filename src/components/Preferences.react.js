@@ -138,7 +138,7 @@ var Preferences = React.createClass({
                             <input checked={this.state.startMinimized} onChange={this.handleChangestartMinimized} type="checkbox" id="startMinimized" className="toggle" />
                             <label htmlFor="startMinimized"></label>
                         </div>
-                        <p>Start minimized in tray</p>
+                        <p>Start minimized</p>
                     </div>
                 </section>
                 <section>
