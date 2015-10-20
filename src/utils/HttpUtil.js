@@ -23,12 +23,16 @@ module.exports = {
         var Daemons = ['ipfs', 'libraryd', 'florincoin'];
 
         Daemons.forEach(function(name) {
-            this.router.get('/' + name + '/:action/:command', function(req, res) {
+            this.router.get('/' + name + '/:action/:command?/:params?', function(req, res) {
                 var action = req.params.action;
                 var command = req.params.command;
+                var params = req.params.params;
                 switch (name) {
                     case 'ipfs':
-                        ipfsUtil.cli([action, command]).then(function(output) {
+                        var cliArray = [action, command, params].filter(function(n) {
+                            return n != undefined
+                        });
+                        ipfsUtil.cli(cliArray).then(function(output) {
                             res.json({
                                 status: 'ok',
                                 output: output

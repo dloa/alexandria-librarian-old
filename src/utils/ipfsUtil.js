@@ -24,6 +24,7 @@ module.exports = {
     },
     cli: function(command) {
         return new Promise((resolve, reject) => {
+            console.log([path.join(AppData, 'bin', (os === 'win') ? 'ipfs.exe' : 'ipfs')].concat(command))
             util.exec([path.join(AppData, 'bin', (os === 'win') ? 'ipfs.exe' : 'ipfs')].concat(command))
                 .then(resolve)
                 .catch(reject);
