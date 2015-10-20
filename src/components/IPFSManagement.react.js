@@ -14,7 +14,7 @@ var IPFSManagementView = React.createClass({
 
     },
     render: function() {
-        var daemonbin = path.join(process.env.APP_DATA_PATH, 'bin', (util.getOS() === 'win') ? 'ipfs.exe' : 'ipfs');
+        var daemonbin = path.join(process.env.APP_DATA_PATH, 'bin', (utils.getOS() === 'win') ? 'ipfs.exe' : 'ipfs');
 
         return (
             <div className='content-scroller'>
