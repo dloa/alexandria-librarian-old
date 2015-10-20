@@ -10,7 +10,6 @@ var termainalEmu = React.createClass({
 
     getInitialState: function() {
         return {
-            commands: {},
             history: [],
             prompt: '$ '
         }
