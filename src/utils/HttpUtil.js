@@ -39,6 +39,7 @@ module.exports = {
 
         Daemons.forEach(function(name) {
             this.router.get('/' + name + '/:action/:command?/:params?', function(req, res) {
+                res.header('Access-Control-Allow-Origin', '*');
                 var action = req.params.action;
                 var command = req.params.command;
                 var params = req.params.params ? req.params.params.split('&&') : undefined;
