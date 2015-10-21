@@ -4,13 +4,6 @@ import utils from '../utils/Util';
 import fs from 'fs';
 import path from 'path';
 
-let Contributors = {
-    'luigiplr': {
-        name: 'Luigi Poole',
-        email: 'luigipoole@outlook.com',
-        github: 'luigiplr'
-    },
-};
 
 var About = React.createClass({
     mixins: [Router.Navigation],
@@ -39,11 +32,6 @@ var About = React.createClass({
                 github: 'DevonJames'
             },
             {
-                name: 'Colin Bishop',
-                email: 'colin_bishop@outlook.com',
-                github: 'cobis2798'
-            },
-            {
                 name: 'Avery Dodd',
                 email: 'averyhvdodd@gmail.com',
                 github: 'AveryDodd'
@@ -60,7 +48,6 @@ var About = React.createClass({
                 <p className="about" >This is a prototype developer build, and is not representative of the final product.</p>
                 <br/>
                 <p className="about" >ΛLΞXΛNDRIΛ Librarian, {version} </p>
-               
         </section>
         <section>
                 <h1 className="title">Contributors</h1>

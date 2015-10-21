@@ -1,3 +1,10 @@
+### ΛLΞXΛNDRIΛ Librarian
+-------------
+
+![](http://i.imgur.com/mSCaWOz.png)
+![](http://i.imgur.com/XIxvBeB.png)
+
+
 ### Getting Started
 
 - `npm install`

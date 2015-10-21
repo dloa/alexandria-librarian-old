@@ -28,6 +28,11 @@ var Sidebar = React.createClass({
             <p>About</p>
           </li>
         </Router.Link>
+        <Router.Link to="IPFSManagement">
+          <li>
+            <p>IPFS</p>
+          </li>
+        </Router.Link>
       </ul>
     );
   }

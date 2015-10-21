@@ -226,7 +226,8 @@ module.exports = {
                 if (code) {
                     var cmd = Array.isArray(args) ? args.join(' ') : args;
                     log.error(stderr);
-                    reject(new Error(cmd + ' returned non zero exit code. Stderr: ' + stderr));
+                    new Error(cmd + ' returned non zero exit code. Stderr: ' + stderr)
+                    reject(stderr);
                 } else {
                     log.info(stdout);
                     resolve(stdout);

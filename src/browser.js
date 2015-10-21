@@ -7,6 +7,7 @@ import trayTemplate from './app-tray';
 import util from './utils/Util';
 
 
+
 process.env.NODE_PATH = path.join(__dirname, 'node_modules');
 process.env.APP_DATA_PATH = path.join(app.getPath('userData'));
 
@@ -22,7 +23,6 @@ app.on('open-url', function(event, url) {
 });
 
 app.on('ready', function() {
-
     var checkingQuit = false;
     var canQuit = false;
     var screen = require('screen');
@@ -42,8 +42,11 @@ app.on('ready', function() {
         title: 'ΛLΞXΛNDRIΛ Librarian',
         center: true,
         frame: true,
-        show: false
+        show: false,
+        transparent: true
     });
+
+    mainWindow.setMenu(null);
 
     mainWindow.loadUrl(path.normalize('file://' + path.join(__dirname, '../index.html')));
 
@@ -60,6 +63,9 @@ app.on('ready', function() {
 
     mainWindow.webContents.on('did-finish-load', function() {
         mainWindow.setTitle('ΛLΞXΛNDRIΛ Librarian');
+    });
+
+    ipc.on('application:show', () => {
         mainWindow.show();
         mainWindow.focus();
     });
