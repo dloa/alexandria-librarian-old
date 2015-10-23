@@ -57,7 +57,7 @@ util.createDir(path.join(process.env.APP_DATA_PATH, 'bin')).then(function() {
 
 ipc.on('application:quitting', () => {});
 
-// Event fires when the app receives a vpnht:// URL
+// Event fires when the app receives a custom protocal url
 ipc.on('application:open-url', opts => {
     console.log('open', opts);
 });
