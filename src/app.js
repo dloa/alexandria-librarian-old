@@ -18,6 +18,9 @@ import yargs from 'yargs';
 var app = remote.require('app');
 var Menu = remote.require('menu');
 
+process.env.APP_DATA_PATH = path.join(app.getPath('userData'));
+
+
 // Init process
 LogStore.initLogs();
 util.createDir(path.join(process.env.APP_DATA_PATH, 'bin'));
