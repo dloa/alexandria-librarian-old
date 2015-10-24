@@ -4,7 +4,7 @@ import Promise from 'bluebird';
 import request from 'request';
 import fs from 'fs';
 
-import Settings from '../SettingsUtil';
+import Settings from '../settingsUtil';
 import util from '../util';
 
 var AppData = process.env.APP_DATA_PATH;

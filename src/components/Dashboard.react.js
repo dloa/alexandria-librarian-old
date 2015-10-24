@@ -5,9 +5,9 @@ import ReactTooltip from 'react-tooltip';
 import Settings from '../utils/settingsUtil';
 import IPFS from '../actions/ipfsActions';
 import Florincoind from '../actions/florincoindActions';
-import Libraryd from '../actions/LibrarydActions';
+import Libraryd from '../actions/librarydActions';
 import Logs from './DashboardLogs.react';
-import utils from '../utils/Util';
+import utils from '../utils/util';
 
 
 
