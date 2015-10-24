@@ -8,7 +8,7 @@ import Florincoind from '../actions/florincoindActions';
 import Libraryd from '../actions/librarydActions';
 import Logs from './DashboardLogs.react';
 import utils from '../utils/util';
-
+import daemonStore from '../stores/daemonStore';
 
 
 
@@ -30,72 +30,67 @@ var Preferences = React.createClass({
         return {
             LibrarydInstalled: Settings.get('librarydInstalled'),
             LibrarydEnabled: Settings.get('librarydEnabled'),
+
             IPFSInstalled: Settings.get('ipfsInstalled'),
             IPFSEnabled: Settings.get('ipfsEnabled'),
+
             FlorincoindInstalled: Settings.get('florincoindInstalled'),
             FlorincoindEnabled: Settings.get('florincoindEnabled')
         };
     },
 
     componentDidMount: function() {
-        IPFS.listen(this.update);
-        Florincoind.listen(this.update);
-        Libraryd.listen(this.update);
+        daemonStore.listen(this.update);
     },
 
     componentWillUnmount: function() {
-        IPFS.unlisten(this.update);
-        Florincoind.unlisten(this.update);
-        Libraryd.unlisten(this.update);
+        daemonStore.unlisten(this.update);
     },
 
     update: function() {
         if (this.isMounted()) {
             this.setState({
-                LibrarydInstalled: Libraryd.getState().installed,
-                LibrarydEnabled: Libraryd.getState().enabled,
-                IPFSInstalled: IPFS.getState().installed,
-                IPFSEnabled: IPFS.getState().enabled,
-                FlorincoindInstalled: Florincoind.getState().installed,
-                FlorincoindEnabled: Florincoind.getState().enabled,
+                LibrarydInstalled: daemonStore.getState().librarydInstalled,
+                LibrarydEnabled: daemonStore.getState().librarydEnabled,
+
+                IPFSInstalled: daemonStore.getState().ipfsInstalled,
+                IPFSEnabled: daemonStore.getState().ipfsEnabled,
+
+                FlorincoindInstalled: daemonStore.getState().florincoindInstalled,
+                FlorincoindEnabled: daemonStore.getState().florincoindEnabled
             });
         }
     },
 
     InstallLibraryd: function() {
-        var self = this;
-        Libraryd.install().then(function(state) {
-            self.setState({
-                LibrarydInstalled: true
-            });
-            Settings.save('librarydInstalled', true);
+        Libraryd.install()
+
+        this.setState({
+            LibrarydInstalled: true
         });
+
     },
     InstallIPFS: function() {
-        var self = this;
-        IPFS.install().then(function(state) {
-            self.setState({
-                IPFSInstalled: true
-            });
-            Settings.save('ipfsInstalled', true);
+
+        IPFS.install()
+        this.setState({
+            IPFSInstalled: true
         });
+
+
     },
     InstallFlorincoind: function() {
-        var self = this;
-        Florincoind.install().then(function(state) {
-            self.setState({
-                FlorincoindInstalled: true
-            });
-            Settings.save('florincoindInstalled', true);
+        Florincoind.install();
+        this.setState({
+            FlorincoindInstalled: true
         });
     },
     handleChangeFlorincoindEnabled: function(e) {
         var checked = e.target.checked;
+        Florincoind.toggle(checked);
         this.setState({
             FlorincoindEnabled: checked
         });
-        Florincoind.toggle(checked);
-        Settings.save('florincoindEnabled', checked);
     },
     handleChangeLibrarydEnabled: function(e) {
         var checked = e.target.checked;
@@ -104,7 +99,6 @@ var Preferences = React.createClass({
         });
 
         Libraryd.toggle(checked);
-        Settings.save('librarydEnabled', checked);
     },
     handleChangeIPFSEnabled: function(e) {
         var checked = e.target.checked;
@@ -112,7 +106,6 @@ var Preferences = React.createClass({
             IPFSEnabled: checked
         });
         IPFS.toggle(checked);
-        Settings.save('ipfsEnabled', checked);
     },
     handleOpenIPFSWebUI: function(e) {
         utils.openUrl('http://localhost:5001/webui')
@@ -120,54 +113,54 @@ var Preferences = React.createClass({
     render: function() {
         return (
             <div className='content-scroller' id='content'>
-        <section>
-            <h1 className='title'>Local Daemons</h1>
-            <div className="DaemonWrapper">
-              <If test={this.state.LibrarydInstalled}>
-              <div className="toggle-wrapper">
-              <input checked={this.state.LibrarydEnabled} onChange={this.handleChangeLibrarydEnabled} type="checkbox" id="LibrarydToggle" className="toggle" />
-              <label htmlFor="LibrarydToggle"></label>
-          </div>
-          </If>
-          <p>Libraryd</p>
-          <i className="ion-information-circled"/>
-          <If test={!this.state.LibrarydInstalled}>
-          <div onClick={this.InstallLibraryd} className="install">install</div>
-          </If>
-        </div>
-        <div className="DaemonWrapper">
-        <If test={this.state.IPFSInstalled}>
-              <div className="toggle-wrapper">
-              <input checked={this.state.IPFSEnabled} onChange={this.handleChangeIPFSEnabled} type="checkbox" id="IPFStoggle" className="toggle" />
-              <label htmlFor="IPFStoggle"></label>
-          </div>
-        </If>
-          <p>IPFS</p>
-          <i className="ion-information-circled"/>
-        <If test={this.state.IPFSEnabled}>
-            <i data-tip="Open IPFS Web Interface" onClick={this.handleOpenIPFSWebUI} className="ion-cube"/>
-        </If>
-        <If test={!this.state.IPFSInstalled}>
-          <div onClick={this.InstallIPFS} className="install">install</div>
-        </If>
-        </div>
-        <div className="DaemonWrapper">
-        <If test={this.state.FlorincoindInstalled}>
-              <div className="toggle-wrapper">
-              <input checked={this.state.FlorincoindEnabled} onChange={this.handleChangeFlorincoindEnabled} type="checkbox" id="Florincoindtoggle" className="toggle" />
-              <label htmlFor="Florincoindtoggle"></label>
-          </div>
-        </If>
-          <p>Florincoin</p>
-          <i className="ion-information-circled"/>
-        <If test={!this.state.FlorincoindInstalled}>
-          <div onClick={this.InstallFlorincoind} className="install">install</div>
-        </If>
-        </div>
-        </section>
-        <Logs />
-        <ReactTooltip place="right" data-type="dark" multiline={true} data-effect="float" />
-      </div>
+                <section>
+                    <h1 className='title'>Local Daemons</h1>
+                    <div className="DaemonWrapper">
+                        <If test={this.state.LibrarydInstalled}>
+                            <div className="toggle-wrapper">
+                                <input checked={this.state.LibrarydEnabled} onChange={this.handleChangeLibrarydEnabled} type="checkbox" id="LibrarydToggle" className="toggle" />
+                                <label htmlFor="LibrarydToggle"></label>
+                            </div>
+                        </If>
+                        <p>Libraryd</p>
+                        <i className="ion-information-circled"/>
+                        <If test={!this.state.LibrarydInstalled}>
+                            <div onClick={this.InstallLibraryd} className="install">install</div>
+                        </If>
+                    </div>
+                    <div className="DaemonWrapper">
+                        <If test={this.state.IPFSInstalled}>
+                            <div className="toggle-wrapper">
+                                <input checked={this.state.IPFSEnabled} onChange={this.handleChangeIPFSEnabled} type="checkbox" id="IPFStoggle" className="toggle" />
+                                <label htmlFor="IPFStoggle"></label>
+                            </div>
+                        </If>
+                        <p>IPFS</p>
+                        <i className="ion-information-circled"/>
+                        <If test={this.state.IPFSEnabled}>
+                            <i data-tip="Open IPFS Web Interface" onClick={this.handleOpenIPFSWebUI} className="ion-cube"/>
+                        </If>
+                        <If test={!this.state.IPFSInstalled}>
+                            <div onClick={this.InstallIPFS} className="install">install</div>
+                        </If>
+                    </div>
+                    <div className="DaemonWrapper">
+                        <If test={this.state.FlorincoindInstalled}>
+                            <div className="toggle-wrapper">
+                                <input checked={this.state.FlorincoindEnabled} onChange={this.handleChangeFlorincoindEnabled} type="checkbox" id="Florincoindtoggle" className="toggle" />
+                                <label htmlFor="Florincoindtoggle"></label>
+                            </div>
+                        </If>
+                        <p>Florincoin</p>
+                        <i className="ion-information-circled"/>
+                        <If test={!this.state.FlorincoindInstalled}>
+                            <div onClick={this.InstallFlorincoind} className="install">install</div>
+                        </If>
+                    </div>
+                </section>
+                <Logs />
+                <ReactTooltip place="right" data-type="dark" multiline={true} data-effect="float" />
+            </div>
         );
 
     }
