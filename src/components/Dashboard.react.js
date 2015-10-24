@@ -28,14 +28,9 @@ var Preferences = React.createClass({
 
     getInitialState: function() {
         return {
-            LibrarydInstalled: Settings.get('librarydInstalled'),
-            LibrarydEnabled: Settings.get('librarydEnabled'),
-
-            IPFSInstalled: Settings.get('ipfsInstalled'),
-            IPFSEnabled: Settings.get('ipfsEnabled'),
-
-            FlorincoindInstalled: Settings.get('florincoindInstalled'),
-            FlorincoindEnabled: Settings.get('florincoindEnabled')
+            LibrarydEnabled: daemonStore.getState().librarydEnabled,
+            IPFSEnabled: daemonStore.getState().ipfsEnabled,
+            FlorincoindEnabled: daemonStore.getState().florincoindEnabled
         };
     },
 
@@ -50,13 +45,8 @@ var Preferences = React.createClass({
     update: function() {
         if (this.isMounted()) {
             this.setState({
-                LibrarydInstalled: daemonStore.getState().librarydInstalled,
                 LibrarydEnabled: daemonStore.getState().librarydEnabled,
-
-                IPFSInstalled: daemonStore.getState().ipfsInstalled,
                 IPFSEnabled: daemonStore.getState().ipfsEnabled,
-
-                FlorincoindInstalled: daemonStore.getState().florincoindInstalled,
                 FlorincoindEnabled: daemonStore.getState().florincoindEnabled
             });
         }
