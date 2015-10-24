@@ -6,8 +6,7 @@ class librarydActions {
     constructor() {
         this.generateActions(
             'librarydInstalled',
-            'librarydEnabled',
-            'librarydDisabled'
+            'librarydEnabled'
         );
     }
 

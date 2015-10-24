@@ -6,8 +6,7 @@ class FlorincoindActions {
     constructor() {
         this.generateActions(
             'florincoindInstalled',
-            'florincoindEnabled',
-            'florincoindDisabled'
+            'florincoindEnabled'
         );
     }
 
