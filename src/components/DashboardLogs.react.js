@@ -1,9 +1,7 @@
 import React from 'react/addons';
 import Router from 'react-router';
 
-import LogStore from '../stores/LogStore';
-
-var _prevBottom = 0;
+import LogStore from '../stores/logStore';
 
 var DashboardLogs = React.createClass({
 

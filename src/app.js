@@ -1,26 +1,27 @@
-require.main.paths.splice(0, 0, process.env.NODE_PATH);
 import remote from 'remote';
 import React from 'react';
 import ipc from 'ipc';
-import webUtil from './utils/WebUtil';
-import util from './utils/Util';
 import path from 'path';
 import Router from 'react-router';
-import routes from './routes';
-import routerContainer from './router';
-import Settings from './utils/SettingsUtil';
-import HttpAPI from './utils/HttpUtil'
-import LogStore from './stores/LogStore'
 import yargs from 'yargs';
 
-
+import webUtil from './utils/webUtil';
+import util from './utils/util';
+import Settings from './utils/settingsUtil';
+import HttpAPI from './utils/httpApiUtil'
+import LogStore from './stores/logStore'
+import routerContainer from './router';
+import routes from './routes';
 
 var app = remote.require('app');
 var Menu = remote.require('menu');
 
+var AppData  = path.join(app.getPath('userData'));
+
+
 // Init process
 LogStore.initLogs();
-util.createDir(path.join(process.env.APP_DATA_PATH, 'bin'));
+util.createDir(path.join(AppData, 'bin'));
 webUtil.addLiveReload();
 webUtil.disableGlobalBackspace();
 HttpAPI.init();
@@ -33,9 +34,9 @@ router.run(Handler => React.render( < Handler / > , document.body));
 routerContainer.set(router);
 
 // Default Route
-util.createDir(path.join(process.env.APP_DATA_PATH, 'bin')).then(function() {
+util.createDir(path.join(AppData, 'bin')).then(function() {
     return new Promise((resolve) => {
-        Settings.setInstalledAndRunning(path.join(process.env.APP_DATA_PATH, 'bin'))
+        Settings.setInstalledAndRunning(path.join(AppData, 'bin'))
             .then(function() {
                 HttpAPI.toggle(Settings.get('HTTPAPIEnabled'), Settings.get('HTTPAPIPort'))
                     .then(resolve)
@@ -53,11 +54,12 @@ util.createDir(path.join(process.env.APP_DATA_PATH, 'bin')).then(function() {
         ipc.send('application:show');
     }
     router.transitionTo('dashboard');
+}).catch(function(e) {
+    router.transitionTo('dashboard');
 });
 
-ipc.on('application:quitting', () => {});
 
-// Event fires when the app receives a vpnht:// URL
+// Event fires when the app receives a custom protocal url
 ipc.on('application:open-url', opts => {
     console.log('open', opts);
 });

@@ -1,13 +1,15 @@
 import React from 'react/addons';
 import Router from 'react-router';
-import Settings from '../utils/SettingsUtil';
-import IPFS from '../actions/ipfsActions';
-import Florincoind from '../actions/FlorincoindActions';
-import Libraryd from '../actions/LibrarydActions';
-import Logs from './DashboardLogs.react';
-import utils from '../utils/Util';
-
 import ReactTooltip from 'react-tooltip';
+
+import Settings from '../utils/settingsUtil';
+import IPFS from '../actions/ipfsActions';
+import Florincoind from '../actions/florincoindActions';
+import Libraryd from '../actions/librarydActions';
+import Logs from './DashboardLogs.react';
+import utils from '../utils/util';
+
+
 
 
 

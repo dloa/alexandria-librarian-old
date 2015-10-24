@@ -1,7 +1,8 @@
 import React from 'react/addons';
-import utils from '../utils/Util';
+import utils from '../utils/util';
 import path from 'path';
-import TerminalEmu from './Terminal-Emulator.react';
+import remote from 'remote';
+import TerminalEmu from './TerminalEmulator.react';
 import IPFSPinManager from './DashboardIPFSPinManager.react';
 
 
@@ -14,7 +15,7 @@ var IPFSManagementView = React.createClass({
 
     },
     render: function() {
-        var daemonbin = path.join(process.env.APP_DATA_PATH, 'bin', (utils.getOS() === 'win') ? 'ipfs.exe' : 'ipfs');
+        var daemonbin = path.join(remote.require('app').getPath('userData'), 'bin', (utils.getOS() === 'win') ? 'ipfs.exe' : 'ipfs');
 
         return (
             <div className='content-scroller'>

@@ -3,11 +3,15 @@ import path from 'path';
 import Promise from 'bluebird';
 import request from 'request';
 import fs from 'fs';
-import Settings from '../utils/SettingsUtil';
-import util from './Util';
+import remote from 'remote';
 
-let AppData = process.env.APP_DATA_PATH;
-let asarBIN = path.normalize(path.join(__dirname, '../../', 'bin'));
+import Settings from '../settingsUtil';
+import util from '../util';
+
+var app = remote.require('app');
+var AppData = app.getPath('userData');
+var asarBIN = path.normalize(path.join(__dirname, '../../../', 'bin'));
+
 module.exports = {
     download: function() {
         // To be done later.
