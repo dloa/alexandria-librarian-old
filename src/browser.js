@@ -35,8 +35,7 @@ app.on('ready', function() {
         title: 'ΛLΞXΛNDRIΛ Librarian',
         center: true,
         frame: true,
-        show: false,
-        transparent: true
+        show: false
     });
 
     mainWindow.setMenu(null);

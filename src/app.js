@@ -1,18 +1,17 @@
 import remote from 'remote';
 import React from 'react';
 import ipc from 'ipc';
-import webUtil from './utils/webUtil';
-import util from './utils/util';
 import path from 'path';
 import Router from 'react-router';
-import routes from './routes';
-import routerContainer from './router';
-import Settings from './utils/settingsUtil';
-import HttpAPI from './utils/httpUtil'
-import LogStore from './stores/logStore'
 import yargs from 'yargs';
 
-
+import webUtil from './utils/webUtil';
+import util from './utils/util';
+import Settings from './utils/settingsUtil';
+import HttpAPI from './utils/httpApiUtil'
+import LogStore from './stores/logStore'
+import routerContainer from './router';
+import routes from './routes';
 
 var app = remote.require('app');
 var Menu = remote.require('menu');
@@ -54,6 +53,8 @@ util.createDir(path.join(process.env.APP_DATA_PATH, 'bin')).then(function() {
         console.log(args.hide, Settings.get('startMinimized'))
         ipc.send('application:show');
     }
+    router.transitionTo('dashboard');
+}).catch(function(e) {
     router.transitionTo('dashboard');
 });
 
