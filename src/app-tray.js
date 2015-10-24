@@ -1,9 +1,8 @@
 import Menu from 'menu';
 import MenuItem from 'menu-item';
 import Tray from 'tray';
-import ipc from 'ipc';
 import path from 'path';
-import util from './utils/Util';
+import util from './utils/util';
 
 // Define a function to set up our tray icon
 exports.init = function(helper) {

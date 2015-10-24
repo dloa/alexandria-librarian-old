@@ -1,20 +1,13 @@
 import app from 'app';
 import BrowserWindow from 'browser-window';
 import ipc from 'ipc';
-import fs from 'fs';
 import path from 'path';
 import trayTemplate from './app-tray';
-import util from './utils/Util';
+import util from './utils/util';
 
 
 
 process.env.NODE_PATH = path.join(__dirname, 'node_modules');
-
-
-var settingsjson = {};
-try {
-    settingsjson = JSON.parse(fs.readFileSync(path.join(__dirname, 'settings.json'), 'utf8'));
-} catch (err) {}
 
 var openURL = null;
 app.on('open-url', function(event, url) {
@@ -42,8 +35,7 @@ app.on('ready', function() {
         title: 'ΛLΞXΛNDRIΛ Librarian',
         center: true,
         frame: true,
-        show: false,
-        transparent: true
+        show: false
     });
 
     mainWindow.setMenu(null);

@@ -30,11 +30,6 @@ var columns = [{
 
 
 
-
-
-
-
-
 var PinManager = React.createClass({
     getInitialState: function() {
         return {

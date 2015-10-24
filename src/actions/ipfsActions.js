@@ -1,6 +1,6 @@
 import ipc from 'ipc';
 import alt from '../alt';
-import ifps from '../utils/ipfsUtil';
+import ifps from '../utils/daemons/ipfsUtil';
 
 class ipfsActions {
 

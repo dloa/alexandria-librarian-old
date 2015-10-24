@@ -1,7 +1,7 @@
 import React from 'react/addons';
-import utils from '../utils/Util';
+import utils from '../utils/util';
 import path from 'path';
-import TerminalEmu from './Terminal-Emulator.react';
+import TerminalEmu from './TerminalEmulator.react';
 import IPFSPinManager from './DashboardIPFSPinManager.react';
 
 
