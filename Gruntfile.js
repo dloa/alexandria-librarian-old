@@ -131,7 +131,7 @@ module.exports = function(grunt) {
                 files: [{
                     expand: true,
                     cwd: '.',
-                    src: ['LICENSE.md', 'package.json', 'settings.json', 'index.html'],
+                    src: ['*.md', 'package.json', 'settings.json', 'index.html'],
                     dest: 'build/'
                 }, {
                     expand: true,
