@@ -15,17 +15,35 @@ class daemonStore {
 
         this.ipfsInstalled = false;
         this.ipfsEnabled = false;
+
+        this.florincoindInstalled = false;
+        this.florincoindEnabled = false;
+
+        this.librarydInstalled = false;
+        this.librarydEnabled = false;
     }
 
-    onIpfsEnabled() {
+    onLibrarydInstalled() {
         this.setState({
-            ipfsEnabled: true
+            librarydInstalled: true
         });
     }
 
-    onIpfsDisabled() {
+    onLibrarydEnabled(state) {
         this.setState({
-            ipfsEnabled: false
+            librarydEnabled: state
+        });
+    }
+
+    onIpfsInstalled() {
+        this.setState({
+            ipfsInstalled: true
+        });
+    }
+
+    onIpfsEnabled(state) {
+        this.setState({
+            ipfsEnabled: state
         });
     }
 
