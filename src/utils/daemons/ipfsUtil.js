@@ -10,12 +10,13 @@ import {
 }
 from 'events';
 
+
 import util from '../util';
 import Settings from '../settingsUtil';
 
 
-
-var AppData = process.env.APP_DATA_PATH;
+var app = remote.require('app');
+var AppData = app.getPath('userData');
 var os = util.getOS();
 var asarBIN = path.normalize(path.join(__dirname, '../../../', 'bin'));
 var pinEmmiter = new EventEmitter();
