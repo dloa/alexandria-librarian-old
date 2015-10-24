@@ -1,9 +1,10 @@
 import Promise from 'bluebird';
 import express from 'express';
 import bodyParser from 'body-parser';
-import util from './Util';
-import ipfsUtil from './ipfsUtil';
-import LogStore from '../stores/LogStore';
+
+import util from './util';
+import ipfsUtil from './daemons/ipfsUtil';
+import LogStore from '../stores/logStore';
 
 module.exports = {
     init: function() {

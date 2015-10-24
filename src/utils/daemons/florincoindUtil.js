@@ -2,19 +2,20 @@ import _ from 'lodash';
 import path from 'path';
 import Promise from 'bluebird';
 import request from 'request';
-import util from './Util';
 import remote from 'remote';
-import Settings from '../utils/SettingsUtil';
 import nodeUtil from 'util';
 import fs from 'fs';
 import readline from 'readline';
 import DecompressZip from 'decompress-zip';
 
-let dialog = remote.require('dialog');
-let app = remote.require('app');
-let AppData = process.env.APP_DATA_PATH;
-let asarBIN = path.normalize(path.join(__dirname, '../../', 'bin'));
-let os = util.getOS();
+import util from '../util';
+import Settings from '../settingsUtil';
+
+
+var app = remote.require('app');
+var AppData = process.env.APP_DATA_PATH;
+var asarBIN = path.normalize(path.join(__dirname, '../../../', 'bin'));
+var os = util.getOS();
 
 module.exports = {
     download: function() {
@@ -57,6 +58,8 @@ module.exports = {
         });
     },
     checkConf: function() {
+        var dialog = remote.require('dialog');
+
         return new Promise((resolve, reject) => {
             util.exists(path.join(app.getPath('appData'), 'Florincoin', 'Florincoin.conf'))
                 .then(function(exists) {

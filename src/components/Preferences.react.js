@@ -1,9 +1,11 @@
 import React from 'react/addons';
 import Router from 'react-router';
-import Settings from '../utils/SettingsUtil';
-import utils from '../utils/Util';
-import HTTPAPI from '../utils/HttpUtil';
 import startupManager from 'node-startup-manager';
+
+import Settings from '../utils/settingsUtil';
+import utils from '../utils/util';
+import HTTPAPI from '../utils/httpApiUtil';
+
 
 var Preferences = React.createClass({
     mixins: [Router.Navigation],
