@@ -1,4 +1,5 @@
 import React from 'react/addons';
+import UpdaterActions from '../utils/updateActions';
 
 
 var Updater = React.createClass({
