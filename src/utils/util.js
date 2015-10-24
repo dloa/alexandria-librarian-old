@@ -6,11 +6,12 @@ import path from 'path';
 import mkdirp from 'mkdirp';
 import child from 'child';
 import find from 'find';
-import log from '../stores/LogStore';
 import ps from 'xps';
 import _ from 'lodash';
 import shell from 'shell';
 import rimraf from 'rimraf';
+
+import log from '../stores/logStore';
 
 
 module.exports = {

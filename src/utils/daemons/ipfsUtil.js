@@ -3,20 +3,22 @@ import path from 'path';
 import Promise from 'bluebird';
 import request from 'request';
 import fs from 'fs';
-import util from './Util';
 import remote from 'remote';
 import nodeUtil from 'util';
-import Settings from '../utils/SettingsUtil';
 import {
     EventEmitter
 }
 from 'events';
 
-let dialog = remote.require('dialog');
-let AppData = process.env.APP_DATA_PATH;
-let os = util.getOS();
-let asarBIN = path.normalize(path.join(__dirname, '../../', 'bin'));
-let pinEmmiter = new EventEmitter();
+import util from '../util';
+import Settings from '../settingsUtil';
+
+
+
+var AppData = process.env.APP_DATA_PATH;
+var os = util.getOS();
+var asarBIN = path.normalize(path.join(__dirname, '../../../', 'bin'));
+var pinEmmiter = new EventEmitter();
 
 module.exports = {
     download: function() {
@@ -51,6 +53,7 @@ module.exports = {
         });
     },
     pinlocalfiles: function() {
+        var dialog = remote.require('dialog');
         let pinEmmiter = new EventEmitter();
         dialog.showOpenDialog({
             title: 'Select file',

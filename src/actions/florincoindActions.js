@@ -1,6 +1,6 @@
 import ipc from 'ipc';
 import alt from '../alt';
-import Florincoind from '../utils/FlorincoindUtil';
+import Florincoind from '../utils/daemons/florincoindUtil';
 
 class FlorincoindActions {
 
