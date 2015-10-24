@@ -1,5 +1,6 @@
-import alt from '../alt';
-import ifps from '../utils/daemons/ipfsUtil';
+import alt from '../alt'
+
+
 
 class ipfsActions {
 
@@ -12,41 +13,55 @@ class ipfsActions {
     }
 
     download() {
+        var ipfsUtil = require('../utils/daemons/ipfsUtil');
+
         this.dispatch();
-        ifps.download()
+        ipfsUtil.download()
     }
 
     install() {
+        var ipfsUtil = require('../utils/daemons/ipfsUtil');
+
         this.dispatch();
-        ifps.install()
+        ipfsUtil.install()
     }
 
     addFile() {
+        var ipfsUtil = require('../utils/daemons/ipfsUtil');
+
         this.dispatch();
-        ifps.addFile();
+        ipfsUtil.addFile();
     }
 
     pinRemote(hash) {
+        var ipfsUtil = require('../utils/daemons/ipfsUtil');
+
         this.dispatch();
-        ifps.pinFile(hash)
+        ipfsUtil.pinFile(hash)
     }
 
     pinlocal() {
+        var ipfsUtil = require('../utils/daemons/ipfsUtil');
+
         this.dispatch();
-        ifps.pinlocalfiles();
+        ipfsUtil.pinlocalfiles();
     }
 
     getPinned() {
+        var ipfsUtil = require('../utils/daemons/ipfsUtil');
+
         this.dispatch();
-        ifps.getPinned();
+        ipfsUtil.getPinned();
     }
 
     toggle(status) {
+        var ipfsUtil = require('../utils/daemons/ipfsUtil');
+
         this.dispatch();
         if (status)
-            ifps.enable()
+            ipfsUtil.enable()
         else
-            ifps.disable()
+            ipfsUtil.disable()
     }
 }
 

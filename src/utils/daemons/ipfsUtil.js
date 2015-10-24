@@ -8,7 +8,7 @@ import nodeUtil from 'util';
 
 import util from '../util';
 import Settings from '../settingsUtil';
-import ipfsActions from '../../actions/ipfsActions';
+import ipfsActionHandler from '../../actions/ipfsActions';
 
 
 
@@ -19,6 +19,7 @@ var asarBIN = path.normalize(path.join(__dirname, '../../../', 'bin'));
 
 
 module.exports = {
+
     download: function() {
         // To be done later.
     },
@@ -92,7 +93,7 @@ module.exports = {
     removePin: function(hash) {
 
     },
-    install: function(tmppath) {
+    installAndEnable: function(tmppath) {
         return new Promise((resolve, reject) => {
             util.copyfile(path.join(asarBIN, os, (os === 'win') ? 'ipfs.exe' : 'ipfs'), path.join(AppData, 'bin', (os === 'win') ? 'ipfs.exe' : 'ipfs'))
                 .then(function() {
@@ -102,7 +103,7 @@ module.exports = {
                     return util.exec([path.join(AppData, 'bin', (os === 'win') ? 'ipfs.exe' : 'ipfs'), 'init']).catch(resolve);
                 })
                 .then(function() {
-                    ipfsActions.ipfsInstalled(true);
+                    ipfsActionHandler.ipfsInstalled(true);
                     resolve();
                 })
                 .catch(reject);
@@ -113,7 +114,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
             try {
                 this.daemon.start(function(pid) {
-                    ipfsActions.ipfsEnabled(true);
+                    ipfsActionHandler.ipfsEnabled(true);
                     resolve(pid);
                 });
             } catch (e) {
@@ -126,12 +127,12 @@ module.exports = {
             if (this.daemon) {
                 try {
                     this.daemon.stop(function(code) {
-                        ipfsActions.ipfsEnabled(false);
+                        ipfsActionHandler.ipfsEnabled(false);
                         resolve(code);
                     });
                 } catch (e) {
                     module.exports.forceKill().then(function() {
-                        ipfsActions.ipfsEnabled(false);
+                        ipfsActionHandler.ipfsEnabled(false);
                         resolve();
                     }).catch(reject);
                 }
@@ -143,7 +144,7 @@ module.exports = {
     forceKill: function() {
         var ipfsname = (os === 'win') ? 'ipfs.exe' : 'ipfs';
         return util.killtask(ipfsname).then(function() {
-            ipfsActions.ipfsEnabled(false);
+            ipfsActionHandler.ipfsEnabled(false);
         });
     }
 };
