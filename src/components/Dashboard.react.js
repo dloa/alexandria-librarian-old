@@ -25,7 +25,6 @@ let If = React.createClass({
 
 
 var Preferences = React.createClass({
-    mixins: [Router.Navigation],
 
     getInitialState: function() {
         return {
@@ -37,31 +36,57 @@ var Preferences = React.createClass({
             FlorincoindEnabled: Settings.get('florincoindEnabled')
         };
     },
+
+    componentDidMount: function() {
+        IPFS.listen(this.update);
+        Florincoind.listen(this.update);
+        Libraryd.listen(this.update);
+    },
+
+    componentWillUnmount: function() {
+        IPFS.unlisten(this.update);
+        Florincoind.unlisten(this.update);
+        Libraryd.unlisten(this.update);
+    },
+
+    update: function() {
+        if (this.isMounted()) {
+            this.setState({
+                LibrarydInstalled: Libraryd.getState().installed,
+                LibrarydEnabled: Libraryd.getState().enabled,
+                IPFSInstalled: IPFS.getState().installed,
+                IPFSEnabled: IPFS.getState().enabled,
+                FlorincoindInstalled: Florincoind.getState().installed,
+                FlorincoindEnabled: Florincoind.getState().enabled,
+            });
+        }
+    },
+
     InstallLibraryd: function() {
-      var self = this;
+        var self = this;
         Libraryd.install().then(function(state) {
-                self.setState({
-                    LibrarydInstalled: true
-                });
-              	Settings.save('librarydInstalled', true);
+            self.setState({
+                LibrarydInstalled: true
+            });
+            Settings.save('librarydInstalled', true);
         });
     },
     InstallIPFS: function() {
-    	 var self = this;
+        var self = this;
         IPFS.install().then(function(state) {
- 				self.setState({
-            		IPFSInstalled: true
-        		});
-        	Settings.save('ipfsInstalled', true);
+            self.setState({
+                IPFSInstalled: true
+            });
+            Settings.save('ipfsInstalled', true);
         });
     },
     InstallFlorincoind: function() {
-    	var self = this;
+        var self = this;
         Florincoind.install().then(function(state) {
- 				self.setState({
-            		FlorincoindInstalled: true
-        		});
-			Settings.save('florincoindInstalled', true);
+            self.setState({
+                FlorincoindInstalled: true
+            });
+            Settings.save('florincoindInstalled', true);
         });
     },
     handleChangeFlorincoindEnabled: function(e) {
@@ -77,7 +102,7 @@ var Preferences = React.createClass({
         this.setState({
             LibrarydEnabled: checked
         });
-        
+
         Libraryd.toggle(checked);
         Settings.save('librarydEnabled', checked);
     },
@@ -94,7 +119,7 @@ var Preferences = React.createClass({
     },
     render: function() {
         return (
-      <div className='content-scroller' id='content'>
+            <div className='content-scroller' id='content'>
         <section>
             <h1 className='title'>Local Daemons</h1>
             <div className="DaemonWrapper">

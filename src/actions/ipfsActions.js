@@ -4,20 +4,23 @@ import ifps from '../utils/daemons/ipfsUtil';
 
 class ipfsActions {
 
+    constructor() {
+        this.generateActions(
+            'ipfsInstalled',
+            'ipfsEnabled',
+            'ipfsDisabled',
+            'ipfsPinned'
+        );
+    }
+
     download() {
         this.dispatch();
         ifps.download()
-            .then((DLpath) => {
-                console.info('download saved to', DLpath);
-            })
-            .catch((error) => {
-                console.error('Unable to download', error);
-            });
     }
 
     install() {
         this.dispatch();
-        return ifps.install()
+        ifps.install()
     }
 
     addFile() {
@@ -27,31 +30,25 @@ class ipfsActions {
 
     pinRemote(hash) {
         this.dispatch();
-        return ifps.pinFile(hash)
+        ifps.pinFile(hash)
     }
 
     pinlocal() {
         this.dispatch();
-        var pins = ifps.pinlocalfiles();
-        pins.on('pinned', function(file) {
-            console.log(file)
-        });
+        ifps.pinlocalfiles();
     }
 
     getPinned() {
         this.dispatch();
-        return new Promise((resolve) => {
-            ifps.getPinned().then(resolve)
-        });
-
+        ifps.getPinned();
     }
 
     toggle(status) {
         this.dispatch();
         if (status)
-            return ifps.enable()
+            ifps.enable()
         else
-            return ifps.disable()
+            ifps.disable()
     }
 }
 
