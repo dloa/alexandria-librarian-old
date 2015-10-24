@@ -47,6 +47,19 @@ class daemonStore {
         });
     }
 
+    onFlorincoindInstalled() {
+        this.setState({
+            florincoindInstalled: true
+        });
+    }
+
+    onFlorincoindEnabled(state) {
+        this.setState({
+            florincoindEnabled: state
+        });
+    }
+
+
     errors({
         errors
     }) {
