@@ -1,15 +1,15 @@
 import remote from 'remote';
 import React from 'react';
 import ipc from 'ipc';
-import webUtil from './utils/WebUtil';
-import util from './utils/Util';
+import webUtil from './utils/webUtil';
+import util from './utils/util';
 import path from 'path';
 import Router from 'react-router';
 import routes from './routes';
 import routerContainer from './router';
-import Settings from './utils/SettingsUtil';
-import HttpAPI from './utils/HttpUtil'
-import LogStore from './stores/LogStore'
+import Settings from './utils/settingsUtil';
+import HttpAPI from './utils/httpUtil'
+import LogStore from './stores/logStore'
 import yargs from 'yargs';
 
 

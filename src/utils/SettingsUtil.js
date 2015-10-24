@@ -1,4 +1,4 @@
-import util from './Util';
+import util from './util';
 
 var defaultSettings = {
     /* Startup */

@@ -1,6 +1,6 @@
 import ipc from 'ipc';
 import alt from '../alt';
-import libraryd from '../utils/libarydUtil';
+import libraryd from '../utils/daemons/libarydUtil';
 
 class librarydActions {
 
