@@ -1,4 +1,3 @@
-require.main.paths.splice(0, 0, process.env.NODE_PATH);
 import remote from 'remote';
 import React from 'react';
 import ipc from 'ipc';
@@ -58,7 +57,6 @@ util.createDir(path.join(process.env.APP_DATA_PATH, 'bin')).then(function() {
     router.transitionTo('dashboard');
 });
 
-ipc.on('application:quitting', () => {});
 
 // Event fires when the app receives a custom protocal url
 ipc.on('application:open-url', opts => {
