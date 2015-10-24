@@ -75,8 +75,8 @@ var About = React.createClass({
     },
 
     openGithub: function(e) {
-        var username = e.target.getAttribute('data-github');
-        utils.openUrl('https://github.com/' + username)
+        var url = e.target.getAttribute('data-github');
+        utils.openUrl(url)
     },
 
     render: function() {
