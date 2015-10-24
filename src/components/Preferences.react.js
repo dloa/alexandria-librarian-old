@@ -3,6 +3,7 @@ import Router from 'react-router';
 import startupManager from 'node-startup-manager';
 
 import Settings from '../utils/settingsUtil';
+import Updater from '../utils/updaterUtil';
 import utils from '../utils/util';
 import HTTPAPI from '../utils/httpApiUtil';
 
@@ -123,6 +124,9 @@ var Preferences = React.createClass({
     handleOpenDevTools: function() {
         require('remote').getCurrentWindow().toggleDevTools();
     },
+    handleCheckUpdates: function() {
+        Updater.checkForUpdates();
+    },
     render: function() {
         return (
             <div className='content-scroller' id='content'>
@@ -166,10 +170,15 @@ var Preferences = React.createClass({
                 <section>
                     <h1 className='title'>Other</h1>
 
-                    <button className="left" type="submit" onClick={this.handleResetSettings}><p>Reset Settings</p></button> 
+                    <button className="left" type="submit" onClick={this.handleResetSettings}><p>Reset Settings</p></button>
                     <button className="left" type="submit" onClick={this.handlePurgeBins}><p>Uninstall All Daemons</p></button>
                     <button className="left" type="submit" onClick={this.handleResetPurge}><p>Uninstall & Reset Settings (dev)</p></button>
                     <button className="left" type="submit" onClick={this.handleOpenDevTools}><p>Open Dev Tools</p></button>
+                </section>
+                <section>
+                    <h1 className='title'>Updates</h1>
+
+                    <button className="left" type="submit" onClick={this.handleCheckUpdates}><p>Check for updates</p></button>
                 </section>
             </div>
         );
