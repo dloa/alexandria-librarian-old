@@ -3,7 +3,7 @@ import Router from 'react-router';
 import utils from '../utils/util';
 import fs from 'fs';
 import path from 'path';
-
+import request from 'request';
 
 var About = React.createClass({
     mixins: [Router.Navigation],
@@ -21,14 +21,26 @@ var About = React.createClass({
     },
     getLisence: function() {
         var self = this;
-        fs.readFile(path.normalize(path.join(__dirname, '../../', 'LICENSE.md')), function(err, data) {
-            if (err) return console.log(err);
-            self.setState({
-                lisence: data
-            });
-        })
+
+        request('https://raw.githubusercontent.com/dloa/alexandria-librarian/master/LICENSE.md', function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                self.setState({
+                    lisence: body
+                });
+            } else {
+                fs.readFile(path.normalize(path.join(__dirname, '../../', 'LICENSE.md')), function(err, data) {
+                    if (err) return console.log(err);
+                    self.setState({
+                        lisence: data
+                    });
+                })
+            }
+        });
     },
     getContributors: function() {
+
+
+
 
     },
 
