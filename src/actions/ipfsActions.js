@@ -1,4 +1,3 @@
-import ipc from 'ipc';
 import alt from '../alt';
 import ifps from '../utils/daemons/ipfsUtil';
 
