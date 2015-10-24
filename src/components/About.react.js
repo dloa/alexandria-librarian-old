@@ -10,7 +10,7 @@ var About = React.createClass({
 
     getInitialState: function() {
         return {
-            contributors: {},
+            contributors: [],
             lisence: '',
             version: ''
         }
@@ -39,7 +39,17 @@ var About = React.createClass({
     },
     getContributors: function() {
 
+        fs.readFile(path.normalize(path.join(__dirname, '../../', 'CONTRIBUTORS.md')), function(err, data) {
+            if (err) return console.log(err);
 
+
+
+            /*
+            self.setState({
+                lisence: data
+            });
+*/
+        })
 
 
     },
@@ -50,27 +60,6 @@ var About = React.createClass({
     },
 
     render: function() {
-        var Contributors = [{
-            name: 'Luigi Poole',
-            email: 'luigipoole@outlook.com',
-            github: 'luigiplr'
-        }, {
-            name: 'Niv Sardi',
-            email: 'xaiki@debian.org',
-            github: 'Xaiki'
-        }, {
-            name: 'Devon Read',
-            email: 'devon@blocktech.com',
-            github: 'DevonJames'
-        }, {
-            name: 'Avery Dodd',
-            email: 'averyhvdodd@gmail.com',
-            github: 'AveryDodd'
-        }];
-        var version = 'v0.5.2 α';
-
-
-
         return (
             <div className="content-scroller" id="content">
                 <section>
@@ -81,11 +70,11 @@ var About = React.createClass({
                 </section>
                 <section>
                     <h1 className="title">Contributors</h1>
-                        {Contributors.map(function(Contributor, i) {
+                        {this.state.contributors.map(function(Contributor, i) {
                             return (
                                         <p className="Contributor">{Contributor.name} {'<' + Contributor.email + '>'} <i data-github={Contributor.github}  onClick={this.openGithub} className="ion-social-github" /></p>
                                     );
-                        }, this)}             
+                            }, this)}             
                  </section>
                 <section>
                     <h1 className="title">License</h1>
