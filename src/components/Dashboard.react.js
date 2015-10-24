@@ -77,7 +77,7 @@ var Preferences = React.createClass({
         this.setState({
             LibrarydEnabled: checked
         });
-        
+
         Libraryd.toggle(checked);
         Settings.save('librarydEnabled', checked);
     },

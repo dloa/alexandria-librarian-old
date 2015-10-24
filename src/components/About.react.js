@@ -96,7 +96,7 @@ var About = React.createClass({
                                         <p className="Contributor">{Contributor.name} {Contributor.email} <i data-github={Contributor.github}  onClick={this.openGithub} className="ion-social-github" /></p>
                                     );
                                 }, this)
-                        }             
+                        }
                  </section>
                 <section>
                     <h1 className="title">License</h1>
