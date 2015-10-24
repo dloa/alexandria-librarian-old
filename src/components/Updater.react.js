@@ -1,5 +1,5 @@
 import React from 'react/addons';
-import UpdaterActions from '../utils/updateActions';
+import UpdaterActions from '../actions/updateActions';
 
 
 var Updater = React.createClass({
