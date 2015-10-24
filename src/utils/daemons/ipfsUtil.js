@@ -5,11 +5,6 @@ import request from 'request';
 import fs from 'fs';
 import remote from 'remote';
 import nodeUtil from 'util';
-import {
-    EventEmitter
-}
-from 'events';
-
 
 import util from '../util';
 import Settings from '../settingsUtil';
