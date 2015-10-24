@@ -55,22 +55,13 @@ var Preferences = React.createClass({
     handleChangeFlorincoindEnabled: function(e) {
         var checked = e.target.checked;
         Florincoind.toggle(checked);
-        this.setState({
-            FlorincoindEnabled: checked
-        });
     },
     handleChangeLibrarydEnabled: function(e) {
         var checked = e.target.checked;
-        this.setState({
-            LibrarydEnabled: checked
-        });
         Libraryd.toggle(checked);
     },
     handleChangeIPFSEnabled: function(e) {
         var checked = e.target.checked;
-        this.setState({
-            IPFSEnabled: checked
-        });
         IPFS.toggle(checked);
     },
     handleOpenIPFSWebUI: function(e) {
