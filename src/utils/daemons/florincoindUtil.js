@@ -8,12 +8,13 @@ import fs from 'fs';
 import readline from 'readline';
 import DecompressZip from 'decompress-zip';
 
+
 import util from '../util';
 import Settings from '../settingsUtil';
 
 
 var app = remote.require('app');
-var AppData = process.env.APP_DATA_PATH;
+var AppData = app.getPath('userData');
 var asarBIN = path.normalize(path.join(__dirname, '../../../', 'bin'));
 var os = util.getOS();
 
