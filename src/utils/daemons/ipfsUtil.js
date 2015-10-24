@@ -13,13 +13,15 @@ from 'events';
 
 import util from '../util';
 import Settings from '../settingsUtil';
+import ipfsActions from '../../actions/ipfsActions';
+
 
 
 var app = remote.require('app');
 var AppData = app.getPath('userData');
 var os = util.getOS();
 var asarBIN = path.normalize(path.join(__dirname, '../../../', 'bin'));
-var pinEmmiter = new EventEmitter();
+
 
 module.exports = {
     download: function() {
@@ -55,7 +57,7 @@ module.exports = {
     },
     pinlocalfiles: function() {
         var dialog = remote.require('dialog');
-        let pinEmmiter = new EventEmitter();
+
         dialog.showOpenDialog({
             title: 'Select file',
             properties: ['openFile', 'createDirectory', 'multiSelections'],
@@ -64,11 +66,13 @@ module.exports = {
                 module.exports.addFile(filepath)
                     .then(module.exports.pinFile)
                     .then(function(pinRes) {
-                        pinEmmiter.emit('pinned', {
+                        var pinEvent = {
                             hash: pinRes,
                             name: path.normalize(filepath),
                             message: pinRes
-                        });
+                        };
+                        //do something with this later
+
                     });
             });
         });
@@ -102,7 +106,10 @@ module.exports = {
                 .then(function() {
                     return util.exec([path.join(AppData, 'bin', (os === 'win') ? 'ipfs.exe' : 'ipfs'), 'init']).catch(resolve);
                 })
-                .then(resolve)
+                .then(function() {
+                    ipfsActions.ipfsInstalled(true);
+                    resolve();
+                })
                 .catch(reject);
         });
     },
@@ -111,6 +118,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
             try {
                 this.daemon.start(function(pid) {
+                    ipfsActions.ipfsEnabled(true);
                     resolve(pid);
                 });
             } catch (e) {
@@ -123,10 +131,14 @@ module.exports = {
             if (this.daemon) {
                 try {
                     this.daemon.stop(function(code) {
+                        ipfsActions.ipfsEnabled(false);
                         resolve(code);
                     });
                 } catch (e) {
-                    module.exports.forceKill().then(resolve).catch(reject);
+                    module.exports.forceKill().then(function() {
+                        ipfsActions.ipfsEnabled(false);
+                        resolve();
+                    }).catch(reject);
                 }
             } else {
                 module.exports.forceKill();
@@ -135,6 +147,8 @@ module.exports = {
     },
     forceKill: function() {
         var ipfsname = (os === 'win') ? 'ipfs.exe' : 'ipfs';
-        return util.killtask(ipfsname);
+        return util.killtask(ipfsname).then(function() {
+            ipfsActions.ipfsEnabled(false);
+        });
     }
 };
