@@ -1,12 +1,10 @@
 ﻿import React from 'react/addons';
-import Router from 'react-router';
 import utils from '../utils/util';
 import fs from 'fs';
 import path from 'path';
 import request from 'request';
 
 var About = React.createClass({
-    mixins: [Router.Navigation],
 
     getInitialState: function() {
         return {
