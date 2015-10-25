@@ -1,6 +1,6 @@
 {
   "name": "Alexandria_librarian",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "author": "dloa",
   "description": "ΛLΞXΛNDRIΛ Librarian",
   "homepage": "http://alexandria.media",
@@ -14,7 +14,7 @@
     "start": "grunt",
     "release": "grunt release"
   },
-  "electron-version": "0.34.0",
+  "electron-version": "0.34.1",
   "license": "GPL-3.0",
   "dependencies": {
     "alt": "^0.17.6",
