@@ -1,9 +1,13 @@
 import React from 'react';
 import {
-    Route
+    render
+}
+from 'react-dom';
+import {
+    Router, Route, Link
 }
 from 'react-router';
-
+import ReactDOM from 'react-dom';
 
 import Framework from './components/Framework.react';
 import Dashboard from './components/Dashboard.react';
@@ -13,6 +17,7 @@ import IPFSManagement from './components/IPFSManagement.react';
 
 
 var routes = (
+  <Router>
     <Route name="app" path="/" component={App}>
       <Route name="framework" component={Framework}>
         <Route name="dashboard" path="/dashboard" component={Dashboard}/>
@@ -21,15 +26,11 @@ var routes = (
         <Route name="IPFSManagement" path="/management/ipfs" component={IPFSManagement}/>
       </Route>
     </Route>
+  </Router>
 );
 
 
-var App = React.createClass({
-    render: function() {
-        return ({
-            routes
-        });
-    }
-});
+render((), document.body)
+
 
 module.exports = routes;

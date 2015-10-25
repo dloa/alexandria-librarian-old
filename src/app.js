@@ -1,5 +1,6 @@
 import remote from 'remote';
 import React from 'react';
+
 import ipc from 'ipc';
 import path from 'path';
 import Router from 'react-router';
@@ -25,6 +26,8 @@ util.createDir(path.join(AppData, 'bin'));
 webUtil.addLiveReload();
 webUtil.disableGlobalBackspace();
 HttpAPI.init();
+
+
 
 
 
@@ -58,4 +61,3 @@ util.createDir(path.join(AppData, 'bin')).then(function() {
 ipc.on('application:open-url', opts => {
     console.log('open', opts);
 });
-
