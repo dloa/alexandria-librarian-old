@@ -9,7 +9,7 @@ module.exports = {
         externalActions.gotVersion('Something Placeholderish');
     },
 
-    getLisence: function() {
+    getLicense: function() {
         request('https://raw.githubusercontent.com/dloa/alexandria-librarian/master/LICENSE.md', function(error, response, body) {
             if (!error && response.statusCode == 200)
                 externalActions.gotLicense(body);

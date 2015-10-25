@@ -10,9 +10,9 @@ class externalActions {
         );
     }
 
-    getLisence() {
+    getLicense() {
         this.dispatch();
-        require('../utils/aboutUtil').getLisence();
+        require('../utils/aboutUtil').getLicense();
     }
 
     getContributors() {

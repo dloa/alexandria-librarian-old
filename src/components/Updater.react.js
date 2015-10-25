@@ -1,18 +1,23 @@
 import React from 'react/addons';
-import UpdaterActions from '../actions/updateActions';
+import updateActions from '../actions/updateActions';
+import updaterStore from '../stores/updaterStore';
 
+import UpdaterUtil from '../utils/UpdaterUtil'
 
 var Updater = React.createClass({
 
     getInitialState: function() {
         return {
-
+            appUpdateAvailable: updaterStore.getState().appUpdateAvailable,
+            daemonUpdatesAvailable: updaterStore.getState().daemonUpdatesAvailable
         };
     },
     handleCheckUpdates: function() {
-        Updater.checkForUpdates();
+        UpdaterUtil.checkForUpdates();
     },
     render: function() {
+        var appUpdateAvailable = this.state.appUpdateAvailable ? this.state.appUpdateAvailable : {};
+        var daemonUpdatesAvailable = this.state.daemonUpdatesAvailable ? this.state.daemonUpdatesAvailable : {};
         return (
             <section>
                 <h1 className='title'>Updates</h1>
