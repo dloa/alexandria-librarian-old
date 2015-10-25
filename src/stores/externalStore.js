@@ -9,7 +9,7 @@ class externalStore {
         this.errors = {};
 
         this.license = 'Loading...';
-        this.contributors = 'Loading...';
+        this.contributors = [];
         this.version = '';
         this.loaded = false;
 

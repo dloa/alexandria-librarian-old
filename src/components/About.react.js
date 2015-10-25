@@ -18,7 +18,7 @@ var About = React.createClass({
     componentDidMount: function() {
         if (!this.state.loaded) {
             externalStore.listen(this.update);
-            externalActions.load();
+            externalActions.loadAll();
         }
     },
     componentWillUnmount: function() {
