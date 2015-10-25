@@ -1,5 +1,5 @@
 import alt from '../alt';
-import libraryd from '../utils/daemons/libarydUtil';
+
 
 class librarydActions {
 
@@ -11,16 +11,19 @@ class librarydActions {
     }
 
     download() {
+        var libraryd = require('../utils/daemons/libarydUtil');
         this.dispatch();
         libraryd.download()
     }
 
     install() {
+        var libraryd = require('../utils/daemons/libarydUtil');
         this.dispatch();
         libraryd.install();
     }
 
     toggle(status) {
+        var libraryd = require('../utils/daemons/libarydUtil');
         this.dispatch();
         if (status)
             libraryd.enable();

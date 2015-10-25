@@ -7,6 +7,7 @@ import remote from 'remote';
 
 import Settings from '../settingsUtil';
 import util from '../util';
+import librarydActionHandler from '../../actions/librarydActions';
 
 var app = remote.require('app');
 var AppData = app.getPath('userData');
@@ -23,7 +24,9 @@ module.exports = {
                 .then(function() {
                     return util.chmod(path.join(AppData, 'bin', (os === 'win') ? 'libraryd.exe' : 'libraryd'), '0777').catch(resolve);
                 })
-                .then(resolve)
+                .then(function() {
+                    librarydActionHandler.librarydInstalled(true);
+                })
                 .catch(reject);
         });
     },
@@ -38,6 +41,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
             try {
                 this.daemon.start(function(pid) {
+                    librarydActionHandler.librarydEnabled(true);
                     resolve(pid);
                 });
             } catch (e) {
@@ -50,10 +54,14 @@ module.exports = {
             if (this.daemon) {
                 try {
                     this.daemon.stop(function(code) {
+                        librarydActionHandler.librarydEnabled(false);
                         resolve(code);
                     });
                 } catch (e) {
-                    module.exports.forceKill().then(resolve).catch(reject);
+                    module.exports.forceKill().then(function() {
+                        librarydActionHandler.librarydEnabled(false);
+                        resolve();
+                    }).catch(reject);
                 }
             } else {
                 module.exports.forceKill();
@@ -62,6 +70,8 @@ module.exports = {
     },
     forceKill: function() {
         var librarydname = (os === 'win') ? 'libraryd.exe' : 'libraryd';
-        return util.killtask(librarydname);
+        return util.killtask(librarydname).then(function() {
+            librarydActionHandler.librarydEnabled(false);
+        });
     }
 };
