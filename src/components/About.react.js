@@ -1,79 +1,39 @@
 ﻿import React from 'react/addons';
+
 import utils from '../utils/util';
-import fs from 'fs';
-import path from 'path';
-import request from 'request';
+import externalActions from '../actions/externalActions';
+import externalStore from '../stores/externalStore';
+
 
 var About = React.createClass({
 
     getInitialState: function() {
         return {
-            contributors: [],
-            lisence: 'Loading...',
-            version: 'Loading...'
+            loaded: externalStore.getState().loaded,
+            contributors: externalStore.getState().contributors,
+            lisence: externalStore.getState().lisence,
+            version: externalStore.getState().version
         }
     },
     componentDidMount: function() {
-        this.getContributors();
-        this.getLisence();
+        if (!this.state.loaded) {
+            externalStore.listen(this.update);
+            externalActions.load();
+        }
     },
-    getLisence: function() {
-        var self = this;
-
-        request('https://raw.githubusercontent.com/dloa/alexandria-librarian/master/LICENSE.md', function(error, response, body) {
-            if (!error && response.statusCode == 200) {
-                self.setState({
-                    lisence: body
-                });
-            } else {
-                fs.readFile(path.normalize(path.join(__dirname, '../../', 'LICENSE.md')), function(err, data) {
-                    if (err) return console.log(err);
-                    self.setState({
-                        lisence: data
-                    });
-                })
-            }
-        });
+    componentWillUnmount: function() {
+        if (!this.state.loaded)
+            externalStore.unlisten(this.update);
     },
-    getContributors: function() {
-        var self = this;
-        var contributors = [];
-        request('https://raw.githubusercontent.com/dloa/alexandria-librarian/master/CONTRIBUTORS.md', function(error, response, body) {
-            if (!error && response.statusCode == 200) {
-                var people = body.split('# ΛLΞXΛNDRIΛ Librarian Contributors:')[1].replace('### Want to contribute?', '').replace(/\n/g, '').replace(/^\s+|\s+$/g, '').split('*').filter(Boolean);
-                people.forEach(function(entry) {
-                    entry = entry.split(' | ');
-                    var person = {
-                        name: entry[0],
-                        email: entry[1],
-                        github: entry[2].split('(')[1].split(')')[0]
-                    };
-                    contributors.push(person);
-                });
-                self.setState({
-                    contributors: contributors
-                });
-            } else {
-                fs.readFile(path.normalize(path.join(__dirname, '../../', 'CONTRIBUTORS.md')), function(err, data) {
-                    if (err) return console.log(err);
-                    var people = data.toString().split('# ΛLΞXΛNDRIΛ Librarian Contributors:')[1].replace('### Want to contribute?', '').replace(/\n/g, '').replace(/^\s+|\s+$/g, '').split('*').filter(Boolean);
-                    people.forEach(function(entry) {
-                        entry = entry.split(' | ');
-                        var person = {
-                            name: entry[0],
-                            email: entry[1],
-                            github: entry[2].split('(')[1].split(')')[0]
-                        };
-                        contributors.push(person);
-                    });
-                    self.setState({
-                        contributors: contributors
-                    });
-                });
-            }
-        });
+    update: function() {
+        if (this.isMounted()) {
+            this.setState({
+                contributors: externalStore.getState().contributors,
+                lisence: externalStore.getState().lisence,
+                version: externalStore.getState().version
+            });
+        }
     },
-
     openGithub: function(e) {
         var url = e.target.getAttribute('data-github');
         utils.openUrl(url)
