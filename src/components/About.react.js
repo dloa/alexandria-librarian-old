@@ -46,7 +46,6 @@ var About = React.createClass({
     render: function() {
         var contributors = this.state.contributors ? this.state.contributors : [];
         var license = this.state.license ? this.state.license : 'Loading...';
-        console.log(license);
         var version = this.state.version ? this.state.version : 'Loading...';
         return (
             <div className="content-scroller" id="content">
