@@ -71,6 +71,17 @@ module.exports = function(grunt) {
                     asar: true
                 }
             },
+            linux: {
+                options: {
+                    name: BASENAME,
+                    dir: 'build/',
+                    out: 'dist',
+                    version: packagejson['electron-version'],
+                    platform: 'linux',
+                    arch: process.arch,
+                    asar: true
+                }
+            },
             osx: {
                 options: {
                     name: APPNAME,
@@ -198,7 +209,7 @@ module.exports = function(grunt) {
                     expand: true,
                     cwd: 'src/',
                     src: ['**/*.js'],
-                    dest: 'build/js',
+                    dest: 'build/js'
                 }]
             }
         },
@@ -247,6 +258,18 @@ module.exports = function(grunt) {
                     src: '**/*'
                 }]
             },
+            linux: {
+                options: {
+                    archive: './dist/' + BASENAME + '-' + packagejson.version + '-Linux-' + process.arch + '-Alpha.zip',
+                    mode: 'zip'
+                },
+                files: [{
+                    expand: true,
+                    dot: true,
+                    cwd: './dist/ΛLΞXΛNDRIΛ Librarian-linux-' + process.arch,
+                    src: '**/*'
+                }]
+            },
         },
 
         // livereload
@@ -278,9 +301,13 @@ module.exports = function(grunt) {
     grunt.registerTask('default', ['newer:babel', 'less', 'newer:copy:dev', 'shell:electron', 'watchChokidar']);
 
     if (process.platform === 'win32') {
-        grunt.registerTask('release', ['clean:release', 'babel', 'less', 'copy:dev', 'electron:windows', 'compress']);
-    } else {
+        grunt.registerTask('release', ['clean:release', 'babel', 'less', 'copy:dev', 'electron:windows', 'compress:windows']);
+    }
+    if (process.platform === 'darwin') {
         grunt.registerTask('release', ['clean:release', 'babel', 'less', 'copy:dev', 'electron:osx', 'copy:osx', 'shell:zip']);
+    }
+    if (process.platform === 'linux') {
+        grunt.registerTask('release', ['clean:release', 'babel', 'less', 'copy:dev', 'electron:linux', 'compress:linux']);
     }
 
     process.on('SIGINT', function() {
