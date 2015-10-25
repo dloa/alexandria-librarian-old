@@ -44,18 +44,22 @@ var About = React.createClass({
     },
 
     render: function() {
+        var contributors = this.state.contributors ? this.state.contributors : [];
+        var lisence = this.state.lisence ? this.state.lisence : 'Loading...';
+        var version = this.state.version ? this.state.version : 'Loading...';
+        
         return (
             <div className="content-scroller" id="content">
                 <section>
                     <h1 className="title">About</h1>
                     <p className="about" >This is a prototype developer build, and is not representative of the final product.</p>
                     <br/>
-                <p className="about" >ΛLΞXΛNDRIΛ Librarian, {this.state.version} </p>
+                <p className="about" >ΛLΞXΛNDRIΛ Librarian, {version} </p>
                 </section>
                 <section>
                     <h1 className="title">Contributors</h1>
-                        {
-                            this.state.contributors.map(function(Contributor, i) {
+                        { 
+                            contributors.map(function(Contributor, i) {
                                 return (
                                         <p className="Contributor">{Contributor.name} {Contributor.email} <i data-github={Contributor.github}  onClick={this.openGithub} className="ion-social-github" /></p>
                                     );
@@ -64,7 +68,7 @@ var About = React.createClass({
                  </section>
                 <section>
                     <h1 className="title">License</h1>
-                    <textarea className="License"  value={this.state.lisence} readOnly />
+                    <textarea className="License"  value={lisence} readOnly />
                 </section>
             </div>
         );

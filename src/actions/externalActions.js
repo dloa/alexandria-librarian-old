@@ -19,6 +19,11 @@ class externalActions {
         this.dispatch();
         require('../utils/aboutUtil').getContributors();
     }
+
+    getVersion() {
+        this.dispatch();
+        require('../utils/aboutUtil').getVersion();
+    }
 }
 
 

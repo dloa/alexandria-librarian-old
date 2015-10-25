@@ -5,6 +5,10 @@ import externalActions from '../../actions/externalActions';
 
 
 module.exports = {
+    getVersion: function() {
+        externalActions.gotVersion('Something Placeholderish');
+    },
+
     getLisence: function() {
         request('https://raw.githubusercontent.com/dloa/alexandria-librarian/master/LICENSE.md', function(error, response, body) {
             if (!error && response.statusCode == 200)
