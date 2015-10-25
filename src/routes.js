@@ -1,5 +1,8 @@
 import React from 'react';
-import Router from 'react-router';
+import {
+    Route
+}
+from 'react-router';
 
 
 import Framework from './components/Framework.react';
@@ -9,26 +12,24 @@ import About from './components/About.react';
 import IPFSManagement from './components/IPFSManagement.react';
 
 
-var Route = Router.Route;
-var RouteHandler = Router.RouteHandler;
+var routes = (
+    <Route name="app" path="/" component={App}>
+      <Route name="framework" component={Framework}>
+        <Route name="dashboard" path="/dashboard" component={Dashboard}/>
+        <Route name="preferences" path="/preferences" component={Preferences}/>
+        <Route name="about" path="/about" component={About}/>
+        <Route name="IPFSManagement" path="/management/ipfs" component={IPFSManagement}/>
+      </Route>
+    </Route>
+);
+
 
 var App = React.createClass({
-  render: function () {
-    return (
-      <RouteHandler/>
-    );
-  }
+    render: function() {
+        return ({
+            routes
+        });
+    }
 });
-
-var routes = (
-  <Route name="app" path="/" handler={App}>
-    <Route name="framework" handler={Framework}>
-      <Route name="dashboard" path="/dashboard" handler={Dashboard}/>
-      <Route name="preferences" path="/preferences" handler={Preferences}/>
-      <Route name="about" path="/about" handler={About}/>
-      <Route name="IPFSManagement" path="/management/ipfs" handler={IPFSManagement}/>
-    </Route>
-  </Route>
-);
 
 module.exports = routes;

@@ -26,13 +26,7 @@ webUtil.addLiveReload();
 webUtil.disableGlobalBackspace();
 HttpAPI.init();
 
-var router = Router.create({
-    onError: console.log,
-    routes: routes
-});
 
-router.run(Handler => React.render( < Handler / > , document.body));
-routerContainer.set(router);
 
 // Default Route
 util.createDir(path.join(AppData, 'bin')).then(function() {
@@ -54,9 +48,9 @@ util.createDir(path.join(AppData, 'bin')).then(function() {
         console.log(args.hide, Settings.get('startMinimized'))
         ipc.send('application:show');
     }
-    router.transitionTo('dashboard');
+    Router.transitionTo('dashboard');
 }).catch(function(e) {
-    router.transitionTo('dashboard');
+    Router.transitionTo('dashboard');
 });
 
 
@@ -65,6 +59,3 @@ ipc.on('application:open-url', opts => {
     console.log('open', opts);
 });
 
-module.exports = {
-    router: router
-};
