@@ -1,57 +1,67 @@
-import ipc from 'ipc';
-import alt from '../alt';
-import ifps from '../utils/daemons/ipfsUtil';
+import alt from '../alt'
+
+
 
 class ipfsActions {
 
+    constructor() {
+        this.generateActions(
+            'ipfsInstalled',
+            'ipfsEnabled',
+            'ipfsPinned'
+        );
+    }
+
     download() {
+        var ipfsUtil = require('../utils/daemons/ipfsUtil');
+
         this.dispatch();
-        ifps.download()
-            .then((DLpath) => {
-                console.info('download saved to', DLpath);
-            })
-            .catch((error) => {
-                console.error('Unable to download', error);
-            });
+        ipfsUtil.download()
     }
 
     install() {
+        var ipfsUtil = require('../utils/daemons/ipfsUtil');
+
         this.dispatch();
-        return ifps.install()
+        ipfsUtil.install()
     }
 
     addFile() {
+        var ipfsUtil = require('../utils/daemons/ipfsUtil');
+
         this.dispatch();
-        ifps.addFile();
+        ipfsUtil.addFile();
     }
 
     pinRemote(hash) {
+        var ipfsUtil = require('../utils/daemons/ipfsUtil');
+
         this.dispatch();
-        return ifps.pinFile(hash)
+        ipfsUtil.pinFile(hash)
     }
 
     pinlocal() {
+        var ipfsUtil = require('../utils/daemons/ipfsUtil');
+
         this.dispatch();
-        var pins = ifps.pinlocalfiles();
-        pins.on('pinned', function(file) {
-            console.log(file)
-        });
+        ipfsUtil.pinlocalfiles();
     }
 
     getPinned() {
-        this.dispatch();
-        return new Promise((resolve) => {
-            ifps.getPinned().then(resolve)
-        });
+        var ipfsUtil = require('../utils/daemons/ipfsUtil');
 
+        this.dispatch();
+        ipfsUtil.getPinned();
     }
 
     toggle(status) {
+        var ipfsUtil = require('../utils/daemons/ipfsUtil');
+
         this.dispatch();
         if (status)
-            return ifps.enable()
+            ipfsUtil.enable()
         else
-            return ifps.disable()
+            ipfsUtil.disable()
     }
 }
 

@@ -1,31 +1,33 @@
-import ipc from 'ipc';
 import alt from '../alt';
-import Florincoind from '../utils/daemons/florincoindUtil';
 
 class FlorincoindActions {
 
+    constructor() {
+        this.generateActions(
+            'florincoindInstalled',
+            'florincoindEnabled'
+        );
+    }
+
     download() {
+        var Florincoind = require('../utils/daemons/florincoindUtil');
         this.dispatch();
-        Florincoind.download()
-            .then((DLpath) => {
-                console.info('download saved to', DLpath);
-            })
-            .catch((error) => {
-                console.error('Unable to download', error);
-            });
+        Florincoind.download();
     }
 
     install() {
+        var Florincoind = require('../utils/daemons/florincoindUtil');
         this.dispatch();
-        return Florincoind.install()
+        Florincoind.install();
     }
-    
+
     toggle(status) {
+        var Florincoind = require('../utils/daemons/florincoindUtil');
         this.dispatch();
         if (status)
-            return Florincoind.enable()
+            Florincoind.enable();
         else
-            return Florincoind.disable()
+            Florincoind.disable();
     }
 
 }

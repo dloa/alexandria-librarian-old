@@ -11,7 +11,7 @@ import DecompressZip from 'decompress-zip';
 
 import util from '../util';
 import Settings from '../settingsUtil';
-
+import florincoindActionHandler from '../../actions/florincoindActions';
 
 var app = remote.require('app');
 var AppData = app.getPath('userData');
@@ -33,11 +33,12 @@ module.exports = {
                     })
                     .on('extract', function(log) {
                         // Setup chmodSync to fix permissions
-                        console.log(files)
+
                         files.forEach(function(file) {
                             fs.chmodSync(path.join(AppData, 'bin', file.path), file.mode);
                         });
 
+                        florincoindActionHandler.florincoindInstalled(true);
                         resolve();
                     })
                     .extract({
@@ -53,8 +54,14 @@ module.exports = {
             } else {
                 var filename = (os === 'win') ? 'florincoind.exe' : 'florincoind';
                 util.copyfile(path.join(process.cwd(), 'bin', os, filename), path.join(AppData, 'bin', filename))
-                    .then(resolve)
-                    .catch(resolve);
+                    .then(function() {
+                        florincoindActionHandler.florincoindInstalled(true);
+                        resolve();
+                    })
+                    .catch(function() {
+                        florincoindActionHandler.florincoindInstalled(true);
+                        resolve();
+                    });
             }
         });
     },
@@ -154,13 +161,17 @@ module.exports = {
             module.exports.checkConf().then(function() {
                 if (os === 'osx') {
                     util.exec(['open', path.join(AppData, 'bin', 'florincoind.app')])
-                        .then(resolve)
+                        .then(function() {
+                            florincoindActionHandler.florincoindEnabled(true);
+                            resolve();
+                        })
                         .catch(reject);
                 } else {
                     var filename = (os === 'win') ? 'florincoind.exe' : 'florincoind';
                     self.daemon = util.child(path.join(AppData, 'bin', filename), []);
                     try {
                         self.daemon.start(function(pid) {
+                            florincoindActionHandler.florincoindEnabled(true);
                             resolve(pid);
                         });
                     } catch (e) {
@@ -175,10 +186,14 @@ module.exports = {
             if (this.daemon) {
                 try {
                     this.daemon.stop(function(code) {
+                        florincoindActionHandler.florincoindEnabled(false);
                         resolve(code);
                     });
                 } catch (e) {
-                    module.exports.forceKill().then(resolve).catch(reject);
+                    module.exports.forceKill().then(function() {
+                        florincoindActionHandler.florincoindEnabled(false);
+                        resolve();
+                    }).catch(reject);
                 }
             } else {
                 module.exports.forceKill();
@@ -189,7 +204,9 @@ module.exports = {
         var florincoindname = (os === 'win') ? 'florincoind.exe' : 'florincoind';
         if (os === 'osx')
             florincoindname = 'Florincoin-Qt';
-        return util.killtask(florincoindname);
+        return util.killtask(florincoindname).then(function() {
+            florincoindActionHandler.florincoindEnabled(false);
+        });
     }
 
 };
