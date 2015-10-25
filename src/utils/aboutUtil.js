@@ -1,7 +1,7 @@
 import request from 'request';
 import fs from 'fs';
 import path from 'path';
-import externalActions from '../../actions/externalActions';
+import externalActions from '../actions/externalActions';
 
 
 module.exports = {
@@ -12,7 +12,7 @@ module.exports = {
     getLisence: function() {
         request('https://raw.githubusercontent.com/dloa/alexandria-librarian/master/LICENSE.md', function(error, response, body) {
             if (!error && response.statusCode == 200)
-                externalActions.gotLicense(data);
+                externalActions.gotLicense(body);
             else
                 fs.readFile(path.normalize(path.join(__dirname, '../../', 'LICENSE.md')), function(err, data) {
                     if (err) return console.log(err);

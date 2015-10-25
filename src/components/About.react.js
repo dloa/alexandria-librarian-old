@@ -15,18 +15,18 @@ var About = React.createClass({
         }
     },
     componentDidMount: function() {
-        if (!lisence || !contributors || !version) {
+        if (!this.state.lisence || !this.state.contributors || !this.state.version) {
             externalStore.listen(this.update);
-            if (!lisence)
-                externalActions.getLisence();
-            if (!contributors)
-                externalActions.getContributors();
-            if (!version)
+            if (!this.state.version)
                 externalActions.getVersion();
+            if (!this.state.lisence)
+                externalActions.getLisence();
+            if (!this.state.contributors)
+                externalActions.getContributors();
         }
     },
     componentWillUnmount: function() {
-        if (!lisence || !contributors || !version)
+        if (!this.state.lisence || !this.state.contributors || !this.state.version)
             externalStore.unlisten(this.update);
     },
     update: function() {
@@ -47,7 +47,6 @@ var About = React.createClass({
         var contributors = this.state.contributors ? this.state.contributors : [];
         var lisence = this.state.lisence ? this.state.lisence : 'Loading...';
         var version = this.state.version ? this.state.version : 'Loading...';
-        
         return (
             <div className="content-scroller" id="content">
                 <section>
@@ -68,7 +67,7 @@ var About = React.createClass({
                  </section>
                 <section>
                     <h1 className="title">License</h1>
-                    <textarea className="License"  value={lisence} readOnly />
+                    <textarea className="License"  defaultValue={lisence} readOnly />
                 </section>
             </div>
         );

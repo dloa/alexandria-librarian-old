@@ -17,7 +17,7 @@ class externalStore {
 
     onGotLicense(license) {
         this.setState({
-            license: state
+            license: license
         });
     }
 
