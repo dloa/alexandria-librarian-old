@@ -9,20 +9,24 @@ var About = React.createClass({
 
     getInitialState: function() {
         return {
-            loaded: externalStore.getState().loaded,
             contributors: externalStore.getState().contributors,
             lisence: externalStore.getState().lisence,
             version: externalStore.getState().version
         }
     },
     componentDidMount: function() {
-        if (!this.state.loaded) {
+        if (!lisence || !contributors || !version) {
             externalStore.listen(this.update);
-            externalActions.loadAll();
+            if (!lisence)
+                externalActions.getLisence();
+            if (!contributors)
+                externalActions.getContributors();
+            if (!version)
+                externalActions.getVersion();
         }
     },
     componentWillUnmount: function() {
-        if (!this.state.loaded)
+        if (!lisence || !contributors || !version)
             externalStore.unlisten(this.update);
     },
     update: function() {

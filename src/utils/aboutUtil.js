@@ -1,21 +1,19 @@
 import request from 'request';
 import fs from 'fs';
 import path from 'path';
-
+import externalActions from '../../actions/externalActions';
 
 
 module.exports = {
     getLisence: function() {
-
         request('https://raw.githubusercontent.com/dloa/alexandria-librarian/master/LICENSE.md', function(error, response, body) {
             if (!error && response.statusCode == 200)
-                self.actions.gotLicense(data);
+                externalActions.gotLicense(data);
             else
                 fs.readFile(path.normalize(path.join(__dirname, '../../', 'LICENSE.md')), function(err, data) {
                     if (err) return console.log(err);
-                    self.actions.gotLicense(data);
+                    externalActions.gotLicense(data);
                 })
-
         });
     },
 
@@ -33,9 +31,8 @@ module.exports = {
                     };
                     contributors.push(person);
                 });
-                self.setState({
-                    contributors: contributors
-                });
+                externalActions.gotContributors(contributors);
+
             } else {
                 fs.readFile(path.normalize(path.join(__dirname, '../../', 'CONTRIBUTORS.md')), function(err, data) {
                     if (err) return console.log(err);
@@ -49,9 +46,7 @@ module.exports = {
                         };
                         contributors.push(person);
                     });
-                    self.setState({
-                        contributors: contributors
-                    });
+                    externalActions.gotContributors(contributors);
                 });
             }
         });

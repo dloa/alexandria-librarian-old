@@ -5,7 +5,8 @@ class externalActions {
     constructor() {
         this.generateActions(
             'gotLicense',
-            'gotContributors'
+            'gotContributors',
+            'gotVersion'
         );
     }
 

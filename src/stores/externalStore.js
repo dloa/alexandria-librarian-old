@@ -8,10 +8,9 @@ class externalStore {
 
         this.errors = {};
 
-        this.license = 'Loading...';
-        this.contributors = [];
-        this.version = '';
-        this.loaded = false;
+        this.license = false;
+        this.contributors = false;
+        this.version = false;
 
     }
 
@@ -25,6 +24,12 @@ class externalStore {
     onGotContributors(contributors) {
         this.setState({
             contributors: contributors
+        });
+    }
+
+    onGotVersion(version) {
+        this.setState({
+            version: version
         });
     }
 
