@@ -1,12 +1,10 @@
-import React from 'react/addons';
-import Router from 'react-router';
+import React from 'react';
 
 import ipfsUtil from '../utils/daemons/ipfsUtil';
 import utils from '../utils/util';
 
 
 var termainalEmu = React.createClass({
-    mixins: [Router.Navigation],
 
     getInitialState: function() {
         return {

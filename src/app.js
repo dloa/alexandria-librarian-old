@@ -16,7 +16,7 @@ import routes from './routes';
 var app = remote.require('app');
 var Menu = remote.require('menu');
 
-var AppData  = path.join(app.getPath('userData'));
+var AppData = path.join(app.getPath('userData'));
 
 
 // Init process
@@ -27,6 +27,7 @@ webUtil.disableGlobalBackspace();
 HttpAPI.init();
 
 var router = Router.create({
+    onError: console.log,
     routes: routes
 });
 

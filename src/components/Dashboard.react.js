@@ -1,5 +1,4 @@
-import React from 'react/addons';
-import Router from 'react-router';
+import React from 'react';
 import ReactTooltip from 'react-tooltip';
 
 import Settings from '../utils/settingsUtil';

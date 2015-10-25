@@ -37,6 +37,8 @@ app.on('ready', function() {
         frame: true,
         show: false
     });
+    
+    mainWindow.openDevTools();
 
     mainWindow.setMenu(null);
 
