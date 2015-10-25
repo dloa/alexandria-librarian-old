@@ -1,31 +1,34 @@
-import ipc from 'ipc';
 import alt from '../alt';
-import libraryd from '../utils/daemons/libarydUtil';
+
 
 class librarydActions {
 
+    constructor() {
+        this.generateActions(
+            'librarydInstalled',
+            'librarydEnabled'
+        );
+    }
+
     download() {
+        var libraryd = require('../utils/daemons/libarydUtil');
         this.dispatch();
         libraryd.download()
-            .then((DLpath) => {
-                console.info('download saved to', DLpath);
-            })
-            .catch((error) => {
-                console.error('Unable to download', error);
-            });
     }
 
     install() {
+        var libraryd = require('../utils/daemons/libarydUtil');
         this.dispatch();
-        return libraryd.install();
+        libraryd.install();
     }
 
     toggle(status) {
+        var libraryd = require('../utils/daemons/libarydUtil');
         this.dispatch();
         if (status)
-            return libraryd.enable();
+            libraryd.enable();
         else
-            return libraryd.disable()
+            libraryd.disable()
     }
 
 }

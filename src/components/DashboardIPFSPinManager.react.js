@@ -39,7 +39,6 @@ var PinManager = React.createClass({
     },
     componentDidMount: function() {
         IPFS.getPinned()
-            .then(this.update);
     },
     update: function(newhash) {
         if (this.isMounted()) {
@@ -63,9 +62,7 @@ var PinManager = React.createClass({
     handlePinRefresh: function() {
         var self = this;
         IPFS.getPinned()
-            .then(function(data) {
-                self.update(data);
-            });
+   
     },
     render: function() {
         var pintext = '';

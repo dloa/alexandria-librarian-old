@@ -10,7 +10,6 @@ import Updater from './Updater.react';
 
 
 var Preferences = React.createClass({
-    mixins: [Router.Navigation],
 
     getInitialState: function() {
         return {
