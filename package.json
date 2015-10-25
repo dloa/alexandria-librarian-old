@@ -17,27 +17,27 @@
   "electron-version": "0.34.0",
   "license": "GPL-3.0",
   "dependencies": {
-    "alt": "^0.16.2",
+    "alt": "^0.17.6",
     "bluebird": "^2.9.24",
     "body-parser": "^1.14.1",
     "child": "0.0.3",
     "decompress-zip": "^0.2.0",
-    "exec": "0.2.0",
-    "executable": "^1.1.0",
+    "exec": "0.2.1",
+    "executable": "^2.0.0",
     "express": "^4.13.3",
     "find": "^0.2.3",
     "get-port": "^1.0.0",
-    "is-running": "^1.0.5",
+    "is-running": "^2.0.0",
     "lodash": "^3.10.1",
     "mkdirp": "^0.5.1",
     "node-startup-manager": "^0.0.6",
     "object-assign": "^4.0.1",
     "osx-release": "^1.1.0",
-    "react": "^0.13.1",
+    "react": "^0.14.0",
     "react-datagrid": "^1.2.15",
     "react-inlinesvg": "^0.4.2",
-    "react-router": "^0.13.3",
-    "react-tooltip": "^0.6.4",
+    "react-router": "^1.0.0-rc3",
+    "react-tooltip": "^0.8.3",
     "request": "^2.55.0",
     "rimraf": "^2.4.3",
     "xps": "^1.0.2",
@@ -50,7 +50,7 @@
     "grunt-chmod": "^1.0.3",
     "grunt-cli": "^0.1.13",
     "grunt-contrib-clean": "^0.6.0",
-    "grunt-contrib-compress": "^0.13.0",
+    "grunt-contrib-compress": "^0.14.0",
     "grunt-contrib-copy": "^0.8.0",
     "grunt-contrib-less": "^1.0.1",
     "grunt-contrib-watch-chokidar": "^1.0.0",
@@ -74,6 +74,6 @@
     "source-map-support": "^0.3.2"
   },
   "optionalDependencies": {
-    "electron-prebuilt": "0.34.0"
+    "electron-prebuilt": "0.34.1"
   }
 }
