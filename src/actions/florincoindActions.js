@@ -1,5 +1,4 @@
 import alt from '../alt';
-import Florincoind from '../utils/daemons/florincoindUtil';
 
 class FlorincoindActions {
 
@@ -11,16 +10,19 @@ class FlorincoindActions {
     }
 
     download() {
+        var Florincoind = require('../utils/daemons/florincoindUtil');
         this.dispatch();
         Florincoind.download();
     }
 
     install() {
+        var Florincoind = require('../utils/daemons/florincoindUtil');
         this.dispatch();
         Florincoind.install();
     }
 
     toggle(status) {
+        var Florincoind = require('../utils/daemons/florincoindUtil');
         this.dispatch();
         if (status)
             Florincoind.enable();
