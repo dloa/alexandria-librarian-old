@@ -17,8 +17,11 @@ module.exports = {
           var data = JSON.parse(result);
           latestVersion = data.App.version;
           console.log(latestVersion);
-          // still need to trigger download of update
         });
+        if(latestVersion !== appVersion)
+          console.log("Update required");
+          // trigger update here
+        else console.log("Up to date");
     },
 
     checkDaemonUpdates: function() {
@@ -31,7 +34,11 @@ module.exports = {
           var data = JSON.parse(result);
           latestVersion = data.daemons.LA.version;
           console.log(latestVersion);
-          // still need to do trigger download of update
         });
+
+        if(latestVersion !== daemonVersion)
+          console.log("Update required");
+          // trigger update here
+        else console.log("Up to date");
     }
 }
