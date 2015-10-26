@@ -112,14 +112,17 @@ module.exports = {
 
     checkRunning: function() {
         return new Promise((resolve, reject) => {
-            if (this.daemon)
-                return resolve(true)
-
+            if (!this.daemon) {
+                ipfsActionHandler.ipfsEnabled(false);
+                return resolve(false)
+            }
             var ipfsname = (os === 'win') ? 'ipfs.exe' : 'ipfs';
             util.checktaskrunning(ipfsname).then(function(running) {
                 var taskon = running ? true : false;
+                ipfsActionHandler.ipfsEnabled(true);
                 resolve(taskon);
             }).catch(function() {
+                ipfsActionHandler.ipfsEnabled(false);
                 resolve(false)
             })
         });

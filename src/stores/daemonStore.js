@@ -13,6 +13,7 @@ class daemonStore {
         this.bindActions(librarydActions);
 
         this.errors = {};
+        this.checkedRunning = false;
 
         this.ipfsInstalled = false;
         this.ipfsEnabled = false;

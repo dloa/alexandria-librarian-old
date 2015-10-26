@@ -28,6 +28,7 @@ var Preferences = React.createClass({
 
     getInitialState: function() {
         return {
+            checkedRunning: daemonStore.getState().checkedRunning,
             LibrarydEnabled: daemonStore.getState().librarydEnabled,
             IPFSEnabled: daemonStore.getState().ipfsEnabled,
             FlorincoindEnabled: daemonStore.getState().florincoindEnabled
@@ -35,6 +36,10 @@ var Preferences = React.createClass({
     },
 
     componentDidMount: function() {
+        if (!this.state.checkedRunning) {
+            IPFS.checkRunning();
+        }
+
         daemonStore.listen(this.update);
     },
 

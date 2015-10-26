@@ -26,6 +26,13 @@ class ipfsActions {
         ipfsUtil.install()
     }
 
+    checkRunning() {
+        var ipfsUtil = require('../utils/daemons/ipfsUtil');
+
+        this.dispatch();
+        ipfsUtil.checkRunning()
+    }
+
     addFile() {
         var ipfsUtil = require('../utils/daemons/ipfsUtil');
 
