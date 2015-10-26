@@ -45,6 +45,7 @@ app.on('ready', function() {
         mainWindow.show();
         mainWindow.toggleDevTools();
         mainWindow.focus();
+        console.info('Dev Mode Active: Developer Tools Enabled.')
     }
 
     mainWindow.setMenu(null);
