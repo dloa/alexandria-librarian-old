@@ -79,14 +79,6 @@ var Preferences = React.createClass({
                     <h1 className='title'>Local Daemons</h1>
                     <div className="DaemonWrapper">
                         <div className="toggle-wrapper">
-                            <input checked={this.state.LibrarydEnabled} onChange={this.handleChangeLibrarydEnabled} type="checkbox" id="LibrarydToggle" className="toggle" />
-                            <label htmlFor="LibrarydToggle"></label>
-                        </div>
-                        <p>Libraryd</p>
-                        <i className="ion-information-circled"/>
-                    </div>
-                    <div className="DaemonWrapper">
-                        <div className="toggle-wrapper">
                             <input checked={this.state.IPFSEnabled} onChange={this.handleChangeIPFSEnabled} type="checkbox" id="IPFStoggle" className="toggle" />
                             <label htmlFor="IPFStoggle"></label>
                         </div>
@@ -102,6 +94,14 @@ var Preferences = React.createClass({
                             <label htmlFor="Florincoindtoggle"></label>
                         </div>
                         <p>Florincoin</p>
+                        <i className="ion-information-circled"/>
+                    </div>
+                    <div className="DaemonWrapper">
+                        <div className="toggle-wrapper">
+                            <input checked={this.state.LibrarydEnabled} onChange={this.handleChangeLibrarydEnabled} type="checkbox" id="LibrarydToggle" className="toggle" />
+                            <label htmlFor="LibrarydToggle"></label>
+                        </div>
+                        <p>Libraryd</p>
                         <i className="ion-information-circled"/>
                     </div>
                 </section>
