@@ -1,11 +1,11 @@
 import React from 'react/addons';
 
 import Settings from '../utils/settingsUtil';
-import IPFS from '../actions/ipfsActions';
-import Libraryd from '../actions/librarydActions';
+import PublishActions from '../actions/publishActions';
+
 
 import utils from '../utils/util';
-import daemonStore from '../stores/daemonStore';
+import publishStore from '../stores/publishStore';
 
 
 
@@ -25,37 +25,36 @@ var Publish = React.createClass({
 
     getInitialState: function() {
         return {
-            //checkedRunning: daemonStore.getState().checkedRunning,
-
+            youtubeAuthorization: publishStore.getState().youtubeAuthorization
         };
     },
 
     componentDidMount: function() {
-        //daemonStore.listen(this.update);
+        publishStore.listen(this.update);
     },
 
     componentWillUnmount: function() {
-       // daemonStore.unlisten(this.update);
+        publishStore.unlisten(this.update);
     },
 
     update: function() {
         if (this.isMounted()) {
             this.setState({
-               // LibrarydEnabled: daemonStore.getState().librarydEnabled,
+                youtubeAuthorization: publishStore.getState().youtubeAuthorization
             });
         }
     },
-
-    handleChangeIPFSEnabled: function(e) {
-        var checked = e.target.checked;
-        IPFS.toggle(checked);
+    handleAuthYoutube: function() {
+        PublishActions.authorize('youtube')
     },
+
     render: function() {
         return (
             <div className='content-scroller' id='content'>
                 <section>
                     <h1 className='title'>Youtube</h1>
-                    
+                    <button className="left" onClick={this.handleAuthYoutube} ><p>Authorize youtube account</p></button> 
+                    <button className="left" ><p>Publish All Youtube Content</p></button> 
                 </section>
     
             </div>
