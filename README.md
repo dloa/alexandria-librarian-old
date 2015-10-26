@@ -18,8 +18,6 @@ Running `npm start` will download and install [Electron](http://electron.atom.io
 
 ### Overview
 
-**Note: This architecture is work in progress and doesn't reflect the current state of the app, yet!**
-
 ΛLΞXΛNDRIΛ Librarian is an application built using [electron](https://github.com/atom/electron). While it's work in progress, the goal is to make ΛLΞXΛNDRIΛ Librarian a high-performance, portable Javascript ES6 application built with React and Flux (using [alt](https://github.com/goatslacker/alt). It adopts a single data flow pattern:
 
 ```
