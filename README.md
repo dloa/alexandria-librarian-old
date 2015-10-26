@@ -44,4 +44,4 @@ and since VPN.ht has a large amount of interaction with outside systems, we've a
 
 ## Copyright and License
 
-Code released under the [GPLv3](LICENSE).
+Code released under the [GPLv3](LICENSE.md).
