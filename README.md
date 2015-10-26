@@ -35,7 +35,7 @@ There are three primary types of objects:
 - **Views**: Views make up the UI, and trigger available actions.
 - **Stores**: Stores store the state of the application.
 
-and since VPN.ht has a large amount of interaction with outside systems, we've added utils:
+and since ΛLΞXΛNDRIΛ Librarian has a large amount of interaction with outside systems, we've added utils:
 - **Utils**: Utils interact with APIs, outside systems, CLI tools and generate. They are called by user-generated actions and in return, also create actions based on API return values, CLI output etc.
 
 ### Guidelines
