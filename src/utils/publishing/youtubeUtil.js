@@ -6,6 +6,7 @@ import google from 'googleapis';
 var browserWindow = remote.require('browser-window');
 var OAuth2 = google.auth.OAuth2;
 var OAuthCreds = require(path.join(__dirname, '../../../', 'OAuth.json'));
+var oauth2Client = new OAuth2(OAuthCreds.googleClientID, OAuthCreds.googleClientSecret, 'http://localhost');
 
 module.exports = {
     getAuthorization: function() {
