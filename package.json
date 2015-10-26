@@ -22,6 +22,7 @@
     "body-parser": "^1.14.1",
     "child": "0.0.3",
     "decompress-zip": "^0.2.0",
+    "electron-google-oauth": "^1.1.0",
     "exec": "0.2.0",
     "executable": "^1.1.0",
     "express": "^4.13.3",
