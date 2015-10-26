@@ -9,7 +9,7 @@ import nodeUtil from 'util';
 import util from '../util';
 import Settings from '../settingsUtil';
 import ipfsActionHandler from '../../actions/ipfsActions';
-
+import notificationsUtil from '../notifyUtil';
 
 
 var app = remote.require('app');
@@ -140,6 +140,10 @@ module.exports = {
                 try {
                     self.daemon = util.child(path.join(AppData, 'bin', (util.getOS() === 'win') ? 'ipfs.exe' : 'ipfs'), ['daemon']);
                     self.daemon.start(function(pid) {
+                        notificationsUtil.notify({
+                            title: 'ΛLΞXΛNDRIΛ Librarian',
+                            message: 'IPFS daemon started.'
+                        });
                         ipfsActionHandler.ipfsEnabled(true);
                     });
                 } catch (e) {
