@@ -41,12 +41,11 @@ app.on('ready', function() {
         show: false
     });
 
-
     if (args.dev) {
+        mainWindow.show();
         mainWindow.toggleDevTools();
-        mainWindow.devToolsWebContents.executeJavaScript('document.getElementsByClassName("long-click-glyph")[0].click()');
+        mainWindow.focus();
     }
-
 
     mainWindow.setMenu(null);
 
