@@ -109,6 +109,22 @@ module.exports = {
                 .catch(reject);
         });
     },
+
+    checkRunning: function() {
+        return new Promise((resolve, reject) => {
+            if (this.daemon)
+                return resolve(true)
+
+            var ipfsname = (os === 'win') ? 'ipfs.exe' : 'ipfs';
+            util.checktaskrunning(ipfsname).then(function(running) {
+                var taskon = running ? true : false;
+                resolve(taskon);
+            }).catch(function() {
+                resolve(false)
+            })
+        });
+    },
+
     enable: function() {
         this.daemon = util.child(path.join(AppData, 'bin', (util.getOS() === 'win') ? 'ipfs.exe' : 'ipfs'), ['daemon']);
         return new Promise((resolve, reject) => {
@@ -128,6 +144,7 @@ module.exports = {
                 try {
                     this.daemon.stop(function(code) {
                         ipfsActionHandler.ipfsEnabled(false);
+                        this.daemon = false;
                         resolve(code);
                     });
                 } catch (e) {
