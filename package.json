@@ -42,7 +42,8 @@
     "request": "^2.55.0",
     "rimraf": "^2.4.3",
     "xps": "^1.0.2",
-    "yargs": "^3.27.0"
+    "yargs": "^3.27.0",
+    "youtube-dl": "^1.10.5"
   },
   "devDependencies": {
     "babel": "^5.1.10",
