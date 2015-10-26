@@ -100,7 +100,7 @@ module.exports = {
                     return util.chmod(path.join(AppData, 'bin', (os === 'win') ? 'ipfs.exe' : 'ipfs'), '0777');
                 })
                 .then(function() {
-                    return util.exec([path.join(AppData, 'bin', (os === 'win') ? 'ipfs.exe' : 'ipfs'), 'init']).catch(resolve);
+                    return util.exec([path.join(AppData, 'bin', (os === 'win') ? 'ipfs.exe' : 'ipfs'), 'init']);
                 })
                 .then(function() {
                     ipfsActionHandler.ipfsInstalled(true);
