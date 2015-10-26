@@ -8,9 +8,8 @@ import electronGoogleOauth from 'electron-google-oauth';
 module.exports = {
     getAuthorization: function(creds) {
         const googleOauth = electronGoogleOauth(remote.require('browser-window'));
-        var AuthPath = path.normalize(path.join(__dirname, '../../../', 'OAuth.json'))
-        console.log(AuthPath)
-        var OAuthCreds = require(AuthPath);
+
+        var OAuthCreds = require(path.join(__dirname, '../../../', 'OAuth.json'));
 
         return new Promise((resolve, reject) => {
 
