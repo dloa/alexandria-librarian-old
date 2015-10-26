@@ -1,20 +1,37 @@
 import util from './util';
-import ipfsUtil from './ipfsUtil';
+import ipfsUtil from './daemons/ipfsUtil';
 import updateActions from '../actions/updateActions';
 
 module.exports = {
     checkForUpdates: function() {
         console.log("updaterUtil checkForUpdates called!!!");
-        ipfsUtil.cli("ipfs cat Qme1JTA5JnRM64CAyn4uLmGXhuiZg5Zhae5J4aKa86aMKx");
     },
 
     checkMainUpdate: function() {
-        var mainUpdate = {};
-        updateActions.mainUpdateFound('mainUpdate');
+        // var mainUpdate = {};
+        // updateActions.mainUpdateFound('mainUpdate');
+        var appVersion = require('../../package.json').version
+        var latestVersion;
+
+        ipfsUtil.cli(['cat', 'Qme1JTA5JnRM64CAyn4uLmGXhuiZg5Zhae5J4aKa86aMKx']).then(function(result){
+          var data = JSON.parse(result);
+          latestVersion = data.App.version;
+          console.log(latestVersion);
+          // still need to trigger download of update
+        });
     },
 
     checkDaemonUpdates: function() {
-        var daemonUpdates = [];
-        updateActions.daemonUpdatesFound('daemonUpdates');
+        // var daemonUpdates = [];
+        // updateActions.daemonUpdatesFound('daemonUpdates');
+        var daemonVersion = require('../../package.json').version
+        var latestVersion;
+
+        ipfsUtil.cli(['cat', 'Qme1JTA5JnRM64CAyn4uLmGXhuiZg5Zhae5J4aKa86aMKx']).then(function(result){
+          var data = JSON.parse(result);
+          latestVersion = data.daemons.LA.version;
+          console.log(latestVersion);
+          // still need to do trigger download of update
+        });
     }
 }

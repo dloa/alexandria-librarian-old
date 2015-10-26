@@ -13,7 +13,8 @@ var Updater = React.createClass({
         };
     },
     handleCheckUpdates: function() {
-        UpdaterUtil.checkForUpdates();
+        UpdaterUtil.checkMainUpdate();
+        UpdaterUtil.checkDaemonUpdates();
     },
     render: function() {
         var appUpdateAvailable = this.state.appUpdateAvailable ? this.state.appUpdateAvailable : {};
