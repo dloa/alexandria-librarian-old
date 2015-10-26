@@ -10,9 +10,8 @@ cache
 
 # Tests
 .test
-settings.json
 
 # IDEs
 .idea
-src/auth.json
-src/OAuth.json
+
+OAuth.json
