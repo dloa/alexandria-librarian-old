@@ -27,6 +27,18 @@ var Updater = React.createClass({
 
         );
     }
+    update: function(){
+        if(this.state.appUpdateAvailable){
+            //not correct, just placeholders for time being
+            var update = updateActions.download('Qme1JTA5JnRM64CAyn4uLmGXhuiZg5Zhae5J4aKa86aMKx', app);
+            updateActions.install(update, app);
+        }
+        if(this.state.daemonUpdatesAvailable){
+            //not correct, just placeholders for time being
+            var update = updateActions.download('Qme1JTA5JnRM64CAyn4uLmGXhuiZg5Zhae5J4aKa86aMKx', daemon);
+            updateActions.install(update, daemon);
+        }
+    }
 });
 
 module.exports = Updater;
