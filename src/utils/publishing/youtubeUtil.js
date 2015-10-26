@@ -17,15 +17,24 @@ module.exports = {
         var OAuthCreds = require(path.join(__dirname, '../../../', 'OAuth.json'));
 
         return new Promise((resolve, reject) => {
-
-
-            // retrieve access token and refresh token 
-            const result = googleOauth.getAccessToken(
+            googleOauth.getAuthorizationCode(
                 ['https://www.googleapis.com/auth/youtube.force-ssl'],
                 OAuthCreds.googleClientID,
                 OAuthCreds.googleClientSecret
-            );
-            console.dir(result);
+            ).then(function(authcode) {
+
+                console.log(authcode)
+                googleOauth.getAccessToken(
+                    ['https://www.googleapis.com/auth/youtube.force-ssl'],
+                    OAuthCreds.googleClientID,
+                    OAuthCreds.googleClientSecret
+                ).then(console.log)
+         
+            })
+   
+
+            // retrieve access token and refresh token 
+
 
         });
     },
