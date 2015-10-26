@@ -9,6 +9,7 @@ module.exports = function(grunt) {
     var beta = grunt.option('beta') || false;
     var alpha = grunt.option('alpha') || false;
     var env = process.env;
+
     env.NODE_PATH = '..:' + env.NODE_PATH;
     env.NODE_ENV = target;
     var os;
@@ -25,6 +26,8 @@ module.exports = function(grunt) {
         default:
             os = process.platform;
     }
+
+
 
 
     var version = function(str) {
@@ -216,7 +219,7 @@ module.exports = function(grunt) {
 
         shell: {
             electron: {
-                command: electron + ' .',
+                command: electron + ' . ' + (grunt.option('dev') ? '--dev' : ''),
                 options: {
                     async: true,
                     execOptions: {
