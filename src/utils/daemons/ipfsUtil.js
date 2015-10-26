@@ -2,6 +2,7 @@ import _ from 'lodash';
 import path from 'path';
 import Promise from 'bluebird';
 import request from 'request';
+import ipc from 'ipc';
 import fs from 'fs';
 import remote from 'remote';
 import nodeUtil from 'util';
@@ -140,6 +141,7 @@ module.exports = {
                 try {
                     self.daemon = util.child(path.join(AppData, 'bin', (util.getOS() === 'win') ? 'ipfs.exe' : 'ipfs'), ['daemon']);
                     self.daemon.start(function(pid) {
+                        ipc.send('notification:create', 'ping');
                         ipfsActionHandler.ipfsEnabled(true);
                     });
                 } catch (e) {
