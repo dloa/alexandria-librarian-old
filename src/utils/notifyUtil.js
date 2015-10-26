@@ -1,29 +1,22 @@
 import notifier from 'node-notifier';
-import ipc from 'ipc';
 import path from 'path';
-
+import _ from 'lodash';
 
 module.exports = {
-    notify: function(params) {
-        console.log('notify!')
+    notify: function(notifyparams, clickFunction) {
 
-        notifier.notify({
-            title: 'My awesome title',
-            message: 'Hello from node, Mr. User!',
-            icon: path.normalize(path.join('../images', 'logo.png')), // absolute path (not balloons)
-            sound: true, // Only Notification Center or Windows Toasters
-            wait: true // wait with callback until user action is taken on notification
-        }, function(err, response) {
-            // response is response from notification
+        notifyparams = _.defaults(notifyparams, {
+            icon: path.join(__dirname, '../../', 'images/icons/logo.png'),
+            message: '',
+            sound: false,
+            wait: false
         });
 
-        notifier.on('click', function(notifierObject, options) {
-            // Happens if `wait: true` and user clicks notification
-        });
+        notifier.notify(notifyparams);
+        
+        if (clickFunction)
+            notifier.on('click', clickFunction);
 
-        notifier.on('timeout', function(notifierObject, options) {
-            // Happens if `wait: true` and notification closes
-        });
 
     }
 
