@@ -17,11 +17,11 @@ module.exports = {
           var data = JSON.parse(result);
           latestVersion = data.App.version;
           console.log(latestVersion);
-        });
-        if(latestVersion !== appVersion)
-          console.log("Update required");
+          if(latestVersion !== appVersion)
+          return true;
           // trigger update here
-        else console.log("Up to date");
+          else return false;
+        });
     },
 
     checkDaemonUpdates: function() {
@@ -34,11 +34,10 @@ module.exports = {
           var data = JSON.parse(result);
           latestVersion = data.daemons.LA.version;
           console.log(latestVersion);
-        });
-
-        if(latestVersion !== daemonVersion)
+          if(latestVersion !== daemonVersion)
           console.log("Update required");
           // trigger update here
-        else console.log("Up to date");
+          else console.log("Up to date");
+        });       
     }
 }
