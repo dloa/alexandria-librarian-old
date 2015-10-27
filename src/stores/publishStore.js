@@ -1,27 +1,33 @@
 import alt from '../alt';
 import util from '../utils/util';
-import ipfsActions from '../actions/ipfsActions';
+import publishActions from '../actions/publishActions';
+import Settings from '../utils/settingsUtil';
 
 
 
-
-class daemonStore {
+class publishStore {
     constructor() {
-        this.bindActions(ipfsActions);
+        this.bindActions(publishActions);
 
         this.errors = {};
 
         this.youtubeAuthorization = false;
+        this.youtubeContent = false;
 
     }
 
-
-    onYoutubeAuthorized(youtubeAuthorization) {
+    onYoutubeAuthorized(tokens) {
+        Settings.save('youtubeAuthorization', tokens);
         this.setState({
-            youtubeAuthorization: youtubeAuthorization
+            youtubeAuthorization: tokens
         });
     }
 
+    onYoutubeContent(content) {
+        this.setState({
+            youtubeContent: content
+        });
+    }
 
     errors({
         errors
@@ -34,4 +40,4 @@ class daemonStore {
 }
 
 export
-default alt.createStore(daemonStore);
+default alt.createStore(publishStore);

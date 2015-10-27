@@ -4,7 +4,8 @@ class publishingActions {
 
     constructor() {
         this.generateActions(
-            'youtubeAuthorized'
+            'youtubeAuthorized',
+            'youtubeContent'
         );
     }
 
@@ -17,6 +18,17 @@ class publishingActions {
                 break;
         }
     }
+
+    getContent(service) {
+        this.dispatch();
+
+        switch (service) {
+            case 'youtube':
+                require('../utils/publishing/youtubeUtil').getContent();
+                break;
+        }
+    }
+
 }
 
 

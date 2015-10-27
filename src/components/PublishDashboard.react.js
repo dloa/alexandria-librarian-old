@@ -7,10 +7,7 @@ import PublishActions from '../actions/publishActions';
 import utils from '../utils/util';
 import publishStore from '../stores/publishStore';
 
-
-
-
-let If = React.createClass({
+var If = React.createClass({
     render: function() {
         if (this.props.test) {
             return this.props.children;
@@ -20,12 +17,12 @@ let If = React.createClass({
     }
 });
 
-
 var Publish = React.createClass({
 
     getInitialState: function() {
         return {
-            youtubeAuthorization: publishStore.getState().youtubeAuthorization
+            youtubeAuthorization: publishStore.getState().youtubeAuthorization,
+            youtubeContent: publishStore.getState().youtubeContent,
         };
     },
 
@@ -45,16 +42,23 @@ var Publish = React.createClass({
         }
     },
     handleAuthYoutube: function() {
-        PublishActions.authorize('youtube')
+        PublishActions.authorize('youtube');
     },
-
+    handleGetContentYoutube: function() {
+        PublishActions.getContent('youtube');
+    },
     render: function() {
+        var youtubeAuthorized = this.state.youtubeAuthorization ? true : false;
         return (
             <div className='content-scroller' id='content'>
                 <section>
                     <h1 className='title'>Youtube</h1>
-                    <button className="left" onClick={this.handleAuthYoutube} ><p>Authorize youtube account</p></button> 
-                    <button className="left" ><p>Publish All Youtube Content</p></button> 
+                    <If test={!youtubeAuthorized}>
+                    	<button className="left" onClick={this.handleAuthYoutube} ><p>Authorize youtube account</p></button> 
+                    </If>
+                    <If test={youtubeAuthorized}>
+                    <button className="left" onClick={this.handleGetContentYoutube} ><p>Get Uploaded Videos</p></button> 
+                    </If>
                 </section>
     
             </div>
