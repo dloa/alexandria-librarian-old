@@ -14,7 +14,10 @@ class publishingActions {
 
         switch (service) {
             case 'youtube':
-                require('../utils/publishing/youtubeUtil').getAuthorization();
+                require('../utils/publishing/youtubeUtil').getAuthorization()
+                    .then(() => {
+                        this.actions.getContent('youtube');
+                    });
                 break;
         }
     }

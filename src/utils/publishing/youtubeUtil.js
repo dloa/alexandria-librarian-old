@@ -37,27 +37,29 @@ module.exports = {
 
         authWindow.loadUrl(authUrl);
         authWindow.show();
+        return new Promise((resolve, reject) => {
+            authWindow.webContents.on('did-get-redirect-request', function(event, oldUrl, newUrl) {
 
-        authWindow.webContents.on('did-get-redirect-request', function(event, oldUrl, newUrl) {
-
-            var raw_code = /code=([^&]*)/.exec(newUrl) || null,
-                code = (raw_code && raw_code.length > 1) ? raw_code[1] : null,
-                error = /\?error=(.+)$/.exec(newUrl);
-            if (code || error) {
-                authWindow.close();
-            }
-            if (code) {
-                oauth2Client.getToken(code, function(err, tokens) {
-                    if (!err) {
-                        publishActions.youtubeAuthorized(tokens);
-                        oauth2Client.setCredentials(tokens);
-                    } else {
-                        alert('Oops! Something went wrong: ' + err);
-                    }
-                });
-            } else if (error) {
-                alert("Oops! Something went wrong and we couldn't log you in using Youtube. Please try again.");
-            }
+                var raw_code = /code=([^&]*)/.exec(newUrl) || null,
+                    code = (raw_code && raw_code.length > 1) ? raw_code[1] : null,
+                    error = /\?error=(.+)$/.exec(newUrl);
+                if (code || error) {
+                    authWindow.close();
+                }
+                if (code) {
+                    oauth2Client.getToken(code, function(err, tokens) {
+                        if (!err) {
+                            publishActions.youtubeAuthorized(tokens);
+                            oauth2Client.setCredentials(tokens);
+                            resolve(tokens);
+                        } else {
+                            alert('Oops! Something went wrong: ' + err);
+                        }
+                    });
+                } else if (error) {
+                    alert("Oops! Something went wrong and we couldn't log you in using Youtube. Please try again.");
+                }
+            });
         });
     },
     download: function() {
@@ -67,22 +69,27 @@ module.exports = {
     },
     getContent: function(pid) {
         var self = this;
-        this.getUploadPlaylists()
-            .then(function(pids) {
-                let totalitems = [];
-                let checked = 0;
-                pids.forEach(function(pid) {
-                    self.getPlaylistItems(pid)
-                        .then(function(uploads) {
-                            checked++;
-                            uploads.items.forEach(function(item) {
-                                totalitems.push(item.snippet)
-                            });
-                            if (checked === pids.length)
-                                publishActions.youtubeContent(totalitems);
-                        })
-                });
-            })
+        return new Promise((resolve, reject) => {
+            self.getUploadPlaylists()
+                .then(function(pids) {
+                    let totalitems = [];
+                    let checked = 0;
+                    pids.forEach(function(pid) {
+                        self.getPlaylistItems(pid)
+                            .then(function(uploads) {
+                                checked++;
+                                uploads.items.forEach(function(item) {
+                                    totalitems.push(item.snippet)
+                                });
+                                if (checked === pids.length) {
+                                    publishActions.youtubeContent(totalitems);
+                                    resolve(totalitems);
+                                }
+                            })
+                    });
+                })
+        });
+
     },
     getPlaylistItems: function(playlist) {
         return new Promise((resolve, reject) => {

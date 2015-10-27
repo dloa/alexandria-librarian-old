@@ -9,21 +9,6 @@ import publishStore from '../stores/publishStore';
 
 
 
-var columns = [{
-    name: 'position'
-}, {
-    name: 'title'
-}, {
-    name: 'description'
-}, {
-    name: 'publishedAt'
-}, {
-    name: 'channelTitle'
-}];
-
-
-
-
 
 
 var If = React.createClass({
@@ -64,23 +49,29 @@ var Publish = React.createClass({
     handleAuthYoutube: function() {
         PublishActions.authorize('youtube');
     },
-    handleGetContentYoutube: function() {
-        PublishActions.getContent('youtube');
-    },
     render: function() {
         var youtubeAuthorized = this.state.youtubeAuthorization ? true : false;
         var youtubeContent = this.state.youtubeContent ? true : false;
         var youtubeContentDataTabe = this.state.youtubeContent ? this.state.youtubeContent : [];
-        console.log(this.state.youtubeContent)
+
+        var columns = [{
+            name: 'position'
+        }, {
+            name: 'title'
+        }, {
+            name: 'description'
+        }, {
+            name: 'publishedAt'
+        }, {
+            name: 'channelTitle'
+        }];
+
         return (
             <div className='content-scroller' id='content'>
                 <section>
                     <h1 className='title'>Youtube</h1>
                     <If test={!youtubeAuthorized}>
                     	<button className="left" onClick={this.handleAuthYoutube} ><p>Authorize youtube account</p></button> 
-                    </If>
-                    <If test={youtubeAuthorized}>
-                    <button className="left" onClick={this.handleGetContentYoutube} ><p>Get Uploaded Videos</p></button> 
                     </If>
                     <If test={youtubeContent}>
                     	<DataGrid
