@@ -1,13 +1,13 @@
 import Promise from 'bluebird';
 import remote from 'remote';
 import path from 'path';
-import google from 'googleapis';
-import publishActions from '../../actions/publishActions';
-
+import Youtube from 'youtube-api';
 var browserWindow = remote.require('browser-window');
-var OAuth2 = google.auth.OAuth2;
+
+import publishStore from '../../stores/publishStore';
+import publishActions from '../../actions/publishActions';
 var OAuthCreds = require(path.join(__dirname, '../../../', 'OAuth.json'));
-var oauth2Client = new OAuth2(OAuthCreds.googleClientID, OAuthCreds.googleClientSecret, 'http://localhost');
+
 
 module.exports = {
     getAuthorization: function() {
@@ -22,6 +22,15 @@ module.exports = {
             'auto-hide-menu-bar': true,
             'node-integration': false
         });
+
+        var oauth2Client = Youtube.authenticate({
+            type: "oauth",
+            client_id: OAuthCreds.googleClientID,
+            client_secret: OAuthCreds.googleClientSecret,
+            redirect_url: 'http://localhost'
+        });
+
+
         var authUrl = oauth2Client.generateAuthUrl({
             access_type: 'offline',
             scope: ['https://www.googleapis.com/auth/youtube.force-ssl']
@@ -57,8 +66,46 @@ module.exports = {
 
         });
     },
-    getAll: function() {
-
+    getContent: function(pid) {
+        var self = this;
+        this.getUploadPlaylists()
+            .then(function(pids) {
+                pids.forEach(function(pid) {
+                    self.getPlaylistItems(pid)
+                        .then(function(items) {
+                            console.log(items);
+                        }).catch(console.log)
+                });
+            })
+    },
+    getPlaylistItems: function(playlist) {
+        return new Promise((resolve, reject) => {
+            Youtube.playlistItems.list({
+                playlistId: playlist,
+                part: 'snippet',
+                maxResults: 50
+            }, function(err, data) {
+                if (err)
+                    return reject(err);
+                resolve(data)
+            });
+        });
+    },
+    getUploadPlaylists: function() {
+        return new Promise((resolve, reject) => {
+            Youtube.channels.list({
+                mine: true,
+                part: 'contentDetails'
+            }, function(err, data) {
+                if (err)
+                    return reject(err);
+                var uploadPlaylists = [];
+                data.items.forEach(function(item) {
+                    uploadPlaylists.push(item.contentDetails.relatedPlaylists.uploads);
+                });
+                resolve(uploadPlaylists);
+            });
+        });
     },
     info: function(url, creds) {
         return new Promise((resolve, reject) => {
