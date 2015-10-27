@@ -6,7 +6,7 @@ module.exports = {
 
     checkMainUpdate: function() {
         var mainUpdate = {};
-        var updateHash = 'QmWE615QhdawJcwiBhaXyggyViv9GG9W9GfbN8rmRJmGdq';
+        var updateHash = 'QmeixMvtfTVzHFxL6oGhgQTqsJoJNk2RJBr4dSwjppcYMr';
         var appVersion = require('../../package.json').version;
         var latestVersion;
 
@@ -24,7 +24,7 @@ module.exports = {
               updateActions.mainUpdateFound(mainUpdate);
           }
 
-        }).catch(console.log("Error checking for app update"));
+        });
     },
 
     checkDaemonUpdates: function() {
@@ -32,7 +32,7 @@ module.exports = {
           ipfs: {},
           libraryd: {}
         };
-        var updateHash = 'QmWE615QhdawJcwiBhaXyggyViv9GG9W9GfbN8rmRJmGdq';
+        var updateHash = 'QmeixMvtfTVzHFxL6oGhgQTqsJoJNk2RJBr4dSwjppcYMr';
 
         var ipfsVersion = "1.2.3";
         var librarydVersion = "1.2.3";
@@ -61,6 +61,6 @@ module.exports = {
           console.log(daemonUpdates);
           updateActions.daemonUpdatesFound(daemonUpdates);
 
-        }).catch(console.log("Error checking for daemon updates"));
+        });
     }
 }
