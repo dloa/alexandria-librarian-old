@@ -2,6 +2,7 @@ import Promise from 'bluebird';
 import remote from 'remote';
 import path from 'path';
 import google from 'googleapis';
+import publishActions from '../../actions/publishActions';
 
 var browserWindow = remote.require('browser-window');
 var OAuth2 = google.auth.OAuth2;
@@ -40,7 +41,7 @@ module.exports = {
             if (code) {
                 oauth2Client.getToken(code, function(err, tokens) {
                     if (!err) {
-                        console.log(tokens)
+                        publishActions.youtubeAuthorized(tokens);
                         oauth2Client.setCredentials(tokens);
                     } else {
                         alert('Oops! Something went wrong: ' + err);
