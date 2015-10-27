@@ -4,7 +4,10 @@ import ipc from 'ipc';
 import path from 'path';
 import trayTemplate from './app-tray';
 import util from './utils/util';
+import yargs from 'yargs';
 
+
+var args = yargs(process.argv.slice(1)).wrap(100).argv;
 
 
 process.env.NODE_PATH = path.join(__dirname, 'node_modules');
@@ -37,6 +40,13 @@ app.on('ready', function() {
         frame: true,
         show: false
     });
+
+    if (args.dev) {
+        mainWindow.show();
+        mainWindow.toggleDevTools();
+        mainWindow.focus();
+        console.info('Dev Mode Active: Developer Tools Enabled.')
+    }
 
     mainWindow.setMenu(null);
 
