@@ -43,6 +43,7 @@
     "rimraf": "^2.4.3",
     "xps": "^1.0.2",
     "yargs": "^3.27.0",
+    "youtube-api": "^1.2.1",
     "youtube-dl": "^1.10.5"
   },
   "devDependencies": {
