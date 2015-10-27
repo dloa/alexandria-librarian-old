@@ -1,11 +1,30 @@
 import React from 'react/addons';
+import DataGrid from 'react-datagrid';
 
 import Settings from '../utils/settingsUtil';
 import PublishActions from '../actions/publishActions';
-
-
 import utils from '../utils/util';
 import publishStore from '../stores/publishStore';
+
+
+
+
+var columns = [{
+    name: 'position'
+}, {
+    name: 'title'
+}, {
+    name: 'description'
+}, {
+    name: 'publishedAt'
+}, {
+    name: 'channelTitle'
+}];
+
+
+
+
+
 
 var If = React.createClass({
     render: function() {
@@ -22,7 +41,7 @@ var Publish = React.createClass({
     getInitialState: function() {
         return {
             youtubeAuthorization: publishStore.getState().youtubeAuthorization,
-            youtubeContent: publishStore.getState().youtubeContent,
+            youtubeContent: publishStore.getState().youtubeContent
         };
     },
 
@@ -50,6 +69,8 @@ var Publish = React.createClass({
     },
     render: function() {
         var youtubeAuthorized = this.state.youtubeAuthorization ? true : false;
+        var youtubeContent = this.state.youtubeContent ? true : false;
+        var youtubeContentDataTabe = this.state.youtubeContent ? this.state.youtubeContent : [];
         console.log(this.state.youtubeContent)
         return (
             <div className='content-scroller' id='content'>
@@ -61,6 +82,13 @@ var Publish = React.createClass({
                     <If test={youtubeAuthorized}>
                     <button className="left" onClick={this.handleGetContentYoutube} ><p>Get Uploaded Videos</p></button> 
                     </If>
+                    <If test={youtubeContent}>
+                    	<DataGrid
+                    		idProperty='id'
+                    		dataSource={youtubeContentDataTabe}
+                    		columns={columns}
+                		/>
+                	</If>
                 </section>
     
             </div>
