@@ -1,8 +1,6 @@
 import alt from '../alt';
 import util from '../utils/util';
 import publishActions from '../actions/publishActions';
-import Settings from '../utils/settingsUtil';
-
 
 
 class publishStore {
@@ -17,7 +15,6 @@ class publishStore {
     }
 
     onYoutubeAuthorized(tokens) {
-        Settings.save('youtubeAuthorization', tokens);
         this.setState({
             youtubeAuthorization: tokens
         });
