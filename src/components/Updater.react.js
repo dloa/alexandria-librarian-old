@@ -16,17 +16,6 @@ var Updater = React.createClass({
         UpdaterUtil.checkMainUpdate();
         UpdaterUtil.checkDaemonUpdates();
     },
-    render: function() {
-        var appUpdateAvailable = this.state.appUpdateAvailable ? this.state.appUpdateAvailable : {};
-        var daemonUpdatesAvailable = this.state.daemonUpdatesAvailable ? this.state.daemonUpdatesAvailable : {};
-        return (
-            <section>
-                <h1 className='title'>Updates</h1>
-                <button className="left" type="submit" onClick={this.handleCheckUpdates}><p>Check for updates</p></button>
-            </section>
-
-        );
-    }
     update: function(){
         if(this.state.appUpdateAvailable){
             //not correct, just placeholders for time being
@@ -38,6 +27,17 @@ var Updater = React.createClass({
             var update = updateActions.download('Qme1JTA5JnRM64CAyn4uLmGXhuiZg5Zhae5J4aKa86aMKx', daemon);
             updateActions.install(update, daemon);
         }
+    },
+    render: function() {
+        var appUpdateAvailable = this.state.appUpdateAvailable ? this.state.appUpdateAvailable : {};
+        var daemonUpdatesAvailable = this.state.daemonUpdatesAvailable ? this.state.daemonUpdatesAvailable : {};
+        return (
+            <section>
+                <h1 className='title'>Updates</h1>
+                <button className="left" type="submit" onClick={this.handleCheckUpdates}><p>Check for updates</p></button>
+            </section>
+
+        );
     }
 });
 
