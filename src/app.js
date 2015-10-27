@@ -44,8 +44,7 @@ HttpAPI.toggle(Settings.get('HTTPAPIEnabled'), Settings.get('HTTPAPIPort'))
     });
 
 
-if (!args.hide && !Settings.get('startMinimized')) {
-    console.log(args.hide, Settings.get('startMinimized'))
+if (!args.hide) {
     ipc.send('application:show');
 }
 
