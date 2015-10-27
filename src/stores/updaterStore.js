@@ -4,25 +4,27 @@ import updateActions from '../actions/updateActions';
 
 
 
-class daemonStore {
+class updaterStore {
     constructor() {
         this.bindActions(updateActions);
         this.errors = {};
 
         this.appUpdateAvailable = false; //these will be objects
-        this.updatesChecked false;
+        this.updatesChecked = false;
         this.daemonUpdatesAvailable = false;
     }
 
     onMainUpdateFound(update) {
         this.setState({
-            appUpdateAvailable: update
+            appUpdateAvailable: update,
+            updatesChecked: true
         });
     }
 
     onDaemonUpdatesFound(updates) {
         this.setState({
             daemonUpdatesAvailable: updates,
+            updatesChecked: true
         });
     }
 
@@ -38,4 +40,4 @@ class daemonStore {
 }
 
 export
-default alt.createStore(daemonStore);
+default alt.createStore(updaterStore);
