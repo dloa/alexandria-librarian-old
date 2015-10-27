@@ -11,9 +11,7 @@ import utils from '../utils/util';
 import daemonStore from '../stores/daemonStore';
 
 
-
-
-let If = React.createClass({
+var If = React.createClass({
     render: function() {
         if (this.props.test) {
             return this.props.children;
@@ -22,7 +20,6 @@ let If = React.createClass({
         }
     }
 });
-
 
 var Preferences = React.createClass({
 
