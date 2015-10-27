@@ -8,24 +8,29 @@ var Updater = React.createClass({
 
     getInitialState: function() {
         return {
+            updatesChecked: updaterStore.getState().updatesChecked,
             appUpdateAvailable: updaterStore.getState().appUpdateAvailable,
             daemonUpdatesAvailable: updaterStore.getState().daemonUpdatesAvailable
         };
     },
-    handleCheckUpdates: function() {
-        UpdaterUtil.checkMainUpdate();
-        UpdaterUtil.checkDaemonUpdates();
-    },
-    update: function(){
-        if(this.state.appUpdateAvailable){
-            //not correct, just placeholders for time being
-            var update = updateActions.download('Qme1JTA5JnRM64CAyn4uLmGXhuiZg5Zhae5J4aKa86aMKx', app);
-            updateActions.install(update, app);
+    componentDidMount: function() {
+        updaterStore.listen(this.update);
+
+        if (!this.state.updatesChecked) {
+            UpdaterUtil.checkMainUpdate();
+            UpdaterUtil.checkDaemonUpdates();
         }
-        if(this.state.daemonUpdatesAvailable){
-            //not correct, just placeholders for time being
-            var update = updateActions.download('Qme1JTA5JnRM64CAyn4uLmGXhuiZg5Zhae5J4aKa86aMKx', daemon);
-            updateActions.install(update, daemon);
+    },
+    componentWillUnmount: function() {
+        updaterStore.unlisten(this.update);
+    },
+    update: function() {
+        if (this.isMounted()) {
+            this.setState({
+                updatesChecked: updaterStore.getState().updatesChecked,
+                appUpdateAvailable: updaterStore.getState().appUpdateAvailable,
+                daemonUpdatesAvailable: updaterStore.getState().daemonUpdatesAvailable
+            });
         }
     },
     render: function() {

@@ -10,7 +10,7 @@ class daemonStore {
         this.errors = {};
 
         this.appUpdateAvailable = false; //these will be objects
-
+        this.updatesChecked false;
         this.daemonUpdatesAvailable = false;
     }
 
