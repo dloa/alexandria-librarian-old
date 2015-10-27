@@ -12,8 +12,7 @@ var OAuthCreds = require(path.join(__dirname, '../../../', 'OAuth.json'));
 module.exports = {
     getAuthorization: function() {
         var authWindow = new browserWindow({
-            width: 800,
-            height: 600,
+            'use-content-size': true,
             center: true,
             show: false,
             resizable: false,
@@ -70,11 +69,18 @@ module.exports = {
         var self = this;
         this.getUploadPlaylists()
             .then(function(pids) {
+                let totalitems = [];
+                let checked = 0;
                 pids.forEach(function(pid) {
                     self.getPlaylistItems(pid)
-                        .then(function(items) {
-                            console.log(items);
-                        }).catch(console.log)
+                        .then(function(uploads) {
+                            checked++;
+                            uploads.items.forEach(function(item) {
+                                totalitems.push(item.snippet)
+                            });
+                            if (checked === pids.length)
+                                publishActions.youtubeContent(totalitems);
+                        })
                 });
             })
     },

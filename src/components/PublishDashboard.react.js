@@ -37,7 +37,8 @@ var Publish = React.createClass({
     update: function() {
         if (this.isMounted()) {
             this.setState({
-                youtubeAuthorization: publishStore.getState().youtubeAuthorization
+                youtubeAuthorization: publishStore.getState().youtubeAuthorization,
+                youtubeContent: publishStore.getState().youtubeContent
             });
         }
     },
@@ -49,6 +50,7 @@ var Publish = React.createClass({
     },
     render: function() {
         var youtubeAuthorized = this.state.youtubeAuthorization ? true : false;
+        console.log(this.state.youtubeContent)
         return (
             <div className='content-scroller' id='content'>
                 <section>
