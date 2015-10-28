@@ -8,6 +8,7 @@ class updateActions {
         this.generateActions(
             'mainUpdateFound',
             'daemonUpdatesFound'
+            'notificationShown' // added to check if notification is already shown
         );
     }
 

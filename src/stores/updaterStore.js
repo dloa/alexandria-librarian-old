@@ -12,6 +12,7 @@ class updaterStore {
         this.appUpdateAvailable = false; //these will be objects
         this.updatesChecked = false;
         this.daemonUpdatesAvailable = false;
+        this.notificationShown = false;
     }
 
     onMainUpdateFound(update) {
@@ -26,6 +27,12 @@ class updaterStore {
             daemonUpdatesAvailable: updates,
             updatesChecked: true
         });
+    }
+
+    onNotificationShown(){ // change to be triggered via an arg, so we can reset to false.
+        this.setState({
+            notificationShown: true;
+        })
     }
 
 
