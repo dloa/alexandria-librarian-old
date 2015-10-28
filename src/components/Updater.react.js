@@ -43,6 +43,28 @@ var Updater = React.createClass({
             </section>
 
         );
+    },
+    notify: function() {
+        if(this.state.appUpdateAvailable){
+            notificationsUtil.notify({
+                            title: 'ΛLΞXΛNDRIΛ Librarian',
+                            message: 'App update available'
+                        });
+        }
+        if(this.state.daemonUpdatesAvailable){
+            if(type === 'ipfs'){
+                notificationsUtil.notify({
+                            title: 'ΛLΞXΛNDRIΛ Librarian',
+                            message: 'IPFS update available!'
+                        });
+            }
+            if(type === 'libraryd'){
+                notificationsUtil.notify({
+                            title: 'ΛLΞXΛNDRIΛ Librarian',
+                            message: 'Libraryd update available'
+                        });
+            }
+        }
     }
 });
 
