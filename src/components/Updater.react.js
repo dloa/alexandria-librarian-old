@@ -2,8 +2,8 @@ import React from 'react/addons';
 import updateActions from '../actions/updateActions';
 import updaterStore from '../stores/updaterStore';
 
-import UpdaterUtil from '../utils/UpdaterUtil'
-
+import UpdaterUtil from '../utils/UpdaterUtil';
+import notificationsUtil from '../notifyUtil';
 var Updater = React.createClass({
 
     getInitialState: function() {
