@@ -5,6 +5,10 @@ from 'events';
 import assign from 'object-assign';
 import _ from 'lodash';
 import os from 'os';
+import {
+    getVersion as AppName
+}
+from '../utils/aboutUtil';
 var _logs = [];
 
 module.exports = assign(Object.create(EventEmitter.prototype), {
@@ -75,7 +79,7 @@ module.exports = assign(Object.create(EventEmitter.prototype), {
         var ifaces = os.networkInterfaces();
         var memories = os.totalmem() / 1024 / 1024 / 1024;
         var freeMemories = os.freemem() / 1024 / 1024 / 1024;
-        this.info("Launching Application " + appVersion);
+        this.info("Launching Application: " + AppName());
         this.info("Network Interfaces", ifaces);
         this.info("Operating System", {
             'Release': os.release(),
