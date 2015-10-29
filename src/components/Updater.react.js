@@ -3,7 +3,7 @@ import updateActions from '../actions/updateActions';
 import updaterStore from '../stores/updaterStore';
 
 import UpdaterUtil from '../utils/UpdaterUtil';
-import notificationsUtil from '../notifyUtil';
+import notificationsUtil from '../utils/notifyUtil';
 var Updater = React.createClass({
 
     getInitialState: function() {
