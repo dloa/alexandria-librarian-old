@@ -21,6 +21,7 @@ module.exports = {
               };
 
               console.log(mainUpdate);
+              console.log("Check main finished");
               updateActions.mainUpdateFound(mainUpdate);
           }
 
@@ -39,6 +40,7 @@ module.exports = {
 
         var latestIpfsVersion;
         var latestLibrarydVersion;
+
 
         ipfsUtil.cli(['cat', updateHash]).then(function(result) {
           var data = JSON.parse(result);
@@ -59,6 +61,7 @@ module.exports = {
               };
           }
           console.log(daemonUpdates);
+          console.log("Check daemons finished");
           updateActions.daemonUpdatesFound(daemonUpdates);
 
         });

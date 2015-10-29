@@ -18,14 +18,14 @@ class updaterStore {
     onMainUpdateFound(update) {
         this.setState({
             appUpdateAvailable: update,
-            updatesChecked: true
+            //updatesChecked: true
         });
     }
 
     onDaemonUpdatesFound(updates) {
         this.setState({
             daemonUpdatesAvailable: updates,
-            updatesChecked: true
+            //updatesChecked: true
         });
     }
 

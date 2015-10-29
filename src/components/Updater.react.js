@@ -39,7 +39,7 @@ var Updater = React.createClass({
         return (
             <section>
                 <h1 className='title'>Updates</h1>
-                <button className="left" type="submit" onClick={this.testCheckUpdates}><p>Check for updates</p></button>
+                <button className="left" type="submit" onClick={this.checkUpdates}><p>Check for updates</p></button>
             </section>
 
         );
