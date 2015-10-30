@@ -131,7 +131,7 @@ module.exports = {
         }).bind(this);
     },
     enable: function() {
-        util.findfile(path.join(AppData, 'bin'), (util.getOS() === 'win') ? 'ipfs.exe' : 'ipfs')
+        util.exists(path.join(AppData, 'bin'), (util.getOS() === 'win') ? 'ipfs.exe' : 'ipfs')
             .then(function(found) {
                 if (found) {
                     try {

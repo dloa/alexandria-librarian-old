@@ -87,12 +87,16 @@ module.exports = {
     },
     findfile: function(dir, file) {
         return new Promise((resolve, reject) => {
-            find.file(file, dir, function(files) {
-                if (files.length > 0)
-                    resolve(true);
-                else
-                    resolve(false);
-            })
+            try {
+                find.file(file, dir, function(files) {
+                    if (files.length > 0)
+                        resolve(true);
+                    else
+                        resolve(false);
+                })
+            } catch (e) {
+                resolve(false);
+            }
         });
     },
     openUrl: function(url) {
