@@ -43,10 +43,13 @@ var IPFSManagementView = React.createClass({
     render: function() {
         var daemonbin = path.join(remote.require('app').getPath('userData'), 'bin', (utils.getOS() === 'win') ? 'ipfs.exe' : 'ipfs');
         var peers = this.state.stats ? this.state.stats.peers.length : 0;
+        var stats = this.state.stats ? JSON.stringify(this.state.stats.stats) : {};
         return (
             <div className='content-scroller'>
         		<section className="ipfsStatus">
             		<p>Status:</p><span>Connected to {peers} peers</span>
+                    <br/>
+                    <span> {stats}</span>
         		</section>
                 <TerminalEmu daemonname="ipfs" daemonbin={daemonbin} />
         		<IPFSPinManager />

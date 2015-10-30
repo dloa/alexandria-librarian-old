@@ -18,6 +18,25 @@ module.exports = {
     download: function() {
         // To be done later.
     },
+    checkRunning: function() {
+        var os = util.getOS();
+        return new Promise((resolve, reject) => {
+            if (this.daemon) {
+                ipfsActionHandler.librarydEnabled(true);
+                return resolve(true)
+            }
+            var librarydname = (os === 'win') ? 'libraryd.exe' : 'libraryd';
+            util.checktaskrunning(librarydname)
+                .then(function(running) {
+                    var taskon = running ? true : false;
+                    librarydActionHandler.librarydEnabled(running);
+                    resolve(taskon);
+                }).catch(function() {
+                    librarydActionHandler.librarydEnabled(false);
+                    resolve(false)
+                })
+        }).bind(this);
+    },
     installAndEnable: function(tmppath) {
         var os = util.getOS();
         return new Promise((resolve, reject) => {
