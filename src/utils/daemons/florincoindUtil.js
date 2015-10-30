@@ -166,8 +166,7 @@ module.exports = {
                                         })
                                         .catch(reject);
                                 } else {
-                                    var filename = (os === 'win') ? 'florincoind.exe' : 'florincoind';
-                                    this.daemon = util.child(path.join(AppData, 'bin', filename), []);
+                                    this.daemon = util.child(path.join(AppData, 'bin', (os === 'win') ? 'florincoind.exe' : 'florincoind'), []);
                                     try {
                                         this.daemon.start(function(pid) {
                                             florincoindActionHandler.florincoindEnabled(true);
