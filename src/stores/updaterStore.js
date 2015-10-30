@@ -35,6 +35,13 @@ class updaterStore {
         });
     }
 
+    onUpdatesChecked(checked){
+        this.setState({
+            updatesChecked: checked
+        });
+        console.log("Setting updates checked to :", checked);
+    }
+
 
     errors({
         errors

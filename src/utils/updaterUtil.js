@@ -7,15 +7,15 @@ import updaterStore from '../stores/updaterStore';
 module.exports = {
 
     checkUpdates: function(){
-        
+
         //Variables
-        
-        //app variables        
+
+        //app variables
         var appUpdate = {};
         var appUpdateHash = 'QmUKQ12KJrn8ybw7Q4WTqmVrn51kadAZdM7JDaR28AiXnM';
         var appVersion = require('../../package.json').version;
         var latestAppVersion;
-        
+
         // daemon variables
         var daemonUpdates = {
           ipfs: {},
@@ -29,11 +29,11 @@ module.exports = {
 
 
         // CLIs
-        
+
         // app Update cli
         ipfsUtil.cli(['cat', appUpdateHash]).then(function(result) {
           var data = JSON.parse(result);
-          latestVersion = data.librarian.version;
+          latestAppVersion = data.librarian.version;
           if(appVersion !== latestAppVersion){
               appUpdate = {
                   hash: data.librarian.ipfsHash,
@@ -42,10 +42,10 @@ module.exports = {
 
               console.log(appUpdate);
               updateActions.mainUpdateFound(appUpdate);
-              updaterStore.updatesChecked = true;
+              updateActions.updatesChecked(true);
           }
-        }).catch(function(){
-            console.log("Error while checking for app update");
+        }).catch(function(err, response){
+            console.log("Error while checking for app update:\n" + err);
           });
 
         //daemon update cli
@@ -69,7 +69,7 @@ module.exports = {
           }
           console.log(daemonUpdates);
           updateActions.daemonUpdatesFound(daemonUpdates);
-          updaterStore.updatesChecked = true;
+          updateActions.updatesChecked(true);
         }).catch(function(){
             console.log("Error while checking for daemon updates");
           });

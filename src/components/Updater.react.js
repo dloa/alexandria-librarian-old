@@ -15,13 +15,16 @@ var Updater = React.createClass({
         };
     },
     componentDidMount: function() {
+      if (!this.updatesChecked || !this.appUpdateAvailable || !this.daemonUpdatesAvailable) {
         updaterStore.listen(this.update);
-
         if (!this.state.updatesChecked) {
-            UpdaterUtil.notify('app'); // 'app' is a placeholder for update type
-            UpdaterUtil.checkMainUpdate();
-            UpdaterUtil.checkDaemonUpdates();
+            UpdaterUtil.checkUpdates();
         }
+        console.log("We here fam");
+        if (this.state.updatesChecked){
+            UpdaterUtil.notify('app'); // 'app' is a placeholder for update type
+        }
+      }
     },
     componentWillUnmount: function() {
         updaterStore.unlisten(this.update);
