@@ -30,6 +30,12 @@ class FlorincoindActions {
             Florincoind.disable();
     }
 
+    checkRunning(){
+        var Florincoind = require('../utils/daemons/florincoindUtil');
+        this.dispatch();
+        Florincoind.checkRunning();
+    }
+
 }
 
 export
