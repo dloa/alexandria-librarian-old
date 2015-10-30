@@ -29,9 +29,9 @@ class updaterStore {
         });
     }
 
-    onNotificationShown(showing){ // change to be triggered via an arg, so we can reset to false.
+    onNotificationShown(shown){ // change to be triggered via an arg, so we can reset to false.
         this.setState({
-            notificationShown: showing
+            notificationShown: shown
         });
     }
 

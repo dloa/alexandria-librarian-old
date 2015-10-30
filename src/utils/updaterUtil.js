@@ -12,6 +12,7 @@ module.exports = {
         var appVersion = require('../../package.json').version;
         var latestVersion;
         ipfsUtil.cli(['cat', updateHash]).then(function(result) {
+          console.log('in cli');
           var data = JSON.parse(result);
           latestVersion = data.librarian.version;
           if(appVersion !== latestVersion){
@@ -25,7 +26,7 @@ module.exports = {
               updateActions.mainUpdateFound(mainUpdate);
           }
 
-        });
+        }).catch(console.log('error with app cli'));
     },
 
     checkDaemonUpdates: function() {
@@ -33,7 +34,7 @@ module.exports = {
           ipfs: {},
           libraryd: {}
         };
-        var updateHash = 'QmeixMvtfTVzHFxL6oGhgQTqsJoJNk2RJBr4dSwjppcYMr';
+        var updateHash = 'QmUKQ12KJrn8ybw7Q4WTqmVrn51kadAZdM7JDaR28AiXnM';
 
         var ipfsVersion = "1.2.3";
         var librarydVersion = "1.2.3";
@@ -64,22 +65,22 @@ module.exports = {
           console.log("Check daemons finished");
           updateActions.daemonUpdatesFound(daemonUpdates);
 
-        });
+        }).catch(console.log('error with daemon cli'));
     },
 
     notify: function(type) {
-      var showing;
+      var shown;
       console.log(type);
         if(type === 'app'){
             notificationsUtil.notify({
                             title: 'ΛLΞXΛNDRIΛ Librarian',
                             message: 'App update available',
                             sound: true
-                        });
-            showing = true;
-            updateActions.notificationShown(showing); // to add dl and install as well as args
+                        }, updateActions.download('QmQoN4VjrneDTdJUfp3Yy8W5pFrHyZVWisWpQX82xw3n5Y', 'app')); // 'app' is a placeholder for update type
+            shown = true;
+            updateActions.notificationShown(shown); 
         }
-        console.log(showing);
+        console.log(shown);
         if(updaterStore.daemonUpdatesAvailable){
             if(type === 'ipfs'){
                 notificationsUtil.notify({
