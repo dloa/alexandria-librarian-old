@@ -8,7 +8,6 @@ import HTTPAPI from '../utils/httpApiUtil';
 
 
 var Preferences = React.createClass({
-    mixins: [Router.Navigation],
 
     getInitialState: function() {
         return {

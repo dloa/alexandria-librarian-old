@@ -9,6 +9,7 @@ module.exports = function(grunt) {
     var beta = grunt.option('beta') || false;
     var alpha = grunt.option('alpha') || false;
     var env = process.env;
+
     env.NODE_PATH = '..:' + env.NODE_PATH;
     env.NODE_ENV = target;
     var os;
@@ -25,6 +26,8 @@ module.exports = function(grunt) {
         default:
             os = process.platform;
     }
+
+
 
 
     var version = function(str) {
@@ -68,6 +71,17 @@ module.exports = function(grunt) {
                     version: packagejson['electron-version'],
                     platform: 'win32',
                     arch: 'ia32',
+                    asar: true
+                }
+            },
+            linux: {
+                options: {
+                    name: BASENAME,
+                    dir: 'build/',
+                    out: 'dist',
+                    version: packagejson['electron-version'],
+                    platform: 'linux',
+                    arch: process.arch,
                     asar: true
                 }
             },
@@ -198,14 +212,14 @@ module.exports = function(grunt) {
                     expand: true,
                     cwd: 'src/',
                     src: ['**/*.js'],
-                    dest: 'build/js',
+                    dest: 'build/js'
                 }]
             }
         },
 
         shell: {
             electron: {
-                command: electron + ' .',
+                command: electron + ' . ' + (grunt.option('dev') ? '--dev' : ''),
                 options: {
                     async: true,
                     execOptions: {
@@ -247,6 +261,18 @@ module.exports = function(grunt) {
                     src: '**/*'
                 }]
             },
+            linux: {
+                options: {
+                    archive: './dist/' + BASENAME + '-' + packagejson.version + '-Linux-' + process.arch + '-Alpha.zip',
+                    mode: 'zip'
+                },
+                files: [{
+                    expand: true,
+                    dot: true,
+                    cwd: './dist/ΛLΞXΛNDRIΛ Librarian-linux-' + process.arch,
+                    src: '**/*'
+                }]
+            },
         },
 
         // livereload
@@ -278,9 +304,13 @@ module.exports = function(grunt) {
     grunt.registerTask('default', ['newer:babel', 'less', 'newer:copy:dev', 'shell:electron', 'watchChokidar']);
 
     if (process.platform === 'win32') {
-        grunt.registerTask('release', ['clean:release', 'babel', 'less', 'copy:dev', 'electron:windows', 'compress']);
-    } else {
+        grunt.registerTask('release', ['clean:release', 'babel', 'less', 'copy:dev', 'electron:windows', 'compress:windows']);
+    }
+    if (process.platform === 'darwin') {
         grunt.registerTask('release', ['clean:release', 'babel', 'less', 'copy:dev', 'electron:osx', 'copy:osx', 'shell:zip']);
+    }
+    if (process.platform === 'linux') {
+        grunt.registerTask('release', ['clean:release', 'babel', 'less', 'copy:dev', 'electron:linux', 'compress:linux']);
     }
 
     process.on('SIGINT', function() {
