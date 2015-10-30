@@ -8,7 +8,8 @@ class ipfsActions {
         this.generateActions(
             'ipfsInstalled',
             'ipfsEnabled',
-            'ipfsPinned'
+            'ipfsPinned',
+            'ipfsStats'
         );
     }
 

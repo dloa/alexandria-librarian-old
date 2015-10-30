@@ -38,6 +38,12 @@ class daemonStore {
         });
     }
 
+    onIpfsStats(stats) {
+        this.setState({
+            ipfsStats: stats
+        });
+    }
+
     onIpfsInstalled() {
         this.setState({
             ipfsInstalled: true
@@ -73,7 +79,7 @@ class daemonStore {
                 util.checktaskrunning(filename)
                     .then(function(running) {
                         running = running ? true : false;
-                       
+
                     });
             });
         });
