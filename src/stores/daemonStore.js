@@ -17,6 +17,7 @@ class daemonStore {
 
         this.ipfsInstalled = false;
         this.ipfsEnabled = false;
+        this.ipfsStats = false;
 
         this.florincoindInstalled = false;
         this.florincoindEnabled = false;
@@ -34,6 +35,12 @@ class daemonStore {
     onLibrarydEnabled(state) {
         this.setState({
             librarydEnabled: state
+        });
+    }
+
+    onIpfsStats(stats) {
+        this.setState({
+            ipfsStats: stats
         });
     }
 
@@ -72,7 +79,7 @@ class daemonStore {
                 util.checktaskrunning(filename)
                     .then(function(running) {
                         running = running ? true : false;
-                       
+
                     });
             });
         });
