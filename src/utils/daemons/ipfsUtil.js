@@ -32,18 +32,14 @@ module.exports = {
         });
     },
     getStats: function() {
-
         Promise.all([this.getPeers(), this.getBW()])
             .spread(function(peers, bw) {
                 var statusObj = {
                     peers: peers.split('\n').map(Function.prototype.call, String.prototype.trim).filter(Boolean),
                     stats: bw.split('\n').splice(1).map(Function.prototype.call, String.prototype.trim).filter(Boolean)
                 };
-                console.log(statusObj)
+                ipfsActionHandler.ipfsStats(statusObj);
             })
-
-
-
     },
     getBW: function() {
         return new Promise((resolve, reject) => {
