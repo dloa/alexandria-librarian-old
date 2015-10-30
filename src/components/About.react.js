@@ -50,13 +50,13 @@ var About = React.createClass({
         return (
             <div className="content-scroller" id="content">
                 <section>
-                    <h1 className="title">About</h1>
-                    <p className="about" >This is a prototype developer build, and is not representative of the final product.</p>
+                    <h1 className="aboutTitle">About</h1>
+                    <p className="aboutSub" >This is a prototype developer build, and is not representative of the final product.</p>
                     <br/>
                 <p className="about" >{version}</p>
                 </section>
                 <section>
-                    <h1 className="title">Contributors</h1>
+                    <h1 className="aboutTitle">Contributors</h1>
                         {
                             contributors.map(function(Contributor, i) {
                                 return (
@@ -66,7 +66,7 @@ var About = React.createClass({
                         }
                  </section>
                 <section>
-                    <h1 className="title">License</h1>
+                    <h1 className="aboutTitle">License</h1>
                     <textarea className="License"  defaultValue={license} readOnly />
                 </section>
             </div>
