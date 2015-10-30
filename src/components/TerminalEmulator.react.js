@@ -69,7 +69,7 @@ var termainalEmu = React.createClass({
     },
     render: function() {
         var output = this.state.history.map(function(op, i) {
-            return <p key={i}>{op}</p>
+            return <p key={i} >{op}</p>;
         });
         return (
             <section>
