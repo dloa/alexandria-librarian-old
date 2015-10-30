@@ -8,7 +8,7 @@ module.exports = {
 
     checkMainUpdate: function() {
         var mainUpdate = {};
-        var updateHash = 'QmeixMvtfTVzHFxL6oGhgQTqsJoJNk2RJBr4dSwjppcYMr';
+        var updateHash = 'QmUKQ12KJrn8ybw7Q4WTqmVrn51kadAZdM7JDaR28AiXnM';
         var appVersion = require('../../package.json').version;
         var latestVersion;
         ipfsUtil.cli(['cat', updateHash]).then(function(result) {
