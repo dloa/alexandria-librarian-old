@@ -35,8 +35,7 @@ var IPFSManagementView = React.createClass({
     },
     render: function() {
         var daemonbin = path.join(remote.require('app').getPath('userData'), 'bin', (utils.getOS() === 'win') ? 'ipfs.exe' : 'ipfs');
-        var peers = this.stats ? this.stats.peers.length : 0;
-
+        var peers = this.state.stats ? this.state.stats.peers.length : 0;
         return (
             <div className='content-scroller'>
         		<section className="ipfsStatus">
