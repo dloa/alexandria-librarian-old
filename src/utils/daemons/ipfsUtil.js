@@ -162,7 +162,7 @@ module.exports = {
         }).bind(this);
     },
     enable: function() {
-        util.exists(path.join(AppData, 'bin'), (util.getOS() === 'win') ? 'ipfs.exe' : 'ipfs')
+        util.exists(path.join(AppData, 'bin', (util.getOS() === 'win') ? 'ipfs.exe' : 'ipfs'))
             .then(function(found) {
                 if (found) {
                     try {
