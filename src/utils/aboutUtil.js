@@ -6,7 +6,7 @@ import externalActions from '../actions/externalActions';
 
 module.exports = {
     getVersion: function() {
-        var appVersion = 'ΛLΞXΛNDRIΛ Librarian v' + require('../../package.json').version;
+        var appVersion = 'Alexandria Librarian, v' + require('../../package.json').version;
         externalActions.gotVersion(appVersion);
         return appVersion;
     },
