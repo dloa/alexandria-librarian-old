@@ -68,6 +68,7 @@ module.exports = {
     },
 
     notify: function(type) {
+      var showing;
       console.log(type);
         if(type === 'app'){
             notificationsUtil.notify({
@@ -75,8 +76,10 @@ module.exports = {
                             message: 'App update available',
                             sound: true
                         });
-            updateActions.notificationShown(); // to add dl and install as well as args
+            showing = true;
+            updateActions.notificationShown(showing); // to add dl and install as well as args
         }
+        console.log(showing);
         if(updaterStore.daemonUpdatesAvailable){
             if(type === 'ipfs'){
                 notificationsUtil.notify({
