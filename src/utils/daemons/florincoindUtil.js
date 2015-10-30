@@ -59,7 +59,7 @@ module.exports = {
                     }.bind(this))
                     .catch(console.log);
             }
-        });
+        }).bind(this);
     },
     checkConf: function() {
         var dialog = remote.require('dialog');
