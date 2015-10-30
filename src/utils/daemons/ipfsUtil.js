@@ -31,6 +31,38 @@ module.exports = {
                 .catch(reject);
         });
     },
+    getStats: function() {
+
+        Promise.all([
+
+            function() {
+                return new Promise((resolve, reject) => {
+                    this.cli(['swarm', 'peers'])
+                        .then(function(peers) {
+                            console.log(peers)
+
+                        });
+                });
+            },
+            function() {
+                return new Promise((resolve, reject) => {
+                    this.cli(['stats', 'bw'])
+                        .then(function(bw) {
+                            console.log(bw)
+                        });
+                });
+            }
+        ]).then(function(values) {
+
+
+
+
+        }).bind(this);
+      
+
+
+    },
+
     getPinned: function() {
         return new Promise((resolve) => {
             this.cli(['pin', 'ls'])

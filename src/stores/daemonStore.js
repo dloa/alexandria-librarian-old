@@ -17,6 +17,7 @@ class daemonStore {
 
         this.ipfsInstalled = false;
         this.ipfsEnabled = false;
+        this.ipfsStats = false;
 
         this.florincoindInstalled = false;
         this.florincoindEnabled = false;
