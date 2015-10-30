@@ -11,11 +11,9 @@ module.exports = {
         var updateHash = 'QmeixMvtfTVzHFxL6oGhgQTqsJoJNk2RJBr4dSwjppcYMr';
         var appVersion = require('../../package.json').version;
         var latestVersion;
-
         ipfsUtil.cli(['cat', updateHash]).then(function(result) {
           var data = JSON.parse(result);
           latestVersion = data.librarian.version;
-
           if(appVersion !== latestVersion){
               mainUpdate = {
                   hash: data.librarian.ipfsHash,
@@ -69,8 +67,9 @@ module.exports = {
         });
     },
 
-    notify: function() {
-        if(updaterStore.appUpdateAvailable){
+    notify: function(type) {
+      console.log(type);
+        if(type === 'app'){
             notificationsUtil.notify({
                             title: 'ΛLΞXΛNDRIΛ Librarian',
                             message: 'App update available',

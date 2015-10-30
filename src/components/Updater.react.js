@@ -18,7 +18,7 @@ var Updater = React.createClass({
         updaterStore.listen(this.update);
 
         if (!this.state.updatesChecked) {
-            UpdaterUtil.notify();
+            UpdaterUtil.notify('app');
             UpdaterUtil.checkMainUpdate();
             UpdaterUtil.checkDaemonUpdates();
         }
