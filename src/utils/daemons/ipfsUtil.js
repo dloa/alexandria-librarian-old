@@ -79,7 +79,7 @@ module.exports = {
             this.cli(['pin', 'add', hash, '-r'])
                 .then(resolve)
                 .catch(reject)
-        });
+        }).bind(this);
     },
     addFile: function(filepath) {
         return new Promise((resolve, reject) => {
@@ -88,13 +88,12 @@ module.exports = {
                     addedResponce = addedResponce.split(' ');
                     resolve(addedResponce[1]);
                 });
-        });
+        }).bind(this);
     },
     removePin: function(hash) {
 
     },
     installAndEnable: function(tmppath) {
-        var self = this;
         return new Promise((resolve, reject) => {
             util.copyfile(path.join(asarBIN, os, (os === 'win') ? 'ipfs.exe' : 'ipfs'), path.join(AppData, 'bin', (os === 'win') ? 'ipfs.exe' : 'ipfs'))
                 .then(function() {
@@ -106,73 +105,69 @@ module.exports = {
                     });
                 })
                 .then(function() {
-                    self.enable();
+                    this.enable();
                     ipfsActionHandler.ipfsInstalled(true);
                     resolve();
-                })
+                }.bind(this))
                 .catch(reject);
-        });
+        }).bind(this);
     },
-
     checkRunning: function() {
-        var self = this;
         return new Promise((resolve, reject) => {
-            if (self.daemon) {
+            if (this.daemon) {
                 ipfsActionHandler.ipfsEnabled(true);
                 return resolve(true)
             }
             var ipfsname = (os === 'win') ? 'ipfs.exe' : 'ipfs';
-            util.checktaskrunning(ipfsname).then(function(running) {
-                var taskon = running ? true : false;
-                ipfsActionHandler.ipfsEnabled(running);
-                resolve(taskon);
-            }).catch(function() {
-                ipfsActionHandler.ipfsEnabled(false);
-                resolve(false)
-            })
-        });
-    },
-
-    enable: function() {
-        var self = this;
-        util.findfile(path.join(AppData, 'bin'), (util.getOS() === 'win') ? 'ipfs.exe' : 'ipfs').then(function(found) {
-            if (found) {
-                try {
-                    self.daemon = util.child(path.join(AppData, 'bin', (util.getOS() === 'win') ? 'ipfs.exe' : 'ipfs'), ['daemon']);
-                    self.daemon.start(function(pid) {
-                        notificationsUtil.notify({
-                            title: 'ΛLΞXΛNDRIΛ Librarian',
-                            message: 'IPFS daemon started.'
-                        });
-                        ipfsActionHandler.ipfsEnabled(true);
-                    });
-                } catch (e) {
+            util.checktaskrunning(ipfsname)
+                .then(function(running) {
+                    var taskon = running ? true : false;
+                    ipfsActionHandler.ipfsEnabled(running);
+                    resolve(taskon);
+                }).catch(function() {
                     ipfsActionHandler.ipfsEnabled(false);
+                    resolve(false)
+                })
+        }).bind(this);
+    },
+    enable: function() {
+        util.exists(path.join(AppData, 'bin'), (util.getOS() === 'win') ? 'ipfs.exe' : 'ipfs')
+            .then(function(found) {
+                if (found) {
+                    try {
+                        this.daemon = util.child(path.join(AppData, 'bin', (util.getOS() === 'win') ? 'ipfs.exe' : 'ipfs'), ['daemon']);
+                        this.daemon.start(function(pid) {
+                            notificationsUtil.notify({
+                                title: 'ΛLΞXΛNDRIΛ Librarian',
+                                message: 'IPFS daemon started.'
+                            });
+                            ipfsActionHandler.ipfsEnabled(true);
+                        });
+                    } catch (e) {
+                        ipfsActionHandler.ipfsEnabled(false);
+                    }
+                } else {
+                    this.installAndEnable();
                 }
-            } else {
-                self.installAndEnable();
-            }
-        });
+            }.bind(this));
     },
     disable: function() {
-
-        var self = this;
         return new Promise((resolve, reject) => {
-            if (self.daemon) {
+            if (this.daemon) {
                 try {
-                    self.daemon.stop(function(code) {
+                    this.daemon.stop(function(code) {
                         ipfsActionHandler.ipfsEnabled(false);
-                        self.daemon = false;
+                        this.daemon = false;
                     });
                 } catch (e) {
                     ipfsActionHandler.ipfsEnabled(false);
-                    self.forceKill().then(resolve).catch(reject);
+                    this.forceKill().then(resolve).catch(reject);
                 }
             } else {
                 ipfsActionHandler.ipfsEnabled(false);
-                module.exports.forceKill();
+                this.forceKill();
             }
-        });
+        }).bind(this);
     },
     forceKill: function() {
         var ipfsname = (os === 'win') ? 'ipfs.exe' : 'ipfs';
