@@ -25,7 +25,6 @@ module.exports = {
     },
     cli: function(command) {
         return new Promise((resolve, reject) => {
-            console.log([path.join(AppData, 'bin', (os === 'win') ? 'ipfs.exe' : 'ipfs')].concat(command))
             util.exec([path.join(AppData, 'bin', (os === 'win') ? 'ipfs.exe' : 'ipfs')].concat(command))
                 .then(resolve)
                 .catch(reject);
@@ -34,9 +33,14 @@ module.exports = {
     getStats: function() {
         Promise.all([this.getPeers(), this.getBW()])
             .spread(function(peers, bw) {
+                var stats = {};
+                var s = bw.split('\n').splice(1).map(Function.prototype.call, String.prototype.trim).filter(Boolean);
+                s.forEach(function(stat) {
+                    stats[stat.split(':')[0].trim()] = stat.split(':')[1].trim()
+                });
                 var statusObj = {
                     peers: peers.split('\n').map(Function.prototype.call, String.prototype.trim).filter(Boolean),
-                    stats: bw.split('\n').splice(1).map(Function.prototype.call, String.prototype.trim).filter(Boolean)
+                    stats: stats
                 };
                 ipfsActionHandler.ipfsStats(statusObj);
             })

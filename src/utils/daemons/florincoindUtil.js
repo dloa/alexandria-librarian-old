@@ -196,6 +196,7 @@ module.exports = {
                 florincoindActionHandler.florincoindEnabled(true);
                 return resolve(true)
             }
+            var os = util.getOS();
             var florincoindname = (os === 'win') ? 'florincoind.exe' : ((os === 'osx') ? 'Florincoin-Qt' : 'florincoind');
             util.checktaskrunning(florincoindname)
                 .then(function(running) {
