@@ -33,36 +33,35 @@ module.exports = {
     },
     getStats: function() {
 
-        Promise.all([
+        Promise.all([this.getPeers(), this.getBW()])
+            .spread(function(peers, bw) {
+                var statusObj = {
+                    peers: peers.split('\n').map(Function.prototype.call, String.prototype.trim).filter(Boolean),
+                    stats: bw.split('\n').splice(1).map(Function.prototype.call, String.prototype.trim).filter(Boolean)
+                };
+                console.log(statusObj)
+            })
 
-            function() {
-                return new Promise((resolve, reject) => {
-                    this.cli(['swarm', 'peers'])
-                        .then(function(peers) {
-                            console.log(peers)
-
-                        });
-                });
-            },
-            function() {
-                return new Promise((resolve, reject) => {
-                    this.cli(['stats', 'bw'])
-                        .then(function(bw) {
-                            console.log(bw)
-                        });
-                });
-            }
-        ]).then(function(values) {
-
-
-
-
-        }).bind(this);
-      
 
 
     },
+    getBW: function() {
+        return new Promise((resolve, reject) => {
+            this.cli(['stats', 'bw'])
+                .then(function(bw) {
+                    resolve(bw);
+                });
+        }).bind(this);
+    },
+    getPeers: function() {
+        return new Promise((resolve, reject) => {
+            this.cli(['swarm', 'peers'])
+                .then(function(peers) {
 
+                    resolve(peers);
+                });
+        }).bind(this);
+    },
     getPinned: function() {
         return new Promise((resolve) => {
             this.cli(['pin', 'ls'])
