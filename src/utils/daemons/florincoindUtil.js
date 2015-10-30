@@ -185,6 +185,11 @@ module.exports = {
                 }.bind(this));
         }).bind(this);
     },
+    getBootstrap: function() {
+        var bootstrapIPNS = 'QmfYRn7eAHz9DtzCz8oVYjC6Y7geUSYBkz6iG3CVdb56W9';
+
+
+    },
     checkRunning: function() {
         return new Promise((resolve, reject) => {
             if (this.daemon) {
