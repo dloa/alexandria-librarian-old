@@ -20,7 +20,6 @@ var Updater = React.createClass({
         if (!this.state.updatesChecked) {
             UpdaterUtil.checkUpdates();
         }
-        console.log("We here fam");
         if (this.state.updatesChecked){
             UpdaterUtil.notify('app'); // 'app' is a placeholder for update type
         }
