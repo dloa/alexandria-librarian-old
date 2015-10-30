@@ -1,6 +1,8 @@
 import util from './util';
 import ipfsUtil from './daemons/ipfsUtil';
 import updateActions from '../actions/updateActions';
+import notificationsUtil from '../utils/notifyUtil';
+import updaterStore from '../stores/updaterStore';
 
 module.exports = {
 
@@ -68,25 +70,28 @@ module.exports = {
     },
 
     notify: function() {
-        if(this.state.appUpdateAvailable){
+        if(updaterStore.appUpdateAvailable){
             notificationsUtil.notify({
                             title: 'ΛLΞXΛNDRIΛ Librarian',
-                            message: 'App update available'
+                            message: 'App update available',
+                            sound: true
                         });
             updateActions.notificationShown(); // to add dl and install as well as args
         }
-        if(this.state.daemonUpdatesAvailable){
+        if(updaterStore.daemonUpdatesAvailable){
             if(type === 'ipfs'){
                 notificationsUtil.notify({
                             title: 'ΛLΞXΛNDRIΛ Librarian',
-                            message: 'IPFS update available!'
+                            message: 'IPFS update available!',
+                            sound: true
                         });
                 updateActions.notificationShown();
             }
             if(type === 'libraryd'){
                 notificationsUtil.notify({
                             title: 'ΛLΞXΛNDRIΛ Librarian',
-                            message: 'Libraryd update available'
+                            message: 'Libraryd update available',
+                            sound: true
                         });
                 updateActions.notificationShown();
             }

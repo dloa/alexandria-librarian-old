@@ -4,6 +4,7 @@ import updaterStore from '../stores/updaterStore';
 
 import UpdaterUtil from '../utils/UpdaterUtil';
 import notificationsUtil from '../utils/notifyUtil';
+
 var Updater = React.createClass({
 
     getInitialState: function() {
@@ -17,6 +18,7 @@ var Updater = React.createClass({
         updaterStore.listen(this.update);
 
         if (!this.state.updatesChecked) {
+            UpdaterUtil.notify();
             UpdaterUtil.checkMainUpdate();
             UpdaterUtil.checkDaemonUpdates();
         }
