@@ -153,7 +153,9 @@ module.exports = {
     enable: function() {
         return new Promise((resolve, reject) => {
             var os = util.getOS();
-            util.findfile((os === 'osx') ? path.join(AppData, 'bin', 'florincoind.app') : ((os === 'win') ? 'florincoind.exe' : 'florincoind'))
+            var filename = (os === 'osx') ? 'florincoind.app' : (os === 'win') ? 'florincoind.exe' : 'florincoind';
+
+            util.exists(path.join(AppData, 'bin', filename))
                 .then(function(found) {
                     if (found) {
                         this.checkConf()
@@ -166,7 +168,7 @@ module.exports = {
                                         })
                                         .catch(reject);
                                 } else {
-                                    this.daemon = util.child(path.join(AppData, 'bin', (os === 'win') ? 'florincoind.exe' : 'florincoind'), []);
+                                    this.daemon = util.child(path.join(AppData, 'bin', filename), []);
                                     try {
                                         this.daemon.start(function(pid) {
                                             florincoindActionHandler.florincoindEnabled(true);
@@ -181,6 +183,24 @@ module.exports = {
                         this.installAndEnable();
                     }
                 }.bind(this));
+        }).bind(this);
+    },
+    checkRunning: function() {
+        return new Promise((resolve, reject) => {
+            if (this.daemon) {
+                florincoindActionHandler.florincoindEnabled(true);
+                return resolve(true)
+            }
+            var florincoindname = (os === 'win') ? 'florincoind.exe' : ((os === 'osx') ? 'Florincoin-Qt' : 'florincoind');
+            util.checktaskrunning(florincoindname)
+                .then(function(running) {
+                    var taskon = running ? true : false;
+                    florincoindActionHandler.florincoindEnabled(running);
+                    resolve(taskon);
+                }).catch(function() {
+                    florincoindActionHandler.florincoindEnabled(false);
+                    resolve(false)
+                })
         }).bind(this);
     },
     disable: function() {
