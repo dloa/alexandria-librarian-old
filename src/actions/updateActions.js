@@ -20,8 +20,8 @@ class updateActions {
         switch(type) {
           case 'app':
             // Download app update
-            console.log(hash);
-            console.log(type);
+            console.log("Hash to download: " + hash);
+            //console.log(type);
             break;
           case 'ipfs':
             // Download ipfs update
