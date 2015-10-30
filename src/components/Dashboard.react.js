@@ -36,6 +36,7 @@ var Preferences = React.createClass({
         if (!this.state.checkedRunning) {
             IPFS.checkRunning();
             Florincoind.checkRunning();
+            Libraryd.checkRunning();
         }
 
         daemonStore.listen(this.update);
