@@ -1,6 +1,7 @@
 import React from 'react/addons';
 import path from 'path';
 import remote from 'remote';
+import _ from 'lodash';
 
 import TerminalEmu from './TerminalEmulator.react';
 import IPFSPinManager from './DashboardIPFSPinManager.react';
@@ -17,11 +18,17 @@ var IPFSManagementView = React.createClass({
         };
     },
     componentDidMount: function() {
-        IPFS.getStats();
         daemonStore.listen(this.update);
+        this.checkStats();
     },
     componentWillUnmount: function() {
         daemonStore.unlisten(this.update);
+    },
+    checkStats: function() {
+        if (this.isMounted()) {
+            IPFS.getStats();
+            _.delay(this.checkStats, 2000); //refresh every 2 seconds
+        }
     },
     update: function() {
         if (this.isMounted()) {
