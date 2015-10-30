@@ -12,6 +12,7 @@ import DecompressZip from 'decompress-zip';
 import util from '../util';
 import Settings from '../settingsUtil';
 import florincoindActionHandler from '../../actions/florincoindActions';
+import notificationsUtil from '../notifyUtil';
 
 var app = remote.require('app');
 var AppData = app.getPath('userData');
@@ -171,6 +172,10 @@ module.exports = {
                                     this.daemon = util.child(path.join(AppData, 'bin', filename), []);
                                     try {
                                         this.daemon.start(function(pid) {
+                                            notificationsUtil.notify({
+                                                title: 'ΛLΞXΛNDRIΛ Librarian',
+                                                message: 'Florincoind daemon started.'
+                                            });
                                             florincoindActionHandler.florincoindEnabled(true);
                                             resolve(pid);
                                         });
