@@ -10,7 +10,7 @@ module.exports = {
 
     checkUpdates: function() {
 
-        Promise.all([this.checkDaemonUpdates(), this.checkAppUpdates(), this.checkDaemonUpdates()]).bind(this)
+        Promise.all([this.checkDaemonUpdates(), this.checkAppUpdates(), this.getVersions()]).bind(this)
             .spread(function(daemons, app) {
 
                 console.log(daemons, app)
@@ -23,7 +23,9 @@ module.exports = {
             ipfsUtil.cli(['cat', daemonUpdateHash ? daemonUpdateHash : 'QmUKQ12KJrn8ybw7Q4WTqmVrn51kadAZdM7JDaR28AiXnM'])
                 .then(function(result) {
                     resolve(JSON.parse(result).daemons);
-                }).catch(reject);
+                }).catch(function() {
+                    reject({})
+                });
         });
     },
 
@@ -31,13 +33,22 @@ module.exports = {
         return new Promise((resolve, reject) => {
             ipfsUtil.cli(['cat', appUpdateHash ? appUpdateHash : 'QmUKQ12KJrn8ybw7Q4WTqmVrn51kadAZdM7JDaR28AiXnM'])
                 .then(function(result) {
-                        resolve(JSON.parse(result).librarian);
-                }).catch(reject);
+                    resolve(JSON.parse(result).librarian);
+                }).catch(function() {
+                    reject({})
+                });
         });
     },
 
     getVersions: function() {
-
+        return new Promise((resolve, reject) => {
+            ipfsUtil.cli(['cat', appUpdateHash ? appUpdateHash : 'QmUKQ12KJrn8ybw7Q4WTqmVrn51kadAZdM7JDaR28AiXnM'])
+                .then(function(result) {
+                    resolve(JSON.parse(result).librarian);
+                }).catch(function() {
+                    reject({})
+                });
+        });
     },
 
     notify: function(type) {
