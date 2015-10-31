@@ -13,7 +13,7 @@ module.exports = {
         var ipfsVersion = "1.2.3";
         var librarydVersion = "1.2.3";
 
-        Promise.all([this.checkDaemonUpdates(), this.checkAppUpdates()])
+        Promise.all([this.checkDaemonUpdates(), this.checkAppUpdates()]).bind(this)
             .spread(function(daemons, app) {
 
                 console.log(daemons, app)
@@ -21,13 +21,10 @@ module.exports = {
             })
     },
 
-
     checkDaemonUpdates: function(daemonUpdateHash) {
         return new Promise((resolve, reject) => {
             ipfsUtil.cli(['cat', daemonUpdateHash ? daemonUpdateHash : 'QmUKQ12KJrn8ybw7Q4WTqmVrn51kadAZdM7JDaR28AiXnM'])
                 .then(function(result) {
-                    result = JSON.parse(result)
-
                     var latestIpfsVersion = JSON.parse(result).daemons.ipfs.version,
                         latestLibrarydVersion = JSON.parse(result).daemons.libraryd.version,
                         daemonUpdates = {};
