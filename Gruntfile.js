@@ -161,7 +161,7 @@ module.exports = function(grunt) {
                         expand: true,
                         cwd: 'util/images/',
                         src: ['librarian_icon.ico'],
-                        dest: 'dist/ΛLΞXΛNDRIΛ Librarian-win32-ia32/resources'
+                        dest: 'dist/ΛLΞXΛNDRIΛ Librarian-win32-ia32/resources/'
                     }]
                 }
             },
