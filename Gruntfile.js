@@ -268,9 +268,7 @@ module.exports = function(grunt) {
         },
 
         clean: {
-            unused: {
-                win: ['ΛLΞXΛNDRIΛ Librarian-win32-ia32/resources/default_app/', 'dist/'],
-            },
+            unusedWin: ['dist/ΛLΞXΛNDRIΛ Librarian-win32-ia32/resources/default_app'],
             release: ['build/', 'dist/'],
         },
 
@@ -330,7 +328,7 @@ module.exports = function(grunt) {
     grunt.registerTask('default', ['newer:babel', 'less', 'newer:copy:dev', 'shell:electron', 'watchChokidar']);
 
     if (process.platform === 'win32') {
-        grunt.registerTask('release', ['clean:release', 'babel', 'less', 'copy:release', 'electron:windows', 'copy:releaseWin', 'compress:windows']);
+        grunt.registerTask('release', ['clean:release', 'babel', 'less', 'copy:release', 'electron:windows', 'clean:unusedWin', 'copy:releaseWin', 'compress:windows']);
     }
     if (process.platform === 'darwin') {
         grunt.registerTask('release', ['clean:release', 'babel', 'less', 'copy:release', 'electron:osx', 'copy:releaseOSX', 'shell:zip']);
