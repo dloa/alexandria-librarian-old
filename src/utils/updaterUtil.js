@@ -4,9 +4,6 @@ import updateActions from '../actions/updateActions';
 import notificationsUtil from '../utils/notifyUtil';
 import updaterStore from '../stores/updaterStore';
 
-var appVersion = require('../../package.json').version;
-
-
 module.exports = {
 
     checkUpdates: function() {
@@ -20,11 +17,8 @@ module.exports = {
 
 
     checkDaemonUpdates: function(daemonUpdateHash) {
-        if (!daemonUpdateHash)
-            daemonUpdateHash = 'QmUKQ12KJrn8ybw7Q4WTqmVrn51kadAZdM7JDaR28AiXnM';
-
         return new Promise((resolve, reject) => {
-            ipfsUtil.cli(['cat', daemonUpdateHash])
+            ipfsUtil.cli(['cat', daemonUpdateHash ? daemonUpdateHash : 'QmUKQ12KJrn8ybw7Q4WTqmVrn51kadAZdM7JDaR28AiXnM'])
                 .then(function(result) {
                     result = JSON.parse(result)
 
@@ -52,29 +46,24 @@ module.exports = {
 
 
     checkAppUpdates: function(appUpdateHash) {
-        if (!appUpdateHash)
-            appUpdateHash = 'QmUKQ12KJrn8ybw7Q4WTqmVrn51kadAZdM7JDaR28AiXnM';
 
         return new Promise((resolve, reject) => {
-            // app Update cli
-            ipfsUtil.cli(['cat', appUpdateHash]).then(function(result) {
-                var data = JSON.parse(result);
-                latestAppVersion = data.librarian.version;
-                if (appVersion !== latestAppVersion) {
-                    appUpdate = {
-                        hash: data.librarian.ipfsHash,
-                        type: 'app'
-                    };
+            ipfsUtil.cli(['cat', appUpdateHash ? appUpdateHash : 'QmUKQ12KJrn8ybw7Q4WTqmVrn51kadAZdM7JDaR28AiXnM'])
+                .then(function(result) {
 
-                    console.log(appUpdate);
-                    updateActions.mainUpdateFound(appUpdate);
-                    updateActions.updatesChecked(true);
-                }
-            }).catch(function(err, response) {
-                console.log("Error while checking for app update:\n" + err);
-            });
+                    if (require('../../package.json').version !== JSON.parse(result).librarian.version)
+                        resolve({
+                            hash: JSON.parse(result).librarian.ipfsHash,
+                            type: 'app'
+                        });
+                    else
+                        resolve(false);
 
-        }).bind(this);
+                }).catch(reject);
+        });
+
+
+
 
     },
 
