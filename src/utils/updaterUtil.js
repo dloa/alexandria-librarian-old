@@ -11,18 +11,22 @@ module.exports = {
 
         Promise.all([this.checkDaemonUpdates(), this.checkAppUpdates(), this.getVersions()])
             .spread(function(daemons, app, versions) {
+                if (daemons.status !== 'ok' || app.status !== 'ok')
+                    this.notify('error', (daemons.status !== 'ok') ? 'Daemons' : 'App');
 
                 console.log(daemons, app, versions)
 
                 //Logic to compaire stuff here.
-            })
+            }.bind(this))
     },
 
     checkDaemonUpdates: function(daemonUpdateHash) {
         return new Promise((resolve, reject) => {
             ipfsUtil.cli(['cat', daemonUpdateHash ? daemonUpdateHash : 'QmUKQ12KJrn8ybw7Q4WTqmVrn51kadAZdM7JDaR28AiXnM'])
                 .then(function(result) {
-                    resolve(JSON.parse(result).daemons);
+                    result = JSON.parse(result).daemons;
+                    result['status'] = 'okay';
+                    resolve(result);
                 }).catch(function() {
                     reject({})
                 });
@@ -33,9 +37,13 @@ module.exports = {
         return new Promise((resolve, reject) => {
             ipfsUtil.cli(['cat', appUpdateHash ? appUpdateHash : 'QmUKQ12KJrn8ybw7Q4WTqmVrn51kadAZdM7JDaR28AiXnM'])
                 .then(function(result) {
-                    resolve(JSON.parse(result).librarian);
+                    result = JSON.parse(result).librarian;
+                    result['status'] = 'okay';
+                    resolve(result);
                 }).catch(function() {
-                    reject({})
+                    reject({
+                        status: 'error'
+                    })
                 });
         });
     },
@@ -52,37 +60,21 @@ module.exports = {
         });
     },
 
-    notify: function(type) {
-        var shown;
-        console.log("Notify type: " + type);
-        if (type === 'app') {
-            notificationsUtil.notify({
-                title: 'ΛLΞXΛNDRIΛ Librarian',
-                message: 'App update available',
-                sound: true
-            }, function() {
-                updateActions.download('QmQoN4VjrneDTdJUfp3Yy8W5pFrHyZVWisWpQX82xw3n5Y', 'app');
-            }); // 'app' is a placeholder for update type
-            shown = true;
-            updateActions.notificationShown(shown);
+    notify: function(type, content, runFunc) {
+        switch (type) {
+            case 'error':
+                var message = 'Error checking updates for: ' + content
+                break;
+            case 'available':
+                var message = 'Updates Available for: ' + content
+                break;
+            case 'info':
+                var message = 'Update Installed: ' + content
         }
-        //console.log(shown);
-        if (type === 'ipfs') {
-            notificationsUtil.notify({
-                title: 'ΛLΞXΛNDRIΛ Librarian',
-                message: 'IPFS update available!',
-                sound: true
-            });
-            shown = true;
-        }
-        if (type === 'libraryd') {
-            notificationsUtil.notify({
-                title: 'ΛLΞXΛNDRIΛ Librarian',
-                message: 'Libraryd update available',
-                sound: true
-            });
-            shown = true;
-        }
-
+        notificationsUtil.notify({
+            title: 'ΛLΞXΛNDRIΛ Librarian',
+            message: message,
+            sound: true
+        }, runFunc ? runFunc : (function() {}));
     }
 }
