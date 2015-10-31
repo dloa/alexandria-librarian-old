@@ -69,7 +69,7 @@ module.exports = {
           }
           console.log(daemonUpdates);
           updateActions.daemonUpdatesFound(daemonUpdates);
-          updateActions.updatesChecked(true);
+          updatedActions.updatesChecked(true);
         }).catch(function(){
             console.log("Error while checking for daemon updates");
           });
@@ -77,33 +77,34 @@ module.exports = {
     notify: function(type) {
       var shown;
       console.log("Notify type: " + type);
-        if(type === 'app'){
-            notificationsUtil.notify({
-                            title: 'ΛLΞXΛNDRIΛ Librarian',
-                            message: 'App update available',
-                            sound: true
-                        }, updateActions.download('QmQoN4VjrneDTdJUfp3Yy8W5pFrHyZVWisWpQX82xw3n5Y', 'app')); // 'app' is a placeholder for update type
-            shown = true;
-            updateActions.notificationShown(shown);
-        }
-        console.log(shown);
-        if(updaterStore.daemonUpdatesAvailable){
-            if(type === 'ipfs'){
-                notificationsUtil.notify({
-                            title: 'ΛLΞXΛNDRIΛ Librarian',
-                            message: 'IPFS update available!',
-                            sound: true
-                        });
-                updateActions.notificationShown();
-            }
-            if(type === 'libraryd'){
-                notificationsUtil.notify({
-                            title: 'ΛLΞXΛNDRIΛ Librarian',
-                            message: 'Libraryd update available',
-                            sound: true
-                        });
-                updateActions.notificationShown();
-            }
-        }
+      if(type === 'app'){
+          notificationsUtil.notify({
+                          title: 'ΛLΞXΛNDRIΛ Librarian',
+                          message: 'App update available',
+                          sound: true
+                      }, updateActions.download('QmQoN4VjrneDTdJUfp3Yy8W5pFrHyZVWisWpQX82xw3n5Y', 'app')); // 'app' is a placeholder for update type
+          shown = true;
+          updateActions.notificationShown(shown);
+      }
+      //console.log(shown);
+      if(type === 'ipfs'){
+          notificationsUtil.notify({
+                      title: 'ΛLΞXΛNDRIΛ Librarian',
+                      message: 'IPFS update available!',
+                      sound: true
+                  });
+          shown = true;
+          updateActions.notificationShown(shown);
+      }
+      if(type === 'libraryd'){
+          notificationsUtil.notify({
+                      title: 'ΛLΞXΛNDRIΛ Librarian',
+                      message: 'Libraryd update available',
+                      sound: true
+                  });
+          shown = true;
+          updateActions.notificationShown(shown);
+      }
+
     }
 }

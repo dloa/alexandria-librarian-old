@@ -15,15 +15,14 @@ var Updater = React.createClass({
         };
     },
     componentDidMount: function() {
-      if (!this.updatesChecked || !this.appUpdateAvailable || !this.daemonUpdatesAvailable) {
         updaterStore.listen(this.update);
+        console.log("CDM: Updates Checked is " + this.state.updatesChecked);
         if (!this.state.updatesChecked) {
             UpdaterUtil.checkUpdates();
         }
-        if (this.state.updatesChecked){
-            UpdaterUtil.notify('app'); // 'app' is a placeholder for update type
+        else {
+            UpdaterUtil.notify(this.state.daemonUpdatesAvailable.ipfs.type); // 'app' is a placeholder for update type
         }
-      }
     },
     componentWillUnmount: function() {
         updaterStore.unlisten(this.update);
@@ -43,6 +42,7 @@ var Updater = React.createClass({
         return (
             <section>
                 <h1 className='title'>Updates</h1>
+                <div>{appUpdateAvailable.type}</div>
                 <button className="left" type="submit" onClick={this.checkUpdates}><p>Check for updates</p></button>
             </section>
 
