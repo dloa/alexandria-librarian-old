@@ -10,7 +10,7 @@ module.exports = {
 
     checkUpdates: function() {
 
-        Promise.all([this.checkDaemonUpdates(), this.checkAppUpdates(), this.getVersions()]).bind(this)
+        Promise.all([this.checkDaemonUpdates(), this.checkAppUpdates(), this.getVersions()])
             .spread(function(daemons, app) {
 
                 console.log(daemons, app)
@@ -42,12 +42,13 @@ module.exports = {
 
     getVersions: function() {
         return new Promise((resolve, reject) => {
-            ipfsUtil.cli(['cat', appUpdateHash ? appUpdateHash : 'QmUKQ12KJrn8ybw7Q4WTqmVrn51kadAZdM7JDaR28AiXnM'])
-                .then(function(result) {
-                    resolve(JSON.parse(result).librarian);
-                }).catch(function() {
-                    reject({})
-                });
+            Promise.all([ipfsUtil.cli(['version'])])
+                .spread(function(ipfs) {
+                    resolve({
+                        ipfs: ipfs,
+
+                    })
+                })
         });
     },
 
