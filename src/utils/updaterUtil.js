@@ -1,3 +1,5 @@
+import Promise from 'bluebird';
+
 import util from './util';
 import ipfsUtil from './daemons/ipfsUtil';
 import updateActions from '../actions/updateActions';
@@ -11,9 +13,13 @@ module.exports = {
         var ipfsVersion = "1.2.3";
         var librarydVersion = "1.2.3";
 
+        Promise.all([this.checkDaemonUpdates(), this.checkAppUpdates()])
+            .spread(function(daemons, app) {
 
+                console.log(daemons, app)
+
+            })
     },
-
 
 
     checkDaemonUpdates: function(daemonUpdateHash) {
@@ -31,7 +37,6 @@ module.exports = {
                             hash: data.daemons.ipfs.ipfsHash,
                             type: 'ipfs'
                         };
-
                     }
                     if (librarydVersion !== latestLibrarydVersion) {
                         daemonUpdates.libraryd = {
@@ -44,9 +49,7 @@ module.exports = {
         });
     },
 
-
     checkAppUpdates: function(appUpdateHash) {
-
         return new Promise((resolve, reject) => {
             ipfsUtil.cli(['cat', appUpdateHash ? appUpdateHash : 'QmUKQ12KJrn8ybw7Q4WTqmVrn51kadAZdM7JDaR28AiXnM'])
                 .then(function(result) {
@@ -61,14 +64,11 @@ module.exports = {
 
                 }).catch(reject);
         });
-
-
-
-
     },
 
+    getDaemonVersions: function() {
 
-
+    },
 
     notify: function(type) {
         var shown;
