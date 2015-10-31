@@ -203,7 +203,7 @@ module.exports = function(grunt) {
         babel: {
             options: {
                 sourceMap: 'inline',
-                presets: ['react'],
+                presets: ['es2015', 'react'],
                 compact: true
             },
             dist: {
