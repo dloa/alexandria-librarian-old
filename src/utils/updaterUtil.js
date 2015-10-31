@@ -25,7 +25,7 @@ module.exports = {
             ipfsUtil.cli(['cat', daemonUpdateHash ? daemonUpdateHash : 'QmUKQ12KJrn8ybw7Q4WTqmVrn51kadAZdM7JDaR28AiXnM'])
                 .then(function(result) {
                     result = JSON.parse(result).daemons;
-                    result['status'] = 'okay';
+                    result['status'] = 'ok';
                     resolve(result);
                 }).catch(function() {
                     reject({})
@@ -38,7 +38,7 @@ module.exports = {
             ipfsUtil.cli(['cat', appUpdateHash ? appUpdateHash : 'QmUKQ12KJrn8ybw7Q4WTqmVrn51kadAZdM7JDaR28AiXnM'])
                 .then(function(result) {
                     result = JSON.parse(result).librarian;
-                    result['status'] = 'okay';
+                    result['status'] = 'ok';
                     resolve(result);
                 }).catch(function() {
                     reject({
