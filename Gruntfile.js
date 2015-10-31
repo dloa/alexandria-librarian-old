@@ -71,6 +71,7 @@ module.exports = function(grunt) {
                     version: packagejson['electron-version'],
                     platform: 'win32',
                     arch: 'ia32',
+                    prune: true,
                     asar: true
                 }
             },
@@ -82,7 +83,8 @@ module.exports = function(grunt) {
                     version: packagejson['electron-version'],
                     platform: 'linux',
                     arch: process.arch,
-                    asar: true
+                    asar: true,
+                    prune: true
                 }
             },
             osx: {
@@ -94,33 +96,13 @@ module.exports = function(grunt) {
                     platform: 'darwin',
                     arch: 'x64',
                     asar: true,
+                    prune: true,
                     'app-bundle-id': 'io.ΛLΞXΛNDRIΛ.Librarian',
                     'app-version': packagejson.version
                 }
             }
         },
-        rcedit: {
-            exes: {
-                files: [{
-                    expand: true,
-                    cwd: 'dist/' + BASENAME + '-win32-ia32',
-                    src: [BASENAME + '.exe']
-                }],
-                options: {
-                    'file-version': packagejson.version,
-                    'product-version': packagejson.version,
-                    'version-string': {
-                        'CompanyName': 'ΛLΞXΛNDRIΛ',
-                        'ProductVersion': packagejson.version,
-                        'ProductName': APPNAME,
-                        'FileDescription': APPNAME,
-                        'InternalName': BASENAME + '.exe',
-                        'OriginalFilename': BASENAME + '.exe',
-                        'LegalCopyright': 'Copyright 2015 ΛLΞXΛNDRIΛ Limited. All rights reserved.'
-                    }
-                }
-            }
-        },
+
 
         // images
         copy: {
