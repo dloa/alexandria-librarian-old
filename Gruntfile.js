@@ -128,7 +128,7 @@ module.exports = function(grunt) {
                 files: [{
                     expand: true,
                     cwd: '.',
-                    src: ['*.md', 'package.json', 'settings.json', 'index.html'],
+                    src: ['*.md', 'package.json', 'settings.json', 'index.html', 'OAuth.json'],
                     dest: 'build/'
                 }, {
                     expand: true,
@@ -211,13 +211,6 @@ module.exports = function(grunt) {
             },
         },
 
-        rename: {
-            installer: {
-                src: 'dist/Setup.exe',
-                dest: 'dist/' + BASENAME + 'Setup-' + packagejson.version + '-Windows-Alpha.exe'
-            }
-        },
-
         // styles
         less: {
             options: {
@@ -275,6 +268,9 @@ module.exports = function(grunt) {
         },
 
         clean: {
+            unused: {
+                win: ['ΛLΞXΛNDRIΛ Librarian-win32-ia32/resources/default_app/', 'dist/'],
+            },
             release: ['build/', 'dist/'],
         },
 
