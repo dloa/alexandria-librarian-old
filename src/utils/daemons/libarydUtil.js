@@ -12,7 +12,7 @@ import notificationsUtil from '../notifyUtil';
 
 var app = remote.require('app');
 var AppData = app.getPath('userData');
-var asarBIN = path.normalize(path.join(__dirname, '../../../', 'bin'));
+var asarBIN = path.normalize(path.join(process.cwd(), 'bin'));
 
 module.exports = {
     download: function() {
@@ -40,7 +40,7 @@ module.exports = {
     installAndEnable: function(tmppath) {
         var os = util.getOS();
         return new Promise((resolve, reject) => {
-            util.copyfile(path.join(asarBIN, os, (os === 'win') ? 'libraryd.exe' : 'libraryd'), path.join(AppData, 'bin', (os === 'win') ? 'libraryd.exe' : 'libraryd'))
+            util.copyfile(path.join(asarBIN, (os === 'win') ? 'libraryd.exe' : 'libraryd'), path.join(AppData, 'bin', (os === 'win') ? 'libraryd.exe' : 'libraryd'))
                 .then(function() {
                     return util.chmod(path.join(AppData, 'bin', (os === 'win') ? 'libraryd.exe' : 'libraryd'), '0777').catch(resolve);
                 })

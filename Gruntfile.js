@@ -183,7 +183,7 @@ module.exports = function(grunt) {
                 files: [{
                     expand: true,
                     cwd: 'util/images/',
-                    src: ['librarian_icon.ico'],
+                    src: ['librarian_icon.ico', 'librarian_icon.png'],
                     dest: 'dist/ΛLΞXΛNDRIΛ Librarian-win32-ia32/resources/'
                 }, {
                     expand: true,
@@ -195,6 +195,11 @@ module.exports = function(grunt) {
             },
             releaseOSX: {
                 files: [{
+                    expand: true,
+                    cwd: 'util/images/',
+                    src: ['librarian_icon.png'],
+                    dest: 'dist/ΛLΞXΛNDRIΛ Librarian-win32-ia32/resources/'
+                }, {
                     expand: true,
                     cwd: 'bin/' + os + '/',
                     src: ['**/*'],
