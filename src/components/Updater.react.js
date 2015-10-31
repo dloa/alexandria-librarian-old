@@ -16,13 +16,8 @@ var Updater = React.createClass({
     },
     componentDidMount: function() {
         updaterStore.listen(this.update);
-        console.log("CDM: Updates Checked is " + this.state.updatesChecked);
-        if (!this.state.updatesChecked) {
-            UpdaterUtil.checkUpdates();
-        }
-        else {
-            UpdaterUtil.notify(this.state.daemonUpdatesAvailable.ipfs.type); // 'app' is a placeholder for update type
-        }
+        //console.log("CDM: Updates Checked is " + this.state.updatesChecked);
+        UpdaterUtil.checkUpdates();
     },
     componentWillUnmount: function() {
         updaterStore.unlisten(this.update);
@@ -34,11 +29,16 @@ var Updater = React.createClass({
                 appUpdateAvailable: updaterStore.getState().appUpdateAvailable,
                 daemonUpdatesAvailable: updaterStore.getState().daemonUpdatesAvailable
             });
+            if(this.state.appUpdateAvailable)
+                UpdaterUtil.notify(this.state.appUpdateAvailable.type);
+            if(this.state.daemonUpdatesAvailable)
+                UpdaterUtil.notify(this.state.daemonUpdatesAvailable.type);
         }
     },
     render: function() {
         var appUpdateAvailable = this.state.appUpdateAvailable ? this.state.appUpdateAvailable : {};
         var daemonUpdatesAvailable = this.state.daemonUpdatesAvailable ? this.state.daemonUpdatesAvailable : {};
+
         return (
             <section>
                 <h1 className='title'>Updates</h1>
