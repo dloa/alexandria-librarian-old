@@ -390,8 +390,8 @@ Section
     ;Start Menu Shortcut
     RMDir /r "$SMPROGRAMS\${APP_NAME}"
     CreateDirectory "$SMPROGRAMS\${APP_NAME}"
-    CreateShortCut "$SMPROGRAMS\${APP_NAME}\${APP_NAME}.lnk" "$INSTDIR\ΛLΞXΛNDRIΛ Librarian.exe" "" "$INSTDIR\src\app\images\butter.ico" "" "" "" "${APP_NAME} ${LIBRARIAN_VERSION}"
-    CreateShortCut "$SMPROGRAMS\${APP_NAME}\Uninstall ${APP_NAME}.lnk" "$INSTDIR\Uninstall.exe" "" "$INSTDIR\src\app\images\butter_uninstall.ico" "" "" "" "Uninstall ${APP_NAME}"
+    CreateShortCut "$SMPROGRAMS\${APP_NAME}\${APP_NAME}.lnk" "$INSTDIR\ΛLΞXΛNDRIΛ Librarian.exe" "" "$INSTDIR\resources\librarian_icon.ico" "" "" "" "${APP_NAME} ${LIBRARIAN_VERSION}"
+    CreateShortCut "$SMPROGRAMS\${APP_NAME}\Uninstall ${APP_NAME}.lnk" "$INSTDIR\Uninstall.exe" "" "$INSTDIR\resources\librarian_icon.ico" "" "" "" "Uninstall ${APP_NAME}"
 
     ;Desktop Shortcut
     Delete "$DESKTOP\${APP_NAME}.lnk"
@@ -401,7 +401,7 @@ Section
     IntFmt $0 "0x%08X" $0
     WriteRegDWORD HKCU "${UNINSTALL_KEY}" "EstimatedSize" "$0"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "DisplayName" "${APP_NAME}"
-    WriteRegStr HKCU "${UNINSTALL_KEY}" "DisplayIcon" "$INSTDIR\src\app\images\butter.ico"
+    WriteRegStr HKCU "${UNINSTALL_KEY}" "DisplayIcon" "$INSTDIR\resources\librarian_icon.ico"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "Publisher" "${COMPANY_NAME}"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "UninstallString" "$INSTDIR\Uninstall.exe"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "InstallString" "$INSTDIR"
@@ -501,5 +501,5 @@ FunctionEnd
 ;  Desktop Shortcut  ;
 ; ------------------ ;
 Function finishpageaction
-    CreateShortCut "$DESKTOP\${APP_NAME}.lnk" "$INSTDIR\ΛLΞXΛNDRIΛ Librarian.exe" "" "$INSTDIR\src\app\images\butter.ico" "" "" "" "${APP_NAME} ${LIBRARIAN_VERSION}"
+    CreateShortCut "$DESKTOP\${APP_NAME}.lnk" "$INSTDIR\ΛLΞXΛNDRIΛ Librarian.exe" "" "$INSTDIR\resources\librarian_icon.ico" "" "" "" "${APP_NAME} ${LIBRARIAN_VERSION}"
 FunctionEnd
