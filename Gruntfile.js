@@ -71,7 +71,8 @@ module.exports = function(grunt) {
                     version: packagejson['electron-version'],
                     platform: 'win32',
                     arch: 'ia32',
-                    asar: true
+                    asar: true,
+                    icon: 'util/images/librarian_icon.ico'
                 }
             },
             linux: {
@@ -99,8 +100,6 @@ module.exports = function(grunt) {
                 }
             }
         },
-
-
         rcedit: {
             exes: {
                 files: [{
@@ -124,21 +123,6 @@ module.exports = function(grunt) {
             }
         },
 
-        'create-windows-installer': {
-            config: {
-                appDirectory: path.join(__dirname, 'dist/' + BASENAME + '-win32-ia32'),
-                outputDirectory: path.join(__dirname, 'dist'),
-                authors: 'ΛLΞXΛNDRIΛ Limited',
-                loadingGif: 'images/loading.gif',
-                setupIcon: 'images/icons/setup.ico',
-                iconUrl: 'https://raw.githubusercontent.com/dloa/alexandria-librarian/master/util/alexandria-librarian.ico',
-                description: APPNAME,
-                title: APPNAME,
-                exe: BASENAME + '.exe',
-                version: packagejson.version
-            }
-        },
-
         // images
         copy: {
             dev: {
@@ -154,11 +138,6 @@ module.exports = function(grunt) {
                     dest: 'build/images/'
                 }, {
                     expand: true,
-                    cwd: 'bin/' + os + '/',
-                    src: ['**/*'],
-                    dest: 'build/bin/' + os + '/'
-                }, {
-                    expand: true,
                     cwd: 'fonts/',
                     src: ['**/*'],
                     dest: 'build/fonts/'
@@ -171,15 +150,34 @@ module.exports = function(grunt) {
                     expand: true
                 }]
             },
-            osx: {
-                files: [{
-                    src: 'util/librarian_icon.icns',
-                    dest: '<%= OSX_FILENAME %>/Contents/Resources/atom.icns'
-                }],
-                options: {
-                    mode: true
+            release: {
+                files: [],
+
+                win: {
+                    files: [{
+                        expand: true,
+                        cwd: 'util/images/',
+                        src: ['librarian_icon.ico'],
+                        dest: 'dist/ΛLΞXΛNDRIΛ Librarian-win32-ia32/resources/'
+                    }, {
+                        expand: true,
+                        cwd: 'bin/' + os + '/',
+                        src: ['**/*'],
+                        dest: 'dist/ΛLΞXΛNDRIΛ Librarian-win32-ia32/resources/bin/'
+                    }]
+                },
+                osx: {
+                    files: [{
+                        expand: true,
+                        cwd: 'bin/' + os + '/',
+                        src: ['**/*'],
+                        dest: 'dist/<%= OSX_FILENAME %>/Contents/Resources/bin/'
+                    }, {
+                        src: 'util/images/librarian_icon.icns',
+                        dest: '<%= OSX_FILENAME %>/Contents/Resources/atom.icns'
+                    }]
                 }
-            }
+            },
         },
 
         rename: {
@@ -205,7 +203,8 @@ module.exports = function(grunt) {
         babel: {
             options: {
                 sourceMap: 'inline',
-                blacklist: 'regenerator'
+                presets: ['es2015', 'react'],
+                compact: true
             },
             dist: {
                 files: [{
@@ -304,10 +303,10 @@ module.exports = function(grunt) {
     grunt.registerTask('default', ['newer:babel', 'less', 'newer:copy:dev', 'shell:electron', 'watchChokidar']);
 
     if (process.platform === 'win32') {
-        grunt.registerTask('release', ['clean:release', 'babel', 'less', 'copy:dev', 'electron:windows', 'compress:windows']);
+        grunt.registerTask('release', ['clean:release', 'babel', 'less', 'copy:dev', 'electron:windows', 'copy:release:win', 'compress:windows']);
     }
     if (process.platform === 'darwin') {
-        grunt.registerTask('release', ['clean:release', 'babel', 'less', 'copy:dev', 'electron:osx', 'copy:osx', 'shell:zip']);
+        grunt.registerTask('release', ['clean:release', 'babel', 'less', 'copy:dev', 'electron:osx', 'copy:release:osx', 'shell:zip']);
     }
     if (process.platform === 'linux') {
         grunt.registerTask('release', ['clean:release', 'babel', 'less', 'copy:dev', 'electron:linux', 'compress:linux']);
