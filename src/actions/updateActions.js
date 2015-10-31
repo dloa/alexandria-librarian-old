@@ -18,18 +18,18 @@ class updateActions {
         var UpdaterUtil = require('../utils/updaterUtil');
         this.dispatch();
 
-        switch(type) {
-          case 'app':
-            // Download app update
-            console.log("Hash to download: " + hash);
-            //console.log(type);
-            break;
-          case 'ipfs':
-            // Download ipfs update
-            break;
-          case 'libraryd':
-            // Download libraryd update
-            break;
+        switch (type) {
+            case 'app':
+                // Download app update
+                console.log("Hash to download: " + hash);
+                //console.log(type);
+                break;
+            case 'ipfs':
+                // Download ipfs update
+                break;
+            case 'libraryd':
+                // Download libraryd update
+                break;
         }
 
     }
