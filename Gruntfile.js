@@ -71,7 +71,8 @@ module.exports = function(grunt) {
                     version: packagejson['electron-version'],
                     platform: 'win32',
                     arch: 'ia32',
-                    asar: true
+                    asar: true,
+                    icon: 'util/images/librarian_icon.ico'
                 }
             },
             linux: {
@@ -173,7 +174,7 @@ module.exports = function(grunt) {
             },
             osx: {
                 files: [{
-                    src: 'util/librarian_icon.icns',
+                    src: 'util/images/librarian_icon.icns',
                     dest: '<%= OSX_FILENAME %>/Contents/Resources/atom.icns'
                 }],
                 options: {
