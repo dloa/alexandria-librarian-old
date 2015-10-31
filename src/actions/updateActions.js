@@ -34,6 +34,14 @@ class updateActions {
 
     }
 
+    checkUpdates() {
+
+        var UpdaterUtil = require('../utils/updaterUtil');
+        this.dispatch();
+        UpdaterUtil.checkUpdates();
+    }
+
+
     install(update, type) {
         var UpdaterUtil = require('../utils/updaterUtil');
         this.dispatch();

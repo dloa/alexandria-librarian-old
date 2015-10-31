@@ -2,7 +2,6 @@ import React from 'react/addons';
 import updateActions from '../actions/updateActions';
 import updaterStore from '../stores/updaterStore';
 
-import UpdaterUtil from '../utils/UpdaterUtil';
 import notificationsUtil from '../utils/notifyUtil';
 
 var Updater = React.createClass({
@@ -17,7 +16,7 @@ var Updater = React.createClass({
     componentDidMount: function() {
         updaterStore.listen(this.update);
         //console.log("CDM: Updates Checked is " + this.state.updatesChecked);
-        UpdaterUtil.checkUpdates();
+        updateActions.checkUpdates();
     },
     componentWillUnmount: function() {
         updaterStore.unlisten(this.update);
@@ -29,10 +28,6 @@ var Updater = React.createClass({
                 appUpdateAvailable: updaterStore.getState().appUpdateAvailable,
                 daemonUpdatesAvailable: updaterStore.getState().daemonUpdatesAvailable
             });
-            if(this.state.appUpdateAvailable)
-                UpdaterUtil.notify(this.state.appUpdateAvailable.type);
-            if(this.state.daemonUpdatesAvailable)
-                UpdaterUtil.notify(this.state.daemonUpdatesAvailable.ipfs.type);
         }
     },
     render: function() {
