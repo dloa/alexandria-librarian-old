@@ -7,7 +7,6 @@ import notificationsUtil from '../utils/notifyUtil';
 import updaterStore from '../stores/updaterStore';
 
 module.exports = {
-
     checkUpdates: function() {
 
         Promise.all([this.checkDaemonUpdates(), this.checkAppUpdates(), this.getVersions()])
@@ -15,6 +14,7 @@ module.exports = {
 
                 console.log(daemons, app, versions)
 
+                //Logic to compaire stuff here.
             })
     },
 
@@ -45,7 +45,7 @@ module.exports = {
             Promise.all([ipfsUtil.cli(['version'])])
                 .spread(function(ipfs) {
                     resolve({
-                        ipfs: ipfs.replace('\n', ''),
+                        ipfs: ipfs.replace('\n', '').replace('ipfs version ', ''),
 
                     })
                 })
