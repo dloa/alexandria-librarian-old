@@ -10,10 +10,7 @@ module.exports = {
 
     checkUpdates: function() {
 
-        var ipfsVersion = "1.2.3";
-        var librarydVersion = "1.2.3";
-
-        Promise.all([this.checkDaemonUpdates(), this.checkAppUpdates()]).bind(this)
+        Promise.all([this.checkDaemonUpdates(), this.checkAppUpdates(), this.checkDaemonUpdates()]).bind(this)
             .spread(function(daemons, app) {
 
                 console.log(daemons, app)
@@ -25,23 +22,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
             ipfsUtil.cli(['cat', daemonUpdateHash ? daemonUpdateHash : 'QmUKQ12KJrn8ybw7Q4WTqmVrn51kadAZdM7JDaR28AiXnM'])
                 .then(function(result) {
-                    var latestIpfsVersion = JSON.parse(result).daemons.ipfs.version,
-                        latestLibrarydVersion = JSON.parse(result).daemons.libraryd.version,
-                        daemonUpdates = {};
-
-                    if (ipfsVersion !== latestIpfsVersion) {
-                        daemonUpdates.ipfs = {
-                            hash: data.daemons.ipfs.ipfsHash,
-                            type: 'ipfs'
-                        };
-                    }
-                    if (librarydVersion !== latestLibrarydVersion) {
-                        daemonUpdates.libraryd = {
-                            hash: data.daemons.libraryd.ipfsHash,
-                            type: 'libraryd'
-                        };
-                    }
-                    resolve(daemonUpdates);
+                    resolve(JSON.parse(result).daemons);
                 }).catch(reject);
         });
     },
@@ -50,20 +31,12 @@ module.exports = {
         return new Promise((resolve, reject) => {
             ipfsUtil.cli(['cat', appUpdateHash ? appUpdateHash : 'QmUKQ12KJrn8ybw7Q4WTqmVrn51kadAZdM7JDaR28AiXnM'])
                 .then(function(result) {
-
-                    if (require('../../package.json').version !== JSON.parse(result).librarian.version)
-                        resolve({
-                            hash: JSON.parse(result).librarian.ipfsHash,
-                            type: 'app'
-                        });
-                    else
-                        resolve(false);
-
+                        resolve(JSON.parse(result).librarian);
                 }).catch(reject);
         });
     },
 
-    getDaemonVersions: function() {
+    getVersions: function() {
 
     },
 
