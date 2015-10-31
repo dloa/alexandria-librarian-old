@@ -203,7 +203,8 @@ module.exports = function(grunt) {
         babel: {
             options: {
                 sourceMap: 'inline',
-                blacklist: 'regenerator'
+                presets: ['react'],
+                compact: true
             },
             dist: {
                 files: [{
