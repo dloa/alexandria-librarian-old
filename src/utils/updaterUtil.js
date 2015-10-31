@@ -27,8 +27,11 @@ module.exports = {
                     result = JSON.parse(result).daemons;
                     result['status'] = 'ok';
                     resolve(result);
-                }).catch(function() {
-                    reject({})
+                }).catch(function(error) {
+                    reject({
+                        status: 'error',
+                        error: error
+                    })
                 });
         });
     },
@@ -40,9 +43,10 @@ module.exports = {
                     result = JSON.parse(result).librarian;
                     result['status'] = 'ok';
                     resolve(result);
-                }).catch(function() {
+                }).catch(function(error) {
                     reject({
-                        status: 'error'
+                        status: 'error',
+                        error: error
                     })
                 });
         });
