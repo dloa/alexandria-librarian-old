@@ -61,19 +61,9 @@ module.exports = {
     },
 
     notify: function(type, content, runFunc) {
-        switch (type) {
-            case 'error':
-                var message = 'Error checking updates for: ' + content
-                break;
-            case 'available':
-                var message = 'Updates Available for: ' + content
-                break;
-            case 'info':
-                var message = 'Update Installed: ' + content
-        }
         notificationsUtil.notify({
             title: 'ΛLΞXΛNDRIΛ Librarian',
-            message: message,
+            message: ((type === 'info') ? 'Update Installed: ' : ((type === 'available') ? 'Update Installed: ' : 'Error checking updates for: ')) + content,
             sound: true
         }, runFunc ? runFunc : (function() {}));
     }
