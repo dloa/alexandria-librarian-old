@@ -32,7 +32,7 @@ var Updater = React.createClass({
             if(this.state.appUpdateAvailable)
                 UpdaterUtil.notify(this.state.appUpdateAvailable.type);
             if(this.state.daemonUpdatesAvailable)
-                UpdaterUtil.notify(this.state.daemonUpdatesAvailable.type);
+                UpdaterUtil.notify(this.state.daemonUpdatesAvailable.ipfs.type);
         }
     },
     render: function() {
