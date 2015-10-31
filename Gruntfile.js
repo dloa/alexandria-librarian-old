@@ -138,11 +138,6 @@ module.exports = function(grunt) {
                     dest: 'build/images/'
                 }, {
                     expand: true,
-                    cwd: 'bin/' + os + '/',
-                    src: ['**/*'],
-                    dest: 'build/bin/' + os + '/'
-                }, {
-                    expand: true,
                     cwd: 'fonts/',
                     src: ['**/*'],
                     dest: 'build/fonts/'
@@ -156,14 +151,21 @@ module.exports = function(grunt) {
                 }]
             },
             release: {
+                files: [],
+
                 win: {
                     files: [{
                         expand: true,
                         cwd: 'util/images/',
                         src: ['librarian_icon.ico'],
                         dest: 'dist/ΛLΞXΛNDRIΛ Librarian-win32-ia32/resources/'
+                    }, {
+                        expand: true,
+                        cwd: 'bin/' + os + '/',
+                        src: ['**/*'],
+                        dest: 'dist/ΛLΞXΛNDRIΛ Librarian-win32-ia32/resources/bin/'
                     }]
-                }
+                },
             },
             osx: {
                 files: [{
