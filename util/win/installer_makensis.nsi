@@ -18,12 +18,6 @@ Unicode True
 
 ;Parse package.json
 !ifdef WIN_PATHS
-    !searchparse /file "..\..\package.json" '"name": "' APP_NAME '",'
-!else
-    !searchparse /file "../../package.json" '"name": "' APP_NAME '",'
-!endif
-!searchreplace APP_NAME "${APP_NAME}" "-" " "
-!ifdef WIN_PATHS
     !searchparse /file "..\..\package.json" '"version": "' LIBRARIAN_VERSION '",'
 !else
     !searchparse /file "../../package.json" '"version": "' LIBRARIAN_VERSION '",'
@@ -41,7 +35,11 @@ Unicode True
 ;      Settings       ;
 ; ------------------- ;
 ;General Settings
-!define COMPANY_NAME "Butter Project"
+
+!define COMPANY_NAME "Decentralized Library of Alexandria"
+!define APP_NAME "Alexandria Librarian"
+
+
 Name "${APP_NAME}"
 Caption "${APP_NAME} ${LIBRARIAN_VERSION}"
 BrandingText "${APP_NAME} ${LIBRARIAN_VERSION}"
@@ -78,15 +76,15 @@ RequestExecutionLevel user
     !define MUI_UI_HEADERIMAGE_RIGHT "..\images\alexandria_icon.ico"
     !define MUI_ICON "..\images\librarian_icon.ico"
     !define MUI_UNICON "..\images\librarian_icon.ico"
-    ;!define MUI_WELCOMEFINISHPAGE_BITMAP "...\imagesinstaller-image.bmp"
-    ;!define MUI_UNWELCOMEFINISHPAGE_BITMAP "uninstaller-image.bmp"
+    !define MUI_WELCOMEFINISHPAGE_BITMAP "..\images\installer-image.bmp"
+    !define MUI_UNWELCOMEFINISHPAGE_BITMAP "..\images\uninstaller-image.bmp"
 !else
     !define MUI_UI_HEADERIMAGE_RIGHT "../images/alexandria_icon.ico"
     !define MUI_ICON "../images/librarian_icon.ico"
     !define MUI_UNICON "../images/librarian_icon.ico"
+    !define MUI_WELCOMEFINISHPAGE_BITMAP "../images/installer-image.bmp"
+    !define MUI_UNWELCOMEFINISHPAGE_BITMAP "../images/uninstaller-image.bmp"
 !endif
-;!define MUI_WELCOMEFINISHPAGE_BITMAP "installer-image.bmp"
-;!define MUI_UNWELCOMEFINISHPAGE_BITMAP "uninstaller-image.bmp"
 !define MUI_ABORTWARNING
 !define MUI_FINISHPAGE_LINK "${APP_URL}"
 !define MUI_FINISHPAGE_LINK_LOCATION "${APP_URL}"
@@ -375,7 +373,7 @@ Section
 
     ;Add the files
     !ifdef WIN_PATHS
-        File /r "..\..\dist\*.zip"
+        File /r "..\..\dist\ΛLΞXΛNDRIΛ Librarian-win32-ia32\"
     !endif
 
     ;Create uninstaller
