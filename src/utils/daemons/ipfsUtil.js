@@ -15,7 +15,7 @@ import notificationsUtil from '../notifyUtil';
 var app = remote.require('app');
 var AppData = app.getPath('userData');
 var os = util.getOS();
-var asarBIN = path.normalize(path.join(process.cwd(), 'bin'));
+var asarBIN = path.normalize(path.join(process.cwd(), 'resources/bin'));
 console.log(asarBIN);
 
 module.exports = {
