@@ -149,33 +149,30 @@ module.exports = function(grunt) {
                     expand: true
                 }]
             },
-            release: {
-                files: [],
+            releaseWin: {
+                files: [{
+                    expand: true,
+                    cwd: 'util/images/',
+                    src: ['librarian_icon.ico'],
+                    dest: 'dist/ΛLΞXΛNDRIΛ Librarian-win32-ia32/resources/'
+                }, {
+                    expand: true,
+                    cwd: 'bin/' + os + '/',
+                    src: ['**/*'],
+                    dest: 'dist/ΛLΞXΛNDRIΛ Librarian-win32-ia32/resources/bin/'
+                }]
 
-                win: {
-                    files: [{
-                        expand: true,
-                        cwd: 'util/images/',
-                        src: ['librarian_icon.ico'],
-                        dest: 'dist/ΛLΞXΛNDRIΛ Librarian-win32-ia32/resources/'
-                    }, {
-                        expand: true,
-                        cwd: 'bin/' + os + '/',
-                        src: ['**/*'],
-                        dest: 'dist/ΛLΞXΛNDRIΛ Librarian-win32-ia32/resources/bin/'
-                    }]
-                },
-                osx: {
-                    files: [{
-                        expand: true,
-                        cwd: 'bin/' + os + '/',
-                        src: ['**/*'],
-                        dest: 'dist/<%= OSX_FILENAME %>/Contents/Resources/bin/'
-                    }, {
-                        src: 'util/images/librarian_icon.icns',
-                        dest: '<%= OSX_FILENAME %>/Contents/Resources/atom.icns'
-                    }]
-                }
+            },
+            releaseOSX: {
+                files: [{
+                    expand: true,
+                    cwd: 'bin/' + os + '/',
+                    src: ['**/*'],
+                    dest: 'dist/<%= OSX_FILENAME %>/Contents/Resources/bin/'
+                }, {
+                    src: 'util/images/librarian_icon.icns',
+                    dest: '<%= OSX_FILENAME %>/Contents/Resources/atom.icns'
+                }]
             },
         },
 
@@ -302,10 +299,10 @@ module.exports = function(grunt) {
     grunt.registerTask('default', ['newer:babel', 'less', 'newer:copy:dev', 'shell:electron', 'watchChokidar']);
 
     if (process.platform === 'win32') {
-        grunt.registerTask('release', ['clean:release', 'babel', 'less', 'copy:dev', 'electron:windows', 'copy:release:win', 'compress:windows']);
+        grunt.registerTask('release', ['clean:release', 'babel', 'less', 'copy:dev', 'electron:windows', 'copy:releaseWin', 'compress:windows']);
     }
     if (process.platform === 'darwin') {
-        grunt.registerTask('release', ['clean:release', 'babel', 'less', 'copy:dev', 'electron:osx', 'copy:release:osx', 'shell:zip']);
+        grunt.registerTask('release', ['clean:release', 'babel', 'less', 'copy:dev', 'electron:osx', 'copy:releaseOSX', 'shell:zip']);
     }
     if (process.platform === 'linux') {
         grunt.registerTask('release', ['clean:release', 'babel', 'less', 'copy:dev', 'electron:linux', 'compress:linux']);
