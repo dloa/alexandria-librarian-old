@@ -11,9 +11,9 @@ module.exports = {
     checkUpdates: function() {
 
         Promise.all([this.checkDaemonUpdates(), this.checkAppUpdates(), this.getVersions()])
-            .spread(function(daemons, app) {
+            .spread(function(daemons, app, versions) {
 
-                console.log(daemons, app)
+                console.log(daemons, app, versions)
 
             })
     },
@@ -45,7 +45,7 @@ module.exports = {
             Promise.all([ipfsUtil.cli(['version'])])
                 .spread(function(ipfs) {
                     resolve({
-                        ipfs: ipfs,
+                        ipfs: ipfs.replace('\n', ''),
 
                     })
                 })
