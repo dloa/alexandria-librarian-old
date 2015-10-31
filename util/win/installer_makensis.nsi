@@ -75,11 +75,13 @@ RequestExecutionLevel user
 ; ------------------- ;
 ;Define UI settings
 !ifdef WIN_PATHS
-    !define MUI_UI_HEADERIMAGE_RIGHT "..\..\src\images\icons\logo.png"
+    !define MUI_UI_HEADERIMAGE_RIGHT "..\images\alexandria_icon.ico"
     !define MUI_ICON "..\images\librarian_icon.ico"
     !define MUI_UNICON "..\images\librarian_icon.ico"
+    ;!define MUI_WELCOMEFINISHPAGE_BITMAP "...\imagesinstaller-image.bmp"
+    ;!define MUI_UNWELCOMEFINISHPAGE_BITMAP "uninstaller-image.bmp"
 !else
-    !define MUI_UI_HEADERIMAGE_RIGHT "../../src/images/icons/logo.png"
+    !define MUI_UI_HEADERIMAGE_RIGHT "../images/alexandria_icon.ico"
     !define MUI_ICON "../images/librarian_icon.ico"
     !define MUI_UNICON "../images/librarian_icon.ico"
 !endif
