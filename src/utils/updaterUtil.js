@@ -4,76 +4,83 @@ import updateActions from '../actions/updateActions';
 import notificationsUtil from '../utils/notifyUtil';
 import updaterStore from '../stores/updaterStore';
 
+var appVersion = require('../../package.json').version;
+
+
 module.exports = {
 
     checkUpdates: function() {
 
-        //Variables
-
-        //app variables
-        var appUpdate = {};
-        var appUpdateHash = 'QmUKQ12KJrn8ybw7Q4WTqmVrn51kadAZdM7JDaR28AiXnM';
-        var appVersion = require('../../package.json').version;
-        var latestAppVersion;
-
-        // daemon variables
-        var daemonUpdates = {
-            ipfs: {},
-            libraryd: {}
-        };
-        var daemonUpdateHash = 'QmUKQ12KJrn8ybw7Q4WTqmVrn51kadAZdM7JDaR28AiXnM';
         var ipfsVersion = "1.2.3";
         var librarydVersion = "1.2.3";
-        var latestIpfsVersion;
-        var latestLibrarydVersion;
 
 
-        // CLIs
+    },
 
-        // app Update cli
-        ipfsUtil.cli(['cat', appUpdateHash]).then(function(result) {
-            var data = JSON.parse(result);
-            latestAppVersion = data.librarian.version;
-            if (appVersion !== latestAppVersion) {
-                appUpdate = {
-                    hash: data.librarian.ipfsHash,
-                    type: 'app'
-                };
 
-                console.log(appUpdate);
-                updateActions.mainUpdateFound(appUpdate);
-                updateActions.updatesChecked(true);
-            }
-        }).catch(function(err, response) {
-            console.log("Error while checking for app update:\n" + err);
-        });
 
-        //daemon update cli
-        ipfsUtil.cli(['cat', daemonUpdateHash]).then(function(result) {
-            var data = JSON.parse(result);
-            latestIpfsVersion = data.daemons.ipfs.version;
-            latestLibrarydVersion = data.daemons.libraryd.version;
+    checkDaemonUpdates: function(daemonUpdateHash) {
+        if (!daemonUpdateHash)
+            daemonUpdateHash = 'QmUKQ12KJrn8ybw7Q4WTqmVrn51kadAZdM7JDaR28AiXnM';
 
-            if (ipfsVersion !== latestIpfsVersion) {
-                daemonUpdates.ipfs = {
-                    hash: data.daemons.ipfs.ipfsHash,
-                    type: 'ipfs'
-                };
+        return new Promise((resolve, reject) => {
+            ipfsUtil.cli(['cat', daemonUpdateHash])
+                .then(function(result) {
+                    result = JSON.parse(result)
 
-            }
-            if (librarydVersion !== latestLibrarydVersion) {
-                daemonUpdates.libraryd = {
-                    hash: data.daemons.libraryd.ipfsHash,
-                    type: 'libraryd'
-                };
-            }
-            console.log(daemonUpdates);
-            updateActions.daemonUpdatesFound(daemonUpdates);
-            updatedActions.updatesChecked(true);
-        }).catch(function() {
-            console.log("Error while checking for daemon updates");
+                    var latestIpfsVersion = JSON.parse(result).daemons.ipfs.version,
+                        latestLibrarydVersion = JSON.parse(result).daemons.libraryd.version,
+                        daemonUpdates = {};
+
+                    if (ipfsVersion !== latestIpfsVersion) {
+                        daemonUpdates.ipfs = {
+                            hash: data.daemons.ipfs.ipfsHash,
+                            type: 'ipfs'
+                        };
+
+                    }
+                    if (librarydVersion !== latestLibrarydVersion) {
+                        daemonUpdates.libraryd = {
+                            hash: data.daemons.libraryd.ipfsHash,
+                            type: 'libraryd'
+                        };
+                    }
+                    resolve(daemonUpdates);
+                }).catch(reject);
         });
     },
+
+
+    checkAppUpdates: function(appUpdateHash) {
+        if (!appUpdateHash)
+            appUpdateHash = 'QmUKQ12KJrn8ybw7Q4WTqmVrn51kadAZdM7JDaR28AiXnM';
+
+        return new Promise((resolve, reject) => {
+            // app Update cli
+            ipfsUtil.cli(['cat', appUpdateHash]).then(function(result) {
+                var data = JSON.parse(result);
+                latestAppVersion = data.librarian.version;
+                if (appVersion !== latestAppVersion) {
+                    appUpdate = {
+                        hash: data.librarian.ipfsHash,
+                        type: 'app'
+                    };
+
+                    console.log(appUpdate);
+                    updateActions.mainUpdateFound(appUpdate);
+                    updateActions.updatesChecked(true);
+                }
+            }).catch(function(err, response) {
+                console.log("Error while checking for app update:\n" + err);
+            });
+
+        }).bind(this);
+
+    },
+
+
+
+
     notify: function(type) {
         var shown;
         console.log("Notify type: " + type);
@@ -82,7 +89,9 @@ module.exports = {
                 title: 'ΛLΞXΛNDRIΛ Librarian',
                 message: 'App update available',
                 sound: true
-            }, updateActions.download('QmQoN4VjrneDTdJUfp3Yy8W5pFrHyZVWisWpQX82xw3n5Y', 'app')); // 'app' is a placeholder for update type
+            }, function() {
+                updateActions.download('QmQoN4VjrneDTdJUfp3Yy8W5pFrHyZVWisWpQX82xw3n5Y', 'app');
+            }); // 'app' is a placeholder for update type
             shown = true;
             updateActions.notificationShown(shown);
         }
@@ -94,7 +103,6 @@ module.exports = {
                 sound: true
             });
             shown = true;
-            updateActions.notificationShown(shown);
         }
         if (type === 'libraryd') {
             notificationsUtil.notify({
@@ -103,7 +111,6 @@ module.exports = {
                 sound: true
             });
             shown = true;
-            updateActions.notificationShown(shown);
         }
 
     }
