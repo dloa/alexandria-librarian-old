@@ -7,6 +7,7 @@ import Dashboard from './components/Dashboard.react';
 import Preferences from './components/Preferences.react';
 import About from './components/About.react';
 import IPFSManagement from './components/IPFSManagement.react';
+import Florincoin from './components/Florincoin.react';
 
 
 var Route = Router.Route;
@@ -26,6 +27,7 @@ var routes = (
       <Route name="dashboard" path="/dashboard" handler={Dashboard}/>
       <Route name="preferences" path="/preferences" handler={Preferences}/>
       <Route name="about" path="/about" handler={About}/>
+      <Route name="Florincoin" path="/florincoin" handler={Florincoin}/>
       <Route name="IPFSManagement" path="/management/ipfs" handler={IPFSManagement}/>
     </Route>
   </Route>
