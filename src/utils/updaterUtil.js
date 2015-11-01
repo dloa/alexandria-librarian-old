@@ -64,6 +64,30 @@ module.exports = {
         });
     },
 
+    download: function(hash, type) {
+        var update;
+        if(type === 'app') {
+            // Installer will install new app update here
+        }
+        else if (type === 'ipfs' || type === 'libraryd'){
+            ipfsUtil.pinFile(hash).then(function(result) {
+                console.log(result, "\nResult of pinFile");
+
+                ipfsUtil.getPinned().then(function(result) {
+                    console.log(result, "\nResult of getPinned");
+                })
+                .catch(function(error) {
+                    console.log(error);
+                    console.log("Error getting pinned");
+                });
+            })
+            .catch(function(error) {
+                console.log(error);
+                console.log("Error pinning update");
+            });
+        }
+    },
+
     notify: function(type, content, runFunc) {
         notificationsUtil.notify({
             title: 'ΛLΞXΛNDRIΛ Librarian',

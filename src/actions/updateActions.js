@@ -1,5 +1,7 @@
 import ipc from 'ipc';
 import alt from '../alt';
+import ipfsUtil from '../utils/daemons/ipfsUtil';
+import updaterUtil from '../utils/updaterUtil';
 
 
 class updateActions {
@@ -13,27 +15,6 @@ class updateActions {
         );
     }
 
-
-    download(hash, type) {
-        var UpdaterUtil = require('../utils/updaterUtil');
-        this.dispatch();
-
-        switch (type) {
-            case 'app':
-                // Download app update
-                console.log("Hash to download: " + hash);
-                //console.log(type);
-                break;
-            case 'ipfs':
-                // Download ipfs update
-                break;
-            case 'libraryd':
-                // Download libraryd update
-                break;
-        }
-
-    }
-
     checkUpdates() {
 
         var UpdaterUtil = require('../utils/updaterUtil');
@@ -41,11 +22,15 @@ class updateActions {
         UpdaterUtil.checkUpdates();
     }
 
+    download(hash, type) {
+        var UpdaterUtil = require('../utils/updaterUtil');
+        this.dispatch();
+        UpdaterUtil.download(hash, type);
+    }
 
     install(update, type) {
         var UpdaterUtil = require('../utils/updaterUtil');
         this.dispatch();
-
 
     }
 

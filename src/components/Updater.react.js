@@ -30,6 +30,9 @@ var Updater = React.createClass({
             });
         }
     },
+    testDownload: function() {
+        updateActions.download("QmQoN4VjrneDTdJUfp3Yy8W5pFrHyZVWisWpQX82xw3n5Y", 'ipfs');
+    },
     render: function() {
         var appUpdateAvailable = this.state.appUpdateAvailable ? this.state.appUpdateAvailable : {};
         var daemonUpdatesAvailable = this.state.daemonUpdatesAvailable ? this.state.daemonUpdatesAvailable : {};
@@ -38,7 +41,7 @@ var Updater = React.createClass({
             <section>
                 <h1 className='title'>Updates</h1>
                 <div>{appUpdateAvailable.type}</div>
-                <button className="left" type="submit" onClick={this.checkUpdates}><p>Check for updates</p></button>
+                <button className="left" type="submit" onClick={this.testDownload}><p>Test Download Function</p></button>
             </section>
 
         );
