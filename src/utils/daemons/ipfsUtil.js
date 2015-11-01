@@ -15,8 +15,8 @@ import notificationsUtil from '../notifyUtil';
 var app = remote.require('app');
 var AppData = app.getPath('userData');
 var os = util.getOS();
-var asarBIN = path.normalize(path.join(__dirname, '../../../', 'bin'));
-
+var asarBIN = path.normalize(path.join(process.cwd(), 'resources/bin'));
+console.log(asarBIN);
 
 module.exports = {
 
@@ -126,7 +126,7 @@ module.exports = {
     },
     installAndEnable: function(tmppath) {
         return new Promise((resolve, reject) => {
-            util.copyfile(path.join(asarBIN, os, (os === 'win') ? 'ipfs.exe' : 'ipfs'), path.join(AppData, 'bin', (os === 'win') ? 'ipfs.exe' : 'ipfs'))
+            util.copyfile(path.join(asarBIN, (os === 'win') ? 'ipfs.exe' : 'ipfs'), path.join(AppData, 'bin', (os === 'win') ? 'ipfs.exe' : 'ipfs'))
                 .then(function() {
                     return util.chmod(path.join(AppData, 'bin', (os === 'win') ? 'ipfs.exe' : 'ipfs'), '0777');
                 })
@@ -162,7 +162,7 @@ module.exports = {
         }).bind(this);
     },
     enable: function() {
-        util.exists(path.join(AppData, 'bin'), (util.getOS() === 'win') ? 'ipfs.exe' : 'ipfs')
+        util.exists(path.join(AppData, 'bin', (util.getOS() === 'win') ? 'ipfs.exe' : 'ipfs'))
             .then(function(found) {
                 if (found) {
                     try {

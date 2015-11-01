@@ -16,7 +16,7 @@ import notificationsUtil from '../notifyUtil';
 
 var app = remote.require('app');
 var AppData = app.getPath('userData');
-var asarBIN = path.normalize(path.join(__dirname, '../../../', 'bin'));
+var asarBIN = path.normalize(path.join(process.cwd(), 'resources/bin'));
 var os = util.getOS();
 
 module.exports = {
@@ -28,7 +28,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
             if (os === 'osx') {
                 var files = [];
-                new DecompressZip(path.join(asarBIN, os, 'florincoind.zip'))
+                new DecompressZip(path.join(asarBIN, 'florincoind.zip'))
                     .on('error', function(err) {
                         reject(err);
                     })
@@ -52,7 +52,7 @@ module.exports = {
                     });
             } else {
                 var filename = (os === 'win') ? 'florincoind.exe' : 'florincoind';
-                util.copyfile(path.join(process.cwd(), 'bin', os, filename), path.join(AppData, 'bin', filename))
+                util.copyfile(path.join(asarBIN, filename), path.join(AppData, 'bin', filename))
                     .then(function() {
                         florincoindActionHandler.florincoindInstalled(true);
                         this.enable();

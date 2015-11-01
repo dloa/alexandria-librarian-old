@@ -99,8 +99,6 @@ module.exports = function(grunt) {
                 }
             }
         },
-
-
         rcedit: {
             exes: {
                 files: [{
@@ -121,21 +119,6 @@ module.exports = function(grunt) {
                         'LegalCopyright': 'Copyright 2015 ΛLΞXΛNDRIΛ Limited. All rights reserved.'
                     }
                 }
-            }
-        },
-
-        'create-windows-installer': {
-            config: {
-                appDirectory: path.join(__dirname, 'dist/' + BASENAME + '-win32-ia32'),
-                outputDirectory: path.join(__dirname, 'dist'),
-                authors: 'ΛLΞXΛNDRIΛ Limited',
-                loadingGif: 'images/loading.gif',
-                setupIcon: 'images/icons/setup.ico',
-                iconUrl: 'https://raw.githubusercontent.com/dloa/alexandria-librarian/master/util/alexandria-librarian.ico',
-                description: APPNAME,
-                title: APPNAME,
-                exe: BASENAME + '.exe',
-                version: packagejson.version
             }
         },
 
@@ -171,15 +154,61 @@ module.exports = function(grunt) {
                     expand: true
                 }]
             },
-            osx: {
+            release: {
                 files: [{
-                    src: 'util/librarian_icon.icns',
+                    expand: true,
+                    cwd: '.',
+                    src: ['*.md', 'package.json', 'settings.json', 'index.html'],
+                    dest: 'build/'
+                }, {
+                    expand: true,
+                    cwd: 'images/',
+                    src: ['**/*'],
+                    dest: 'build/images/'
+                }, {
+                    expand: true,
+                    cwd: 'fonts/',
+                    src: ['**/*'],
+                    dest: 'build/fonts/'
+                }, {
+                    cwd: 'node_modules/',
+                    src: Object.keys(packagejson.dependencies).map(function(dep) {
+                        return dep + '/**/*';
+                    }),
+                    dest: 'build/node_modules/',
+                    expand: true
+                }]
+            },
+            releaseWin: {
+                files: [{
+                    expand: true,
+                    cwd: 'util/images/',
+                    src: ['librarian_icon.ico', 'librarian_icon.png'],
+                    dest: 'dist/ΛLΞXΛNDRIΛ Librarian-win32-ia32/resources/'
+                }, {
+                    expand: true,
+                    cwd: 'bin/' + os + '/',
+                    src: ['**/*'],
+                    dest: 'dist/ΛLΞXΛNDRIΛ Librarian-win32-ia32/resources/bin/'
+                }]
+
+            },
+            releaseOSX: {
+                files: [{
+                    expand: true,
+                    cwd: 'util/images/',
+                    src: ['librarian_icon.png'],
+                    dest: 'dist/ΛLΞXΛNDRIΛ Librarian-win32-ia32/resources/'
+                }, {
+                    expand: true,
+                    cwd: 'bin/' + os + '/',
+                    src: ['**/*'],
+                    dest: 'dist/<%= OSX_FILENAME %>/Contents/Resources/bin/'
+                }, {
+                    src: 'util/images/librarian_icon.icns',
                     dest: '<%= OSX_FILENAME %>/Contents/Resources/atom.icns'
-                }],
-                options: {
-                    mode: true
-                }
-            }
+                }]
+            },
         },
 
         rename: {
@@ -205,7 +234,8 @@ module.exports = function(grunt) {
         babel: {
             options: {
                 sourceMap: 'inline',
-                blacklist: 'regenerator'
+                presets: ['es2015', 'react'],
+                compact: true
             },
             dist: {
                 files: [{
@@ -304,13 +334,13 @@ module.exports = function(grunt) {
     grunt.registerTask('default', ['newer:babel', 'less', 'newer:copy:dev', 'shell:electron', 'watchChokidar']);
 
     if (process.platform === 'win32') {
-        grunt.registerTask('release', ['clean:release', 'babel', 'less', 'copy:dev', 'electron:windows', 'compress:windows']);
+        grunt.registerTask('release', ['clean:release', 'babel', 'less', 'copy:release', 'electron:windows', 'copy:releaseWin', 'compress:windows']);
     }
     if (process.platform === 'darwin') {
-        grunt.registerTask('release', ['clean:release', 'babel', 'less', 'copy:dev', 'electron:osx', 'copy:osx', 'shell:zip']);
+        grunt.registerTask('release', ['clean:release', 'babel', 'less', 'copy:release', 'electron:osx', 'copy:releaseOSX', 'shell:zip']);
     }
     if (process.platform === 'linux') {
-        grunt.registerTask('release', ['clean:release', 'babel', 'less', 'copy:dev', 'electron:linux', 'compress:linux']);
+        grunt.registerTask('release', ['clean:release', 'babel', 'less', 'copy:release', 'electron:linux', 'compress:linux']);
     }
 
     process.on('SIGINT', function() {
