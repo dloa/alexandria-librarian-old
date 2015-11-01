@@ -51,7 +51,7 @@ var About = React.createClass({
         return (
             <div className="content-scroller" id="content">
                 <section>
-                   <h1 className="aboutHeading">{version} &alpha;</h1>
+                   <h1 className="aboutHeading">{version}</h1>
                    <p className="aboutSub">This is a prototype developer build, and is not representative of the final product</p>
                    <br/>
                    <p className="about">Copyright &copy;2015, The Decentralized Library of Alexandria</p>
