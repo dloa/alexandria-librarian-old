@@ -37,6 +37,7 @@ Unicode True
 ;General Settings
 
 !define COMPANY_NAME "Decentralized Library of Alexandria"
+!define PRODUCT_VERSION "${LIBRARIAN_VERSION}" 
 !define APP_NAME "Alexandria Librarian"
 
 
@@ -51,9 +52,9 @@ VIAddVersionKey "CompanyName" "${COMPANY_NAME}"
 VIAddVersionKey "LegalCopyright" "${APP_URL}"
 VIProductVersion "${LIBRARIAN_VERSION_CLEAN}.0"
 !ifdef WIN_PATHS
-    OutFile "..\..\dist\${APP_NAME}-${LIBRARIAN_VERSION}-${ARCH}-Setup.exe"
+    OutFile "..\..\dist\${APP_NAME}-${LIBRARIAN_VERSION}-Setup.exe"
 !else
-    OutFile "../../dist/${APP_NAME}-${LIBRARIAN_VERSION}-${ARCH}-Setup.exe"
+    OutFile "../../dist/${APP_NAME}-${LIBRARIAN_VERSION}-Setup.exe"
 !endif
 
 CRCCheck on
@@ -401,12 +402,13 @@ Section
     IntFmt $0 "0x%08X" $0
     WriteRegDWORD HKCU "${UNINSTALL_KEY}" "EstimatedSize" "$0"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "DisplayName" "${APP_NAME}"
+    WriteRegStr HKCU "${UNINSTALL_KEY}" "DisplayVersion" "${LIBRARIAN_VERSION}"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "DisplayIcon" "$INSTDIR\resources\librarian_icon.ico"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "Publisher" "${COMPANY_NAME}"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "UninstallString" "$INSTDIR\Uninstall.exe"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "InstallString" "$INSTDIR"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "URLInfoAbout" "${APP_URL}"
-    WriteRegStr HKCU "${UNINSTALL_KEY}" "HelpLink" "https://discuss.butterproject.org"
+    WriteRegStr HKCU "${UNINSTALL_KEY}" "HelpLink" "https://discuss.dloa.net"
 
     ;File association
     WriteRegStr HKCU "Software\Classes\Applications\${APP_LAUNCHER}" "FriendlyAppName" "${APP_NAME}"
@@ -474,15 +476,15 @@ FunctionEnd
 ;  Check install dir  ;
 ; ------------------- ;
 Function CloseBrowseForFolderDialog
-	!ifmacrodef "_P<>" ; NSIS 3+
-		System::Call 'USER32::GetActiveWindow()p.r0'
-		${If} $0 P<> $HwndParent
-	!else
-		System::Call 'USER32::GetActiveWindow()i.r0'
-		${If} $0 <> $HwndParent
-	!endif
-		SendMessage $0 ${WM_CLOSE} 0 0
-		${EndIf}
+    !ifmacrodef "_P<>" ; NSIS 3+
+        System::Call 'USER32::GetActiveWindow()p.r0'
+        ${If} $0 P<> $HwndParent
+    !else
+        System::Call 'USER32::GetActiveWindow()i.r0'
+        ${If} $0 <> $HwndParent
+    !endif
+        SendMessage $0 ${WM_CLOSE} 0 0
+        ${EndIf}
 FunctionEnd
 
 Function .onVerifyInstDir
