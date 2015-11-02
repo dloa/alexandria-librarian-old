@@ -171,40 +171,40 @@ module.exports = {
     child: function(cmd, args, norestart) {
         log.info('Running : ' + cmd + ' --' + args);
         return child({
-            // Command to execute 
+            // Command to execute
             command: cmd,
-            // [Optional] Command arguments (same as nodejs.org/api/child_process.html) 
+            // [Optional] Command arguments (same as nodejs.org/api/child_process.html)
             args: args,
-            // [Optional] Extra Options (same as nodejs.org/api/child_process.html) 
+            // [Optional] Extra Options (same as nodejs.org/api/child_process.html)
             options: {
                 detached: true
             },
-            // [Optional] Auto restart? 
+            // [Optional] Auto restart?
             autoRestart: norestart ? true : false,
-            // [Optional] Timeout beetwen restart's 
+            // [Optional] Timeout beetwen restart's
             restartTimeout: 200,
-            // [Optional] Callback when the process is Auto-restarted 
+            // [Optional] Callback when the process is Auto-restarted
             cbRestart: function(data) {
                 if (data) {
                     console.log('restart ' + data);
                     log.info('Restarting: ' + data);
                 }
             },
-            // [Optional] On Output 
+            // [Optional] On Output
             cbStdout: function(data) {
                 if (data) {
                     console.log(data.toString());
                     log.info(data);
                 }
             },
-            // [Optional] On Error 
+            // [Optional] On Error
             cbStderr: function(data) {
                 if (data) {
                     console.log('err: ' + data);
                     log.error(data);
                 }
             },
-            // [Optional] On Exit 
+            // [Optional] On Exit
             cbClose: function(exitCode) {
                 log.info('Killing : ' + cmd + ' --' + args);
                 if (exitCode) {

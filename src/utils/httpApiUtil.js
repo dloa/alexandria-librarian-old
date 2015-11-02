@@ -18,7 +18,7 @@ module.exports = {
         this.api();
 
 
-        this.app.get('/', function(req, res) { //base path 
+        this.app.get('/', function(req, res) { //base path
             res.json({
                 paths: ['/api/<Daemon>/<action>/<command>/<OptionalParams>', '/web/']
             });

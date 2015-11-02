@@ -6,6 +6,8 @@ import Settings from '../utils/settingsUtil';
 import utils from '../utils/util';
 import HTTPAPI from '../utils/httpApiUtil';
 
+import Updater from './Updater.react';
+
 
 var Preferences = React.createClass({
 
@@ -165,11 +167,12 @@ var Preferences = React.createClass({
                 <section>
                     <h1 className='title'>Other</h1>
 
-                    <button className="left" type="submit" onClick={this.handleResetSettings}><p>Reset Settings</p></button> 
+                    <button className="left" type="submit" onClick={this.handleResetSettings}><p>Reset Settings</p></button>
                     <button className="left" type="submit" onClick={this.handlePurgeBins}><p>Uninstall All Daemons</p></button>
                     <button className="left" type="submit" onClick={this.handleResetPurge}><p>Uninstall & Reset Settings (dev)</p></button>
                     <button className="left" type="submit" onClick={this.handleOpenDevTools}><p>Open Dev Tools</p></button>
                 </section>
+                <Updater />
             </div>
         );
     }

@@ -4,14 +4,16 @@ build
 dist
 node_modules
 npm-debug.log
+OAuth.json
 
 # Cache
 cache
 
 # Tests
 .test
+settings.json
 
 # IDEs
 .idea
 
-OAuth.json
+
