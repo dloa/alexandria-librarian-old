@@ -1,6 +1,5 @@
 import React from 'react/addons';
 import Router from 'react-router';
-import ReactTooltip from 'react-tooltip';
 
 import Settings from '../utils/settingsUtil';
 import IPFS from '../actions/ipfsActions';
@@ -11,9 +10,7 @@ import utils from '../utils/util';
 import daemonStore from '../stores/daemonStore';
 
 
-
-
-let If = React.createClass({
+var If = React.createClass({
     render: function() {
         if (this.props.test) {
             return this.props.children;
@@ -23,8 +20,7 @@ let If = React.createClass({
     }
 });
 
-
-var Preferences = React.createClass({
+var Dashboard = React.createClass({
 
     getInitialState: function() {
         return {
@@ -87,7 +83,7 @@ var Preferences = React.createClass({
                         <p>IPFS</p>
                         <i className="ion-information-circled"/>
                         <If test={this.state.IPFSEnabled}>
-                            <i data-tip="Open IPFS Web Interface" onClick={this.handleOpenIPFSWebUI} className="ion-cube"/>
+                            <i onClick={this.handleOpenIPFSWebUI} className="ion-cube"/>
                         </If>
                     </div>
                     <div className="DaemonWrapper">
@@ -108,7 +104,6 @@ var Preferences = React.createClass({
                     </div>
                 </section>
                 <Logs />
-                <ReactTooltip place="right" data-type="dark" multiline={true} data-effect="float" />
             </div>
         );
 
@@ -117,4 +112,4 @@ var Preferences = React.createClass({
 });
 
 
-module.exports = Preferences;
+module.exports = Dashboard;
