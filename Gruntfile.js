@@ -71,6 +71,7 @@ module.exports = function(grunt) {
                     version: packagejson['electron-version'],
                     platform: 'win32',
                     arch: 'ia32',
+                    prune: true,
                     asar: true
                 }
             },
@@ -82,7 +83,8 @@ module.exports = function(grunt) {
                     version: packagejson['electron-version'],
                     platform: 'linux',
                     arch: process.arch,
-                    asar: true
+                    asar: true,
+                    prune: true
                 }
             },
             osx: {
@@ -94,33 +96,13 @@ module.exports = function(grunt) {
                     platform: 'darwin',
                     arch: 'x64',
                     asar: true,
+                    prune: true,
                     'app-bundle-id': 'io.ΛLΞXΛNDRIΛ.Librarian',
                     'app-version': packagejson.version
                 }
             }
         },
-        rcedit: {
-            exes: {
-                files: [{
-                    expand: true,
-                    cwd: 'dist/' + BASENAME + '-win32-ia32',
-                    src: [BASENAME + '.exe']
-                }],
-                options: {
-                    'file-version': packagejson.version,
-                    'product-version': packagejson.version,
-                    'version-string': {
-                        'CompanyName': 'ΛLΞXΛNDRIΛ',
-                        'ProductVersion': packagejson.version,
-                        'ProductName': APPNAME,
-                        'FileDescription': APPNAME,
-                        'InternalName': BASENAME + '.exe',
-                        'OriginalFilename': BASENAME + '.exe',
-                        'LegalCopyright': 'Copyright 2015 ΛLΞXΛNDRIΛ Limited. All rights reserved.'
-                    }
-                }
-            }
-        },
+
 
         // images
         copy: {
@@ -128,7 +110,7 @@ module.exports = function(grunt) {
                 files: [{
                     expand: true,
                     cwd: '.',
-                    src: ['*.md', 'package.json', 'settings.json', 'index.html'],
+                    src: ['*.md', 'package.json', 'settings.json', 'index.html', 'OAuth.json'],
                     dest: 'build/'
                 }, {
                     expand: true,
@@ -211,13 +193,6 @@ module.exports = function(grunt) {
             },
         },
 
-        rename: {
-            installer: {
-                src: 'dist/Setup.exe',
-                dest: 'dist/' + BASENAME + 'Setup-' + packagejson.version + '-Windows-Alpha.exe'
-            }
-        },
-
         // styles
         less: {
             options: {
@@ -275,6 +250,7 @@ module.exports = function(grunt) {
         },
 
         clean: {
+            unusedWin: ['dist/ΛLΞXΛNDRIΛ Librarian-win32-ia32/resources/default_app'],
             release: ['build/', 'dist/'],
         },
 
@@ -334,7 +310,7 @@ module.exports = function(grunt) {
     grunt.registerTask('default', ['newer:babel', 'less', 'newer:copy:dev', 'shell:electron', 'watchChokidar']);
 
     if (process.platform === 'win32') {
-        grunt.registerTask('release', ['clean:release', 'babel', 'less', 'copy:release', 'electron:windows', 'copy:releaseWin', 'compress:windows']);
+        grunt.registerTask('release', ['clean:release', 'babel', 'less', 'copy:release', 'electron:windows', 'clean:unusedWin', 'copy:releaseWin', 'compress:windows']);
     }
     if (process.platform === 'darwin') {
         grunt.registerTask('release', ['clean:release', 'babel', 'less', 'copy:release', 'electron:osx', 'copy:releaseOSX', 'shell:zip']);
