@@ -6,7 +6,6 @@ var browserWindow = remote.require('browser-window');
 
 import publishStore from '../../stores/publishStore';
 import publishActions from '../../actions/publishActions';
-var OAuthCreds = require(path.join(__dirname, '../../../', 'OAuth.json'));
 
 
 module.exports = {
@@ -24,8 +23,8 @@ module.exports = {
 
         var oauth2Client = Youtube.authenticate({
             type: "oauth",
-            client_id: OAuthCreds.googleClientID,
-            client_secret: OAuthCreds.googleClientSecret,
+            client_id: '505529391426-bgan2gpcpbfjmci5e6gv6p17m25b36ic.apps.googleusercontent.com',
+            client_secret: '1VytBoacd7a9-kNb3VnCEQ0_',
             redirect_url: 'http://localhost'
         });
 

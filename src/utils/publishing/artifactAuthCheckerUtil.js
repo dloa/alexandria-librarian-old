@@ -8,9 +8,9 @@ module.exports = {
     findtxid: function(txid) {
         return new Promise((resolve, reject) => {
             var payload = {
-                "protocol": "publisher",
-                "search-on": "txid",
-                "search-for": txid
+                protocol: 'publisher',
+                'search-on': 'txid',
+                'search-for': txid
             };
 
             this.get('http://libraryd.alexandria.media/alexandria/v1/search', payload)
