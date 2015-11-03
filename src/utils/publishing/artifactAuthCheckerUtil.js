@@ -2,26 +2,34 @@ import Promise from 'bluebird';
 import path from 'path';
 import request from 'request';
 import twitter from 'twitter';
-
+import acoustid from 'node-acoustid';
 
 module.exports = {
     findtxid: function(txid) {
         return new Promise((resolve, reject) => {
-            var url = 'http://libraryd.alexandria.media/alexandria/v1/search';
             var payload = {
                 "protocol": "publisher",
                 "search-on": "txid",
                 "search-for": txid
             };
-            this.get(url, payload)
+
+            this.get('http://libraryd.alexandria.media/alexandria/v1/search', payload)
                 .then(function(response) {
                     console.log(response)
-                })
+                });
+
+
         }).bind(this);
-    }
+    },
     verify_song: function(tweetid, txid, song) {
         if (!this.twitterClient)
             this.authTwitter();
+
+    },
+    verify_tweet: function(tweetid, txid) {
+        if (!this.twitterClient)
+            this.authTwitter();
+
 
     },
     authTwitter: function() {
