@@ -38,6 +38,11 @@ var Sidebar = React.createClass({
                   <p>IPFS</p>
                 </li>
               </Router.Link>
+              <Router.Link to="FloincoindManagement">
+                <li>
+                  <p>Floincoind</p>
+                </li>
+              </Router.Link>
             </ul>
         );
     }

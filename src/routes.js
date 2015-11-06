@@ -8,6 +8,7 @@ import Preferences from './components/Preferences.react';
 import PublishDashboard from './components/PublishDashboard.react';
 import About from './components/About.react';
 import IPFSManagement from './components/IPFSManagement.react';
+import FloincoindManagement from './components/FloincoindManagement.react';
 
 
 var Route = Router.Route;
@@ -29,6 +30,7 @@ var routes = (
       <Route name="preferences" path="/preferences" handler={Preferences}/>
       <Route name="about" path="/about" handler={About}/>
       <Route name="IPFSManagement" path="/management/ipfs" handler={IPFSManagement}/>
+      <Route name="FloincoindManagement" path="/management/floincoind" handler={FloincoindManagement}/>
     </Route>
   </Route>
 );
