@@ -4,21 +4,16 @@ class FlorincoindActions {
 
     constructor() {
         this.generateActions(
-            'florincoindInstalled',
-            'florincoindEnabled'
+            'florincoindEnabled',
+            'florincoindStats'
         );
     }
 
-    download() {
+    getStats() {
         var Florincoind = require('../utils/daemons/florincoindUtil');
-        this.dispatch();
-        Florincoind.download();
-    }
 
-    install() {
-        var Florincoind = require('../utils/daemons/florincoindUtil');
         this.dispatch();
-        Florincoind.install();
+        Florincoind.getStats();
     }
 
     toggle(status) {
@@ -30,7 +25,7 @@ class FlorincoindActions {
             Florincoind.disable();
     }
 
-    checkRunning(){
+    checkRunning() {
         var Florincoind = require('../utils/daemons/florincoindUtil');
         this.dispatch();
         Florincoind.checkRunning();

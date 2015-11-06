@@ -44,6 +44,9 @@ module.exports = {
             );
         });
     },
+    getStats: function() {
+
+    },
     installAndEnable: function(tmppath) {
         var os = util.getOS();
         return new Promise((resolve, reject) => {
