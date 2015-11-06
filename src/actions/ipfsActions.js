@@ -6,25 +6,10 @@ class ipfsActions {
 
     constructor() {
         this.generateActions(
-            'ipfsInstalled',
             'ipfsEnabled',
             'ipfsPinned',
             'ipfsStats'
         );
-    }
-
-    download() {
-        var ipfsUtil = require('../utils/daemons/ipfsUtil');
-
-        this.dispatch();
-        ipfsUtil.download()
-    }
-
-    install() {
-        var ipfsUtil = require('../utils/daemons/ipfsUtil');
-
-        this.dispatch();
-        ipfsUtil.install()
     }
 
     checkRunning() {
