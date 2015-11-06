@@ -7,7 +7,7 @@ import nodeUtil from 'util';
 import fs from 'fs';
 import readline from 'readline';
 import DecompressZip from 'decompress-zip';
-
+import rpc from 'node-json-rpc';
 
 import util from '../util';
 import Settings from '../settingsUtil';
@@ -22,6 +22,27 @@ var os = util.getOS();
 module.exports = {
     download: function() {
         // To be done later.
+    },
+    rpcCall: function(call) {
+        if (!this.rpcClient)
+            this.rpcClient = new rpc.Client(options = {
+                port: 7313,
+                host: '127.0.0.1',
+                path: '/',
+                strict: true
+            });
+        return new Promise((resolve, reject) => {
+            this.rpcClient.call({
+                    'method': call.method,
+                    'params': call.params
+                },
+                function(err, res) {
+                    if (err)
+                        return reject(err);
+                    resolve(res);
+                }
+            );
+        });
     },
     installAndEnable: function(tmppath) {
         var os = util.getOS();
