@@ -33,8 +33,10 @@ module.exports = {
             });
         return new Promise((resolve, reject) => {
             this.rpcClient.call({
-                    'method': call.method,
-                    'params': call.params
+                    jsonrpc: '1.0',
+                    method: call.method,
+                    params: call.params,
+                    id: 'librarian_call'
                 },
                 function(err, res) {
                     if (err)
@@ -45,7 +47,10 @@ module.exports = {
         });
     },
     getStats: function() {
-
+        this.rpcCall({
+            method: getblockcount,
+            params: []
+        }).then(console.log).catch(console.log)
     },
     installAndEnable: function(tmppath) {
         var os = util.getOS();
