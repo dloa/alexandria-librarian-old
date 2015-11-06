@@ -41,7 +41,7 @@ var IPFSManagementView = React.createClass({
     },
     render: function() {
         var daemonbin = path.join(remote.require('app').getPath('userData'), 'bin', (utils.getOS() === 'win') ? 'florincoind.exe' : 'florincoind');
-        var stats = this.state.stats ? JSON.stringify(this.state.stats.stats) : {};
+        var stats = this.state.stats ? JSON.stringify(this.state.stats.blockcount) : {};
         return (
             <div className='content-scroller'>
         		<section className="ipfsStatus">
