@@ -9,7 +9,7 @@ class FlorincoindActions {
         );
     }
 
-    getStats() {
+    checkStats() {
         var Florincoind = require('../utils/daemons/florincoindUtil');
 
         this.dispatch();
