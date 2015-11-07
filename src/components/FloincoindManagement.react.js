@@ -36,9 +36,6 @@ var FlorincoindManagementView = React.createClass({
             });
         }
     },
-    handleOpenIPFSWebUI: function(e) {
-
-    },
     render: function() {
         var daemonbin = path.join(remote.require('app').getPath('userData'), 'bin', (utils.getOS() === 'win') ? 'florincoind.exe' : 'florincoind');
         var stats = this.state.stats ? JSON.stringify(this.state.stats.blockcount) : {};
