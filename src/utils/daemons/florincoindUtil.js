@@ -83,7 +83,6 @@ module.exports = {
                 var filename = (os === 'win') ? 'florincoind.exe' : 'florincoind';
                 util.copyfile(path.join(asarBIN, filename), path.join(AppData, 'bin', filename))
                     .then(function() {
-                        florincoindActionHandler.florincoindInstalled(true);
                         this.enable();
                         resolve();
                     }.bind(this))
