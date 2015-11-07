@@ -9,7 +9,7 @@ import Florincoind from '../actions/florincoindActions';
 import utils from '../utils/util';
 
 
-var IPFSManagementView = React.createClass({
+var FlorincoindManagementView = React.createClass({
 
     getInitialState: function() {
         return {
@@ -49,12 +49,11 @@ var IPFSManagementView = React.createClass({
                     <br/>
                     <span> {stats}</span>
         		</section>
-                <TerminalEmu daemonname="florincoind" daemonbin={daemonbin} />
-        		<IPFSPinManager />
+                <TerminalEmu rpc="true" daemonname="florincoind" daemonbin={daemonbin} />
       		</div>
         );
     }
 });
 
 
-module.exports = IPFSManagementView;
+module.exports = FlorincoindManagementView;
