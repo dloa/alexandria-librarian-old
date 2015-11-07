@@ -20,12 +20,9 @@ var asarBIN = path.normalize(path.join(process.cwd(), 'resources/bin'));
 var os = util.getOS();
 
 module.exports = {
-    download: function() {
-        // To be done later.
-    },
     rpcCall: function(call) {
         if (!this.rpcClient)
-            this.rpcClient = new rpc.Client(options = {
+            this.rpcClient = new rpc.Client({
                 port: 7313,
                 host: '127.0.0.1',
                 path: '/',
@@ -44,13 +41,15 @@ module.exports = {
                     resolve(res);
                 }
             );
-        });
+        }).bind(this);
     },
     getStats: function() {
         this.rpcCall({
             method: getblockcount,
             params: []
-        }).then(console.log).catch(console.log)
+        })
+            .then(console.log)
+            .catch(console.log)
     },
     installAndEnable: function(tmppath) {
         var os = util.getOS();
@@ -181,7 +180,6 @@ module.exports = {
     },
     enable: function() {
         return new Promise((resolve, reject) => {
-            var os = util.getOS();
             var filename = (os === 'osx') ? 'florincoind.app' : (os === 'win') ? 'florincoind.exe' : 'florincoind';
 
             util.exists(path.join(AppData, 'bin', filename))
@@ -224,7 +222,6 @@ module.exports = {
                 florincoindActionHandler.florincoindEnabled(true);
                 return resolve(true)
             }
-            var os = util.getOS();
             var florincoindname = (os === 'win') ? 'florincoind.exe' : ((os === 'osx') ? 'Florincoin-Qt' : 'florincoind');
             util.checktaskrunning(florincoindname)
                 .then(function(running) {

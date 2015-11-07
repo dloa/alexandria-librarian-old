@@ -15,22 +15,16 @@ class daemonStore {
         this.errors = {};
         this.checkedRunning = false;
 
-        this.ipfsInstalled = false;
+
         this.ipfsEnabled = false;
         this.ipfsStats = false;
 
-        this.florincoindInstalled = false;
         this.florincoindEnabled = false;
+        this.florincoindStats = false;
 
-        this.librarydInstalled = false;
         this.librarydEnabled = false;
     }
 
-    onLibrarydInstalled() {
-        this.setState({
-            librarydInstalled: true
-        });
-    }
 
     onLibrarydEnabled(state) {
         this.setState({
@@ -44,27 +38,22 @@ class daemonStore {
         });
     }
 
-    onIpfsInstalled() {
-        this.setState({
-            ipfsInstalled: true
-        });
-    }
-
     onIpfsEnabled(state) {
         this.setState({
             ipfsEnabled: state
         });
     }
 
-    onFlorincoindInstalled() {
-        this.setState({
-            florincoindInstalled: true
-        });
-    }
 
     onFlorincoindEnabled(state) {
         this.setState({
             florincoindEnabled: state
+        });
+    }
+
+    onFlorincoindStats(stats) {
+        this.setState({
+            florincoindStats: stats
         });
     }
 
@@ -79,7 +68,6 @@ class daemonStore {
                 util.checktaskrunning(filename)
                     .then(function(running) {
                         running = running ? true : false;
-
                     });
             });
         });
