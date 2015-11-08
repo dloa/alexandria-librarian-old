@@ -10,9 +10,7 @@ import ps from 'xps';
 import _ from 'lodash';
 import shell from 'shell';
 import rimraf from 'rimraf';
-import remote from 'remote';
 
-var app = remote.require('app');
 import log from '../stores/logStore';
 
 
@@ -76,7 +74,7 @@ module.exports = {
     },
     purgeBins: function(binPath) {
         if (binPath === 'all') {
-            binPath = path.join(app.getPath('userData'), 'bin');
+            binPath = path.join(require('remote').require('app').getPath('userData'), 'bin');
         }
         return new Promise((resolve, reject) => {
             rimraf(binPath, function(err) {
