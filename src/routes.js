@@ -16,7 +16,7 @@ import IPFSManagement from './components/IPFSManagement.react';
 export
 default (
     <Route component={Framework} path='/'>
-      	<IndexRoute name="dashboard" path="/dashboard" component={Dashboard}/>
+      	<Route name="dashboard" path="/dashboard" component={Dashboard}/>
 
       	<Route name="publish" path="/publish" component={PublishDashboard}/>
       	<Route name="preferences" path="/preferences" component={Preferences}/>
@@ -24,8 +24,3 @@ default (
       	<Route name="IPFSManagement" path="/management/ipfs" component={IPFSManagement}/>
     </Route>
 );
-
-
-
-
-module.exports = routes;
