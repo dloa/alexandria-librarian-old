@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-    Link
+    Link, IndexLink
 }
 from 'react-router';
 import Isvg from 'react-inlinesvg';
@@ -17,11 +17,11 @@ default React.createClass({
               <div className="sidebar-logo">
                 <Isvg src="./images/logo.svg" />
               </div>
-              <Link to="dashboard">
+              <IndexLink to="/">
                 <li>
                   <p>Dashboard</p>
                 </li>
-              </Link>
+              </IndexLink>
               <Link to="publish">
                 <li>
                   <p>Publish</p>
