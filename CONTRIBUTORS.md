@@ -4,5 +4,3 @@
 * Devon Read | <devon@blocktech.com> | [GitHub](https://github.com/devonjames)
 * Avery Dodd | <averyhvdodd@gmail.com> | [GitHub](https://github.com/averydodd)
 
-### Want to contribute?
-
