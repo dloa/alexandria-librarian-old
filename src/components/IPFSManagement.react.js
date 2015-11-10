@@ -52,7 +52,7 @@ var IPFSManagementView = React.createClass({
                     <span> {stats}</span>
         		</section>
                 <TerminalEmu daemonname="ipfs" daemonbin={daemonbin} />
-        		<IPFSPinManager />
+        		
       		</div>
         );
     }
