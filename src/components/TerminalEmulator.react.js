@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 import ipfsUtil from '../utils/daemons/ipfsUtil';
 import utils from '../utils/util';
@@ -31,7 +32,7 @@ var termainalEmu = React.createClass({
         this.showWelcomeMsg();
     },
     componentDidUpdate: function() {
-        var el = React.findDOMNode(this);
+        var el = ReactDOM.findDOMNode(this);
         var container = document.getElementById("cli-emulator");
         container.scrollTop = el.scrollHeight;
     },
