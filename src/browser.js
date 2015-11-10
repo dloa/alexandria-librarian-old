@@ -1,6 +1,5 @@
 import app from 'app';
 import BrowserWindow from 'browser-window';
-import ipc from 'ipc';
 import path from 'path';
 import trayTemplate from './app-tray';
 import util from './utils/util';
@@ -8,15 +7,6 @@ import yargs from 'yargs';
 
 
 var args = yargs(process.argv.slice(1)).wrap(100).argv;
-
-
-process.env.NODE_PATH = path.join(__dirname, 'node_modules');
-
-var openURL = null;
-app.on('open-url', function(event, url) {
-    event.preventDefault();
-    openURL = url;
-});
 
 app.on('ready', function() {
     var checkingQuit = false;
@@ -67,12 +57,10 @@ app.on('ready', function() {
 
     mainWindow.webContents.on('did-finish-load', function() {
         mainWindow.setTitle('ΛLΞXΛNDRIΛ Librarian');
-    });
-
-    ipc.on('application:show', () => {
-        mainWindow.show();
+           mainWindow.show();
         mainWindow.focus();
     });
+
 
     var helper = {
         toggleVisibility: function() {

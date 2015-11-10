@@ -3,7 +3,6 @@ import {
     Router, Route, IndexRoute
 }
 from 'react-router';
-import ReactDOM from 'react-dom';
 
 import Framework from './components/Framework.react';
 import Dashboard from './components/Dashboard.react';
