@@ -53,3 +53,6 @@ if (!args.hide) {
 ipc.on('application:open-url', opts => {
     console.log('open', opts);
 });
+
+
+ReactDOM.render(<Router>{routes}</Router>, document.getElementById('app'));
