@@ -5,7 +5,8 @@ import ipfsUtil from '../utils/daemons/ipfsUtil';
 import utils from '../utils/util';
 
 
-var termainalEmu = React.createClass({
+export
+default React.createClass({
 
     getInitialState: function() {
         return {
@@ -85,5 +86,3 @@ var termainalEmu = React.createClass({
         )
     }
 });
-
-module.exports = termainalEmu;

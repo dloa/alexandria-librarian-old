@@ -9,8 +9,8 @@ import daemonStore from '../stores/daemonStore';
 import IPFS from '../actions/ipfsActions';
 import utils from '../utils/util';
 
-
-var IPFSManagementView = React.createClass({
+export
+default React.createClass({
 
     getInitialState: function() {
         return {
@@ -43,7 +43,7 @@ var IPFSManagementView = React.createClass({
     render: function() {
         var daemonbin = path.join(remote.require('app').getPath('userData'), 'bin', (utils.getOS() === 'win') ? 'ipfs.exe' : 'ipfs');
         var peers = this.state.stats ? this.state.stats.peers.length : 0;
-        var stats = this.state.stats ? JSON.stringify(this.state.stats.stats) : {};
+        var stats = this.state.stats ? JSON.stringify(this.state.stats.stats) : JSON.stringify({});
         return (
             <div className='content-scroller'>
         		<section className="ipfsStatus">
@@ -52,11 +52,8 @@ var IPFSManagementView = React.createClass({
                     <span> {stats}</span>
         		</section>
                 <TerminalEmu daemonname="ipfs" daemonbin={daemonbin} />
-        		
+        		<IPFSPinManager />
       		</div>
         );
     }
 });
-
-
-module.exports = IPFSManagementView;
