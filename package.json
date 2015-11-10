@@ -15,7 +15,7 @@
     "release": "grunt release"
   },
 
-  "electron-version": "0.34.2",
+  "electron-version": "0.34.3",
   "license": "GPL-3.0",
   "dependencies": {
     "alt": "^0.17.8",
