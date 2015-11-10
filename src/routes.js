@@ -17,9 +17,9 @@ default (
     <Route path="/" component={Framework}>
       <IndexRoute component={Dashboard}/>
 
-      <Route name="publish" path="/publish" component={PublishDashboard}/>
-      <Route name="preferences" path="/preferences" component={Preferences}/>
-      <Route name="about" path="/about" component={About}/>
-      <Route name="IPFSManagement" path="/management/ipfs" component={IPFSManagement}/>
+      <Route path="/publish" component={PublishDashboard}/>
+      <Route path="/preferences" component={Preferences}/>
+      <Route path="/about" component={About}/>
+      <Route path="/IPFSManagement" component={IPFSManagement}/>
     </Route>
 );
