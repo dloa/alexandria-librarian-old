@@ -173,7 +173,6 @@ module.exports = function(grunt) {
                     src: ['**/*'],
                     dest: 'dist/ΛLΞXΛNDRIΛ Librarian-win32-ia32/resources/bin/'
                 }]
-
             },
             releaseOSX: {
                 files: [{
@@ -189,7 +188,10 @@ module.exports = function(grunt) {
                 }, {
                     src: 'util/images/librarian_icon.icns',
                     dest: '<%= OSX_FILENAME %>/Contents/Resources/atom.icns'
-                }]
+                }],
+                options: {
+                    mode: true
+                }
             },
         },
 
