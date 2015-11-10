@@ -6,13 +6,13 @@ import path from 'path';
 import Router from 'react-router';
 import yargs from 'yargs';
 
-import webUtil from './utils/webUtil';
-import util from './utils/util';
-import Settings from './utils/settingsUtil';
-import HttpAPI from './utils/httpApiUtil'
-import LogStore from './stores/logStore'
-import routerContainer from './router';
-import routes from './routes';
+import webUtil from './js/utils/webUtil';
+import util from './js/utils/util';
+import Settings from './js/utils/settingsUtil';
+import HttpAPI from './js/utils/httpApiUtil'
+import LogStore from './js/stores/logStore'
+import routerContainer from './js/router';
+import routes from './js/routes';
 
 var app = remote.require('app');
 var Menu = remote.require('menu');
