@@ -16,7 +16,7 @@ import IPFSManagement from './components/IPFSManagement.react';
 export
 default (
     <Route path="/" component={Framework}>
-      <Route name="dashboard" path="/dashboard" component={Dashboard}/>
+      <IndexRoute name="dashboard" component={Dashboard}/>
 
       <Route name="publish" path="/publish" component={PublishDashboard}/>
       <Route name="preferences" path="/preferences" component={Preferences}/>
