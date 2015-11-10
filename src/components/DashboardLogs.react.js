@@ -1,7 +1,7 @@
-import React from 'react/addons';
-import Router from 'react-router';
-
+import React from 'react';
+import ReactDOM from 'react-dom';
 import LogStore from '../stores/logStore';
+
 
 var DashboardLogs = React.createClass({
 
@@ -26,7 +26,7 @@ var DashboardLogs = React.createClass({
   },
 
   scrollToBottom: function () {
-    var textarea = React.findDOMNode(this.refs.logsTextarea);
+    var textarea = ReactDOM.findDOMNode(this.refs.logsTextarea);
     textarea.scrollTop = textarea.scrollHeight;
   },
 

@@ -1,9 +1,13 @@
-import React from 'react/addons';
-import Router from 'react-router';
+import React from 'react';
+import {
+    Link, IndexLink
+}
+from 'react-router';
 import Isvg from 'react-inlinesvg';
 
 
-var Sidebar = React.createClass({
+export
+default React.createClass({
     componentWillMount: function() {
         this.start = Date.now();
     },
@@ -13,34 +17,32 @@ var Sidebar = React.createClass({
               <div className="sidebar-logo">
                 <Isvg src="./images/logo.svg" />
               </div>
-              <Router.Link to="dashboard">
+              <IndexLink to="/">
                 <li>
                   <p>Dashboard</p>
                 </li>
-              </Router.Link>
-              <Router.Link to="publish">
+              </IndexLink>
+              <Link to="publish">
                 <li>
                   <p>Publish</p>
                 </li>
-              </Router.Link>
-              <Router.Link to="preferences">
+              </Link>
+              <Link to="preferences">
                 <li>
                   <p>Preferences</p>
                 </li>
-              </Router.Link>
-              <Router.Link to="about">
+              </Link>
+              <Link to="about">
                 <li>
                   <p>About</p>
                 </li>
-              </Router.Link>
-              <Router.Link to="IPFSManagement">
+              </Link>
+              <Link to="IPFSManagement">
                 <li>
                   <p>IPFS</p>
                 </li>
-              </Router.Link>
+              </Link>
             </ul>
         );
     }
 });
-
-module.exports = Sidebar;

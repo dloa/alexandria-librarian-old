@@ -311,6 +311,8 @@ module.exports = function(grunt) {
 
     grunt.registerTask('default', ['newer:babel', 'less', 'newer:copy:dev', 'shell:electron', 'watchChokidar']);
 
+    grunt.registerTask('run', ['shell:electron', 'watchChokidar']);
+
     if (process.platform === 'win32') {
         grunt.registerTask('release', ['clean:release', 'babel', 'less', 'copy:release', 'electron:windows', 'clean:unusedWin', 'copy:releaseWin', 'compress:windows']);
     }

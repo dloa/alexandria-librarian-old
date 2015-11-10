@@ -1,6 +1,6 @@
 {
   "name": "Alexandria_librarian",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "D.L.O.A.",
   "description": "ΛLΞXΛNDRIΛ Librarian",
   "homepage": "http://alexandria.media",
@@ -14,7 +14,8 @@
     "start": "grunt",
     "release": "grunt release"
   },
-  "electron-version": "0.34.2",
+
+  "electron-version": "0.34.3",
   "license": "GPL-3.0",
   "dependencies": {
     "alt": "^0.17.8",
@@ -34,10 +35,11 @@
     "node-notifier": "^4.3.1",
     "node-startup-manager": "^0.0.6",
     "object-assign": "^4.0.1",
-    "react": "^0.13.1",
+    "react": "^0.14.2",
     "react-datagrid": "^1.2.15",
+    "react-dom": "^0.14.0",
     "react-inlinesvg": "^0.4.2",
-    "react-router": "^0.13.3",
+    "react-router": "^1.0.0-rc3",
     "request": "^2.55.0",
     "rimraf": "^2.4.3",
     "twitter": "^1.2.5",
@@ -70,6 +72,6 @@
     "source-map-support": "^0.3.2"
   },
   "optionalDependencies": {
-    "electron-prebuilt": "0.34.2"
+    "electron-prebuilt": "0.34.3"
   }
 }

@@ -1,5 +1,4 @@
-import React from 'react/addons';
-import Router from 'react-router';
+import React from 'react';
 
 import Settings from '../utils/settingsUtil';
 import IPFS from '../actions/ipfsActions';
