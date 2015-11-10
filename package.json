@@ -35,7 +35,7 @@
     "node-notifier": "^4.3.1",
     "node-startup-manager": "^0.0.6",
     "object-assign": "^4.0.1",
-    "react": "^0.13.1",
+    "react": "^0.14.2",
     "react-datagrid": "^1.2.15",
     "react-dom": "^0.14.0",
     "react-inlinesvg": "^0.4.2",
@@ -72,6 +72,6 @@
     "source-map-support": "^0.3.2"
   },
   "optionalDependencies": {
-    "electron-prebuilt": "0.34.2"
+    "electron-prebuilt": "0.34.3"
   }
 }
