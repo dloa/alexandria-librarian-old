@@ -5,6 +5,7 @@ import {
 from 'react-router';
 import ReactDOM from 'react-dom';
 
+import App from './app';
 import Framework from './components/Framework.react';
 import Dashboard from './components/Dashboard.react';
 import Preferences from './components/Preferences.react';
@@ -15,12 +16,14 @@ import IPFSManagement from './components/IPFSManagement.react';
 
 export
 default (
-    <Route component={Framework} path='/'>
-      	<Route name="dashboard" path="/dashboard" component={Dashboard}/>
+    <Route component={App}>
+    	<Route path="/" component={Framework}>
+      		<Route name="dashboard" path="/dashboard" component={Dashboard}/>
 
-      	<Route name="publish" path="/publish" component={PublishDashboard}/>
-      	<Route name="preferences" path="/preferences" component={Preferences}/>
-      	<Route name="about" path="/about" component={About}/>
-      	<Route name="IPFSManagement" path="/management/ipfs" component={IPFSManagement}/>
+      		<Route name="publish" path="/publish" component={PublishDashboard}/>
+      		<Route name="preferences" path="/preferences" component={Preferences}/>
+      		<Route name="about" path="/about" component={About}/>
+      		<Route name="IPFSManagement" path="/management/ipfs" component={IPFSManagement}/>
+      	</Route>
     </Route>
 );

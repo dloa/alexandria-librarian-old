@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 import DataGrid from 'react-datagrid';
 
 import Settings from '../utils/settingsUtil';
