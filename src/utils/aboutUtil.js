@@ -6,7 +6,9 @@ import externalActions from '../actions/externalActions';
 
 module.exports = {
     getVersion: function() {
-        externalActions.gotVersion('Something Placeholderish');
+        var appVersion = 'ΛLΞXΛNDRIΛ Librarian v' + require('../../package.json').version;
+        externalActions.gotVersion(appVersion);
+        return appVersion;
     },
 
     getLicense: function() {

@@ -9,14 +9,14 @@ import nodeUtil from 'util';
 import util from '../util';
 import Settings from '../settingsUtil';
 import ipfsActionHandler from '../../actions/ipfsActions';
-
+import notificationsUtil from '../notifyUtil';
 
 
 var app = remote.require('app');
 var AppData = app.getPath('userData');
 var os = util.getOS();
-var asarBIN = path.normalize(path.join(__dirname, '../../../', 'bin'));
-
+var asarBIN = path.normalize(path.join(process.cwd(), 'resources/bin'));
+console.log(asarBIN);
 
 module.exports = {
 
@@ -25,11 +25,42 @@ module.exports = {
     },
     cli: function(command) {
         return new Promise((resolve, reject) => {
-            console.log([path.join(AppData, 'bin', (os === 'win') ? 'ipfs.exe' : 'ipfs')].concat(command))
             util.exec([path.join(AppData, 'bin', (os === 'win') ? 'ipfs.exe' : 'ipfs')].concat(command))
                 .then(resolve)
                 .catch(reject);
         });
+    },
+    getStats: function() {
+        Promise.all([this.getPeers(), this.getBW()])
+            .spread(function(peers, bw) {
+                var stats = {};
+                var s = bw.split('\n').splice(1).map(Function.prototype.call, String.prototype.trim).filter(Boolean);
+                s.forEach(function(stat) {
+                    stats[stat.split(':')[0].trim()] = stat.split(':')[1].trim()
+                });
+                var statusObj = {
+                    peers: peers.split('\n').map(Function.prototype.call, String.prototype.trim).filter(Boolean),
+                    stats: stats
+                };
+                ipfsActionHandler.ipfsStats(statusObj);
+            })
+    },
+    getBW: function() {
+        return new Promise((resolve, reject) => {
+            this.cli(['stats', 'bw'])
+                .then(function(bw) {
+                    resolve(bw);
+                });
+        }).bind(this);
+    },
+    getPeers: function() {
+        return new Promise((resolve, reject) => {
+            this.cli(['swarm', 'peers'])
+                .then(function(peers) {
+
+                    resolve(peers);
+                });
+        }).bind(this);
     },
     getPinned: function() {
         return new Promise((resolve) => {
@@ -79,7 +110,7 @@ module.exports = {
             this.cli(['pin', 'add', hash, '-r'])
                 .then(resolve)
                 .catch(reject)
-        });
+        }).bind(this);
     },
     addFile: function(filepath) {
         return new Promise((resolve, reject) => {
@@ -88,39 +119,68 @@ module.exports = {
                     addedResponce = addedResponce.split(' ');
                     resolve(addedResponce[1]);
                 });
-        });
+        }).bind(this);
     },
     removePin: function(hash) {
 
     },
     installAndEnable: function(tmppath) {
         return new Promise((resolve, reject) => {
-            util.copyfile(path.join(asarBIN, os, (os === 'win') ? 'ipfs.exe' : 'ipfs'), path.join(AppData, 'bin', (os === 'win') ? 'ipfs.exe' : 'ipfs'))
+            util.copyfile(path.join(asarBIN, (os === 'win') ? 'ipfs.exe' : 'ipfs'), path.join(AppData, 'bin', (os === 'win') ? 'ipfs.exe' : 'ipfs'))
                 .then(function() {
                     return util.chmod(path.join(AppData, 'bin', (os === 'win') ? 'ipfs.exe' : 'ipfs'), '0777');
                 })
                 .then(function() {
-                    return util.exec([path.join(AppData, 'bin', (os === 'win') ? 'ipfs.exe' : 'ipfs'), 'init']).catch(resolve);
+                    return new Promise((resolve) => {
+                        util.exec([path.join(AppData, 'bin', (os === 'win') ? 'ipfs.exe' : 'ipfs'), 'init']).then(resolve).catch(resolve);
+                    });
                 })
                 .then(function() {
+                    this.enable();
                     ipfsActionHandler.ipfsInstalled(true);
                     resolve();
-                })
+                }.bind(this))
                 .catch(reject);
-        });
+        }).bind(this);
+    },
+    checkRunning: function() {
+        return new Promise((resolve, reject) => {
+            if (this.daemon) {
+                ipfsActionHandler.ipfsEnabled(true);
+                return resolve(true)
+            }
+            var ipfsname = (os === 'win') ? 'ipfs.exe' : 'ipfs';
+            util.checktaskrunning(ipfsname)
+                .then(function(running) {
+                    var taskon = running ? true : false;
+                    ipfsActionHandler.ipfsEnabled(running);
+                    resolve(taskon);
+                }).catch(function() {
+                    ipfsActionHandler.ipfsEnabled(false);
+                    resolve(false)
+                })
+        }).bind(this);
     },
     enable: function() {
-        this.daemon = util.child(path.join(AppData, 'bin', (util.getOS() === 'win') ? 'ipfs.exe' : 'ipfs'), ['daemon']);
-        return new Promise((resolve, reject) => {
-            try {
-                this.daemon.start(function(pid) {
-                    ipfsActionHandler.ipfsEnabled(true);
-                    resolve(pid);
-                });
-            } catch (e) {
-                reject(e);
-            }
-        });
+        util.exists(path.join(AppData, 'bin', (util.getOS() === 'win') ? 'ipfs.exe' : 'ipfs'))
+            .then(function(found) {
+                if (found) {
+                    try {
+                        this.daemon = util.child(path.join(AppData, 'bin', (util.getOS() === 'win') ? 'ipfs.exe' : 'ipfs'), ['daemon']);
+                        this.daemon.start(function(pid) {
+                            notificationsUtil.notify({
+                                title: 'ΛLΞXΛNDRIΛ Librarian',
+                                message: 'IPFS daemon started.'
+                            });
+                            ipfsActionHandler.ipfsEnabled(true);
+                        });
+                    } catch (e) {
+                        ipfsActionHandler.ipfsEnabled(false);
+                    }
+                } else {
+                    this.installAndEnable();
+                }
+            }.bind(this));
     },
     disable: function() {
         return new Promise((resolve, reject) => {
@@ -128,23 +188,20 @@ module.exports = {
                 try {
                     this.daemon.stop(function(code) {
                         ipfsActionHandler.ipfsEnabled(false);
-                        resolve(code);
-                    });
+                        this.daemon = false;
+                    }.bind(this));
                 } catch (e) {
-                    module.exports.forceKill().then(function() {
-                        ipfsActionHandler.ipfsEnabled(false);
-                        resolve();
-                    }).catch(reject);
+                    ipfsActionHandler.ipfsEnabled(false);
+                    this.forceKill().then(resolve).catch(reject);
                 }
             } else {
-                module.exports.forceKill();
+                ipfsActionHandler.ipfsEnabled(false);
+                this.forceKill();
             }
-        });
+        }).bind(this);
     },
     forceKill: function() {
         var ipfsname = (os === 'win') ? 'ipfs.exe' : 'ipfs';
-        return util.killtask(ipfsname).then(function() {
-            ipfsActionHandler.ipfsEnabled(false);
-        });
+        return util.killtask(ipfsname);
     }
 };

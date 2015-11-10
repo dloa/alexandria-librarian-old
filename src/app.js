@@ -19,6 +19,9 @@ var Menu = remote.require('menu');
 
 var AppData = path.join(app.getPath('userData'));
 
+var args = yargs(process.argv.slice(1)).wrap(100).argv;
+
+
 
 // Init process
 LogStore.initLogs();
@@ -32,29 +35,18 @@ HttpAPI.init();
 
 
 // Default Route
-util.createDir(path.join(AppData, 'bin')).then(function() {
-    return new Promise((resolve) => {
-        Settings.setInstalledAndRunning(path.join(AppData, 'bin'))
-            .then(function() {
-                HttpAPI.toggle(Settings.get('HTTPAPIEnabled'), Settings.get('HTTPAPIPort'))
-                    .then(resolve)
-                    .catch(function(e) {
-                        console.log(e);
-                        Settings.save('HTTPAPIEnabled', false);
-                        resolve();
-                    });
-            });
+util.createDir(path.join(AppData, 'bin'));
+
+HttpAPI.toggle(Settings.get('HTTPAPIEnabled'), Settings.get('HTTPAPIPort'))
+    .catch(function(e) {
+        console.log(e);
+        Settings.save('HTTPAPIEnabled', false);
     });
-}).then(function() {
-    var args = yargs(process.argv.slice(1)).wrap(100).argv;
-    if (!args.hide && !Settings.get('startMinimized')) {
-        console.log(args.hide, Settings.get('startMinimized'))
-        ipc.send('application:show');
-    }
-    Router.transitionTo('dashboard');
-}).catch(function(e) {
-    Router.transitionTo('dashboard');
-});
+
+
+if (!args.hide) {
+    ipc.send('application:show');
+}
 
 
 // Event fires when the app receives a custom protocal url

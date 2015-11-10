@@ -31,6 +31,13 @@ class librarydActions {
             libraryd.disable()
     }
 
+    checkRunning() {
+        var libraryd = require('../utils/daemons/libarydUtil');
+
+        this.dispatch();
+        libraryd.checkRunning()
+    }
+
 }
 
 export

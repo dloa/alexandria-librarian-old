@@ -8,7 +8,8 @@ class ipfsActions {
         this.generateActions(
             'ipfsInstalled',
             'ipfsEnabled',
-            'ipfsPinned'
+            'ipfsPinned',
+            'ipfsStats'
         );
     }
 
@@ -24,6 +25,13 @@ class ipfsActions {
 
         this.dispatch();
         ipfsUtil.install()
+    }
+
+    checkRunning() {
+        var ipfsUtil = require('../utils/daemons/ipfsUtil');
+
+        this.dispatch();
+        ipfsUtil.checkRunning()
     }
 
     addFile() {
@@ -62,6 +70,13 @@ class ipfsActions {
             ipfsUtil.enable()
         else
             ipfsUtil.disable()
+    }
+
+    getStats() {
+        var ipfsUtil = require('../utils/daemons/ipfsUtil');
+
+        this.dispatch();
+        ipfsUtil.getStats();
     }
 }
 

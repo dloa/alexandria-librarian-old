@@ -73,8 +73,9 @@ module.exports = {
         });
     },
     purgeBins: function(binPath) {
-        if (binPath === 'all')
-            binPath = path.join(process.env.APP_DATA_PATH, 'bin');
+        if (binPath === 'all') {
+            binPath = path.join(require('remote').require('app').getPath('userData'), 'bin');
+        }
         return new Promise((resolve, reject) => {
             rimraf(binPath, function(err) {
                 if (err) {
@@ -87,12 +88,16 @@ module.exports = {
     },
     findfile: function(dir, file) {
         return new Promise((resolve, reject) => {
-            find.file(file, dir, function(files) {
-                if (files.length > 0)
-                    resolve(true);
-                else
-                    resolve(false);
-            })
+            try {
+                find.file(file, dir, function(files) {
+                    if (files.length > 0)
+                        resolve(true);
+                    else
+                        resolve(false);
+                })
+            } catch (e) {
+                resolve(false);
+            }
         });
     },
     openUrl: function(url) {
@@ -246,90 +251,5 @@ module.exports = {
     },
     isWindows: function() {
         return process.platform === ('win32' || 'win64');
-    },
-    supportDir: function() {
-        return require('remote').require('app').getPath('userData');
-    },
-    packagejson: function() {
-        return JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'package.json'), 'utf8'));
-    },
-    compareVersions: function(v1, v2, options) {
-        var lexicographical = options && options.lexicographical,
-            zeroExtend = options && options.zeroExtend,
-            v1parts = v1.split('.'),
-            v2parts = v2.split('.');
-
-        function isValidPart(x) {
-            return (lexicographical ? /^\d+[A-Za-z]*$/ : /^\d+$/).test(x);
-        }
-
-        if (!v1parts.every(isValidPart) || !v2parts.every(isValidPart)) {
-            return NaN;
-        }
-
-        if (zeroExtend) {
-            while (v1parts.length < v2parts.length) {
-                v1parts.push('0');
-            }
-            while (v2parts.length < v1parts.length) {
-                v2parts.push('0');
-            }
-        }
-
-        if (!lexicographical) {
-            v1parts = v1parts.map(Number);
-            v2parts = v2parts.map(Number);
-        }
-
-        for (var i = 0; i < v1parts.length; ++i) {
-            if (v2parts.length === i) {
-                return 1;
-            }
-            if (v1parts[i] === v2parts[i]) {
-                continue;
-            } else if (v1parts[i] > v2parts[i]) {
-                return 1;
-            } else {
-                return -1;
-            }
-        }
-
-        if (v1parts.length !== v2parts.length) {
-            return -1;
-        }
-
-        return 0;
-    },
-    bytesToSize: function(bytes) {
-        var thresh = 1000;
-        if (Math.abs(bytes) < thresh) {
-            return bytes + ' B';
-        }
-        var units = ['kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-
-        var u = -1;
-        do {
-            bytes /= thresh;
-            ++u;
-        } while (Math.abs(bytes) >= thresh && u < units.length - 1);
-        return bytes.toFixed(2) + ' ' + units[u];
-    },
-    toHHMMSS: function(seconds) {
-        var sec_num = parseInt(seconds, 10); // don't forget the second param
-        var hours = Math.floor(sec_num / 3600);
-        var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
-        var seconds = sec_num - (hours * 3600) - (minutes * 60);
-
-        if (hours < 10) {
-            hours = "0" + hours;
-        }
-        if (minutes < 10) {
-            minutes = "0" + minutes;
-        }
-        if (seconds < 10) {
-            seconds = "0" + seconds;
-        }
-        var time = hours + ':' + minutes + ':' + seconds;
-        return time;
     }
 };

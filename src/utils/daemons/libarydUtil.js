@@ -8,46 +8,75 @@ import remote from 'remote';
 import Settings from '../settingsUtil';
 import util from '../util';
 import librarydActionHandler from '../../actions/librarydActions';
+import notificationsUtil from '../notifyUtil';
 
 var app = remote.require('app');
 var AppData = app.getPath('userData');
-var asarBIN = path.normalize(path.join(__dirname, '../../../', 'bin'));
+var asarBIN = path.normalize(path.join(process.cwd(), 'resources/bin'));
 
 module.exports = {
     download: function() {
         // To be done later.
     },
-    install: function(tmppath) {
+    checkRunning: function() {
         var os = util.getOS();
         return new Promise((resolve, reject) => {
-            util.copyfile(path.join(asarBIN, os, (os === 'win') ? 'libraryd.exe' : 'libraryd'), path.join(AppData, 'bin', (os === 'win') ? 'libraryd.exe' : 'libraryd'))
+            if (this.daemon) {
+                ipfsActionHandler.librarydEnabled(true);
+                return resolve(true)
+            }
+            var librarydname = (os === 'win') ? 'libraryd.exe' : 'libraryd';
+            util.checktaskrunning(librarydname)
+                .then(function(running) {
+                    var taskon = running ? true : false;
+                    librarydActionHandler.librarydEnabled(running);
+                    resolve(taskon);
+                }).catch(function() {
+                    librarydActionHandler.librarydEnabled(false);
+                    resolve(false)
+                })
+        }).bind(this);
+    },
+    installAndEnable: function(tmppath) {
+        var os = util.getOS();
+        return new Promise((resolve, reject) => {
+            util.copyfile(path.join(asarBIN, (os === 'win') ? 'libraryd.exe' : 'libraryd'), path.join(AppData, 'bin', (os === 'win') ? 'libraryd.exe' : 'libraryd'))
                 .then(function() {
                     return util.chmod(path.join(AppData, 'bin', (os === 'win') ? 'libraryd.exe' : 'libraryd'), '0777').catch(resolve);
                 })
                 .then(function() {
+                    this.enable();
                     librarydActionHandler.librarydInstalled(true);
-                })
+                }.bind(this))
                 .catch(reject);
-        });
+        }).bind(this);
     },
     enable: function() {
-        this.daemon = util.child(path.join(AppData, 'bin', (util.getOS() === 'win') ? 'libraryd.exe' : 'libraryd'), {
-            cwd: path.join(AppData, 'bin'),
-            env: {
-                F_USER: Settings.get('Florincoind-username'),
-                F_TOKEN: Settings.get('Florincoind-password')
-            }
-        });
-        return new Promise((resolve, reject) => {
-            try {
-                this.daemon.start(function(pid) {
-                    librarydActionHandler.librarydEnabled(true);
-                    resolve(pid);
-                });
-            } catch (e) {
-                reject(e);
-            }
-        });
+        util.exists(path.join(AppData, 'bin', (util.getOS() === 'win') ? 'libraryd.exe' : 'libraryd'))
+            .then(function(found) {
+                if (found) {
+                    try {
+                        this.daemon = util.child(path.join(AppData, 'bin', (util.getOS() === 'win') ? 'libraryd.exe' : 'libraryd'), {
+                            cwd: path.join(AppData, 'bin'),
+                            env: {
+                                F_USER: Settings.get('Florincoind-username'),
+                                F_TOKEN: Settings.get('Florincoind-password')
+                            }
+                        });
+                        this.daemon.start(function(pid) {
+                            notificationsUtil.notify({
+                                title: 'ΛLΞXΛNDRIΛ Librarian',
+                                message: 'Libraryd daemon started.'
+                            });
+                            librarydActionHandler.librarydEnabled(true);
+                        });
+                    } catch (e) {
+                        librarydActionHandler.librarydEnabled(false);
+                    }
+                } else {
+                    this.installAndEnable();
+                }
+            }.bind(this));
     },
     disable: function() {
         return new Promise((resolve, reject) => {

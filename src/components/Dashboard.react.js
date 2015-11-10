@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactTooltip from 'react-tooltip';
 
 import Settings from '../utils/settingsUtil';
 import IPFS from '../actions/ipfsActions';
@@ -10,9 +9,7 @@ import utils from '../utils/util';
 import daemonStore from '../stores/daemonStore';
 
 
-
-
-let If = React.createClass({
+var If = React.createClass({
     render: function() {
         if (this.props.test) {
             return this.props.children;
@@ -22,11 +19,11 @@ let If = React.createClass({
     }
 });
 
-
-var Preferences = React.createClass({
+var Dashboard = React.createClass({
 
     getInitialState: function() {
         return {
+            checkedRunning: daemonStore.getState().checkedRunning,
             LibrarydEnabled: daemonStore.getState().librarydEnabled,
             IPFSEnabled: daemonStore.getState().ipfsEnabled,
             FlorincoindEnabled: daemonStore.getState().florincoindEnabled
@@ -34,6 +31,12 @@ var Preferences = React.createClass({
     },
 
     componentDidMount: function() {
+        if (!this.state.checkedRunning) {
+            IPFS.checkRunning();
+            Florincoind.checkRunning();
+            Libraryd.checkRunning();
+        }
+
         daemonStore.listen(this.update);
     },
 
@@ -73,21 +76,13 @@ var Preferences = React.createClass({
                     <h1 className='title'>Local Daemons</h1>
                     <div className="DaemonWrapper">
                         <div className="toggle-wrapper">
-                            <input checked={this.state.LibrarydEnabled} onChange={this.handleChangeLibrarydEnabled} type="checkbox" id="LibrarydToggle" className="toggle" />
-                            <label htmlFor="LibrarydToggle"></label>
-                        </div>
-                        <p>Libraryd</p>
-                        <i className="ion-information-circled"/>
-                    </div>
-                    <div className="DaemonWrapper">
-                        <div className="toggle-wrapper">
                             <input checked={this.state.IPFSEnabled} onChange={this.handleChangeIPFSEnabled} type="checkbox" id="IPFStoggle" className="toggle" />
                             <label htmlFor="IPFStoggle"></label>
                         </div>
                         <p>IPFS</p>
                         <i className="ion-information-circled"/>
                         <If test={this.state.IPFSEnabled}>
-                            <i data-tip="Open IPFS Web Interface" onClick={this.handleOpenIPFSWebUI} className="ion-cube"/>
+                            <i onClick={this.handleOpenIPFSWebUI} className="ion-cube"/>
                         </If>
                     </div>
                     <div className="DaemonWrapper">
@@ -98,9 +93,16 @@ var Preferences = React.createClass({
                         <p>Florincoin</p>
                         <i className="ion-information-circled"/>
                     </div>
+                    <div className="DaemonWrapper">
+                        <div className="toggle-wrapper">
+                            <input checked={this.state.LibrarydEnabled} onChange={this.handleChangeLibrarydEnabled} type="checkbox" id="LibrarydToggle" className="toggle" />
+                            <label htmlFor="LibrarydToggle"></label>
+                        </div>
+                        <p>Libraryd</p>
+                        <i className="ion-information-circled"/>
+                    </div>
                 </section>
                 <Logs />
-                <ReactTooltip place="right" data-type="dark" multiline={true} data-effect="float" />
             </div>
         );
 
@@ -109,4 +111,4 @@ var Preferences = React.createClass({
 });
 
 
-module.exports = Preferences;
+module.exports = Dashboard;
