@@ -189,7 +189,7 @@ module.exports = {
                     this.daemon.stop(function(code) {
                         ipfsActionHandler.ipfsEnabled(false);
                         this.daemon = false;
-                    });
+                    }.bind(this));
                 } catch (e) {
                     ipfsActionHandler.ipfsEnabled(false);
                     this.forceKill().then(resolve).catch(reject);
