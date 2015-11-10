@@ -1,7 +1,6 @@
 import remote from 'remote';
 import React from 'react';
 import ReactDOM from 'react-dom';
-
 import path from 'path';
 import Router from 'react-router';
 import yargs from 'yargs';
@@ -14,10 +13,8 @@ import LogStore from './js/stores/logStore'
 import routes from './js/routes';
 
 var app = remote.require('app');
-var Menu = remote.require('menu');
 
 var AppData = path.join(app.getPath('userData'));
-
 
 
 // Init process
@@ -26,9 +23,6 @@ util.createDir(path.join(AppData, 'bin'));
 webUtil.addLiveReload();
 webUtil.disableGlobalBackspace();
 HttpAPI.init();
-
-
-
 
 
 // Default Route
