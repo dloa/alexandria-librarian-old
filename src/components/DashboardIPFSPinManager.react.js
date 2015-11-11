@@ -1,5 +1,4 @@
-import React from 'react/addons';
-import Router from 'react-router';
+import React from 'react';
 import IPFS from '../actions/ipfsActions';
 import DataGrid from 'react-datagrid';
 

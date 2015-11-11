@@ -1,4 +1,4 @@
-﻿import React from 'react/addons';
+﻿import React from 'react';
 
 import utils from '../utils/util';
 import externalActions from '../actions/externalActions';

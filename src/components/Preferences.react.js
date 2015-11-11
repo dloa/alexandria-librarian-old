@@ -1,5 +1,4 @@
-import React from 'react/addons';
-import Router from 'react-router';
+import React from 'react';
 import startupManager from 'node-startup-manager';
 
 import Settings from '../utils/settingsUtil';

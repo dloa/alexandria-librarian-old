@@ -1,41 +1,48 @@
-import React from 'react/addons';
-import Router from 'react-router';
+import React from 'react';
+import {
+    Link, IndexLink
+}
+from 'react-router';
 import Isvg from 'react-inlinesvg';
 
 
-var Sidebar = React.createClass({
-  componentWillMount: function () {
-    this.start = Date.now();
-  },
-  render: function () {
-    return (
-      <ul className="sidebar">
-      <div className="sidebar-logo">
-        <Isvg src="./images/logo.svg" />
-      </div>
-        <Router.Link to="dashboard">
-          <li>
-            <p>Dashboard</p>
-          </li>
-        </Router.Link>
-        <Router.Link to="preferences">
-          <li>
-            <p>Preferences</p>
-          </li>
-        </Router.Link>
-        <Router.Link to="about">
-          <li>
-            <p>About</p>
-          </li>
-        </Router.Link>
-        <Router.Link to="IPFSManagement">
-          <li>
-            <p>IPFS</p>
-          </li>
-        </Router.Link>
-      </ul>
-    );
-  }
+export
+default React.createClass({
+    componentWillMount: function() {
+        this.start = Date.now();
+    },
+    render: function() {
+        return (
+            <ul className="sidebar">
+              <div className="sidebar-logo">
+                <Isvg src="./images/logo.svg" />
+              </div>
+              <IndexLink to="/">
+                <li>
+                  <p>Dashboard</p>
+                </li>
+              </IndexLink>
+              <Link to="publish">
+                <li>
+                  <p>Publish</p>
+                </li>
+              </Link>
+              <Link to="preferences">
+                <li>
+                  <p>Preferences</p>
+                </li>
+              </Link>
+              <Link to="about">
+                <li>
+                  <p>About</p>
+                </li>
+              </Link>
+              <Link to="IPFSManagement">
+                <li>
+                  <p>IPFS</p>
+                </li>
+              </Link>
+            </ul>
+        );
+    }
 });
-
-module.exports = Sidebar;

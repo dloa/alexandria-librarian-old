@@ -73,8 +73,9 @@ module.exports = {
         });
     },
     purgeBins: function(binPath) {
-        if (binPath === 'all')
-            binPath = path.join(process.env.APP_DATA_PATH, 'bin');
+        if (binPath === 'all') {
+            binPath = path.join(require('remote').require('app').getPath('userData'), 'bin');
+        }
         return new Promise((resolve, reject) => {
             rimraf(binPath, function(err) {
                 if (err) {

@@ -1,6 +1,5 @@
 import app from 'app';
 import BrowserWindow from 'browser-window';
-import ipc from 'ipc';
 import path from 'path';
 import trayTemplate from './app-tray';
 import util from './utils/util';
@@ -9,29 +8,14 @@ import yargs from 'yargs';
 
 var args = yargs(process.argv.slice(1)).wrap(100).argv;
 
-
-process.env.NODE_PATH = path.join(__dirname, 'node_modules');
-
-var openURL = null;
-app.on('open-url', function(event, url) {
-    event.preventDefault();
-    openURL = url;
-});
-
 app.on('ready', function() {
     var checkingQuit = false;
     var canQuit = false;
-    var screen = require('screen');
-    var size = screen.getPrimaryDisplay().workAreaSize;
-
-    var windowSize = {
-        width: 800,
-        height: 600
-    }
+    var screenSize = require('screen').getPrimaryDisplay().workAreaSize;
 
     var mainWindow = new BrowserWindow({
-        width: windowSize.width,
-        height: windowSize.height,
+        width: screenSize.width * 0.7,
+        height: screenSize.height * 0.7,
         'standard-window': true,
         'auto-hide-menu-bar': true,
         resizable: true,
@@ -65,12 +49,10 @@ app.on('ready', function() {
 
     mainWindow.webContents.on('did-finish-load', function() {
         mainWindow.setTitle('ΛLΞXΛNDRIΛ Librarian');
-    });
-
-    ipc.on('application:show', () => {
         mainWindow.show();
         mainWindow.focus();
     });
+
 
     var helper = {
         toggleVisibility: function() {
