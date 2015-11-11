@@ -8,8 +8,15 @@ import Isvg from 'react-inlinesvg';
 
 export
 default React.createClass({
-    markActive(e) {
-
+    getInitialState() {
+        return {
+            active: 'dashboard'
+        };
+    },
+    markActive(ref, event) {
+        this.setState({
+            active: ref
+        });
     },
     render() {
         return (
@@ -17,28 +24,28 @@ default React.createClass({
               <div className="sidebar-logo">
                 <Isvg src="./images/logo.svg" />
               </div>
-              <IndexLink to="/">
-                <li>
+              <IndexLink onClick={this.markActive.bind(this, 'dashboard')} to="/">
+                <li className={(this.state.active === 'dashboard') ? 'active' : ''}>
                   <p>Dashboard</p>
                 </li>
               </IndexLink>
-              <Link to="publish">
-                <li>
+              <Link onClick={this.markActive.bind(this, 'publish')} to="publish">
+                <li className={(this.state.active === 'publish') ? 'active' : ''}>
                   <p>Publish</p>
                 </li>
               </Link>
-              <Link to="preferences">
-                <li>
+              <Link onClick={this.markActive.bind(this, 'preferences')} to="preferences">
+                <li className={(this.state.active === 'preferences') ? 'active' : ''}>
                   <p>Preferences</p>
                 </li>
               </Link>
-              <Link to="about">
-                <li>
+              <Link onClick={this.markActive.bind(this, 'about')} to="about">
+                <li className={(this.state.active === 'about') ? 'active' : ''}>
                   <p>About</p>
                 </li>
               </Link>
-              <Link to="IPFSManagement">
-                <li>
+              <Link onClick={this.markActive.bind(this, 'IPFSManagement')} to="IPFSManagement">
+                <li className={(this.state.active === 'IPFSManagement') ? 'active' : ''}>
                   <p>IPFS</p>
                 </li>
               </Link>
