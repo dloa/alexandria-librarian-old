@@ -11,27 +11,19 @@ var args = yargs(process.argv.slice(1)).wrap(100).argv;
 app.on('ready', function() {
     var checkingQuit = false;
     var canQuit = false;
-    var screen = require('screen');
-    var size = screen.getPrimaryDisplay().workAreaSize;
-
-    var windowSize = {
-        width: 800,
-        height: 600
-    }
+    var screenSize = require('screen').getPrimaryDisplay().workAreaSize;
 
     var mainWindow = new BrowserWindow({
-        width: windowSize.width,
-        height: windowSize.height,
+        width: screenSize.width * 0.7,
+        height: screenSize.height * 0.7,
         'standard-window': true,
         'auto-hide-menu-bar': true,
         resizable: true,
         title: 'ΛLΞXΛNDRIΛ Librarian',
         center: true,
         frame: true,
-        show: true
+        show: false
     });
-    
-    mainWindow.openDevTools();
 
     if (args.dev) {
         mainWindow.show();
@@ -57,7 +49,7 @@ app.on('ready', function() {
 
     mainWindow.webContents.on('did-finish-load', function() {
         mainWindow.setTitle('ΛLΞXΛNDRIΛ Librarian');
-           mainWindow.show();
+        mainWindow.show();
         mainWindow.focus();
     });
 
