@@ -12,35 +12,35 @@ import utils from '../utils/util';
 export
 default React.createClass({
 
-    getInitialState: function() {
+    getInitialState() {
         return {
             stats: daemonStore.getState().ipfsStats,
         };
     },
-    componentDidMount: function() {
+    componentDidMount() {
         daemonStore.listen(this.update);
         this.checkStats();
     },
-    componentWillUnmount: function() {
+    componentWillUnmount() {
         daemonStore.unlisten(this.update);
     },
-    checkStats: function() {
+    checkStats() {
         if (this.isMounted()) {
             IPFS.getStats();
             _.delay(this.checkStats, 2000); //refresh every 2 seconds
         }
     },
-    update: function() {
+    update() {
         if (this.isMounted()) {
             this.setState({
                 stats: daemonStore.getState().ipfsStats,
             });
         }
     },
-    handleOpenIPFSWebUI: function(e) {
+    handleOpenIPFSWebUI(e) {
 
     },
-    render: function() {
+    render() {
         var daemonbin = path.join(remote.require('app').getPath('userData'), 'bin', (utils.getOS() === 'win') ? 'ipfs.exe' : 'ipfs');
         var peers = this.state.stats ? this.state.stats.peers.length : 0;
         var stats = this.state.stats ? JSON.stringify(this.state.stats.stats) : JSON.stringify({});

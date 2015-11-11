@@ -3,8 +3,7 @@ import IPFS from '../actions/ipfsActions';
 import DataGrid from 'react-datagrid';
 
 
-
-var data = [{
+let data = [{
     'file name': 'LibrarianSetup.exe',
     hash: 'F9xGeGDrkMXRTu3WUPpXrYgVp295jN5ybP',
     filesize: '24.5 MB',
@@ -12,9 +11,7 @@ var data = [{
     unpin: 'icon'
 }];
 
-
-
-var columns = [{
+let columns = [{
     name: 'file name'
 }, {
     name: 'hash'
@@ -27,43 +24,39 @@ var columns = [{
 }];
 
 
-
-
-var PinManager = React.createClass({
-    getInitialState: function() {
+export
+default React.createClass({
+    getInitialState() {
         return {
             pinned: [],
             enteredHash: null
         };
     },
-    componentDidMount: function() {
+    componentDidMount() {
         IPFS.getPinned()
     },
-    update: function(newhash) {
+    update(newhash) {
         if (this.isMounted()) {
             this.setState({
                 pinned: newhash
             });
         }
     },
-    handleHashInput: function(event) {
+    handleHashInput(event) {
         this.setState({
             enteredHash: event.target.value
         });
     },
-    handleAddPinLocal: function() {
+    handleAddPinLocal() {
         IPFS.pinlocal();
     },
-    handleAddPinHash: function() {
-        var remotehash = this.state.enteredHash
-        IPFS.pinRemote(remotehash);
+    handleAddPinHash() {
+        IPFS.pinRemote(this.state.enteredHash);
     },
-    handlePinRefresh: function() {
-        var self = this;
-        IPFS.getPinned()
-   
+    handlePinRefresh() {
+        IPFS.getPinned();
     },
-    render: function() {
+    render() {
         var pintext = '';
         this.state.pinned.forEach(function(entry) {
             pintext = pintext + '\n' + JSON.stringify(entry);
@@ -81,10 +74,7 @@ var PinManager = React.createClass({
                     columns={columns}
                     style={{height: 400}}
                 />
-
             </section>
         );
     }
 });
-
-module.exports = PinManager;

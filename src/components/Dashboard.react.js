@@ -9,19 +9,16 @@ import utils from '../utils/util';
 import daemonStore from '../stores/daemonStore';
 
 
-var If = React.createClass({
-    render: function() {
-        if (this.props.test) {
-            return this.props.children;
-        } else {
-            return false;
-        }
+let If = React.createClass({
+    render() {
+        return this.props.test ? this.props.children : false;
     }
 });
 
-var Dashboard = React.createClass({
+export
+default React.createClass({
 
-    getInitialState: function() {
+    getInitialState() {
         return {
             checkedRunning: daemonStore.getState().checkedRunning,
             LibrarydEnabled: daemonStore.getState().librarydEnabled,
@@ -30,7 +27,7 @@ var Dashboard = React.createClass({
         };
     },
 
-    componentDidMount: function() {
+    componentDidMount() {
         if (!this.state.checkedRunning) {
             IPFS.checkRunning();
             Florincoind.checkRunning();
@@ -40,11 +37,11 @@ var Dashboard = React.createClass({
         daemonStore.listen(this.update);
     },
 
-    componentWillUnmount: function() {
+    componentWillUnmount() {
         daemonStore.unlisten(this.update);
     },
 
-    update: function() {
+    update() {
         if (this.isMounted()) {
             this.setState({
                 LibrarydEnabled: daemonStore.getState().librarydEnabled,
@@ -54,22 +51,22 @@ var Dashboard = React.createClass({
         }
     },
 
-    handleChangeFlorincoindEnabled: function(e) {
+    handleChangeFlorincoindEnabled(e) {
         var checked = e.target.checked;
         Florincoind.toggle(checked);
     },
-    handleChangeLibrarydEnabled: function(e) {
+    handleChangeLibrarydEnabled(e) {
         var checked = e.target.checked;
         Libraryd.toggle(checked);
     },
-    handleChangeIPFSEnabled: function(e) {
+    handleChangeIPFSEnabled(e) {
         var checked = e.target.checked;
         IPFS.toggle(checked);
     },
-    handleOpenIPFSWebUI: function(e) {
+    handleOpenIPFSWebUI(e) {
         utils.openUrl('http://localhost:5001/webui')
     },
-    render: function() {
+    render() {
         return (
             <div className='content-scroller' id='content'>
                 <section>
@@ -105,10 +102,5 @@ var Dashboard = React.createClass({
                 <Logs />
             </div>
         );
-
     }
-
 });
-
-
-module.exports = Dashboard;

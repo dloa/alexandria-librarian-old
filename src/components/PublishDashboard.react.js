@@ -7,38 +7,30 @@ import utils from '../utils/util';
 import publishStore from '../stores/publishStore';
 
 
-
-
-
-
-var If = React.createClass({
-    render: function() {
-        if (this.props.test) {
-            return this.props.children;
-        } else {
-            return false;
-        }
+let If = React.createClass({
+    render() {
+        return this.props.test ? this.props.children : false;
     }
 });
 
-var Publish = React.createClass({
-
-    getInitialState: function() {
+export
+default React.createClass({
+    getInitialState() {
         return {
             youtubeAuthorization: publishStore.getState().youtubeAuthorization,
             youtubeContent: publishStore.getState().youtubeContent
         };
     },
 
-    componentDidMount: function() {
+    componentDidMount() {
         publishStore.listen(this.update);
     },
 
-    componentWillUnmount: function() {
+    componentWillUnmount() {
         publishStore.unlisten(this.update);
     },
 
-    update: function() {
+    update() {
         if (this.isMounted()) {
             this.setState({
                 youtubeAuthorization: publishStore.getState().youtubeAuthorization,
@@ -46,10 +38,10 @@ var Publish = React.createClass({
             });
         }
     },
-    handleAuthYoutube: function() {
+    handleAuthYoutube() {
         PublishActions.authorize('youtube');
     },
-    render: function() {
+    render() {
         var youtubeAuthorized = this.state.youtubeAuthorization ? true : false;
         var youtubeContent = this.state.youtubeContent ? true : false;
         var youtubeContentDataTabe = this.state.youtubeContent ? this.state.youtubeContent : [];
@@ -84,10 +76,5 @@ var Publish = React.createClass({
     
             </div>
         );
-
     }
-
 });
-
-
-module.exports = Publish;

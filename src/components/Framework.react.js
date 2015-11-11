@@ -2,7 +2,8 @@ import React from 'react';
 import Router from 'react-router';
 import Sidebar from './Sidebar.react';
 
-var Client = React.createClass({
+export
+default React.createClass({
     getInitialState() {
         return {
             sidebarOffset: 0
@@ -28,5 +29,3 @@ var Client = React.createClass({
         );
     }
 });
-
-module.exports = Client;

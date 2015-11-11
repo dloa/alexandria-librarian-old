@@ -6,9 +6,9 @@ import utils from '../utils/util';
 import HTTPAPI from '../utils/httpApiUtil';
 
 
-var Preferences = React.createClass({
-
-    getInitialState: function() {
+export
+default React.createClass({
+    getInitialState() {
         return {
             Analytics: true,
             HTTPAPIEnabled: Settings.get('HTTPAPIEnabled'),
@@ -21,7 +21,7 @@ var Preferences = React.createClass({
             FlorincoindPassword: Settings.get('Florincoind-password')
         };
     },
-    handleChangeMinimizeToTray: function(e) {
+    handleChangeMinimizeToTray(e) {
         var checked = e.target.checked;
         console.log(checked);
         this.setState({
@@ -29,7 +29,7 @@ var Preferences = React.createClass({
         });
 
     },
-    handleChangeAnalytics: function(e) {
+    handleChangeAnalytics(e) {
         var checked = e.target.checked;
 
         this.setState({
@@ -37,7 +37,7 @@ var Preferences = React.createClass({
         });
 
     },
-    handleChangeStartOnBoot: function(e) {
+    handleChangeStartOnBoot(e) {
         var checked = e.target.checked;
         this.setState({
             startOnBoot: checked
@@ -45,9 +45,9 @@ var Preferences = React.createClass({
 
         if (checked) {
             startupManager.addStartup({
-                    appPath: require('remote').require('app').getPath('exe'),
-                    appName: 'AlexandriaLibrarian'
-                })
+                appPath: require('remote').require('app').getPath('exe'),
+                appName: 'AlexandriaLibrarian'
+            })
                 .then(function() {
                     console.log('App added to startup')
                 })
@@ -66,14 +66,14 @@ var Preferences = React.createClass({
 
         Settings.save('startOnBoot', checked);
     },
-    handlestartMinimized: function(e) {
+    handlestartMinimized(e) {
         var checked = e.target.checked;
         this.setState({
             startMinimized: checked
         });
         Settings.save('startMinimized', checked);
     },
-    handleChangeHTTPAPIEnabled: function(e) {
+    handleChangeHTTPAPIEnabled(e) {
         var checked = e.target.checked;
         var self = this;
         HTTPAPI.toggle(checked, this.state.HTTPAPIPort).then(function() {
@@ -88,23 +88,23 @@ var Preferences = React.createClass({
             Settings.save('HTTPAPIEnabled', false);
         });
     },
-    handleResetSettings: function() {
+    handleResetSettings() {
         Settings.reset();
     },
-    handlePurgeBins: function() {
+    handlePurgeBins() {
         utils.purgeBins('all');
     },
-    handleResetPurge: function() {
+    handleResetPurge() {
         utils.purgeBins('all').then(Settings.reset);
     },
-    handleChangeWebAccsess: function(e) {
+    handleChangeWebAccsess(e) {
         var checked = e.target.checked;
         console.log(checked);
         this.setState({
             RemoteWeb: checked
         });
     },
-    handleChangeFlorincoindCreds: function(e) {
+    handleChangeFlorincoindCreds(e) {
         var target = e.target.id;
 
         if (target === 'Florincoind-username')
@@ -118,10 +118,10 @@ var Preferences = React.createClass({
         Settings.save(e.target.id, e.target.value);
 
     },
-    handleOpenDevTools: function() {
+    handleOpenDevTools() {
         require('remote').getCurrentWindow().toggleDevTools();
     },
-    render: function() {
+    render() {
         return (
             <div className='content-scroller' id='content'>
                 <section>
@@ -173,5 +173,3 @@ var Preferences = React.createClass({
         );
     }
 });
-
-module.exports = Preferences;

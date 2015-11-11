@@ -5,16 +5,16 @@ import externalActions from '../actions/externalActions';
 import externalStore from '../stores/externalStore';
 
 
-var About = React.createClass({
-
-    getInitialState: function() {
+export
+default React.createClass({
+    getInitialState() {
         return {
             contributors: externalStore.getState().contributors,
             license: externalStore.getState().license,
             version: externalStore.getState().version
         }
     },
-    componentDidMount: function() {
+    componentDidMount() {
         if (!this.state.license || !this.state.contributors || !this.state.version) {
             externalStore.listen(this.update);
             if (!this.state.version)
@@ -25,11 +25,11 @@ var About = React.createClass({
                 externalActions.getContributors();
         }
     },
-    componentWillUnmount: function() {
+    componentWillUnmount() {
         if (!this.state.license || !this.state.contributors || !this.state.version)
             externalStore.unlisten(this.update);
     },
-    update: function() {
+    update() {
         if (this.isMounted()) {
             this.setState({
                 contributors: externalStore.getState().contributors,
@@ -38,12 +38,11 @@ var About = React.createClass({
             });
         }
     },
-    openGithub: function(e) {
-        var url = e.target.getAttribute('data-github');
-        utils.openUrl(url)
+    openGithub(e) {
+        utils.openUrl(e.target.getAttribute('data-github'))
     },
 
-    render: function() {
+    render() {
         var contributors = this.state.contributors ? this.state.contributors : [];
         var license = this.state.license ? this.state.license : 'Loading...';
         var version = this.state.version ? this.state.version : 'Loading...';
@@ -73,5 +72,3 @@ var About = React.createClass({
         );
     }
 });
-
-module.exports = About;

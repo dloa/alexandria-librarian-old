@@ -7,37 +7,36 @@ import utils from '../utils/util';
 
 export
 default React.createClass({
-
-    getInitialState: function() {
+    getInitialState() {
         return {
             history: [],
             prompt: '$ '
         }
     },
-    clearHistory: function() {
+    clearHistory() {
         this.setState({
             history: []
         });
     },
-    showWelcomeMsg: function() {
+    showWelcomeMsg() {
         this.addHistory("type " + this.props.daemonname + " --help for available commands");
     },
-    openLink: function(link) {
+    openLink(link) {
 
     },
-    showHelp: function() {
+    showHelp() {
         this.addHistory("command - commandinfo");
     },
-    componentDidMount: function() {
+    componentDidMount() {
         var term = this.refs.term.getDOMNode();
         this.showWelcomeMsg();
     },
-    componentDidUpdate: function() {
+    componentDidUpdate() {
         var el = ReactDOM.findDOMNode(this);
         var container = document.getElementById("cli-emulator");
         container.scrollTop = el.scrollHeight;
     },
-    handleInput: function(e) {
+    handleInput(e) {
         if (e.key === "Enter") {
             var input_text = this.refs.term.getDOMNode().value;
             var input_array = input_text.split(' ');
@@ -53,21 +52,21 @@ default React.createClass({
             this.clearInput();
         }
     },
-    clearInput: function() {
+    clearInput() {
         this.refs.term.getDOMNode().value = "";
     },
-    addHistory: function(output) {
+    addHistory(output) {
         var history = this.state.history;
         history.push(output)
         this.setState({
             'history': history
         });
     },
-    handleClick: function() {
+    handleClick() {
         var term = this.refs.term.getDOMNode();
         term.focus();
     },
-    render: function() {
+    render() {
         var output = this.state.history.map(function(op, i) {
             return <p key={i} >{op}</p>;
         });

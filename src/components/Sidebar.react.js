@@ -8,10 +8,10 @@ import Isvg from 'react-inlinesvg';
 
 export
 default React.createClass({
-    componentWillMount: function() {
-        this.start = Date.now();
+    markActive(e) {
+
     },
-    render: function() {
+    render() {
         return (
             <ul className="sidebar">
               <div className="sidebar-logo">
