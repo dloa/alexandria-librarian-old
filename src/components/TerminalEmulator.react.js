@@ -28,7 +28,7 @@ default React.createClass({
         this.addHistory("command - commandinfo");
     },
     componentDidMount() {
-        var term = this.refs.term.getDOMNode();
+        var term = this.refs.term;
         this.showWelcomeMsg();
     },
     componentDidUpdate() {
@@ -38,7 +38,7 @@ default React.createClass({
     },
     handleInput(e) {
         if (e.key === "Enter") {
-            var input_text = this.refs.term.getDOMNode().value;
+            var input_text = this.refs.term.value;
             var input_array = input_text.split(' ');
 
             this.addHistory(this.state.prompt + " " + input_text);
@@ -53,7 +53,7 @@ default React.createClass({
         }
     },
     clearInput() {
-        this.refs.term.getDOMNode().value = "";
+        this.refs.term.value = "";
     },
     addHistory(output) {
         var history = this.state.history;
@@ -63,8 +63,7 @@ default React.createClass({
         });
     },
     handleClick() {
-        var term = this.refs.term.getDOMNode();
-        term.focus();
+        this.refs.term.focus();
     },
     render() {
         var output = this.state.history.map(function(op, i) {

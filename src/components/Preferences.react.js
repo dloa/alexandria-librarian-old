@@ -88,6 +88,9 @@ default React.createClass({
             Settings.save('HTTPAPIEnabled', false);
         });
     },
+    handleChangeHTTPAPIPort(e) {
+        
+    },
     handleResetSettings() {
         Settings.reset();
     },
@@ -116,7 +119,6 @@ default React.createClass({
                 FlorincoindPassword: e.target.value
             });
         Settings.save(e.target.id, e.target.value);
-
     },
     handleOpenDevTools() {
         require('remote').getCurrentWindow().toggleDevTools();
@@ -150,7 +152,7 @@ default React.createClass({
                         </div>
                         <p>Enable HTTP API</p>
                     </div>
-                    <span>Port:</span><input name="username" value={this.state.HTTPAPIPort} placeholder="HTTP API Port" type="text" />
+                    <span>Port:</span><input name="username" onChange={this.handleChangeHTTPAPIPort} value={this.state.HTTPAPIPort} placeholder="HTTP API Port" type="text" />
                 </section>
                 <section>
                     <h1 className='title'>Authentication</h1>
