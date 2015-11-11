@@ -61,15 +61,11 @@
     "grunt-contrib-copy": "^0.8.2",
     "grunt-contrib-less": "^1.1.0",
     "grunt-contrib-watch-chokidar": "^1.0.0",
-    "grunt-download-electron": "^2.1.2",
     "grunt-electron": "^2.0.1",
     "grunt-newer": "^1.1.1",
     "grunt-shell": "^1.1.2",
     "grunt-shell-spawn": "^0.3.10",
     "load-grunt-tasks": "^3.3.0",
-    "run-sequence": "^1.1.4",
-    "shell-escape": "^0.2.0",
-    "source-map-support": "^0.3.3"
   },
   "optionalDependencies": {
     "electron-prebuilt": "0.34.3"
