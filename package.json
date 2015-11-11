@@ -65,7 +65,7 @@
     "grunt-newer": "^1.1.1",
     "grunt-shell": "^1.1.2",
     "grunt-shell-spawn": "^0.3.10",
-    "load-grunt-tasks": "^3.3.0",
+    "load-grunt-tasks": "^3.3.0"
   },
   "optionalDependencies": {
     "electron-prebuilt": "0.34.3"
