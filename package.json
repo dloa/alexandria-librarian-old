@@ -3,6 +3,7 @@
   "version": "0.0.2",
   "author": "D.L.O.A.",
   "description": "ΛLΞXΛNDRIΛ Librarian",
+  "relese-name": "Hello World",
   "homepage": "http://alexandria.media",
   "main": "js/browser.js",
   "repository": {
