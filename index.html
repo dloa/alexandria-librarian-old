@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Document</title>
+    <title>Alexandria Librarian</title>
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets/css/main.css" rel="stylesheet">
 </head>
@@ -74,7 +74,7 @@
                             <div class="detail">
                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga ex molestiae id itaque sint, architecto pariatur omnis, officiis ipsum necessitatibus reiciendis rem quo quisquam aliquam consequatur inventore fugiat. Maiores, necessitatibus.</p>
                             </div>
-                        </div> <!-- ipfs -->
+                        </div> <!-- /ipfs -->
 
                         <div class="section florincoin">
                             <h4>Florincoin</h4>
@@ -115,9 +115,9 @@
                             <div class="detail">
                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga ex molestiae id itaque sint, architecto pariatur omnis, officiis ipsum necessitatibus reiciendis rem quo quisquam aliquam consequatur inventore fugiat. Maiores, necessitatibus.</p>
                             </div>
-                        </div> <!-- florincoin -->
+                        </div> <!-- /florincoin -->
 
-                        <div class="section florincoin">
+                        <div class="section libraryd">
                             <h4>Libraryd</h4>
                             <div class="progress-container">
                                 <div class="row">
@@ -126,7 +126,7 @@
                                     </div>
                                     <div class="col col-sm-6">
                                         <div class="progress">
-                                            <div class="progress-bar -info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
+                                            <div class="progress-bar -info" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
                                                 <span class="sr-only">40% Complete</span>
                                             </div>
                                         </div>
@@ -136,7 +136,35 @@
                             <div class="detail">
                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga ex molestiae id itaque sint, architecto pariatur omnis, officiis ipsum necessitatibus reiciendis rem quo quisquam aliquam consequatur inventore fugiat. Maiores, necessitatibus.</p>
                             </div>
-                        </div> <!-- florincoin -->
+                        </div> <!-- /libraryd -->
+                        <div class="section console">
+                            <h4>Console Output</h4>
+                            <div class="console-helper">
+                               
+                                <!-- Copy -->
+                                <a href="#" class="svg" data-toggle="tooltip" data-placement="top" title="Copy">
+                                    <object type="image/svg+xml" data="assets/svg/files-16px_single-copy-04.svg" class="logo"></object></a>
+                                
+                                <!-- Paste -->
+                                <a href="#" class="svg" data-toggle="tooltip" data-placement="top" title="Paste">
+                                    <object type="image/svg+xml" data="assets/svg/files-16px_single-folded.svg" class="logo"></object></a>
+
+                                <!-- Info -->
+                                <a href="#" class="svg" data-toggle="tooltip" data-placement="top" title="Info">
+                                    <object type="image/svg+xml" data="assets/svg/ui-16px-2_alert-circle-i.svg" class="logo"></object></a>
+                                    
+                                <!-- Fullscreen -->
+                                <a href="#" class="svg" data-toggle="tooltip" data-placement="top" title="Fullscreen">
+                                    <object type="image/svg+xml" data="assets/svg/arrows-16px-3_square-corner-up-right.svg" class="logo"></object></a>
+                            </div>
+                            <div class="console-output well">
+                                <p>type help for available commands</p>
+                                <p><span class="console-marker">$</span></p>
+                            </div>
+                            <div class="detail">
+                                <p>This belongs to dedicated page.</p>
+                            </div>
+                        </div> <!-- /console -->
                     </div>
                 </div>
             </div>
@@ -145,5 +173,10 @@
     
     <script src="assets/js/jquery-1.11.3.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
 </body>
 </html>
