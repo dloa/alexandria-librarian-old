@@ -198,11 +198,13 @@ module.exports = function(grunt) {
         // styles
         less: {
             options: {
+                compress: true,
                 sourceMapFileInline: true
             },
             dist: {
                 files: {
-                    'build/css/main.css': 'styles/main.less'
+                    'build/css/main.css': 'styles/src/**/*.less',
+                    'build/css/vender.css': ['styles/vender/**/*.less', 'styles/vender/**/*.css']
                 }
             }
         },
