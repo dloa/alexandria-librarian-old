@@ -6,6 +6,8 @@ import PublishActions from '../actions/publishActions';
 import utils from '../utils/util';
 import publishStore from '../stores/publishStore';
 
+var Dropzone = require('react-dropzone');
+
 
 let If = React.createClass({
     render() {
@@ -21,6 +23,13 @@ default React.createClass({
 
     componentWillUnmount() {
         publishStore.unlisten(this.update);
+    },
+
+    onDrop: function (files) {
+      console.log('Received files: ', files);
+      console.log(this.refs.artwork);
+      this.refs.artwork.style.backgroundImage = "url('file://" + files[0].path + "')";
+      this.refs.albumText.innerHTML = "";
     },
 
     update() {
@@ -101,10 +110,11 @@ default React.createClass({
             </div>
             <div className="onethird right">
                 <h3>Cover Art</h3>
-                <div className="well album-artwork" id="artwork">
-                    <div className="album-image" id="album-image"></div>
-                    <h2 className="cover-text">drag cover art file here</h2>
-                </div>
+                <Dropzone className="well" activeClassName="well-dashed" ref="artwork-dropzone" onDrop={this.onDrop}>
+                    <div className="album-artwork" ref="artwork">
+                        <h2 className="cover-text" ref="albumText">drag cover art file here</h2>
+                    </div>
+                </Dropzone>
             </div>
             <div className="onefourth left">
                 <h3>Individual Track Pricing</h3>
@@ -126,7 +136,7 @@ default React.createClass({
                 </div>
             </div>
             <div className="onefourth left">
-                <h3>Entire Album Pricing</h3>
+                <h3>Full Album Pricing</h3>
                 <div className="well">
                     <div className="pricing-pad">
                         <div className="pricingSpacing">
