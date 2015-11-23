@@ -32,8 +32,12 @@ default React.createClass({
     artworkDrop: function (files) {
       console.log('Received files: ', files);
       console.log(this.refs.artwork);
-      this.refs.artwork.style.backgroundImage = "url('file://" + files[0].path + "')";
-      this.refs.albumText.innerHTML = "";
+      if (files[0].type.indexOf("image") > -1){
+          this.refs.artwork.style.backgroundImage = "url('file://" + files[0].path + "')";
+          this.refs.albumText.innerHTML = "";
+      } else {
+        this.refs.albumText.innerHTML = "drop an image";
+      }
     },
 
     audioDrop: function (files) {
@@ -43,7 +47,7 @@ default React.createClass({
             if (audioFiles.length == 0){
                 this.refs.audioInner.innerHTML = "<div class='pad'><table><thead><tr><th style='width:10%'>File #</th><th style='width:40%' class='left-text'>File Name</th><th style='width:15%'>File Size</th><th style='width:10%'>Duration</th><th style='width:10%'>Track #</th><th style='width:25%' class='left-text'>Display Name</th></tr></thead><tbody ref='audioTable'><tr><td>File #"+(audioFiles.length+files.length)+"</td><td class='left-text'>" + files[i].name + "</td><td>3.5 MB</td><td>3:27</td><td><input type='text' value='1'></input></td><td class='left-text'><input type='text' value='DJ Day' style='width:90%'></input></td></tr></tbody></table></div>";
                 audioFiles.push(files[i]);
-            }
+            } 
           } else {
             console.log("Not Audio!");
           }
