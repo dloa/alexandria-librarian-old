@@ -25,7 +25,7 @@ default React.createClass({
         publishStore.unlisten(this.update);
     },
 
-    onDrop: function (files) {
+    artworkDrop: function (files) {
       console.log('Received files: ', files);
       console.log(this.refs.artwork);
       this.refs.artwork.style.backgroundImage = "url('file://" + files[0].path + "')";
@@ -110,7 +110,7 @@ default React.createClass({
             </div>
             <div className="onethird right">
                 <h3>Cover Art</h3>
-                <Dropzone className="well" activeClassName="well-dashed" ref="artwork-dropzone" onDrop={this.onDrop}>
+                <Dropzone className="well" activeClassName="well-dashed" ref="artwork-dropzone" onDrop={this.artworkDrop}>
                     <div className="album-artwork" ref="artwork">
                         <h2 className="cover-text" ref="albumText">drag cover art file here</h2>
                     </div>
