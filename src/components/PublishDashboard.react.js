@@ -8,12 +8,6 @@ import PublishActions from '../actions/publishActions';
 import utils from '../utils/util';
 import publishStore from '../stores/publishStore';
 
-
-var artwork = "";
-var audioFiles = [];
-var extraFiles = [];
-
-
 let If = React.createClass({
     render() {
         return this.props.test ? this.props.children : false;
@@ -26,7 +20,7 @@ default React.createClass({
         return {
             files: {
                 extra: [],
-                audio: [],
+                audio: publishStore.getState().audioFies,
                 artwork: false
             },
             meta: false
@@ -41,6 +35,8 @@ default React.createClass({
     update() {
         if (this.isMounted()) {
             this.setState({
+                audio: publishStore.getState().audioFies,
+                
                 youtubeAuthorization: publishStore.getState().youtubeAuthorization,
                 youtubeContent: publishStore.getState().youtubeContent
             });

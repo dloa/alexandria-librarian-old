@@ -19,9 +19,11 @@ module.exports = {
     },
     evaluateFile(filePath) {
         return new Promise((resolve, reject) => {
-            var file = fs.readFileSync(path.normalize(filePath))
-            var meta = audioMetaData.id3v1(file);
-            resolve(meta ? meta : audioMetaData.ogg(file));
+            fs.readFile(path.normalize(filePath), (err, data) => {
+                if (err) throw err;
+                var meta = audioMetaData.id3v1(file);
+                resolve(meta ? meta : audioMetaData.ogg(file));
+            });
         });
     },
     calcSize(bytes, decimals = 3) {
