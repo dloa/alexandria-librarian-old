@@ -37,16 +37,14 @@ module.exports = {
         authWindow.loadUrl(authUrl);
         authWindow.show();
         return new Promise((resolve, reject) => {
-            authWindow.webContents.on('did-get-redirect-request', function(event, oldUrl, newUrl) {
-
+            authWindow.webContents.on('did-get-redirect-request', (event, oldUrl, newUrl) => {
                 var raw_code = /code=([^&]*)/.exec(newUrl) || null,
                     code = (raw_code && raw_code.length > 1) ? raw_code[1] : null,
                     error = /\?error=(.+)$/.exec(newUrl);
-                if (code || error) {
+                if (code || error)
                     authWindow.close();
-                }
                 if (code) {
-                    oauth2Client.getToken(code, function(err, tokens) {
+                    oauth2Client.getToken(code, (err, tokens) => {
                         if (!err) {
                             publishActions.youtubeAuthorized(tokens);
                             oauth2Client.setCredentials(tokens);
@@ -67,17 +65,16 @@ module.exports = {
         });
     },
     getContent: function(pid) {
-        var self = this;
         return new Promise((resolve, reject) => {
-            self.getUploadPlaylists()
-                .then(function(pids) {
+            this.getUploadPlaylists()
+                .then((pids) => {
                     let totalitems = [];
                     let checked = 0;
-                    pids.forEach(function(pid) {
-                        self.getPlaylistItems(pid)
-                            .then(function(uploads) {
+                    pids.forEach((pid) => {
+                        this.getPlaylistItems(pid)
+                            .then((uploads) => {
                                 checked++;
-                                uploads.items.forEach(function(item) {
+                                uploads.items.forEach((item) => {
                                     totalitems.push(item.snippet)
                                 });
                                 if (checked === pids.length) {
@@ -96,7 +93,7 @@ module.exports = {
                 playlistId: playlist,
                 part: 'snippet',
                 maxResults: 50
-            }, function(err, data) {
+            }, (err, data) => {
                 if (err)
                     return reject(err);
                 resolve(data)
@@ -108,11 +105,11 @@ module.exports = {
             Youtube.channels.list({
                 mine: true,
                 part: 'contentDetails'
-            }, function(err, data) {
+            }, (err, data) => {
                 if (err)
                     return reject(err);
                 var uploadPlaylists = [];
-                data.items.forEach(function(item) {
+                data.items.forEach((item) => {
                     uploadPlaylists.push(item.contentDetails.relatedPlaylists.uploads);
                 });
                 resolve(uploadPlaylists);
