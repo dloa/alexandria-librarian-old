@@ -1,6 +1,7 @@
 import alt from '../alt';
 import util from '../utils/util';
 import publishActions from '../actions/publishActions';
+import ReactUpdate from 'react-addons-update';
 
 
 class publishStore {
@@ -9,11 +10,21 @@ class publishStore {
 
         this.youtubeAuthorization = false;
         this.youtubeContent = false;
-        this.audioFies = [];
+        this.audioFiles = [];
+    }
+    
+    onClearPublish() {
+        this.setState({
+            audioFiles: []
+        });
     }
 
     onAudioFile(file) {
-        console.log(file);
+        this.setState({
+            audioFiles: ReactUpdate(this.audioFiles, {
+                $push: [file]
+            })
+        });
     }
 
     onYoutubeAuthorized(tokens) {

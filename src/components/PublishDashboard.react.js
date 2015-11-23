@@ -20,7 +20,7 @@ default React.createClass({
         return {
             files: {
                 extra: [],
-                audio: publishStore.getState().audioFies,
+                audio: publishStore.getState().audioFiles,
                 artwork: false
             },
             meta: false
@@ -35,8 +35,12 @@ default React.createClass({
     update() {
         if (this.isMounted()) {
             this.setState({
-                audio: publishStore.getState().audioFies,
-                
+                files: ReactUpdate(this.state.files, {
+                    audio: {
+                        $set: publishStore.getState().audioFiles
+                    }
+                }),
+
                 youtubeAuthorization: publishStore.getState().youtubeAuthorization,
                 youtubeContent: publishStore.getState().youtubeContent
             });
