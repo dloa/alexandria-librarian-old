@@ -7,9 +7,10 @@ import publishActions from '../../actions/publishActions';
 
 module.exports = {
     addFiles(files) {
-        _.forEach(files, file => {
+        _.forEach(files, (file, id) => {
             this.evaluateFile(file.path)
                 .then(info => {
+                    info['id'] = id;
                     info['path'] = path.normalize(file.path);
                     info['size'] = this.calcSize(file.size);
                     publishActions.audioFile(info);

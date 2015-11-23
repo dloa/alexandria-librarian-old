@@ -2,11 +2,18 @@ import React from 'react';
 import DataGrid from 'react-datagrid';
 import Dropzone from 'react-dropzone';
 import ReactUpdate from 'react-addons-update';
+import _ from 'lodash';
+import path from 'path';
+import {
+    base64encoder
+}
+from 'node-base64-image';
 
 import Settings from '../utils/settingsUtil';
 import PublishActions from '../actions/publishActions';
 import utils from '../utils/util';
 import publishStore from '../stores/publishStore';
+
 
 let If = React.createClass({
     render() {
@@ -16,85 +23,90 @@ let If = React.createClass({
 
 export
 default React.createClass({
-    getInitialState() {
-        return {
-            files: {
-                extra: [],
-                audio: publishStore.getState().audioFiles,
-                artwork: false
-            },
-            meta: false
-        };
-    },
-    componentDidMount() {
-        publishStore.listen(this.update);
-    },
-    componentWillUnmount() {
-        publishStore.unlisten(this.update);
-    },
-    update() {
-        if (this.isMounted()) {
-            this.setState({
-                files: ReactUpdate(this.state.files, {
-                    audio: {
-                        $set: publishStore.getState().audioFiles
-                    }
-                }),
+        getInitialState() {
+            return {
+                files: {
+                    extra: [],
+                    audio: [],
+                    artwork: false
+                },
+                meta: false,
+                type: false
+            };
+        },
+        componentWillMount() {
+            publishStore.listen(this.update);
+        },
+        componentWillUnmount() {
+            publishStore.unlisten(this.update);
+        },
+        update() {
+            if (this.isMounted()) {
+                this.setState({
 
-                youtubeAuthorization: publishStore.getState().youtubeAuthorization,
-                youtubeContent: publishStore.getState().youtubeContent
+                    files: ReactUpdate(this.state.files, {
+                        audio: {
+                            $set: publishStore.getState().audioFiles
+                        }
+                    }),
+
+                    youtubeAuthorization: publishStore.getState().youtubeAuthorization,
+                    youtubeContent: publishStore.getState().youtubeContent
+                });
+            }
+        },
+        artworkDrop(files) {
+            base64encoder(path.normalize(files[0].path), {
+                localFile: true,
+                string: true
+            }, (err, image) => {
+                if (err)
+                    return console.log(err);
+                this.setState({
+                    files: ReactUpdate(this.state.files, {
+                        artwork: {
+                            $set: 'data:' + files[0].type + ';base64,' + image
+                        }
+                    })
+                });
             });
-        }
-    },
-    artworkDrop(files) {
-        this.setState({
-            files: ReactUpdate(this.state.files, {
-                artwork: {
-                    $set: files[0].path.toString()
-                }
-            })
-        });
-    },
-    audioDrop(files) {
-        var AudioFiles = [];
-        for (var i = 0; i < files.length; i++) {
-            if (files[i].type.indexOf('audio') > -1)
-                AudioFiles.push(files[i])
-        };
-        if (AudioFiles.length > 0)
-            PublishActions.addFiles(AudioFiles);
-    },
-    extraDrop(files) {
-        console.log('Received files: ', files);
-    },
-    generateFile(file, type = 'audio') {
-        switch (type) {
-            case 'audio':
-                return (
-                    <tr>
-                        <td>'File '{audioFiles.length + files.length}</td>
-                        <td className='left-text'>{file.name}</td>
-                        <td>{file.size}</td>
-                        <td>{file.length}</td>
-                        <td><input type='text' value='1'/></td>
-                        <td className='left-text'><input type='text' value='DJ Day' style={{width:'90%'}}/></td>
-                    </tr>
-                );
-                break;
-        }
-    },
-    render() {
-        let artifactModules = ['Archive', 'Movie', 'Video', 'Song', 'Album', 'Podcast', 'Recipies', 'Things'];
-        let albumart = this.state.files.artwork ? "url('file://" + this.state.files.artwork + "')" : '';
-        return (
-            <div className="content-scroller">
+        },
+        audioDrop(files) {
+            var AudioFiles = [];
+            for (var i = 0; i < files.length; i++) {
+                if (files[i].type.indexOf('audio') > -1)
+                    AudioFiles.push(files[i])
+            };
+            if (AudioFiles.length > 0)
+                PublishActions.addFiles(AudioFiles);
+        },
+        extraDrop(files) {
+            console.log('Received files: ', files);
+        },
+        render() {
+            let columns = [{
+                name: 'title'
+            }, {
+                name: 'size'
+            }, {
+                name: 'album'
+            }, {
+                name: 'year'
+            }, {
+                name: 'track',
+            }, {
+                name: 'artist'
+            }];
+
+            return (
+                    <div className="content-scroller">
                 <div className="container">
                     <h2>Publish Artifact</h2>
                     <h3>Choose Artifact Type</h3>
                     <div className="well full">
                     <div className="clear"/>
                         {
-                            artifactModules.map(function(artifact) {
+                            ['Archive', 'Movie', 'Video', 'Song', 'Album', 'Podcast', 'Recipies', 'Things'].map(function(artifact) {
                                 return (
                                         <div key={artifact} className="artifactModule">
                                             <div className="artifactCircle {artifact.toLowerCase()}"/>
@@ -134,7 +146,7 @@ default React.createClass({
             <div className="onethird right">
                 <h3>Cover Art</h3>
                 <Dropzone className="well" activeClassName="well-dashed" onDrop={this.artworkDrop}>
-                    <div  className="album-artwork">
+                    <div style={{backgroundImage: this.state.files.artwork ? 'url(' + this.state.files.artwork + ')' : ''}} className="album-artwork">
                         <If test={!this.state.files.artwork}>
                             <h2 className="cover-text" ref="albumText">drag cover art file here</h2>
                         </If>
@@ -181,29 +193,14 @@ default React.createClass({
             </div>
             <div className="full left">
                 <h3>Audio Tracks</h3>
-                <Dropzone className="well" activeClassName="well-dashed" ref="audio" onDrop={this.audioDrop}>
+                <Dropzone disableClick={(this.state.files.audio.length > 0)} className="well" activeClassName="well-dashed" ref="audio" onDrop={this.audioDrop}>
                     <div ref="audioInner">
                         <If test={(this.state.files.audio.length > 0)}>
                             <div className='pad'>
-                                <table>
-                                   <thead>
-                                        <tr>
-                                            <th style={{width: '10%'}}>File #</th>
-                                            <th style={{width: '40%'}} className='left-text'>File Name</th>
-                                            <th style={{width: '15%'}}>File Size</th>
-                                            <th style={{width: '10%'}}>Duration</th>
-                                            <th style={{width: '10%'}}>Track #</th>
-                                            <th style={{width: '25%'}} className='left-text'>Display Name</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody ref='audioTable'>
-                                        {
-                                            this.state.files.audio.map(function(file) {
-                                                return this.generateFile(file);
-                                            }, this)
-                                        }
-                                    </tbody>
-                                </table>
+                                <DataGrid 
+                                    idProperty="track" 
+                                    dataSource={this.state.files.audio} 
+                                    columns={columns} />
                             </div>
                         </If>
                         <If test={!(this.state.files.audio.length > 0)}>
@@ -218,8 +215,7 @@ default React.createClass({
                     <h2 className="audio-text">drag extra files here</h2>
                 </Dropzone>
             </div>
-        </div>
-        </div>
+        </div> < /div>
         );
     }
 });
