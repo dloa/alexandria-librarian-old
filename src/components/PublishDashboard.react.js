@@ -56,15 +56,13 @@ default React.createClass({
         });
     },
     audioDrop(files) {
-        console.log('Received files: ', files);
+        var AudioFiles = [];
         for (var i = 0; i < files.length; i++) {
-            if (files[i].type.indexOf('audio') > -1) {
-
-
-
-
-            }
+            if (files[i].type.indexOf('audio') > -1)
+                AudioFiles.push(files[i])
         };
+        if (AudioFiles.length > 0)
+            PublishActions.addFiles(AudioFiles);
     },
     extraDrop(files) {
         console.log('Received files: ', files);

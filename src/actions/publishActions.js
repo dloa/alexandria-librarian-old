@@ -5,13 +5,13 @@ class publishingActions {
     constructor() {
         this.generateActions(
             'youtubeAuthorized',
-            'youtubeContent'
+            'youtubeContent',
+            'addFile'
         );
     }
 
     authorize(service) {
         this.dispatch();
-
         switch (service) {
             case 'youtube':
                 require('../utils/publishing/youtubeUtil').getAuthorization()
@@ -20,6 +20,13 @@ class publishingActions {
                     });
                 break;
         }
+    }
+
+    addFiles(files) {
+        var audioUtil = require('../utils/publishing/audioUtil');
+        this.dispatch();
+        audioUtil.eventEmitter.on('file', this.actions.addFile);
+        audioUtil.addFiles(files);
     }
 
     getContent(service) {
