@@ -1,18 +1,3 @@
-html {
-  font-family: Avenir-Book, avenir, 'Open Sans', open_sansregular, 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-weight: 400;
-  font-style: normal;
-}
-body {
-  background-color: #ffffff !important;
-    padding-top: 44px;
-    box-shadow: inset 0px 5px 40px -8px rgba(0,0,0,0.75);
-    -webkit-box-shadow: inset 0px 5px 40px -8px rgba(0,0,0,0.5);
-    -moz-box-shadow: inset 0px 5px 40px -8px rgba(0,0,0,0.5);
-    box-shadow: inset 0px 5px 40px -8px rgba(0,0,0,0.5);
-    margin: 0px;
-    display: block;
-}
 h2 {
   color: #6D6D6D;
   font-size: 2.45em;
@@ -40,16 +25,30 @@ input[type="date"] {
   height: 25px;
   width: 30%;
 }
+th {
+  text-decoration: underline;
+}
+td {
+  text-align: center;
+}
 
 /* Classes */
 .container {
-  width: 60%;
+  padding-top: 35px;
+  width: 85%;
+  max-width: 1000px;
   margin: 0px auto;
 }
 .well {
   border-radius: 5px;
   background-color: #f9f9f9;
   border: 1px solid #a0a0a0;
+  margin-bottom: 30px;
+}
+.well-dashed {
+  border-radius: 5px;
+  background-color: #e6e6e6;
+  border: 1px dashed #000000;
   margin-bottom: 30px;
 }
 .full {
@@ -75,11 +74,18 @@ input[type="date"] {
 .left {
   float: left;
 }
+.right-text {
+  text-align: right;
+}
+.left-text {
+  text-align: left;
+}
 .album-artwork {
   height: 0;
   width: 100%;
-  background-size: 100% auto;
   padding-bottom: 100%;
+  background-size: 100% 100%;
+  background-repeat:no-repeat;
   /* This is the CSS that needs to be added to add the local file as the background */
   /* background-image: url("file:///Users/sky/Downloads/lights_album_art_by_bonvallet-d6ylvvi.png"); */
 }
@@ -99,8 +105,8 @@ input[type="date"] {
   text-align: center;
   font-size: 2.25em;
   font-weight: 1000;
-  height: 100px;
-  padding-top: 15px;
+  height: 75px;
+  padding-top: 35px;
 }
 .artifactModule {
   margin: 15px 5px 15px 15px;
@@ -166,50 +172,50 @@ input[type="date"] {
 
 /* Artifact Module Images */
 .archive {
-  background-image: url('images/archive-off.png');
+  background-image: url('../images/publisher/archive-off.png');
 }
 .archive:hover, .archive.active {
-  background-image: url('images/archive-on.png');
+  background-image: url('../images/publisher/archive-on.png');
 }
 .movie {
-  background-image: url('images/movie-off.png');
+  background-image: url('../images/publisher/movie-off.png');
 }
 .movie:hover, .movie.active {
-  background-image: url('images/movie-on.png');
+  background-image: url('../images/publisher/movie-on.png');
 }
 .video {
-  background-image: url('images/video-off.png');
+  background-image: url('../images/publisher/video-off.png');
 }
 .video:hover, .video.active {
-  background-image: url('images/video-on.png');
+  background-image: url('../images/publisher/video-on.png');
 }
 .podcast {
-  background-image: url('images/podcast-off.png');
+  background-image: url('../images/publisher/podcast-off.png');
 }
 .podcast:hover, .podcast.active {
-  background-image: url('images/podcast-on.png');
+  background-image: url('../images/publisher/podcast-on.png');
 }
 .song {
-  background-image: url('images/song-off.png');
+  background-image: url('../images/publisher/song-off.png');
 }
 .song:hover, .song.active{
-  background-image: url('images/song-on.png');
+  background-image: url('../images/publisher/song-on.png');
 }
 .album {
-  background-image: url('images/album-off.png');
+  background-image: url('../images/publisher/album-off.png');
 }
 .album:hover, .album.active {
-  background-image: url('images/album-on.png');
+  background-image: url('../images/publisher/album-on.png');
 }
 .recipies {
-  background-image: url('images/recipies-off.png');
+  background-image: url('../images/publisher/recipies-off.png');
 }
 .recipies:hover, .recipies.active {
-  background-image: url('images/recipies-on.png');
+  background-image: url('../images/publisher/recipies-on.png');
 }
 .things {
-  background-image: url('images/things-off.png');
+  background-image: url('../images/publisher/things-off.png');
 }
 .things:hover, .things.active {
-  background-image: url('images/things-on.png');
+  background-image: url('../images/publisher/things-on.png');
 }
