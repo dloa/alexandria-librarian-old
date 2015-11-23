@@ -3,23 +3,22 @@ import path from 'path';
 import Promise from 'bluebird';
 import audioMetaData from 'audio-metadata';
 import _ from 'lodash';
-import events from 'events';
+import publishActions from '../../actions/publishActions';
 
 module.exports = {
-    eventEmitter: new events.EventEmitter(),
     addFiles(files) {
         _.forEach(files, file => {
             this.evaluateFile(file.path)
                 .then(info => {
                     info['path'] = path.normalize(file.path);
                     info['size'] = this.calcSize(file.size);
-                    this.eventEmitter.emit('file', info);
+                    publishActions.audioFile(info);
                 });
         });
     },
     evaluateFile(filePath) {
         return new Promise((resolve, reject) => {
-            fs.readFile(path.normalize(filePath), (err, data) => {
+            fs.readFile(path.normalize(filePath), (err, file) => {
                 if (err) throw err;
                 var meta = audioMetaData.id3v1(file);
                 resolve(meta ? meta : audioMetaData.ogg(file));
