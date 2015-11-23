@@ -6,7 +6,7 @@ class publishingActions {
         this.generateActions(
             'youtubeAuthorized',
             'youtubeContent',
-            'addFile'
+            'audioFile'
         );
     }
 
@@ -25,7 +25,7 @@ class publishingActions {
     addFiles(files) {
         var audioUtil = require('../utils/publishing/audioUtil');
         this.dispatch();
-        audioUtil.eventEmitter.on('file', this.actions.addFile);
+        audioUtil.eventEmitter.on('file', this.actions.audioFile);
         audioUtil.addFiles(files);
     }
 

@@ -7,11 +7,13 @@ class publishStore {
     constructor() {
         this.bindActions(publishActions);
 
-        this.errors = {};
-
         this.youtubeAuthorization = false;
         this.youtubeContent = false;
+        this.audioFies = [];
+    }
 
+    onAudioFile(file) {
+        console.log(file);
     }
 
     onYoutubeAuthorized(tokens) {
@@ -23,14 +25,6 @@ class publishStore {
     onYoutubeContent(content) {
         this.setState({
             youtubeContent: content
-        });
-    }
-
-    errors({
-        errors
-    }) {
-        this.setState({
-            errors
         });
     }
 
