@@ -109,7 +109,7 @@ default React.createClass({
                             ['Archive', 'Movie', 'Video', 'Song', 'Album', 'Podcast', 'Recipies', 'Things'].map(function(artifact) {
                                 return (
                                         <div key={artifact} className="artifactModule">
-                                            <div className="artifactCircle {artifact.toLowerCase()}"/>
+                                            <div className={artifact.toLowerCase() + " artifactCircle"}/>
                                             <p className="artifactText">{artifact}</p>
                                         </div>
                                     );
