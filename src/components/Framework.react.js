@@ -1,9 +1,16 @@
 import React from 'react';
-import Router from 'react-router';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
+import {
+    History, RouteContext
+}
+from 'react-router';
 import Sidebar from './Sidebar.react';
 
 export
 default React.createClass({
+
+    mixins: [PureRenderMixin, RouteContext, History],
+
     getInitialState() {
         return {
             sidebarOffset: 0

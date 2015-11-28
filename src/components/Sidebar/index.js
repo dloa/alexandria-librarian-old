@@ -1,6 +1,7 @@
 import React from 'react';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {
-    Link, IndexLink
+    History
 }
 from 'react-router';
 import Isvg from 'react-inlinesvg';
@@ -8,6 +9,9 @@ import Isvg from 'react-inlinesvg';
 
 export
 default React.createClass({
+
+    mixins: [PureRenderMixin, History],
+
     getInitialState() {
         return {
             active: 'dashboard'
@@ -26,13 +30,13 @@ default React.createClass({
                         <object type="image/svg+xml" data="assets/svg/logo-text.svg" className="logo"></object>
                     </a>
                 </li>
-                <li className={(this.state.active === 'dashboard') ? 'active' : ''}>
+                <li ref="dashboard" className={(this.state.active === 'dashboard') ? 'active' : ''}>
                     <a href="#">Dashboard</a>
                 </li>
-                <li>
+                <li ref="preferences">
                     <a href="#">Preferences</a>
                 </li>
-                <li>
+                <li >
                     <a href="#">IPFS</a>
                 </li>
                 <li>
