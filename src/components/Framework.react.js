@@ -35,18 +35,3 @@ default React.createClass({
         );
     }
 });
-
-
-var txComment; 
-
-request({
-    host: 'hashreport.alexandria.media',
-    port: 5831,
-    path: '/'
-    method: 'GET',
-    json: true
-}, function(err, response, body) {
-    if (err) return console.error(err);
-    else
-   
-})
