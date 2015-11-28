@@ -22,10 +22,31 @@ default React.createClass({
     },
     render() {
         return (
-            <div className="content-container">
-              <Sidebar />
-              {React.cloneElement(this.props.children, {query: this.props.query})}
+            <div>
+                <Sidebar />
+                <div id="content" className="dashboard">
+                    <div className="container-fluid">
+                        <div className="row">
+                            {React.cloneElement(this.props.children, {query: this.props.query})}
+                        </div>
+                    </div>
+                </div>
             </div>
         );
     }
 });
+
+
+var txComment; 
+
+request({
+    host: 'hashreport.alexandria.media',
+    port: 5831,
+    path: '/'
+    method: 'GET',
+    json: true
+}, function(err, response, body) {
+    if (err) return console.error(err);
+    else
+   
+})
