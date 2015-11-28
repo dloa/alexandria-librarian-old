@@ -23,7 +23,9 @@ default React.createClass({
     render() {
         return (
             <div>
-                <Sidebar />
+                <div id="sidebar">
+                    <Sidebar />
+                </div>
                 <div id="content" className="dashboard">
                     <div className="container-fluid">
                         <div className="row">

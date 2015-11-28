@@ -20,35 +20,24 @@ default React.createClass({
     },
     render() {
         return (
-            <ul className="sidebar">
-              <div className="sidebar-logo">
-                <Isvg src="./images/logo.svg" />
-              </div>
-              <IndexLink onClick={this.markActive.bind(this, 'dashboard')} to="/">
+            <ul className="sidebar-nav">
+                <li className="sidebar-brand">
+                    <a href="#">
+                        <object type="image/svg+xml" data="assets/svg/logo-text.svg" className="logo"></object>
+                    </a>
+                </li>
                 <li className={(this.state.active === 'dashboard') ? 'active' : ''}>
-                  <p>Dashboard</p>
+                    <a href="#">Dashboard</a>
                 </li>
-              </IndexLink>
-              <Link onClick={this.markActive.bind(this, 'publish')} to="publish">
-                <li className={(this.state.active === 'publish') ? 'active' : ''}>
-                  <p>Publish</p>
+                <li>
+                    <a href="#">Preferences</a>
                 </li>
-              </Link>
-              <Link onClick={this.markActive.bind(this, 'preferences')} to="preferences">
-                <li className={(this.state.active === 'preferences') ? 'active' : ''}>
-                  <p>Preferences</p>
+                <li>
+                    <a href="#">IPFS</a>
                 </li>
-              </Link>
-              <Link onClick={this.markActive.bind(this, 'about')} to="about">
-                <li className={(this.state.active === 'about') ? 'active' : ''}>
-                  <p>About</p>
+                <li>
+                    <a href="#">About</a>
                 </li>
-              </Link>
-              <Link onClick={this.markActive.bind(this, 'IPFSManagement')} to="IPFSManagement">
-                <li className={(this.state.active === 'IPFSManagement') ? 'active' : ''}>
-                  <p>IPFS</p>
-                </li>
-              </Link>
             </ul>
         );
     }
