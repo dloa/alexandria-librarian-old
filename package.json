@@ -57,7 +57,7 @@
     "grunt-babel": "^6.0.0",
     "grunt-chmod": "^1.1.1",
     "grunt-cli": "^0.1.13",
-    "grunt-contrib-clean": "^0.6.0",
+    "grunt-contrib-clean": "^0.7.0",
     "grunt-contrib-compress": "^0.14.0",
     "grunt-contrib-copy": "^0.8.2",
     "grunt-contrib-less": "^1.1.0",
@@ -69,6 +69,6 @@
     "load-grunt-tasks": "^3.3.0"
   },
   "optionalDependencies": {
-    "electron-prebuilt": "0.34.3"
+    "electron-prebuilt": "0.35.2"
   }
 }
