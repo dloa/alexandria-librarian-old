@@ -21,6 +21,7 @@ default React.createClass({
         this.setState({
             active: ref
         });
+        this.history.replaceState(null, ref);
     },
     render() {
         return (
@@ -30,7 +31,7 @@ default React.createClass({
                         <object type="image/svg+xml" data="assets/svg/logo-text.svg" className="logo"></object>
                     </a>
                 </li>
-                <li ref="dashboard" className={(this.state.active === 'dashboard') ? 'active' : ''}>
+                <li onClick={this.markActive.bind(this, 'dashboard')} className={(this.state.active === 'dashboard') ? 'active' : ''}>
                     <a href="#">Dashboard</a>
                 </li>
                 <li ref="preferences">
