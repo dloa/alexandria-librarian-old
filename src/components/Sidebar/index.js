@@ -13,7 +13,7 @@ default React.createClass({
 
     getInitialState() {
         return {
-            active: 'dashboard'
+            active: '/'
         };
     },
     markActive(ref, event) {
@@ -30,7 +30,7 @@ default React.createClass({
                         <object type="image/svg+xml" data="images/svg/logo-text.svg" className="logo"></object>
                     </a>
                 </li>
-                <li onClick={this.markActive.bind(this, 'dashboard')} className={(this.state.active === 'dashboard') ? 'active' : ''}>
+                <li onClick={this.markActive.bind(this, '/')} className={(this.state.active === '/') ? 'active' : ''}>
                     <a href="#">Dashboard</a>
                 </li>
                 <li ref="preferences">
