@@ -7,6 +7,17 @@ import {
 }
 from 'remote';
 
+killPID = pid => {
+    return new Promise((resolve, reject) => {
+        ps.kill(task.pid).fork(
+            error => {
+                resolve(error);
+            }, () => {
+                resolve(true);
+            }
+        );
+    });
+}
 
 module.exports = {
 
@@ -56,6 +67,15 @@ module.exports = {
 
     checkInstalled(daemonPath) {
 
+    },
+
+    shutdown(daemon) {
+        return new Promise((resolve, reject) => {
+            if (daemon.daemon)
+                daemon.daemon.stop(resolve);
+            else
+                return killPID(daemon.pid)
+        });
     },
 
     checkRunning(daemon) {
