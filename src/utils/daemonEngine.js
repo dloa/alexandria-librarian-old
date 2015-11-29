@@ -64,7 +64,12 @@ module.exports = {
     },
 
     checkInstalled(daemonPath) {
-
+        return new Promise((resolve) => {
+            fs.stat(daemonPath, (err, status) => {
+                if (err) return resolve(false);
+                resolve(status);
+            });
+        });
     },
 
     shutdown(daemon) {

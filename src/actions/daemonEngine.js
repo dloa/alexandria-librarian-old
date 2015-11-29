@@ -31,7 +31,7 @@ class daemonEngineActions {
                     percent: 0
                 });
 
-                let daemon = DaemonUtil.generate(installPath, ['daemon'], false);
+                let daemon = DaemonUtil.generate(installPath, ['daemon']);
 
                 daemon.start(pid => {
                     this.actions.enabled({
