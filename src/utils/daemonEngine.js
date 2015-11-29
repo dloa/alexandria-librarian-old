@@ -29,28 +29,26 @@ module.exports = {
 
     },
 
-    generate(daemon, args, autoRestart = false) {
+    generate(daemon, args, autoRestart = false, detached = true) {
         return {
             daemon: child({
                 command: daemon,
                 args: args,
                 options: {
-                    detached: true
+                    detached: detached
                 },
                 autoRestart: autoRestart,
                 restartTimeout: 200,
                 cbRestart: data => {
                     if (data) {
-                        console.log('restart ' + data);
+                        console.log('restart', data);
                     }
                 },
-
                 cbStdout: data => {
                     if (data) {
                         console.log(data.toString());
                     }
                 },
-
                 cbStderr: data => {
                     if (data) {
                         console.error(data);
@@ -58,7 +56,7 @@ module.exports = {
                 },
                 cbClose: exitCode => {
                     if (exitCode) {
-                        console.log(exitCode.toString());
+                        console.log('exit', exitCode.toString());
                     }
                 },
             })
