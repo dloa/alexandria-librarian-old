@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {
     History
@@ -20,7 +21,9 @@ default React.createClass({
         this.setState({
             active: ref
         });
-        this.history.replaceState(null, ref);
+        _.defer(() => {
+            this.history.replaceState(null, ref);
+        });
     },
     render() {
         return (
@@ -32,6 +35,9 @@ default React.createClass({
                 </li>
                 <li onClick={this.markActive.bind(this, '/')} className={(this.state.active === '/') ? 'active' : ''}>
                     <a href="#">Dashboard</a>
+                </li>
+                <li onClick={this.markActive.bind(this, 'publish/dashboard')} className={(this.state.active === 'publish/dashboard') ? 'active' : ''}>
+                    <a href="#">Publish</a>
                 </li>
                 <li ref="preferences">
                     <a href="#">Preferences</a>
@@ -46,4 +52,3 @@ default React.createClass({
         );
     }
 });
-

@@ -1,4 +1,4 @@
-import alt from '../alt'
+import alt from '../../alt'
 
 class publishingActions {
 
@@ -14,7 +14,7 @@ class publishingActions {
 
         switch (service) {
             case 'youtube':
-                require('../utils/publishing/youtubeUtil').getAuthorization()
+                require('./utils/youtubeUtil').getAuthorization()
                     .then(() => {
                         this.actions.getContent('youtube');
                     });
@@ -27,7 +27,7 @@ class publishingActions {
 
         switch (service) {
             case 'youtube':
-                require('../utils/publishing/youtubeUtil').getContent();
+                require('./utils/youtubeUtil').getContent();
                 break;
         }
     }
