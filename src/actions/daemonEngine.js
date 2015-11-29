@@ -18,31 +18,17 @@ class daemonEngineActions {
     }
 
     ipfs(action, params) {
-
         this.dispatch();
-
-        let installPath = path.join(DaemonUtil.installDir, DaemonUtil.getExecName('ipfs'));
 
         switch (action) {
             case 'enable':
                 DaemonUtil.checkInstalled('ipfs')
                     .then(installed => {
                         if (installed) {
-                            this.actions.enabling({
+                            this.enable({
                                 id: 'ipfs',
-                                code: 2,
-                                percent: 0
-                            });
-
-                            let daemon = DaemonUtil.generate(installPath, ['daemon']);
-
-                            daemon.start(pid => {
-                                this.actions.enabled({
-                                    daemon: daemon,
-                                    id: 'ipfs',
-                                    pid: pid
-                                });
-                            });
+                                args: ['daemon']
+                            })
                         } else
                             this.ipfs('install');
                     });
@@ -72,6 +58,33 @@ class daemonEngineActions {
     libraryd(action, params) {
 
 
+
+    }
+
+    enable(daemon) {
+        this.dispatch();
+
+        this.actions.enabling({
+            id: daemon.id,
+            code: 2,
+            percent: 0
+        });
+
+        let installPath = path.join(DaemonUtil.installDir, DaemonUtil.getExecName(daemon.id));
+
+        let daemonObj = DaemonUtil.generate(installPath, daemon.args);
+
+        daemonObj.start(pid => {
+            this.actions.enabled({
+                daemon: daemonObj,
+                id: daemon.id,
+                pid: pid
+            });
+        });
+
+    }
+
+    disable(daemon) {
 
     }
 
