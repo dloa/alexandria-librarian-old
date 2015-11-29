@@ -4,7 +4,6 @@ import {
     History
 }
 from 'react-router';
-import Isvg from 'react-inlinesvg';
 
 
 export
@@ -28,7 +27,7 @@ default React.createClass({
             <ul className="sidebar-nav">
                 <li className="sidebar-brand">
                     <a href="#">
-                        <object type="image/svg+xml" data="assets/svg/logo-text.svg" className="logo"></object>
+                        <object type="image/svg+xml" data="images/svg/logo-text.svg" className="logo"></object>
                     </a>
                 </li>
                 <li onClick={this.markActive.bind(this, 'dashboard')} className={(this.state.active === 'dashboard') ? 'active' : ''}>
@@ -37,7 +36,7 @@ default React.createClass({
                 <li ref="preferences">
                     <a href="#">Preferences</a>
                 </li>
-                <li >
+                <li>
                     <a href="#">IPFS</a>
                 </li>
                 <li>
@@ -47,3 +46,4 @@ default React.createClass({
         );
     }
 });
+
