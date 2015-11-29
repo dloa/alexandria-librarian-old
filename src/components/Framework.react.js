@@ -4,7 +4,7 @@ import {
     History, RouteContext
 }
 from 'react-router';
-import Sidebar from './Sidebar.react';
+import Sidebar from './Sidebar';
 
 export
 default React.createClass({

@@ -11,11 +11,11 @@ import _ from 'lodash';
 import shell from 'shell';
 import rimraf from 'rimraf';
 
-import log from '../stores/logStore';
+//import log from '../stores/logStore';
 
 
 module.exports = {
-    killAllDaemons: function() {
+    killAllDaemons: () => {
         var os = module.exports.getOS();
         return new Promise((resolve) => {
             var ipfsName = (os === 'win') ? 'ipfs.exe' : 'ipfs';
@@ -37,7 +37,7 @@ module.exports = {
                 .then(resolve);
         });
     },
-    killtask: function(name) {
+    killtask: name => {
         return new Promise((resolve) => {
             module.exports.checktaskrunning(name).then(function(task) {
                 var taskon = task ? true : false;

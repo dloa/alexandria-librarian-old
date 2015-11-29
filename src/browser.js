@@ -2,7 +2,7 @@ import app from 'app';
 import BrowserWindow from 'browser-window';
 import path from 'path';
 import yargs from 'yargs';
-import screen from 'screen';
+
 import trayTemplate from './app-tray';
 
 const args = yargs(process.argv.slice(1)).wrap(100).argv;
@@ -10,7 +10,7 @@ const args = yargs(process.argv.slice(1)).wrap(100).argv;
 app.on('ready', () => {
     var checkingQuit = false;
     var canQuit = false;
-    screen.getPrimaryDisplay().workAreaSize;
+    const screenSize = require('screen').getPrimaryDisplay().workAreaSize;
 
     var mainWindow = new BrowserWindow({
         width: screenSize.width * 0.7,
@@ -33,7 +33,7 @@ app.on('ready', () => {
 
     mainWindow.setMenu(null);
 
-    mainWindow.loadUrl(path.normalize('file://' + path.join(__dirname, '../index.html')));
+    mainWindow.loadURL(path.normalize('file://' + path.join(__dirname, '../index.html')));
 
 
     mainWindow.webContents.on('new-window', e => {
