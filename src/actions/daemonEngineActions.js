@@ -1,6 +1,6 @@
 import alt from '../alt';
 import path from 'path';
-import DaemonUtil from '../utils/daemonEngine';
+import DaemonUtil from '../utils/daemonEngineUtil';
 
 
 class daemonEngineActions {
@@ -25,7 +25,7 @@ class daemonEngineActions {
                 DaemonUtil.checkInstalled('ipfs')
                     .then(installed => {
                         if (installed)
-                            this.enable({
+                            DaemonUtil.enable({
                                 id: 'ipfs',
                                 args: ['daemon']
                             });
@@ -60,34 +60,6 @@ class daemonEngineActions {
 
 
     }
-
-    enable(daemon) {
-        this.dispatch();
-
-        this.actions.enabling({
-            id: daemon.id,
-            code: 2,
-            percent: 0
-        });
-
-        let installPath = path.join(DaemonUtil.installDir, DaemonUtil.getExecName(daemon.id));
-
-        let daemonObj = DaemonUtil.generate(installPath, daemon.args);
-
-        daemonObj.start(pid => {
-            this.actions.enabled({
-                daemon: daemonObj,
-                id: daemon.id,
-                pid: pid
-            });
-        });
-
-    }
-
-    disable(daemon) {
-
-    }
-
 
 }
 

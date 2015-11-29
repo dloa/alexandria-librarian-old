@@ -6,6 +6,7 @@ import {
     app
 }
 from 'remote';
+import DaemonActions from '../actions/daemonEngineActions';
 
 killPID = pid => {
     return new Promise((resolve, reject) => {
@@ -27,6 +28,23 @@ module.exports = {
     install(source, name, sysPath = false) {
 
 
+    },
+
+    enable(daemon) {
+        DaemonActions.enabling({
+            id: daemon.id,
+            code: 2,
+            percent: 0
+        });
+        let installPath = path.join(DaemonUtil.installDir, DaemonUtil.getExecName(daemon.id));
+        let daemonObj = DaemonUtil.generate(installPath, daemon.args);
+        daemonObj.start(pid => {
+            DaemonActions.enabled({
+                daemon: daemonObj,
+                id: daemon.id,
+                pid: pid
+            });
+        });
     },
 
     generate(daemon, args, autoRestart = false, detached = true) {
