@@ -200,7 +200,8 @@ module.exports = function(grunt) {
             options: {
                 sourceMap: 'inline',
                 presets: ['es2015', 'react'],
-                compact: true
+                compact: true,
+                comments: false
             },
             dist: {
                 files: [{

@@ -24,7 +24,7 @@ module.exports = {
     binDir: path.join(process.cwd(), 'resources/bin'),
     installDir: path.join(app.getPath('userData'), 'bin'),
 
-    install(source, name) {
+    install(source, name, sysPath = false) {
 
 
     },

@@ -25,22 +25,27 @@ class daemonEngineActions {
 
         switch (action) {
             case 'enable':
-                this.actions.enabling({
-                    id: 'ipfs',
-                    code: 2,
-                    percent: 0
-                });
+                DaemonUtil.checkInstalled('ipfs')
+                    .then(installed => {
+                        if (installed) {
+                            this.actions.enabling({
+                                id: 'ipfs',
+                                code: 2,
+                                percent: 0
+                            });
 
-                let daemon = DaemonUtil.generate(installPath, ['daemon']);
+                            let daemon = DaemonUtil.generate(installPath, ['daemon']);
 
-                daemon.start(pid => {
-                    this.actions.enabled({
-                        daemon: daemon,
-                        id: 'ipfs',
-                        pid: pid
+                            daemon.start(pid => {
+                                this.actions.enabled({
+                                    daemon: daemon,
+                                    id: 'ipfs',
+                                    pid: pid
+                                });
+                            });
+                        } else
+                            this.ipfs('install');
                     });
-                });
-
                 break;
             case 'disable':
 
