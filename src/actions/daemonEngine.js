@@ -24,12 +24,12 @@ class daemonEngineActions {
             case 'enable':
                 DaemonUtil.checkInstalled('ipfs')
                     .then(installed => {
-                        if (installed) {
+                        if (installed)
                             this.enable({
                                 id: 'ipfs',
                                 args: ['daemon']
-                            })
-                        } else
+                            });
+                        else
                             this.ipfs('install');
                     });
                 break;
