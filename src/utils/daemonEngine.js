@@ -63,7 +63,9 @@ module.exports = {
         };
     },
 
-    checkInstalled(daemonPath) {
+    checkInstalled(daemon) {
+        let daemonPath = path.join(installDir, this.getExecName(daemon))
+
         return new Promise((resolve) => {
             fs.stat(daemonPath, (err, status) => {
                 if (err) return resolve(false);
