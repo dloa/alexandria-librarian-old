@@ -25,6 +25,12 @@ class daemonEngineActions {
 
         switch (action) {
             case 'enable':
+                this.actions.enabling({
+                    id: 'ipfs',
+                    code: 2,
+                    percent: 0
+                });
+
                 let daemon = DaemonUtil.generate(installPath, ['daemon'], false);
 
                 daemon.start(pid => {
@@ -40,6 +46,14 @@ class daemonEngineActions {
 
                 break;
 
+            case 'install':
+                this.actions.enabling({
+                    id: 'ipfs',
+                    code: 1,
+                    percent: 0
+                });
+
+                break;
         }
     }
 
