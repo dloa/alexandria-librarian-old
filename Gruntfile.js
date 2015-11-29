@@ -22,9 +22,6 @@ module.exports = function(grunt) {
             os = process.platform;
     }
 
-
-
-
     var version = function(str) {
         var match = str.match(/(\d+\.\d+\.\d+)/);
         return match ? match[1] : null;
