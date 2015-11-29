@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-    Router, Route, IndexRoute
+    Route, IndexRoute
 }
 from 'react-router';
 

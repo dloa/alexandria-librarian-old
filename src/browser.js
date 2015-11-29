@@ -2,16 +2,15 @@ import app from 'app';
 import BrowserWindow from 'browser-window';
 import path from 'path';
 import trayTemplate from './app-tray';
-import util from './utils/util';
 import yargs from 'yargs';
-
+import screen from 'screen';
 
 var args = yargs(process.argv.slice(1)).wrap(100).argv;
 
 app.on('ready', function() {
     var checkingQuit = false;
     var canQuit = false;
-    var screenSize = require('screen').getPrimaryDisplay().workAreaSize;
+    screen.getPrimaryDisplay().workAreaSize;
 
     var mainWindow = new BrowserWindow({
         width: screenSize.width * 0.7,
@@ -73,9 +72,7 @@ app.on('ready', function() {
         },
         quit: function() {
             canQuit = true;
-            util.killAllDaemons()
-                .then(app.quit)
-                .catch(app.quit);
+            app.quit()
         }
     };
 

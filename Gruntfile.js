@@ -6,12 +6,7 @@ var electron = require('electron-prebuilt');
 module.exports = function(grunt) {
     require('load-grunt-tasks')(grunt);
     var target = grunt.option('target') || 'development';
-    var beta = grunt.option('beta') || false;
-    var alpha = grunt.option('alpha') || false;
-    var env = process.env;
 
-    env.NODE_PATH = '..:' + env.NODE_PATH;
-    env.NODE_ENV = target;
     var os;
     switch (process.platform) {
         case 'win32':
@@ -37,12 +32,6 @@ module.exports = function(grunt) {
 
     var BASENAME = 'ΛLΞXΛNDRIΛ Librarian';
     var APPNAME = BASENAME;
-
-    if (alpha) {
-        APPNAME += ' (Alpha)';
-    } else if (beta) {
-        APPNAME += ' (Beta)';
-    }
 
     var OSX_OUT = './dist';
     var OSX_OUT_X64 = OSX_OUT + '/' + APPNAME + '-darwin-x64';
@@ -232,7 +221,6 @@ module.exports = function(grunt) {
                 options: {
                     async: true,
                     execOptions: {
-                        env: env,
                         cwd: 'build'
                     }
                 }
