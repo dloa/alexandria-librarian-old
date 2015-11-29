@@ -1,13 +1,13 @@
 import app from 'app';
 import BrowserWindow from 'browser-window';
 import path from 'path';
-import trayTemplate from './app-tray';
 import yargs from 'yargs';
 import screen from 'screen';
+import trayTemplate from './app-tray';
 
-var args = yargs(process.argv.slice(1)).wrap(100).argv;
+const args = yargs(process.argv.slice(1)).wrap(100).argv;
 
-app.on('ready', function() {
+app.on('ready', () => {
     var checkingQuit = false;
     var canQuit = false;
     screen.getPrimaryDisplay().workAreaSize;
@@ -36,17 +36,17 @@ app.on('ready', function() {
     mainWindow.loadUrl(path.normalize('file://' + path.join(__dirname, '../index.html')));
 
 
-    mainWindow.webContents.on('new-window', function(e) {
+    mainWindow.webContents.on('new-window', e => {
         e.preventDefault();
     });
 
-    mainWindow.webContents.on('will-navigate', function(e, url) {
+    mainWindow.webContents.on('will-navigate', (e, url) => {
         if (url.indexOf('build/index.html#') < 0) {
             e.preventDefault();
         }
     });
 
-    mainWindow.webContents.on('did-finish-load', function() {
+    mainWindow.webContents.on('did-finish-load', () => {
         mainWindow.setTitle('ΛLΞXΛNDRIΛ Librarian');
         mainWindow.show();
         mainWindow.focus();
@@ -54,7 +54,7 @@ app.on('ready', function() {
 
 
     var helper = {
-        toggleVisibility: function() {
+        toggleVisibility: () => {
             if (mainWindow) {
                 var isVisible = mainWindow.isVisible();
                 if (isVisible) {
@@ -70,13 +70,13 @@ app.on('ready', function() {
                 }
             }
         },
-        quit: function() {
+        quit: () => {
             canQuit = true;
             app.quit()
         }
     };
 
-    mainWindow.on('close', function(event) {
+    mainWindow.on('close', (event) => {
         if (!canQuit) {
             helper.toggleVisibility();
             return event.preventDefault();
@@ -89,6 +89,4 @@ app.on('ready', function() {
 });
 
 
-app.on('window-all-closed', function() {
-    app.quit();
-});
+app.on('window-all-closed', app.quit);

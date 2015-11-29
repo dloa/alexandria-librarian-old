@@ -5,7 +5,7 @@ import path from 'path';
 import util from './utils/util';
 
 // Define a function to set up our tray icon
-exports.init = function(helper) {
+exports.init = helper => {
 
     // Disconnected State
     var trayMenu = new Menu();
