@@ -1,16 +1,14 @@
 import React from 'react';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 
+import IPFS from './components/ipfs';
+import Florincoin from './components/florincoin';
 
-
-
-let If = React.createClass({
-    render() {
-        return this.props.test ? this.props.children : false;
-    }
-});
 
 export
 default React.createClass({
+
+    mixins: [PureRenderMixin],
 
     getInitialState() {
         return {
@@ -35,7 +33,9 @@ default React.createClass({
     },
     render() {
         return (
-            <div>
+            <div className="col-lg-12">
+                <IPFS/>
+                <Florincoin/>
             </div>
         );
     }
