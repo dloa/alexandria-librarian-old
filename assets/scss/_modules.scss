@@ -1,13 +1,56 @@
 /* Buttons */
+.btn {
+    transition: all 0.1s;
+    &:hover {
+        transition: all 0.1s;
+    }
+}
 
-.svg.btn-settings {
-    margin-left: 10px;
-    margin-top: 2px;
+.btn-primary {
+    background-color: $primary;
+    border-color: $primary;
+    &:hover,
+    &:focus {
+        background-color: darken($primary, 5%);
+        border-color: darken($primary, 5%);
+    }
+}
+.svg.btn {
+    margin: 0;
+    padding: 0;
     opacity: .5;
     transition: opacity 0.1s;
     &:hover {
         opacity: 1;
         transition: opacity 0.1s;
+    }
+}
+
+.btn-settings {
+    margin-left: 10px !important;
+    margin-top: 1px !important;
+}
+
+/* Form */
+.form-control {
+    box-shadow: none;
+    &:hover,
+    &:focus {
+        box-shadow: none;
+        border-color: $primary;
+    }
+}
+
+.form-inline {
+    p {
+        display: inline;
+        margin-left: 15px;
+    }
+    @media screen and (min-width: 900px) {
+
+        .form-control {
+            min-width: 350px;
+        } 
     }
 }
 
@@ -109,7 +152,7 @@ a.svg:after {
         transition: all 0.3s ease;
     }
 }
-.cbx {
+.toggle {
     &:checked ~ label {
         background: rgba($green, .25);
         &:after {
@@ -125,4 +168,60 @@ a.svg:after {
             background: #bcbdbc;
         }
     }
+}
+
+/* Loading */
+.enabling {
+    background: $ltgray;
+    border-radius: 3px;
+    margin-right: 15px;
+    padding: 5px 10px;
+    margin-top: -5px;
+    font-size: 12px;
+    animation: pulseBg 1s infinite;
+    p {
+        margin: 0;
+    }
+}
+
+@keyframes pulseBg {
+    0% {
+        background: darken($ltgray, 2%);
+    }
+    50% {
+        background: lighten($ltgray, 2%);
+    }
+    100% {
+        background: darken($ltgray, 2%);
+    }
+}
+
+/* Pinned files */
+
+.form-pin-file {
+    @media screen and (min-width: 920px) {
+        float: right;
+    }
+}
+
+.btn-pin-file {
+    margin-left: 10px;
+}
+
+.pinned-files {
+    margin-top: 25px;
+}
+
+td.unpin {
+    text-align: center;
+}
+
+/* Table */
+.table > thead > tr > th {
+    vertical-align: bottom;
+    border-bottom: 1px solid #DDD;
+}
+
+.table > tbody > tr > td {
+    border-top: 1px solid $ltgray;
 }

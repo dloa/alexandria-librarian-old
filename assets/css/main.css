@@ -104,15 +104,49 @@ p {
   color: #98989b; }
 
 /* Buttons */
-.svg.btn-settings {
-  margin-left: 10px;
-  margin-top: 2px;
+.btn {
+  transition: all 0.1s; }
+
+.btn:hover {
+  transition: all 0.1s; }
+
+.btn-primary {
+  background-color: #538Bd4;
+  border-color: #538Bd4; }
+
+.btn-primary:hover, .btn-primary:focus {
+  background-color: #3f7dcf;
+  border-color: #3f7dcf; }
+
+.svg.btn {
+  margin: 0;
+  padding: 0;
   opacity: .5;
   transition: opacity 0.1s; }
 
-.svg.btn-settings:hover {
+.svg.btn:hover {
   opacity: 1;
   transition: opacity 0.1s; }
+
+.btn-settings {
+  margin-left: 10px !important;
+  margin-top: 1px !important; }
+
+/* Form */
+.form-control {
+  box-shadow: none; }
+
+.form-control:hover, .form-control:focus {
+  box-shadow: none;
+  border-color: #538Bd4; }
+
+.form-inline p {
+  display: inline;
+  margin-left: 15px; }
+
+@media screen and (min-width: 900px) {
+  .form-inline .form-control {
+    min-width: 350px; } }
 
 /* Progress */
 .progress-container {
@@ -203,17 +237,60 @@ a.svg:after {
   content: '';
   transition: all 0.3s ease; }
 
-.cbx:checked ~ label {
+.toggle:checked ~ label {
   background: rgba(101, 208, 128, 0.25); }
 
-.cbx:checked ~ label:after {
+.toggle:checked ~ label:after {
   left: 20px;
   background: #65d080;
   box-shadow: 0 0 10px rgba(101, 208, 128, 0.5); }
 
-.cbx:disabled ~ label {
+.toggle:disabled ~ label {
   background: #d5d5d5;
   pointer-events: none; }
 
-.cbx:disabled ~ label:after {
+.toggle:disabled ~ label:after {
   background: #bcbdbc; }
+
+/* Loading */
+.enabling {
+  background: #f2f2f2;
+  border-radius: 3px;
+  margin-right: 15px;
+  padding: 5px 10px;
+  margin-top: -5px;
+  font-size: 12px;
+  animation: pulseBg 1s infinite; }
+
+.enabling p {
+  margin: 0; }
+
+@keyframes pulseBg {
+  0% {
+    background: #ededed; }
+  50% {
+    background: #f7f7f7; }
+  100% {
+    background: #ededed; } }
+
+/* Pinned files */
+@media screen and (min-width: 920px) {
+  .form-pin-file {
+    float: right; } }
+
+.btn-pin-file {
+  margin-left: 10px; }
+
+.pinned-files {
+  margin-top: 25px; }
+
+td.unpin {
+  text-align: center; }
+
+/* Table */
+.table > thead > tr > th {
+  vertical-align: bottom;
+  border-bottom: 1px solid #DDD; }
+
+.table > tbody > tr > td {
+  border-top: 1px solid #f2f2f2; }
