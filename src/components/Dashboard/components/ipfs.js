@@ -39,7 +39,9 @@ default React.createClass({
         if (this.isMounted()) {
             this.setState({
                 enabled: DaemonStore.getState().enabled.ipfs || false,
-                initStats: DaemonStore.getState().enabling.ipfs || this.state.initStats,
+                initStats: DaemonStore.getState().enabling.ipfs || {
+                    code: 0
+                },
             });
         }
     },
@@ -85,6 +87,7 @@ default React.createClass({
         }
     },
     render() {
+        console.log(this.state.initStats)
         let progressInfo = this.enableStats();
         return (
             <div className="section ipfs">
@@ -102,7 +105,7 @@ default React.createClass({
                         <label htmlFor="ipfs_toggle" className="lbl"></label>   
                     </div>
                 </div>
-                <If test={(this.state.initStats.code > 0 && !this.state.enabled)}>
+                <If test={(this.state.initStats.code !== 0 && !this.state.enabled)}>
                     <ProgressComponent task={progressInfo.task} percent={progressInfo.percent} />
                 </If>
                 <If test={this.state.enabled}>

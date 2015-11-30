@@ -10,6 +10,7 @@ import {
 }
 from 'remote';
 import DaemonActions from '../actions/daemonEngineActions';
+import DaemonStore from '../stores/daemonEngineStore';
 
 const killPID = pid => {
     return new Promise((resolve, reject) => {
@@ -78,6 +79,12 @@ module.exports = {
                 pid: pid
             });
         });
+    },
+
+    disable(daemon) {
+        if (DaemonStore.getState().enabled[daemon].daemon)
+            DaemonStore.getState().enabled[daemon].daemon.stop(DaemonActions.disabled.bind(this, daemon));
+
     },
 
     install(daemon, unzip = false) {

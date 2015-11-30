@@ -31,10 +31,17 @@ class DaemonEngineStore {
             enabled: enabled
         });
 
-        _.defer(DaemonEngineActions.enabling.bind(this, {
+        _.defer(this.onEnabling.bind(this, {
             id: daemon.id,
             code: 7
         }));
+    }
+
+    onDisabled(daemon) {
+        this.setState({
+            enabled: _.omit(this.enabled, daemon),
+            enabling: _.omit(this.enabling, daemon)
+        });
     }
 
 }

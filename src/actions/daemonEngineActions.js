@@ -3,8 +3,10 @@ import path from 'path';
 import DaemonUtil from '../utils/daemonEngineUtil';
 
 /*
+
 installing codes:
 
+0 = disabled	- disabled
 1 = checking    - exsistance
 2 = installing  - to bin
 3 = installed   - <.<
@@ -13,6 +15,7 @@ installing codes:
 6 = syncing     - block chain                  
 7 = done        - if you dont know what this means close the tab.   
 8 = error       - w/ error: key for.. info.
+
 */
 
 class daemonEngineActions {
@@ -24,8 +27,7 @@ class daemonEngineActions {
             'enabled',
             'disabled',
 
-            'enabling',
-            'disabling'
+            'enabling'
         );
     }
 
@@ -45,7 +47,7 @@ class daemonEngineActions {
                     });
                 break;
             case 'disable':
-                //TODO
+                DaemonUtil.disable('ipfs');
                 break;
             case 'install':
                 DaemonUtil.install({
