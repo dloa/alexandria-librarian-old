@@ -79,17 +79,29 @@ default React.createClass({
                 break;
         }
     },
-
+    handleChangeEnable() {
+        if (this.state.initStats.code === 7 || this.state.initStats.code === 0) {
+            DaemonActions.ipfs(this.state.enabled ? 'disable' : 'enable')
+        }
+    },
     render() {
-
         let progressInfo = this.enableStats();
-
-        console.log(progressInfo);
-
         return (
             <div className="section ipfs">
-                <h4>IPFS</h4>
-                <button onClick={DaemonActions.ipfs.bind(this,'enable')}>Turn it on!</button>
+                <div className="clearfix">
+                    <div className="pull-left">
+                        <h4 className="title">IPFS</h4>
+                    </div>
+                    <div className="pull-left">
+                        <a href="#" className="svg btn-settings">
+                            <object type="image/svg+xml" data="images/svg/ui-16px-1_settings-gear-64.svg"/>
+                        </a>
+                    </div>
+                    <div className="pull-right">
+                        <input onChange={this.handleChangeEnable} type="checkbox" id="ipfs_toggle" className="cbx hidden" checked={this.state.enabled} />
+                        <label htmlFor="ipfs_toggle" className="lbl"></label>   
+                    </div>
+                </div>
                 <If test={(this.state.initStats.code > 0 && !this.state.enabled)}>
                     <ProgressComponent task={progressInfo.task} percent={progressInfo.percent} />
                 </If>
