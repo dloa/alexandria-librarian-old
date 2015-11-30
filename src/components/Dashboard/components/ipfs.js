@@ -20,38 +20,79 @@ default React.createClass({
     getInitialState() {
         return {
             stats: {},
-            enabled: false
+            enabled: false,
+            initStats: {
+                code: 0
+            }
         };
     },
 
     componentDidMount() {
-        // daemonStore.listen(this.update);
+        DaemonStore.listen(this.update);
     },
 
     componentWillUnmount() {
-        //daemonStore.unlisten(this.update);
+        DaemonStore.unlisten(this.update);
     },
 
     update() {
         if (this.isMounted()) {
             this.setState({
-
+                enabled: DaemonStore.getState().enabled.ipfs || false,
+                initStats: DaemonStore.getState().enabling.ipfs || this.state.initStats,
             });
         }
     },
-    enable() {
-        DaemonActions.ipfs('enable');
-        /*
-        this.setState({
-            enabled: true
-        }); */
+
+    enableStats() {
+        switch (this.state.initStats.code) {
+            case 0:
+            case 1:
+                return {
+                    task: 'Verifying Installation',
+                    percent: 0
+                };
+                break;
+            case 2:
+                return {
+                    task: 'Installing',
+                    percent: 30
+                };
+                break;
+            case 3:
+                return {
+                    task: 'Installing',
+                    percent: 60
+                };
+                break;
+            case 4:
+                return {
+                    task: 'Enabling',
+                    percent: 90
+                };
+                break;
+            case 7:
+                return {
+                    task: 'Enabled',
+                    percent: 100
+                };
+                break;
+        }
     },
+
     render() {
+
+        let progressInfo = this.enableStats();
+
+        console.log(progressInfo);
+
         return (
             <div className="section ipfs">
                 <h4>IPFS</h4>
-                <button onClick={this.enable}>Turn it on!</button>
-
+                <button onClick={DaemonActions.ipfs.bind(this,'enable')}>Turn it on!</button>
+                <If test={(this.state.initStats.code > 0 && !this.state.enabled)}>
+                    <ProgressComponent task={progressInfo.task} percent={progressInfo.percent} />
+                </If>
                 <If test={this.state.enabled}>
                     <div className="stats">
                         <div className="row">
