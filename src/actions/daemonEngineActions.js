@@ -30,7 +30,7 @@ class daemonEngineActions {
                                 args: ['daemon']
                             });
                         else
-                            this.ipfs('install');
+                            this.actions.ipfs('install');
                     });
                 break;
             case 'disable':

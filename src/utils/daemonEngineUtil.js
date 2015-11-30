@@ -1,4 +1,5 @@
 import Promise from 'bluebird';
+import fs from 'fs';
 import child from 'child';
 import path from 'path';
 import ps from 'xps';
@@ -8,7 +9,7 @@ import {
 from 'remote';
 import DaemonActions from '../actions/daemonEngineActions';
 
-killPID = pid => {
+const killPID = pid => {
     return new Promise((resolve, reject) => {
         ps.kill(task.pid).fork(
             error => {
@@ -82,7 +83,7 @@ module.exports = {
     },
 
     checkInstalled(daemon) {
-        let daemonPath = path.join(installDir, this.getExecName(daemon))
+        let daemonPath = path.join(this.installDir, this.getExecName(daemon))
 
         return new Promise((resolve) => {
             fs.stat(daemonPath, (err, status) => {
