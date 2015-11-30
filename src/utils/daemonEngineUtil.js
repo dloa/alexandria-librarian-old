@@ -26,7 +26,7 @@ const killPID = pid => {
 const copy = (input, output) => {
     return new Promise((resolve, reject) => {
         fsExtra.copy(input, output, err => {
-            err ? resolve(false) : resolve(true);
+            resolve(err ? false : true);
         })
     });
 }
@@ -34,7 +34,7 @@ const copy = (input, output) => {
 const exec = (execPath, args = [], options = {}) => {
     return new Promise((resolve, reject) => {
         child_process.exec(execPath + ' ' + args.join(' '), options, (error, stdout, stderr) => {
-            error ? resolve(stderr) : resolve(stdout);
+            resolve(error ? stderr : stdout);
         });
     });
 }
