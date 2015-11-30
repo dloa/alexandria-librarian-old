@@ -155,7 +155,7 @@ module.exports = {
             restartTimeout: 200,
             cbRestart: data => {
                 if (data)
-                    console.log('restart', data.toString());
+                    console.log(daemon.id + ':', 'restarting with PID:', data.toString());
             },
             cbStdout: data => {
                 if (data) {
@@ -165,7 +165,7 @@ module.exports = {
                             code: 7
                         });
                     }
-                    console.log(data.toString());
+                    console.log(daemon.id + ':', data.toString());
                 }
             },
             cbStderr: data => {
@@ -176,12 +176,12 @@ module.exports = {
                             code: 7
                         });
                     }
-                    console.error(data.toString());
+                    console.error(daemon.id + ':', data.toString());
                 }
             },
             cbClose: exitCode => {
                 if (exitCode) {
-                    console.log('exit', exitCode.toString());
+                    console.log(daemon.id + ':', 'exiting with code:', exitCode.toString());
                 }
             },
         });
