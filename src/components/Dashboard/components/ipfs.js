@@ -67,7 +67,8 @@ default React.createClass({
                     </div>
                 </div>
                 <div className="detail">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga ex molestiae id itaque sint, architecto pariatur omnis, officiis ipsum necessitatibus reiciendis rem quo quisquam aliquam consequatur inventore fugiat. Maiores, necessitatibus.</p>
+                    <p>The InterPlanetary File System (IPFS) is a new hypermedia distribution protocol, addressed by content and identities. 
+                    IPFS enables the creation of completely distributed applications. It aims to make the web faster, safer, and more open.</p>
                 </div>
             </div>
         );
