@@ -40,7 +40,7 @@ default React.createClass({
         return (
             <div className="section ipfs">
                 <h4>Florincoin</h4>
-                <ProgressComponent task="task name" percent="20" />
+                <ProgressComponent task="task name" percent="50" />
                 <div className="stats">
                     <div className="row">
                         <div className="col col-sm-6">
