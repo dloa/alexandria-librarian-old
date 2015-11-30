@@ -31,7 +31,7 @@ const copy = (input, output) => {
     });
 }
 
-const exec = (execPath, args, options = {}) => {
+const exec = (execPath, args = [], options = {}) => {
     return new Promise((resolve, reject) => {
         child_process.exec(execPath + ' ' + args.join(' '), options, (error, stdout, stderr) => {
             error ? reject(stderr) : resolve(stdout);
@@ -79,7 +79,7 @@ module.exports = {
 
         copy(sourcePath, installPath).then(() => {
 
-            exec(installPath, ['init'], {
+            exec(installPath, daemon.args, {
                 cwd: this.installDir
             }).then(output => {
                 console.log(output);
