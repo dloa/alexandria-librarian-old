@@ -20,7 +20,7 @@ default React.createClass({
     getInitialState() {
         return {
             stats: {},
-            enabled: DaemonStore.getState().enabled.ipfs || false,
+            enabled: DaemonStore.getState().enabled.ipfs ? true : false,
             initStats: DaemonStore.getState().enabling.ipfs || {
                 code: 0
             },
@@ -38,7 +38,7 @@ default React.createClass({
     update() {
         if (this.isMounted()) {
             this.setState({
-                enabled: DaemonStore.getState().enabled.ipfs || false,
+                enabled: DaemonStore.getState().enabled.ipfs ? true : false,
                 initStats: DaemonStore.getState().enabling.ipfs || {
                     code: 0
                 },
