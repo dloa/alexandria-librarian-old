@@ -15,6 +15,7 @@ app.on('ready', () => {
     var mainWindow = new BrowserWindow({
         width: screenSize.width * 0.7,
         height: screenSize.height * 0.7,
+        icon: 'images/librarian_icon.png',
         'standard-window': true,
         'auto-hide-menu-bar': true,
         resizable: true,
