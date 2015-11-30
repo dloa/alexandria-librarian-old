@@ -24,6 +24,19 @@ class DaemonEngineStore {
         });
     }
 
+    onEnabled(daemon) {
+        let enabled = this.enabled;
+        enabled[daemon.id] = _.omit(daemon, 'id');
+        this.setState({
+            enabled: enabled
+        });
+
+        _.defer(DaemonEngineActions.enabling.bind(this, {
+            id: daemon.id,
+            code: 7
+        }));
+    }
+
 }
 
 export

@@ -67,8 +67,7 @@ module.exports = {
     enable(daemon) {
         DaemonActions.enabling({
             id: daemon.id,
-            code: 2,
-            percent: 0
+            code: 4
         });
         let installPath = path.join(this.installDir, this.getExecName(daemon.id));
         let daemonObj = this.generate(installPath, daemon.args);
@@ -96,7 +95,7 @@ module.exports = {
                 if (!copyStatus)
                     return DaemonActions.enabling({
                         id: daemon.id,
-                        code: 7,
+                        code: 8,
                         error: 'Copy Failure'
                     });
 
@@ -113,7 +112,7 @@ module.exports = {
                         resolve(false);
                         DaemonActions.enabling({
                             id: daemon.id,
-                            code: 7,
+                            code: 8,
                             error: output
                         });
                     }

@@ -8,9 +8,9 @@ installing codes:
 1 = checking    - exsistance
 2 = installing  - to bin
 3 = installed   - <.<
-4 = enabling    - >.>                           w/ percent done key 
+4 = enabling    - >.>                           
 5 = updating    - can be daemon or bootstrap    w/ info key
-6 = syncing     - block chain                   w/ percent done key
+6 = syncing     - block chain                  
 7 = done        - if you dont know what this means close the tab.   
 8 = error       - w/ error: key for.. info.
 */
@@ -54,19 +54,8 @@ class daemonEngineActions {
                     id: 'ipfs',
                     args: ['init']
                 }).then(installed => {
-                    if (installed) {
-                        this.actions.enabling({
-                            id: 'ipfs',
-                            code: 5,
-                            percent: 0
-                        });
-                    } else {
-                        this.actions.enabling({
-                            id: 'ipfs',
-                            code: 6,
-                            error: 'Install Failed'
-                        });
-                    }
+                    if (installed)
+                        this.actions.ipfs('enable');
                 });
                 break;
         }
