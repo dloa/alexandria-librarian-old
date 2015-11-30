@@ -15,9 +15,9 @@ const killPID = pid => {
     return new Promise((resolve, reject) => {
         ps.kill(task.pid).fork(
             error => {
-                resolve(error);
+                reject(error);
             }, () => {
-                (true);
+                resolve(true);
             }
         );
     });
@@ -121,38 +121,36 @@ module.exports = {
             });
         });
     },
-    generate(daemon, args, autoRestart = false, detached = true) {
-        return {
-            daemon: child({
-                command: daemon,
-                args: args,
-                options: {
-                    detached: detached
-                },
-                autoRestart: autoRestart,
-                restartTimeout: 200,
-                cbRestart: data => {
-                    if (data) {
-                        console.log('restart', data);
-                    }
-                },
-                cbStdout: data => {
-                    if (data) {
-                        console.log(data.toString());
-                    }
-                },
-                cbStderr: data => {
-                    if (data) {
-                        console.error(data);
-                    }
-                },
-                cbClose: exitCode => {
-                    if (exitCode) {
-                        console.log('exit', exitCode.toString());
-                    }
-                },
-            })
-        };
+    generate(daemon, args, autoRestart = false, detached = false) {
+        return child({
+            command: daemon,
+            args: args,
+            options: {
+                detached: detached
+            },
+            autoRestart: autoRestart,
+            restartTimeout: 200,
+            cbRestart: data => {
+                if (data) {
+                    console.log('restart', data);
+                }
+            },
+            cbStdout: data => {
+                if (data) {
+                    console.log(data.toString());
+                }
+            },
+            cbStderr: data => {
+                if (data) {
+                    console.error(data);
+                }
+            },
+            cbClose: exitCode => {
+                if (exitCode) {
+                    console.log('exit', exitCode.toString());
+                }
+            },
+        });
     },
 
 
