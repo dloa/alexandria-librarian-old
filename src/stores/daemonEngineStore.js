@@ -1,99 +1,30 @@
 import alt from '../alt';
-import util from '../utils/util';
-import ipfsActions from '../actions/ipfsActions';
-import florincoindActions from '../actions/florincoindActions';
-import librarydActions from '../actions/librarydActions';
+import _ from 'lodash';
+import updateState from 'react-addons-update';
+import DaemonEngineActions from '../actions/daemonEngineActions';
 
 
 
-class daemonStore {
+class DaemonEngineStore {
     constructor() {
-        this.bindActions(ipfsActions);
-        this.bindActions(florincoindActions);
-        this.bindActions(librarydActions);
+        this.bindActions(DaemonEngineActions);
 
-        this.errors = {};
-        this.checkedRunning = false;
+        this.enabling = {};
+        this.disabling = {};
 
-        this.ipfsInstalled = false;
-        this.ipfsEnabled = false;
-        this.ipfsStats = false;
+        this.enabled = {};
 
-        this.florincoindInstalled = false;
-        this.florincoindEnabled = false;
-
-        this.librarydInstalled = false;
-        this.librarydEnabled = false;
     }
 
-    onLibrarydInstalled() {
+    onEnabling(daemon) {
+        let enabling = this.enabling;
+        enabling[daemon.id] = _.omit(daemon, 'id');
         this.setState({
-            librarydInstalled: true
-        });
-    }
-
-    onLibrarydEnabled(state) {
-        this.setState({
-            librarydEnabled: state
-        });
-    }
-
-    onIpfsStats(stats) {
-        this.setState({
-            ipfsStats: stats
-        });
-    }
-
-    onIpfsInstalled() {
-        this.setState({
-            ipfsInstalled: true
-        });
-    }
-
-    onIpfsEnabled(state) {
-        this.setState({
-            ipfsEnabled: state
-        });
-    }
-
-    onFlorincoindInstalled() {
-        this.setState({
-            florincoindInstalled: true
-        });
-    }
-
-    onFlorincoindEnabled(state) {
-        this.setState({
-            florincoindEnabled: state
-        });
-    }
-
-    setInstalledAndRunning(appdatapath) {
-        var daemons = ['ipfs', 'libraryd'];
-        var os = util.getOS();
-        var checked = 0;
-        return new Promise((resolve, reject) => {
-            daemons.forEach(function(entry) {
-                checked++;
-                var filename = (os === 'win') ? entry + '.exe' : entry;
-                util.checktaskrunning(filename)
-                    .then(function(running) {
-                        running = running ? true : false;
-
-                    });
-            });
-        });
-    }
-
-    errors({
-        errors
-    }) {
-        this.setState({
-            errors
+            enabling: enabling
         });
     }
 
 }
 
 export
-default alt.createStore(daemonStore);
+default alt.createStore(DaemonEngineStore);

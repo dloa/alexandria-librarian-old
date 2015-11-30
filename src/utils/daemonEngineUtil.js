@@ -1,5 +1,7 @@
 import Promise from 'bluebird';
+import child_process from 'child_process';
 import fs from 'fs';
+import fsExtra from 'fs-extra';
 import child from 'child';
 import path from 'path';
 import ps from 'xps';
@@ -21,6 +23,22 @@ const killPID = pid => {
     });
 }
 
+const copy = (input, output) => {
+    return new Promise((resolve, reject) => {
+        fsExtra.copy(input, output, err => {
+            err ? reject(err) : resolve(true);
+        })
+    });
+}
+
+const exec = (execPath, args, options = {}) => {
+    return new Promise((resolve, reject) => {
+        child_process.exec(execPath + ' ' + args.join(' '), options, (error, stdout, stderr) => {
+            error ? reject(stderr) : resolve(stdout);
+        });
+    });
+}
+
 module.exports = {
 
     binDir: path.join(process.cwd(), 'resources/bin'),
@@ -37,8 +55,8 @@ module.exports = {
             code: 2,
             percent: 0
         });
-        let installPath = path.join(DaemonUtil.installDir, DaemonUtil.getExecName(daemon.id));
-        let daemonObj = DaemonUtil.generate(installPath, daemon.args);
+        let installPath = path.join(this.installDir, this.getExecName(daemon.id));
+        let daemonObj = this.generate(installPath, daemon.args);
         daemonObj.start(pid => {
             DaemonActions.enabled({
                 daemon: daemonObj,
@@ -48,6 +66,29 @@ module.exports = {
         });
     },
 
+    install(daemon, unzip = false) {
+
+        DaemonActions.enabling({
+            id: daemon.id,
+            code: 2
+        });
+
+        let execName = this.getExecName(daemon.id)
+        let installPath = path.join(this.installDir, execName);
+        let sourcePath = path.join(this.binDir, execName);
+
+        copy(sourcePath, installPath).then(() => {
+
+            exec(installPath, ['init'], {
+                cwd: this.installDir
+            }).then(output => {
+                console.log(output);
+            }).catch(err => {
+                console.error(err)
+            });
+
+        })
+    },
     generate(daemon, args, autoRestart = false, detached = true) {
         return {
             daemon: child({
@@ -83,6 +124,13 @@ module.exports = {
     },
 
     checkInstalled(daemon) {
+
+        DaemonActions.enabling({
+            id: daemon,
+            code: 1,
+            percent: 0
+        });
+
         let daemonPath = path.join(this.installDir, this.getExecName(daemon))
 
         return new Promise((resolve) => {
