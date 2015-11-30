@@ -51,25 +51,25 @@ default React.createClass({
             case 0:
             case 1:
                 return {
-                    task: 'Verifying Installation',
+                    task: 'Verifying Installation...',
                     percent: 0
                 };
                 break;
             case 2:
                 return {
-                    task: 'Installing',
+                    task: 'Installing...',
                     percent: 30
                 };
                 break;
             case 3:
                 return {
-                    task: 'Installing',
+                    task: 'Installing...',
                     percent: 60
                 };
                 break;
             case 4:
                 return {
-                    task: 'Enabling',
+                    task: 'Initializing...',
                     percent: 90
                 };
                 break;
@@ -87,7 +87,6 @@ default React.createClass({
         }
     },
     render() {
-        console.log(this.state.initStats)
         let progressInfo = this.enableStats();
         return (
             <div className="section ipfs">

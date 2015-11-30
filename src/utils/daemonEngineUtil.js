@@ -155,7 +155,7 @@ module.exports = {
             restartTimeout: 200,
             cbRestart: data => {
                 if (data)
-                    console.log('restart', data);
+                    console.log('restart', data.toString());
             },
             cbStdout: data => {
                 if (data) {
@@ -170,7 +170,13 @@ module.exports = {
             },
             cbStderr: data => {
                 if (data) {
-                    console.error(data);
+                    if (checkStartedOkay(daemon.id, data.toString())) {
+                        DaemonActions.enabling({
+                            id: daemon.id,
+                            code: 7
+                        });
+                    }
+                    console.error(data.toString());
                 }
             },
             cbClose: exitCode => {
