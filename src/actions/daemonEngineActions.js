@@ -31,7 +31,6 @@ class daemonEngineActions {
 
     ipfs(action, params) {
         this.dispatch();
-
         switch (action) {
             case 'enable':
                 DaemonUtil.checkInstalled('ipfs')
@@ -46,9 +45,8 @@ class daemonEngineActions {
                     });
                 break;
             case 'disable':
-
+                //TODO
                 break;
-
             case 'install':
                 DaemonUtil.install({
                     id: 'ipfs',
