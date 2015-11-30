@@ -20,10 +20,10 @@ default React.createClass({
     getInitialState() {
         return {
             stats: {},
-            enabled: false,
-            initStats: {
+            enabled: DaemonStore.getState().enabled.ipfs || false,
+            initStats: DaemonStore.getState().enabling.ipfs || {
                 code: 0
-            }
+            },
         };
     },
 
@@ -108,7 +108,7 @@ default React.createClass({
                 <If test={(this.state.initStats.code !== 0 && this.state.initStats.code !== 7)}>
                     <ProgressComponent task={progressInfo.task} percent={progressInfo.percent} />
                 </If>
-                <If test={this.state.enabled}>
+                <If test={(this.state.initStats.code === 7)}>
                     <div className="stats">
                         <div className="row">
                             <div className="col col-sm-6">
