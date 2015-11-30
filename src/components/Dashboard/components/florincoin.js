@@ -1,5 +1,6 @@
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import ProgressComponent from './progress';
 
 
 let If = React.createClass({
@@ -21,7 +22,7 @@ default React.createClass({
     },
 
     componentDidMount() {
-        // daemonStore.listen(this.update);
+        //daemonStore.listen(this.update);
     },
 
     componentWillUnmount() {
@@ -39,20 +40,7 @@ default React.createClass({
         return (
             <div className="section ipfs">
                 <h4>Florincoin</h4>
-                 <div className="progress-container">
-                    <div className="row">
-                        <div className="col col-sm-6">
-                            <p>Bootstrapping Blockchain</p>
-                        </div>
-                        <div className="col col-sm-6">
-                            <div className="progress">
-                                <div className="progress-bar -info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style={{width: '20%'}}>
-                                    <span className="sr-only">20% Complete</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <ProgressComponent task="task name" percent="20" />
                 <div className="stats">
                     <div className="row">
                         <div className="col col-sm-6">
