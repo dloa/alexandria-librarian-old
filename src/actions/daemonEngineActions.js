@@ -7,11 +7,12 @@ installing codes:
 
 1 = checking    - exsistance
 2 = installing  - to bin
-3 = enabling    - >.>                           w/ percent done key 
-4 = updating    - can be daemon or bootstrap    w/ info key
-5 = syncing     - block chain                   w/ percent done key
-6 = done        - if you dont know what this means close the tab.   
-7 = error       - w/ error: key for.. info.
+3 = installed   - <.<
+4 = enabling    - >.>                           w/ percent done key 
+5 = updating    - can be daemon or bootstrap    w/ info key
+6 = syncing     - block chain                   w/ percent done key
+7 = done        - if you dont know what this means close the tab.   
+8 = error       - w/ error: key for.. info.
 */
 
 class daemonEngineActions {
@@ -33,7 +34,6 @@ class daemonEngineActions {
 
         switch (action) {
             case 'enable':
-
                 DaemonUtil.checkInstalled('ipfs')
                     .then(installed => {
                         if (installed)

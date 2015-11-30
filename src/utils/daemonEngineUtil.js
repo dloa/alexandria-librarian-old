@@ -17,7 +17,7 @@ const killPID = pid => {
             error => {
                 resolve(error);
             }, () => {
-                resolve(true);
+                (true);
             }
         );
     });
@@ -26,7 +26,7 @@ const killPID = pid => {
 const copy = (input, output) => {
     return new Promise((resolve, reject) => {
         fsExtra.copy(input, output, err => {
-            err ? reject(err) : resolve(true);
+            err ? resolve(false) : resolve(true);
         })
     });
 }
@@ -34,10 +34,25 @@ const copy = (input, output) => {
 const exec = (execPath, args = [], options = {}) => {
     return new Promise((resolve, reject) => {
         child_process.exec(execPath + ' ' + args.join(' '), options, (error, stdout, stderr) => {
-            error ? reject(stderr) : resolve(stdout);
+            error ? resolve(stderr) : resolve(stdout);
         });
     });
 }
+
+const checkInstalledOkay = (daemon, out) => {
+    switch (daemon) {
+        case 'ipfs':
+            var okay = ['ipfs configuration file already exists'];
+            break;
+        case 'florincoind':
+            break;
+        case 'libraryd':
+            break;
+    }
+    return new RegExp(okay.join('|')).test(out);
+}
+
+
 
 module.exports = {
 
@@ -67,27 +82,44 @@ module.exports = {
     },
 
     install(daemon, unzip = false) {
-
-        DaemonActions.enabling({
-            id: daemon.id,
-            code: 2
-        });
-
-        let execName = this.getExecName(daemon.id)
-        let installPath = path.join(this.installDir, execName);
-        let sourcePath = path.join(this.binDir, execName);
-
-        copy(sourcePath, installPath).then(() => {
-
-            exec(installPath, daemon.args, {
-                cwd: this.installDir
-            }).then(output => {
-                console.log(output);
-            }).catch(err => {
-                console.error(err)
+        return new Promise(resolve => {
+            DaemonActions.enabling({
+                id: daemon.id,
+                code: 2
             });
 
-        })
+            let execName = this.getExecName(daemon.id)
+            let installPath = path.join(this.installDir, execName);
+            let sourcePath = path.join(this.binDir, execName);
+
+            copy(sourcePath, installPath).then(copyStatus => {
+                if (!copyStatus)
+                    return DaemonActions.enabling({
+                        id: daemon.id,
+                        code: 7,
+                        error: 'Copy Failure'
+                    });
+
+                exec(installPath, daemon.args, {
+                    cwd: this.installDir
+                }).then(output => {
+                    if (checkInstalledOkay(daemon.id, output)) {
+                        DaemonActions.enabling({
+                            id: daemon.id,
+                            code: 3
+                        });
+                        resolve(true);
+                    } else {
+                        resolve(false);
+                        DaemonActions.enabling({
+                            id: daemon.id,
+                            code: 7,
+                            error: output
+                        });
+                    }
+                });
+            });
+        });
     },
     generate(daemon, args, autoRestart = false, detached = true) {
         return {
@@ -123,12 +155,12 @@ module.exports = {
         };
     },
 
+
     checkInstalled(daemon) {
 
         DaemonActions.enabling({
             id: daemon,
-            code: 1,
-            percent: 0
+            code: 1
         });
 
         let daemonPath = path.join(this.installDir, this.getExecName(daemon))
