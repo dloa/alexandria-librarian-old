@@ -40,6 +40,20 @@ const exec = (execPath, args = [], options = {}) => {
     });
 }
 
+const checkStartedOkay = (daemon, out) => {
+    switch (daemon) {
+        case 'ipfs':
+            var okay = ['Daemon is ready'];
+            break;
+        case 'florincoind':
+            break;
+        case 'libraryd':
+            break;
+    }
+    return new RegExp(okay.join('|')).test(out);
+}
+
+
 const checkInstalledOkay = (daemon, out) => {
     switch (daemon) {
         case 'ipfs':
@@ -71,7 +85,10 @@ module.exports = {
             code: 4
         });
         let installPath = path.join(this.installDir, this.getExecName(daemon.id));
-        let daemonObj = this.generate(installPath, daemon.args);
+        let daemonObj = this.generate({
+            exec: installPath,
+            id: daemon.id
+        }, daemon.args);
         daemonObj.start(pid => {
             DaemonActions.enabled({
                 daemon: daemonObj,
@@ -129,7 +146,7 @@ module.exports = {
     },
     generate(daemon, args, autoRestart = false, detached = false) {
         return child({
-            command: daemon,
+            command: daemon.exec,
             args: args,
             options: {
                 detached: detached
@@ -137,12 +154,17 @@ module.exports = {
             autoRestart: autoRestart,
             restartTimeout: 200,
             cbRestart: data => {
-                if (data) {
+                if (data)
                     console.log('restart', data);
-                }
             },
             cbStdout: data => {
                 if (data) {
+                    if (checkStartedOkay(daemon.id, data.toString())) {
+                        DaemonActions.enabling({
+                            id: daemon.id,
+                            code: 7
+                        });
+                    }
                     console.log(data.toString());
                 }
             },

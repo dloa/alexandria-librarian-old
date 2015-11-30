@@ -16,6 +16,7 @@ class DaemonEngineStore {
 
     }
 
+
     onEnabling(daemon) {
         let enabling = this.enabling;
         enabling[daemon.id] = _.omit(daemon, 'id');
@@ -30,11 +31,6 @@ class DaemonEngineStore {
         this.setState({
             enabled: enabled
         });
-
-        _.defer(this.onEnabling.bind(this, {
-            id: daemon.id,
-            code: 7
-        }));
     }
 
     onDisabled(daemon) {

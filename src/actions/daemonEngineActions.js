@@ -22,8 +22,7 @@ class daemonEngineActions {
 
     constructor() {
         this.generateActions(
-            'update',
-
+        	
             'enabled',
             'disabled',
 
