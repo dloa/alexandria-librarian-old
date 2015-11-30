@@ -1,5 +1,6 @@
 import React from 'react';
-
+import PureRenderMixin from 'react-addons-pure-render-mixin';
+import ProgressComponent from './progress';
 
 let If = React.createClass({
     render() {
@@ -9,6 +10,8 @@ let If = React.createClass({
 
 export
 default React.createClass({
+
+    mixins: [PureRenderMixin],
 
     getInitialState() {
         return {

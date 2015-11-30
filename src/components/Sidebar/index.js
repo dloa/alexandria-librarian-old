@@ -21,9 +21,7 @@ default React.createClass({
         this.setState({
             active: ref
         });
-        _.defer(() => {
-            this.history.replaceState(null, ref);
-        });
+        _.defer(this.history.replaceState.bind(this, null, ref));
     },
     render() {
         return (

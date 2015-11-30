@@ -72,7 +72,7 @@ default React.createClass({
                     </div>
                 </div>
                 <div className="detail">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga ex molestiae id itaque sint, architecto pariatur omnis, officiis ipsum necessitatibus reiciendis rem quo quisquam aliquam consequatur inventore fugiat. Maiores, necessitatibus.</p>
+                    <p>Florincoin is free software with an open ledger of transaction history known as the block chain. Florincoin extends the Bitcoin codebase and stores additional information on the network.</p>
                 </div>
             </div>
         );
