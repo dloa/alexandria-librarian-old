@@ -1,0 +1,115 @@
+/* Progress */
+.progress-container {
+    padding: 15px;
+    border-radius: 6px;
+    border: 1px solid rgba($primary, .1);
+    margin-bottom: 25px;
+    p {
+        margin-bottom: 0;
+    }
+    .progress {
+        margin-bottom: 0;
+    }
+}
+
+.progress {
+    height: 5px;
+    margin-top: 7px;
+    box-shadow: none;
+    background-color: rgba($primary, .1);
+    .progress-bar {
+        box-shadow: none;
+        background-color: $primary;
+    }
+}
+
+/* Console */
+.console-output {
+    font-family: 'Source Code Pro', 'Consolas', monospace;
+    background: #222;
+}
+
+.console-helper {
+    padding: 5px 15px;
+    border-radius: 6px;
+    border: 1px solid rgba($primary, .1);
+    margin-bottom: 25px;
+    a {
+        margin-top: 4px;
+    }
+    object {
+        margin-right: 10px;
+    }
+}
+
+.console-marker {
+    color: $green;
+}
+
+/* svg */
+a.svg {
+    position: relative;
+    display: inline-block;
+}
+
+a.svg:after {
+    content: ""; 
+    position: absolute; 
+    top: 0; 
+    right: 0; 
+    bottom: 0; 
+    left: 0;
+}
+
+/* Well */
+.well {
+    box-shadow: none;
+    border: none;
+}
+
+/* Stats */
+.stats .col {
+    margin-bottom: 25px;
+}
+
+/* Toggle */
+.lbl {
+    position: relative;
+    display: block;
+    height: 18px;
+    width: 44px;
+    background: $ltgray;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    &:after {
+        position: absolute;
+        left: -2px;
+        top: -2px;
+        display: block;
+        width: 22px;
+        height: 22px;
+        border-radius: 100px;
+        background: white;
+        box-shadow: 0 0 10px rgba(black, .05);
+        content: '';
+        transition: all 0.3s ease;
+    }
+}
+.cbx {
+    &:checked ~ label {
+        background: rgba($green, .25);
+        &:after {
+            left: 20px;
+            background: $green;
+            box-shadow: 0 0 10px rgba($green, .5);
+        }
+    }
+    &:disabled ~ label {
+        background: #d5d5d5;
+        pointer-events: none;
+        &:after {
+            background: #bcbdbc;
+        }
+    }
+}
