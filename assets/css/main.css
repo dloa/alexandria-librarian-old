@@ -297,9 +297,16 @@ a.svg:after {
 .toggle:disabled ~ label:after {
   background: #bcbdbc; }
 
-/* Loading */
-.enabling {
+/* Label */
+.label {
+  padding: 5px 10px;
+  font-weight: 400;
+  font-size: 12px;
+  margin-right: 15px; }
+
+.label-default-flash {
   background: #f2f2f2;
+  color: #8e8e90;
   border-radius: 3px;
   margin-right: 15px;
   padding: 5px 10px;
@@ -307,7 +314,7 @@ a.svg:after {
   font-size: 12px;
   animation: pulseBg 1s infinite; }
 
-.enabling p {
+.label-default-flash p {
   margin: 0; }
 
 @keyframes pulseBg {

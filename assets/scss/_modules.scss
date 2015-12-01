@@ -198,9 +198,19 @@ a.svg:after {
     }
 }
 
-/* Loading */
-.enabling {
+
+
+/* Label */
+.label {
+    padding: 5px 10px;
+    font-weight: 400;
+    font-size: 12px;
+    margin-right: 15px;
+}
+
+.label-default-flash {
     background: $ltgray;
+    color: $gray;
     border-radius: 3px;
     margin-right: 15px;
     padding: 5px 10px;
