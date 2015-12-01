@@ -56,12 +56,12 @@ default React.createClass({
         if (this.state.initStats.code === 7) {
             DaemonActions.ipfs('refresh-stats');
 
-            if (Object.keys(this.state.stats.pinned.total).length > 0 && !this.state.gotPinedSize) {
+            if (!this.state.gotPinedSize) {
                 this.setState({
                     gotPinedSize: true
                 });
                 _.defer(() => {
-                    DaemonActions.ipfs('pinned-total', Object.keys(this.state.stats.pinned.total))
+                    DaemonActions.ipfs('pinned-total')
                 });
             }
         }

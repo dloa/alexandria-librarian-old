@@ -25,6 +25,7 @@
     "decompress-zip": "^0.2.0",
     "express": "^4.13.3",
     "fs-extra": "^0.26.2",
+    "get-folder-size": "^1.0.0",
     "get-port": "^2.0.0",
     "history": "^1.13.1",
     "ipfs-api": "git+https://github.com/luigiplr/js-ipfs-api.git",

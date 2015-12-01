@@ -1,5 +1,7 @@
 import ipfsAPI from 'ipfs-api';
 import _ from 'lodash';
+import path from 'path';
+import folderSize from 'get-folder-size';
 import Promise from 'bluebird';
 import DaemonEngineStore from '../../stores/daemonEngineStore';
 import CommonUtil from '../../utils/CommonUtil';
@@ -14,17 +16,11 @@ const getPeers = () => {
     });
 }
 
-const getPinnedSize = pinned => {
-    let total = 0;
-    return new Promise(resolve => {
-        DaemonEngineStore.getState().enabled.ipfs.api.ls(pinned, (err, res) => {
-            res.Objects.forEach(node => {
-                if (node.Links.length > 0) {
-                    node.Links.forEach(link => {
-                        total = total + link.Size;
-                    })
-                }
-            })
+const getPinnedSize = () => {
+
+    return new Promise((resolve, reject) => {
+        folderSize(path.join(process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'], '.ipfs/blocks'), (err, total) => {
+            if (err) return reject(err)
             let stats = DaemonEngineStore.getState().enabled.ipfs.stats;
             stats.pinned.size = CommonUtil.formatBytes(total.toFixed(3), 2);
             resolve({
@@ -32,6 +28,24 @@ const getPinnedSize = pinned => {
                 key: 'stats',
                 stats: stats
             });
+        })
+    });
+};
+
+const getPinnedHashsSize = pinned => {
+    let total = 0;
+    return new Promise((resolve, reject) => {
+        DaemonEngineStore.getState().enabled.ipfs.api.ls(pinned, (err, res) => {
+            if (!res.Objects)
+                return reject();
+            res.Objects.forEach(node => {
+                if (node.Links.length > 0) {
+                    node.Links.forEach(link => {
+                        total = total + link.Size;
+                    })
+                }
+            })
+            resolve(CommonUtil.formatBytes(total.toFixed(3), 2));
         })
     });
 };
@@ -56,7 +70,7 @@ const sendCommand = (cmd, key = null, opts = {}) => {
 module.exports = {
     refreshStats(pinned = false) {
         if (pinned)
-            return getPinnedSize(pinned);
+            return getPinnedSize();
 
         return new Promise(resolve => {
             Promise.all([getPeers(), sendCommand('stats/bw'), getPinned()])
