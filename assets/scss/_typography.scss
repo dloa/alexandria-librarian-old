@@ -14,6 +14,22 @@ h4 {
     color: $gray;
 }
 
-p {
+a {
+    color: $primary;
+}
+
+p,
+label {
     color: $gray;
 }
+
+.settings-title {
+    color: black;
+    font-size: 18px;
+    margin-top: 25px;
+}
+
+.rig-label {
+    color: black;
+}
+

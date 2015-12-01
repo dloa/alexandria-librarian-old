@@ -1,5 +1,6 @@
 body {
-  overflow-y: scroll; }
+  overflow-y: scroll;
+  outline: none; }
 
 #app {
   padding-left: 0;
@@ -21,6 +22,20 @@ body {
   margin-right: -15px;
   margin-top: 85px;
   border-radius: 6px; }
+
+button::-moz-focus-inner {
+  border: 0; }
+
+.settings-section {
+  padding-bottom: 25px;
+  padding-top: 25px;
+  border-bottom: 1px solid #f2f2f2; }
+
+.settings-section:first-child {
+  padding-top: 0; }
+
+.settings-section:last-child {
+  border-bottom: none; }
 
 #sidebar {
   z-index: 1000;
@@ -98,17 +113,31 @@ h4 {
   margin-bottom: 25px; }
 
 .muted {
-  color: #98989b; }
+  color: #8e8e90; }
 
-p {
-  color: #98989b; }
+a {
+  color: #538Bd4; }
+
+p,
+label {
+  color: #8e8e90; }
+
+.settings-title {
+  color: black;
+  font-size: 18px;
+  margin-top: 25px; }
+
+.rig-label {
+  color: black; }
 
 /* Buttons */
 .btn {
-  transition: all 0.1s; }
+  transition: all 0.1s;
+  box-shadow: none; }
 
-.btn:hover {
-  transition: all 0.1s; }
+.btn:hover, .btn:focus, .btn.active {
+  transition: all 0.1s;
+  box-shadow: none; }
 
 .btn-primary {
   background-color: #538Bd4;
@@ -117,6 +146,17 @@ p {
 .btn-primary:hover, .btn-primary:focus {
   background-color: #3f7dcf;
   border-color: #3f7dcf; }
+
+.btn-toggle {
+  margin-right: 5px; }
+
+.btn-toggle.active, .btn-toggle.active.focus, .btn-toggle.active:focus, .btn-toggle.active:hover {
+  background-color: rgba(101, 208, 128, 0.25);
+  border-color: transparent;
+  color: #65d080; }
+
+.btn-toggle:hover, .btn-toggle:focus, .btn-toggle:active:hover {
+  background-color: white; }
 
 .svg.btn {
   margin: 0;
@@ -141,12 +181,17 @@ p {
   border-color: #538Bd4; }
 
 .form-inline p {
-  display: inline;
+  display: inline; }
+
+.form-inline p.margin {
   margin-left: 15px; }
 
 @media screen and (min-width: 900px) {
-  .form-inline .form-control {
+  .form-inline .form-control.ipfs {
     min-width: 350px; } }
+
+input.rating {
+  max-width: 65px; }
 
 /* Progress */
 .progress-container {
@@ -294,3 +339,20 @@ td.unpin {
 
 .table > tbody > tr > td {
   border-top: 1px solid #f2f2f2; }
+
+/* Tabs */
+.tab-pane {
+  margin-top: 25px; }
+
+/* Settings */
+.settings-toggle {
+  margin-bottom: 5px; }
+
+.settings-toggle p {
+  margin-left: 10px; }
+
+.preferences {
+  border-bottom: 1px solid red; }
+
+.preferences:last-child {
+  border-bottom: none; }

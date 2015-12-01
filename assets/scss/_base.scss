@@ -1,5 +1,6 @@
 body {
     overflow-y: scroll;
+    outline: none;
 }
 
 #app {
@@ -27,3 +28,18 @@ body {
     border-radius: 6px;
 }
 
+button::-moz-focus-inner {
+    border: 0;
+}
+
+.settings-section {
+    padding-bottom: 25px;
+    padding-top: 25px;
+    border-bottom: 1px solid $ltgray;
+    &:first-child {
+        padding-top: 0;
+    }
+    &:last-child {
+        border-bottom: none;
+    }
+}

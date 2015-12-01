@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Alexandria Librarian</title>
+        <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+        <link href="assets/css/main.css" rel="stylesheet">
+    </head>
+    <body>
+        <div id="app">
+            <div id="sidebar">
+                <ul class="sidebar-nav">
+                    <li class="sidebar-brand">
+                        <a href="#">
+                            <object type="image/svg+xml" data="assets/svg/logo-text.svg" class="logo"></object>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="index.html">Dashboard</a>
+                    </li>
+                    <li>
+                        <a href="ipfs.html">IPFS</a>
+                    </li>
+                    <li>
+                        <a href="florincoin.html">Florincoin</a>
+                    </li>
+                    <li>
+                        <a href="libraryd.html">Libraryd</a>
+                    </li>
+                    <li class="active">
+                        <a href="#">Preferences</a>
+                    </li>
+                    <li>
+                        <a href="about.html">About</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div id="content" class="dashboard">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12">
+
+                            <div class="section preferences">
+
+                                <div class="settings-section">
+                                    <h4 class="title">General</h4>
+                                    <div class="settings-toggle clearfix">
+                                        <div class="pull-left">
+                                            <input type="checkbox" id="checked" class="toggle hidden" checked/>
+                                            <label for="checked" class="lbl"></label>   
+                                        </div>
+                                        <div class="pull-left">
+                                            <p>Start Alexandria Librarian on boot</p>
+                                        </div>
+                                    </div>
+                                    <div class="settings-toggle clearfix">
+                                        <div class="pull-left">
+                                            <input type="checkbox" id="checked" class="toggle hidden" checked/>
+                                            <label for="checked" class="lbl"></label>   
+                                        </div>
+                                        <div class="pull-left">
+                                            <p>Start in tray</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="settings-section">
+                                    <h4 class="title">Web Interface</h4>
+                                    <div class="settings-toggle clearfix">
+                                        <div class="pull-left">
+                                            <input type="checkbox" id="checked" class="toggle hidden" checked/>
+                                            <label for="checked" class="lbl"></label>   
+                                        </div>
+                                        <div class="pull-left">
+                                            <p>Enable HTTP API</p>
+                                        </div>
+                                    </div>
+                                    <form class="form-inline">
+                                        <div class="form-group">
+                                            <p>Port:</p>
+                                            <input type="text" class="form-control port" value="8079">
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="settings-section">
+                                    <h4 class="title">Florincoind Credentials</h4>
+                                    <form class="form-inline">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" placeholder="Username">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" placeholder="Password">
+                                        </div>
+                                        <button class="btn btn-primary">Save</button>
+                                    </form>
+                                </div>
+                                <div class="settings-section">
+                                    <h4 class="title">Other</h4>
+                                    <p>
+                                        <button class="btn btn-default">Reset Settings</button>
+                                    </p>
+                                    <p>
+                                        <button class="btn btn-default">Uninstall All Daemons</button>
+                                    </p>
+                                    <p>
+                                        <button class="btn btn-default">Uninstall & Reset Settings (dev)</button>
+                                    </p>
+                                    <p>
+                                        <button class="btn btn-default">Open Dev tools</button>
+                                    </p>
+                                </div>
+                                
+                            </div> <!-- /preferences -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="assets/js/jquery-1.11.3.min.js"></script>
+        <script src="assets/js/bootstrap.min.js"></script>
+        <script>
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip()
+            })
+        </script>
+    </body>
+</html>

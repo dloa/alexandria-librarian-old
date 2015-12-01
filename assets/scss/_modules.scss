@@ -1,8 +1,12 @@
 /* Buttons */
 .btn {
     transition: all 0.1s;
-    &:hover {
+    box-shadow: none;
+    &:hover,
+    &:focus,
+    &.active {
         transition: all 0.1s;
+        box-shadow: none;
     }
 }
 
@@ -15,6 +19,24 @@
         border-color: darken($primary, 5%);
     }
 }
+
+.btn-toggle {
+    &.active,
+    &.active.focus,
+    &.active:focus,
+    &.active:hover {
+        background-color: rgba($green, .25);
+        border-color: transparent;
+        color: $green;
+    }
+    &:hover,
+    &:focus,
+    &:active:hover {
+        background-color: white;
+    }
+    margin-right: 5px;
+}
+
 .svg.btn {
     margin: 0;
     padding: 0;
@@ -44,14 +66,20 @@
 .form-inline {
     p {
         display: inline;
+    }
+    p.margin {
         margin-left: 15px;
     }
     @media screen and (min-width: 900px) {
 
-        .form-control {
+        .form-control.ipfs {
             min-width: 350px;
         } 
     }
+}
+
+input.rating {
+    max-width: 65px;
 }
 
 /* Progress */
@@ -224,4 +252,24 @@ td.unpin {
 
 .table > tbody > tr > td {
     border-top: 1px solid $ltgray;
+}
+
+/* Tabs */
+.tab-pane {
+    margin-top: 25px;
+}
+
+/* Settings */
+.settings-toggle {
+    margin-bottom: 5px;
+    p {
+        margin-left: 10px;
+    }
+}
+
+.preferences {
+    border-bottom: 1px solid red;
+    &:last-child {
+        border-bottom: none;
+    }
 }
