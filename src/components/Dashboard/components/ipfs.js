@@ -193,7 +193,7 @@ default React.createClass({
                             <div className="col col-sm-6">
                                 <div className="download">
                                     <object type="image/svg+xml" data="images/svg/arrows-16px-1_tail-down.svg" className="logo"/>
-                                    <span className="text"><strong>{this.state.stats.speed.down}</strong> uploading <span className="muted">({this.state.stats.bw.down})</span></span>
+                                    <span className="text"><strong>{this.state.stats.speed.down}</strong> downloading <span className="muted">({this.state.stats.bw.down})</span></span>
                                 </div>
                             </div>
                         </div>
