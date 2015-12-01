@@ -79,7 +79,7 @@ default React.createClass({
                     code: 0
                 },
             });
-            _.defer(this.refreshStats);
+            _.delay(this.refreshStats, 1000);
         }
     },
 
