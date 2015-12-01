@@ -114,13 +114,22 @@ module.exports = {
             exec: installPath,
             id: daemon.id
         }, daemon.args);
-        daemonObj.start(pid => {
-            DaemonActions.enabled({
-                daemon: daemonObj,
-                id: daemon.id,
-                pid: pid
+        try {
+            daemonObj.stasrt(pid => {
+                DaemonActions.enabled({
+                    daemon: daemonObj,
+                    id: daemon.id,
+                    pid: pid
+                });
             });
-        });
+        } catch (e) {
+            DaemonActions.enabling({
+                id: daemon.id,
+                code: 8,
+                error: 'Initialization Error'
+            });
+        }
+
     },
 
     disable(daemon) {
