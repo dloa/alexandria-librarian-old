@@ -51,6 +51,9 @@ class daemonEngineActions {
             case 'disable':
                 DaemonUtil.disable('ipfs');
                 break;
+            case 'pinned-total':
+                IPFSUtil.refreshStats(params).then(this.actions.update);
+                break;
             case 'refresh-stats':
                 IPFSUtil.refreshStats().then(this.actions.update);
                 break;

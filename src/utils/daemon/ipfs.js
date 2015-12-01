@@ -25,21 +25,20 @@ const getPinnedSize = pinned => {
                     })
                 }
             })
-            resolve(total)
+            resolve({
+                id: 'ipfs',
+                key: 'stats',
+                stats: _.set(DaemonEngineStore.getState().enabled.ipfs.stats, 'pinned.size', CommonUtil.formatBytes(total.toFixed(3), 2))
+            });
         })
     });
-}
+};
 
 const getPinned = () => {
     return new Promise((resolve, reject) => {
         DaemonEngineStore.getState().enabled.ipfs.api.pin.list((err, output) => {
             if (err) return reject(err);
-            getPinnedSize(Object.keys(output.Keys)).then(size => {
-                resolve({
-                    total: output.Keys,
-                    size: size
-                })
-            });
+            resolve(output.Keys);
         });
     });
 }
@@ -53,7 +52,10 @@ const sendCommand = (cmd, key = null, opts = {}) => {
 }
 
 module.exports = {
-    refreshStats() {
+    refreshStats(pinned = false) {
+        if (pinned)
+            return getPinnedSize(pinned);
+
         return new Promise(resolve => {
             Promise.all([getPeers(), sendCommand('stats/bw'), getPinned()])
                 .spread((peers, bandwidth, pinned) => {
@@ -63,8 +65,8 @@ module.exports = {
                         stats: {
                             peers: peers.length,
                             pinned: {
-                                size: CommonUtil.formatBytes(pinned.size.toFixed(3), 2),
-                                total: Object.keys(pinned.total).length
+                                size: _.has(DaemonEngineStore.getState().enabled, 'ipfs.stats.pinned.size') ? DaemonEngineStore.getState().enabled.ipfs.stats.pinned.size : ' loading... ',
+                                total: pinned
                             },
                             speed: {
                                 up: CommonUtil.formatBytes(bandwidth.RateOut.toFixed(3), 2) + '/s',
@@ -80,9 +82,5 @@ module.exports = {
                     console.error('IPFS refreshStats()', err);
                 });
         });
-    },
-    pin() {
-
-
     }
 }

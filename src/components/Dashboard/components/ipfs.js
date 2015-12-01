@@ -21,24 +21,25 @@ default React.createClass({
     getInitialState() {
         return {
             stats: _.has(DaemonStore.getState().enabled, 'ipfs.stats') ? DaemonStore.getState().enabled.ipfs.stats : {
-                peers: 0,
+                peers: ' loading... ',
                 pinned: {
-                    size: 0,
-                    total: 0
+                    size: ' loading... ',
+                    total: {}
                 },
                 speed: {
-                    up: 0,
-                    down: 0
+                    up: ' loading... ',
+                    down: ' loading... '
                 },
                 bw: {
-                    up: 0,
-                    down: 0
+                    up: ' loading... ',
+                    down: ' loading... '
                 }
             },
             enabled: DaemonStore.getState().enabled.ipfs || false,
             initStats: DaemonStore.getState().enabling.ipfs || {
                 code: 0
             },
+            gotPinedSize: false
         };
     },
 
@@ -52,8 +53,18 @@ default React.createClass({
     },
 
     refreshStats() {
-        if (this.state.initStats.code === 7)
+        if (this.state.initStats.code === 7) {
             DaemonActions.ipfs('refresh-stats');
+
+            if (Object.keys(this.state.stats.pinned.total).length > 0 && !this.state.gotPinedSize) {
+                this.setState({
+                    gotPinedSize: true
+                });
+                _.defer(() => {
+                    DaemonActions.ipfs('pinned-total', Object.keys(this.state.stats.pinned.total))
+                });
+            }
+        }
     },
 
     update() {
@@ -79,7 +90,9 @@ default React.createClass({
                     code: 0
                 },
             });
-            _.delay(this.refreshStats, 1000);
+            _.delay(() => {
+                _.defer(this.refreshStats);
+            }, 1000);
         }
     },
 
@@ -162,7 +175,7 @@ default React.createClass({
                                 <div className="pinned">
                                     <object type="image/svg+xml" data="images/svg/location-16px_pin.svg" className="logo"/>
 
-                                    <span className="text"><strong>{this.state.stats.pinned.total}</strong> files pinned <span className="muted">({this.state.stats.pinned.size})</span></span>
+                                    <span className="text"><strong>{Object.keys(this.state.stats.pinned.total).length}</strong> files pinned <span className="muted">({this.state.stats.pinned.size})</span></span>
                                 </div>
                             </div>
                             <div className="col col-sm-6">
