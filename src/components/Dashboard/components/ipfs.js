@@ -133,7 +133,12 @@ default React.createClass({
     },
     handleChangeEnable() {
         if (this.state.initStats.code === 7 || this.state.initStats.code === 0) {
-            DaemonActions.ipfs(this.state.enabled ? 'disable' : 'enable')
+            let toggle = this.state.enabled ? 'disable' : 'enable';
+            if (toggle === 'disable')
+                this.setState({
+                    gotPinedSize: false
+                });
+            DaemonActions.ipfs(toggle)
         }
     },
     render() {

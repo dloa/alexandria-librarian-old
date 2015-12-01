@@ -25,10 +25,12 @@ const getPinnedSize = pinned => {
                     })
                 }
             })
+            let stats = DaemonEngineStore.getState().enabled.ipfs.stats;
+            stats.pinned.size = CommonUtil.formatBytes(total.toFixed(3), 2);
             resolve({
                 id: 'ipfs',
                 key: 'stats',
-                stats: _.set(DaemonEngineStore.getState().enabled.ipfs.stats, 'pinned.size', CommonUtil.formatBytes(total.toFixed(3), 2))
+                stats: stats
             });
         })
     });
