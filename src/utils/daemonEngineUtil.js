@@ -145,7 +145,7 @@ module.exports = {
                     return DaemonActions.enabling({
                         id: daemon.id,
                         code: 8,
-                        error: 'Copy Failure'
+                        error: 'Installation Error'
                     });
 
                 exec(installPath, daemon.args, {
@@ -158,12 +158,12 @@ module.exports = {
                         });
                         resolve(true);
                     } else {
-                        resolve(false);
                         DaemonActions.enabling({
                             id: daemon.id,
                             code: 8,
-                            error: 'Permissions Error'
+                            error: 'Installation Error'
                         });
+                        resolve(false);
                     }
                 });
             });

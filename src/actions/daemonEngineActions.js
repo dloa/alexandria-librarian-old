@@ -64,6 +64,12 @@ class daemonEngineActions {
                 }).then(installed => {
                     if (installed)
                         this.actions.ipfs('enable');
+                }).catch(() => {
+                    this.actions.enabling({
+                        id: 'ipfs',
+                        code: 8,
+                        error: 'Installation Error'
+                    });
                 });
                 break;
         }
