@@ -70,6 +70,19 @@ const checkStartedOkay = (daemon, out) => {
     return new RegExp(okay.join('|')).test(out);
 }
 
+const checkStartedFail = (daemon, out) => {
+    switch (daemon) {
+        case 'ipfs':
+            var fail = ['no ipfs repo found'];
+            break;
+        case 'florincoind':
+            break;
+        case 'libraryd':
+            break;
+    }
+    return new RegExp(fail.join('|')).test(out);
+}
+
 
 const checkInstalledOkay = (daemon, out) => {
     switch (daemon) {
@@ -149,7 +162,7 @@ module.exports = {
                         DaemonActions.enabling({
                             id: daemon.id,
                             code: 8,
-                            error: output
+                            error: 'Permissions Error'
                         });
                     }
                 });
@@ -171,6 +184,8 @@ module.exports = {
             },
             cbStdout: data => {
                 if (data) {
+                    console.log(daemon.id + ':', data.toString());
+
                     if (checkStartedOkay(daemon.id, data.toString())) {
                         DaemonActions.enabling({
                             id: daemon.id,
@@ -184,25 +199,19 @@ module.exports = {
                                 api: api
                             });
                     }
-                    console.log(daemon.id + ':', data.toString());
                 }
             },
             cbStderr: data => {
                 if (data) {
-                    if (checkStartedOkay(daemon.id, data.toString())) {
+                    console.error(daemon.id + ':', data.toString());
+
+                    if (checkStartedFail(daemon.id, data.toString())) {
                         DaemonActions.enabling({
                             id: daemon.id,
-                            code: 7
+                            code: 8,
+                            error: 'Initialization Error'
                         });
-                        let api = generateAPI(daemon.id);
-                        if (api)
-                            DaemonActions.update({
-                                id: daemon.id,
-                                key: 'api',
-                                api: api
-                            });
                     }
-                    console.error(daemon.id + ':', data.toString());
                 }
             },
             cbClose: exitCode => {

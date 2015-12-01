@@ -26,9 +26,17 @@ class DaemonEngineStore {
     onEnabling(daemon) {
         let enabling = this.enabling;
         enabling[daemon.id] = _.omit(daemon, 'id');
-        this.setState({
-            enabling: enabling
-        });
+
+        if (daemon.code === 8) {
+            this.setState({
+                enabled: _.omit(this.enabled, daemon.id),
+                enabling: enabling
+            });
+        } else {
+            this.setState({
+                enabling: enabling
+            });
+        }
     }
 
     onEnabled(daemon) {

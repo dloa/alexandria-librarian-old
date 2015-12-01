@@ -129,6 +129,12 @@ default React.createClass({
                     percent: 100
                 };
                 break;
+            case 8:
+                return {
+                    task: 'Error',
+                    percent: 100
+                };
+                break;
         }
     },
     handleChangeEnable() {
@@ -160,11 +166,11 @@ default React.createClass({
                     </div>
                     <If test={(this.state.initStats.code !== 0 && this.state.initStats.code !== 7)}>
                         <div className="pull-right enabling">
-                            <span className="label label-default-flash">Enabling ...</span>
+                            <span className={(this.state.initStats.code === 8) ? 'label label-danger' : 'label label-default-flash'}>{(this.state.initStats.code === 8) ? this.state.initStats.error : 'Enabling ...'}</span>
                         </div>
                     </If>
                 </div>
-                <If test={(this.state.initStats.code !== 0 && this.state.initStats.code !== 7)}>
+                <If test={(this.state.initStats.code !== 0 && this.state.initStats.code !== 7 && this.state.initStats.code !== 8)}>
                     <ProgressComponent task={progressInfo.task} percent={progressInfo.percent} />
                 </If>
                 <If test={(this.state.initStats.code === 7)}>
