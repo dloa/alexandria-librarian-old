@@ -130,7 +130,7 @@ module.exports = {
     },
 
     install(daemon, unzip = false) {
-        return new Promise(resolve => {
+        return new Promise((resolve, reject) => {
             DaemonActions.enabling({
                 id: daemon.id,
                 code: 2
@@ -139,34 +139,43 @@ module.exports = {
             let execName = this.getExecName(daemon.id)
             let installPath = path.join(this.installDir, execName);
             let sourcePath = path.join(this.binDir, execName);
-
-            copy(sourcePath, installPath).then(copyStatus => {
-                if (!copyStatus)
-                    return DaemonActions.enabling({
-                        id: daemon.id,
-                        code: 8,
-                        error: 'Installation Error'
-                    });
-
-                exec(installPath, daemon.args, {
-                    cwd: this.installDir
-                }).then(output => {
-                    if (checkInstalledOkay(daemon.id, output)) {
-                        DaemonActions.enabling({
-                            id: daemon.id,
-                            code: 3
-                        });
-                        resolve(true);
-                    } else {
-                        DaemonActions.enabling({
+            try {
+                copy(sourcePath, installPath).then(copyStatus => {
+                    if (!copyStatus)
+                        return DaemonActions.enabling({
                             id: daemon.id,
                             code: 8,
                             error: 'Installation Error'
                         });
-                        resolve(false);
-                    }
+
+                    exec(installPath, daemon.args, {
+                        cwd: this.installDir
+                    }).then(output => {
+                        if (checkInstalledOkay(daemon.id, output)) {
+                            DaemonActions.enabling({
+                                id: daemon.id,
+                                code: 3
+                            });
+                            resolve();
+                        } else {
+                            DaemonActions.enabling({
+                                id: daemon.id,
+                                code: 8,
+                                error: 'Installation Error'
+                            });
+                            reject();
+                        }
+                    });
                 });
-            });
+
+            } catch (e) {
+                DaemonActions.enabling({
+                    id: daemon.id,
+                    code: 8,
+                    error: 'Installation Error'
+                });
+                reject();
+            }
         });
     },
     generate(daemon, args, autoRestart = false, detached = false) {
