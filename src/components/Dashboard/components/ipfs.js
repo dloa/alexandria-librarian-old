@@ -21,18 +21,18 @@ default React.createClass({
     getInitialState() {
         return {
             stats: _.has(DaemonStore.getState().enabled, 'ipfs.stats') ? DaemonStore.getState().enabled.ipfs.stats : {
-                peers: ' loading... ',
+                peers: 0,
                 pinned: {
                     size: ' loading... ',
                     total: {}
                 },
                 speed: {
-                    up: ' loading... ',
-                    down: ' loading... '
+                    up: '0 KB/s',
+                    down: '0 KB/s'
                 },
                 bw: {
-                    up: ' loading... ',
-                    down: ' loading... '
+                    up: '0 KB',
+                    down: '0 KB'
                 }
             },
             enabled: DaemonStore.getState().enabled.ipfs || false,
@@ -155,7 +155,7 @@ default React.createClass({
                     </div>
                     <If test={(this.state.initStats.code !== 0 && this.state.initStats.code !== 7)}>
                         <div className="pull-right enabling">
-                            <p className="pull-left">Enabling ...</p>
+                            <span className="label label-default-flash">Enabling ...</span>
                         </div>
                     </If>
                 </div>
