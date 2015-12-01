@@ -16,6 +16,13 @@ class DaemonEngineStore {
 
     }
 
+    onUpdate(daemon) {
+        let enabled = this.enabled;
+        enabled[daemon.id][daemon.key] = daemon[daemon.key];
+        this.setState({
+            enabled: enabled
+        });
+    }
 
     onEnabling(daemon) {
         let enabling = this.enabling;

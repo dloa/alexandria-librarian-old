@@ -2,6 +2,7 @@ import alt from '../alt';
 import path from 'path';
 import DaemonUtil from '../utils/daemonEngineUtil';
 
+
 /*
 
 installing codes:
@@ -22,7 +23,8 @@ class daemonEngineActions {
 
     constructor() {
         this.generateActions(
-        	
+            'update',
+
             'enabled',
             'disabled',
 

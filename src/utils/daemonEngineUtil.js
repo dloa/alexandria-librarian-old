@@ -5,6 +5,7 @@ import fsExtra from 'fs-extra';
 import child from 'child';
 import path from 'path';
 import ps from 'xps';
+import ipfsAPI from 'ipfs-api';
 import {
     app
 }
@@ -40,6 +41,22 @@ const exec = (execPath, args = [], options = {}) => {
     });
 }
 
+const generateAPI = (daemon) => {
+
+    switch (daemon) {
+        case 'ipfs':
+            return ipfsAPI('/ip4/127.0.0.1/tcp/5001');
+            break;
+        case 'florincoind':
+            return false;
+            break;
+        case 'libraryd':
+            return false;
+            break;
+    }
+}
+
+
 const checkStartedOkay = (daemon, out) => {
     switch (daemon) {
         case 'ipfs':
@@ -73,11 +90,6 @@ module.exports = {
 
     binDir: path.join(process.cwd(), 'resources/bin'),
     installDir: path.join(app.getPath('userData'), 'bin'),
-
-    install(source, name, sysPath = false) {
-
-
-    },
 
     enable(daemon) {
         DaemonActions.enabling({
@@ -164,6 +176,13 @@ module.exports = {
                             id: daemon.id,
                             code: 7
                         });
+                        let api = generateAPI(daemon.id);
+                        if (api)
+                            DaemonActions.update({
+                                id: daemon.id,
+                                key: 'api',
+                                api: api
+                            });
                     }
                     console.log(daemon.id + ':', data.toString());
                 }
@@ -175,6 +194,13 @@ module.exports = {
                             id: daemon.id,
                             code: 7
                         });
+                        let api = generateAPI(daemon.id);
+                        if (api)
+                            DaemonActions.update({
+                                id: daemon.id,
+                                key: 'api',
+                                api: api
+                            });
                     }
                     console.error(daemon.id + ':', data.toString());
                 }
