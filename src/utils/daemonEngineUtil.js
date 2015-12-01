@@ -115,7 +115,7 @@ module.exports = {
             id: daemon.id
         }, daemon.args);
         try {
-            daemonObj.stasrt(pid => {
+            daemonObj.start(pid => {
                 DaemonActions.enabled({
                     daemon: daemonObj,
                     id: daemon.id,
@@ -123,6 +123,7 @@ module.exports = {
                 });
             });
         } catch (e) {
+        	console.error(e);
             DaemonActions.enabling({
                 id: daemon.id,
                 code: 8,
