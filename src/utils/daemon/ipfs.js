@@ -17,7 +17,6 @@ const getPeers = () => {
 }
 
 const getPinnedSize = () => {
-
     return new Promise((resolve, reject) => {
         folderSize(path.join(process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'], '.ipfs/blocks'), (err, total) => {
             if (err) return reject(err)
