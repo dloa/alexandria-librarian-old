@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import ProgressComponent from './progress';
 
@@ -19,8 +20,22 @@ default React.createClass({
 
     getInitialState() {
         return {
-            stats: {},
-            enabled: DaemonStore.getState().enabled.ipfs ? true : false,
+            stats: _.has(DaemonStore.getState().enabled, 'ipfs.stats') ? DaemonStore.getState().enabled.ipfs.stats : {
+                peers: 0,
+                pinned: {
+                    size: 0,
+                    total: 0
+                },
+                speed: {
+                    up: 0,
+                    down: 0
+                },
+                bw: {
+                    up: 0,
+                    down: 0
+                }
+            },
+            enabled: DaemonStore.getState().enabled.ipfs || false,
             initStats: DaemonStore.getState().enabling.ipfs || {
                 code: 0
             },
@@ -29,20 +44,42 @@ default React.createClass({
 
     componentDidMount() {
         DaemonStore.listen(this.update);
+        _.defer(this.refreshStats);
     },
 
     componentWillUnmount() {
         DaemonStore.unlisten(this.update);
     },
 
+    refreshStats() {
+        if (this.state.initStats.code === 7)
+            DaemonActions.ipfs('refresh-stats');
+    },
+
     update() {
         if (this.isMounted()) {
             this.setState({
-                enabled: DaemonStore.getState().enabled.ipfs ? true : false,
+                stats: _.has(DaemonStore.getState().enabled, 'ipfs.stats') ? DaemonStore.getState().enabled.ipfs.stats : {
+                    peers: 0,
+                    pinned: {
+                        size: 0,
+                        total: 0
+                    },
+                    speed: {
+                        up: 0,
+                        down: 0
+                    },
+                    bw: {
+                        up: 0,
+                        down: 0
+                    }
+                },
+                enabled: DaemonStore.getState().enabled.ipfs || false,
                 initStats: DaemonStore.getState().enabling.ipfs || {
                     code: 0
                 },
             });
+            _.defer(this.refreshStats);
         }
     },
 
@@ -113,27 +150,27 @@ default React.createClass({
                             <div className="col col-sm-6">
                                 <div className="peers">
                                     <object type="image/svg+xml" data="images/svg/business-16px_hierarchy-53.svg" className="logo"></object>
-                                    <span className="text"><strong>7</strong> peers connected</span>
+                                    <span className="text"><strong>{this.state.stats.peers}</strong> peers connected</span>
                                 </div>
                             </div>
                             <div className="col col-sm-6">
                                 <div className="pinned">
                                     <object type="image/svg+xml" data="images/svg/location-16px_pin.svg" className="logo"/>
 
-                                    <span className="text"><strong>118</strong> files pinned <span className="muted">(25.31 GB)</span></span>
+                                    <span className="text"><strong>{this.state.stats.pinned.total}</strong> files pinned <span className="muted">({this.state.stats.pinned.size})</span></span>
                                 </div>
                             </div>
                             <div className="col col-sm-6">
                                 <div className="upload">
                                     <object type="image/svg+xml" data="images/svg/arrows-16px-1_tail-up.svg" className="logo"/>
-                                    <span className="text"><strong>1.33 KB/s</strong> uploading <span className="muted">(69 MB)</span></span>
+                                    <span className="text"><strong>{this.state.stats.speed.up}</strong> uploading <span className="muted">({this.state.stats.bw.up})</span></span>
                                 </div>
 
                             </div>
                             <div className="col col-sm-6">
                                 <div className="download">
                                     <object type="image/svg+xml" data="images/svg/arrows-16px-1_tail-down.svg" className="logo"/>
-                                    <span className="text"><strong>1.33 KB/s</strong> uploading <span className="muted">(69 MB)</span></span>
+                                    <span className="text"><strong>{this.state.stats.speed.down}</strong> uploading <span className="muted">({this.state.stats.bw.down})</span></span>
                                 </div>
                             </div>
                         </div>

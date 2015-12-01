@@ -1,6 +1,7 @@
 import alt from '../alt';
 import path from 'path';
 import DaemonUtil from '../utils/daemonEngineUtil';
+import IPFSUtil from '../utils/daemon/ipfs';
 
 
 /*
@@ -49,6 +50,9 @@ class daemonEngineActions {
                 break;
             case 'disable':
                 DaemonUtil.disable('ipfs');
+                break;
+            case 'refresh-stats':
+                IPFSUtil.refreshStats().then(this.actions.update);
                 break;
             case 'install':
                 DaemonUtil.install({

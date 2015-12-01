@@ -15,7 +15,7 @@ import DaemonStore from '../stores/daemonEngineStore';
 
 const killPID = pid => {
     return new Promise((resolve, reject) => {
-        ps.kill(task.pid).fork(
+        ps.kill(pid).fork(
             error => {
                 reject(error);
             }, () => {
@@ -41,7 +41,7 @@ const exec = (execPath, args = [], options = {}) => {
     });
 }
 
-const generateAPI = (daemon) => {
+const generateAPI = daemon => {
 
     switch (daemon) {
         case 'ipfs':

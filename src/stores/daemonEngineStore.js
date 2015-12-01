@@ -1,6 +1,5 @@
 import alt from '../alt';
 import _ from 'lodash';
-import updateState from 'react-addons-update';
 import DaemonEngineActions from '../actions/daemonEngineActions';
 
 
@@ -16,9 +15,9 @@ class DaemonEngineStore {
 
     }
 
-    onUpdate(daemon) {
+    onUpdate(update) {
         let enabled = this.enabled;
-        enabled[daemon.id][daemon.key] = daemon[daemon.key];
+        enabled[update.id][update.key] = update[update.key];
         this.setState({
             enabled: enabled
         });
