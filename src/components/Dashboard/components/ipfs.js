@@ -137,9 +137,14 @@ default React.createClass({
                         </a>
                     </div>
                     <div className="pull-right">
-                        <input onChange={this.handleChangeEnable} type="checkbox" id="ipfs_toggle" className="cbx hidden" checked={(this.state.enabled && this.state.initStats.code === 7)} />
-                        <label htmlFor="ipfs_toggle" className="lbl"></label>   
+                        <input onChange={this.handleChangeEnable}  type="checkbox" id="checked" className="toggle hidden" checked={(this.state.enabled && this.state.initStats.code === 7)}/>
+                        <label htmlFor="checked" className="lbl"></label>   
                     </div>
+                    <If test={(this.state.initStats.code !== 0 && this.state.initStats.code !== 7)}>
+                        <div className="pull-right enabling">
+                            <p className="pull-left">Enabling ...</p>
+                        </div>
+                    </If>
                 </div>
                 <If test={(this.state.initStats.code !== 0 && this.state.initStats.code !== 7)}>
                     <ProgressComponent task={progressInfo.task} percent={progressInfo.percent} />
