@@ -138,6 +138,9 @@ default React.createClass({
         }
     },
     handleChangeEnable() {
+        if (this.state.initStats.code === 8)
+            return DaemonActions.ipfs('enable');
+
         if (this.state.initStats.code === 7 || this.state.initStats.code === 0) {
             let toggle = this.state.enabled ? 'disable' : 'enable';
             if (toggle === 'disable')

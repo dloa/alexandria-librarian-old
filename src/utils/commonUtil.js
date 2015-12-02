@@ -1,4 +1,16 @@
+import getFolderSize from 'get-folder-size';
+import Promise from 'bluebird';
+
 module.exports = {
+    folderSize(folder) {
+        return new Promise((resolve, reject) => {
+            getFolderSize(folder, (err, total) => {
+                if (err) return reject(err)
+                resolve(total);
+            })
+        });
+    },
+
     formatBytes(bytes, decimals) {
         if (bytes == 0) return '0 Byte';
         var k = 1000;

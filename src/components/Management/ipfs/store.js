@@ -7,11 +7,15 @@ class Store {
     constructor() {
         this.bindActions(Actions);
 
-
+        this.pinned = {};
     }
 
-    onPin(hash) {
-        this.setState(setting);
+    onPined(pin) {
+        let pinned = this.pinned;
+        pinned[pin.hash] = pin;
+        this.setState({
+            pinned: pinned
+        });
     }
 
 

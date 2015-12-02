@@ -1,7 +1,6 @@
 import ipfsAPI from 'ipfs-api';
 import _ from 'lodash';
 import path from 'path';
-import folderSize from 'get-folder-size';
 import Promise from 'bluebird';
 import DaemonEngineStore from '../../stores/daemonEngineStore';
 import CommonUtil from '../../utils/CommonUtil';
@@ -18,16 +17,16 @@ const getPeers = () => {
 
 const getPinnedSize = () => {
     return new Promise((resolve, reject) => {
-        folderSize(path.join(process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'], '.ipfs/blocks'), (err, total) => {
-            if (err) return reject(err)
-            let stats = DaemonEngineStore.getState().enabled.ipfs.stats;
-            stats.pinned.size = CommonUtil.formatBytes(total.toFixed(3), 2);
-            resolve({
-                id: 'ipfs',
-                key: 'stats',
-                stats: stats
-            });
-        })
+        CommonUtil.folderSize(path.join(process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'], '.ipfs/blocks'))
+            .then(bytes => {
+                let stats = DaemonEngineStore.getState().enabled.ipfs.stats;
+                stats.pinned.size = CommonUtil.formatBytes(bytes.toFixed(3), 2);
+                resolve({
+                    id: 'ipfs',
+                    key: 'stats',
+                    stats: stats
+                });
+            }).catch(reject);
     });
 };
 
