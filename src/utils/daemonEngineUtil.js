@@ -38,7 +38,7 @@ const copy = (input, output) => {
 const exec = (execPath, args = [], options = {}) => {
     return new Promise((resolve, reject) => {
         child_process.exec(execPath + ' ' + args.join(' '), options, (error, stdout, stderr) => {
-            resolve(error ? stderr : stdout);
+            resolve(error ? stderr : (stderr || stdout));
         });
     });
 }
@@ -175,26 +175,25 @@ module.exports = {
                         });
                     })
                     .then(() => {
-                        _.delay(() => {
-                            exec(installPath, daemon.args, {
-                                cwd: this.installDir
-                            }).then(output => {
-                                if (checkInstalledOkay(daemon.id, output)) {
-                                    DaemonActions.enabling({
-                                        id: daemon.id,
-                                        code: 3
-                                    });
-                                    resolve();
-                                } else {
-                                    DaemonActions.enabling({
-                                        id: daemon.id,
-                                        code: 8,
-                                        error: 'Installation Error'
-                                    });
-                                    reject();
-                                }
-                            });
-                        }, 500)
+                        let execCMD = (process.platform === 'win32') ? installPath : "'" + installPath + "'";
+                        exec(execCMD, daemon.args, {
+                            cwd: this.installDir
+                        }).then(output => {
+                            if (checkInstalledOkay(daemon.id, output)) {
+                                DaemonActions.enabling({
+                                    id: daemon.id,
+                                    code: 3
+                                });
+                                resolve();
+                            } else {
+                                DaemonActions.enabling({
+                                    id: daemon.id,
+                                    code: 8,
+                                    error: 'Installation Error'
+                                });
+                                reject();
+                            }
+                        });
                     });
             } catch (e) {
                 DaemonActions.enabling({
