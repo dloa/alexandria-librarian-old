@@ -34,6 +34,22 @@ default React.createClass({
         console.log('pin called', pinValue)
     },
 
+    generateRow(file) {
+        return (
+            <tr>
+                <td>{file.name}</td>
+                <td>d9729feb74992cc3482b350163a1a010</td>
+                <td>186 MB</td>
+                <td>17</td>
+                <td className="unpin">
+                    <a href="" className="svg btn">
+                        <object type="image/svg+xml" data="assets/svg/location-16px-e_pin-remove.svg"/>
+                    </a>
+                </td>
+            </tr>
+        );
+    },
+
     render() {
         return (
             <div className="section ipfs">
@@ -65,39 +81,7 @@ default React.createClass({
                         <col className="col-sm-1"/>
                     </colgroup>
                     <tbody>
-                        <tr>
-                            <td>DJ Day.flac</td>
-                            <td>d9729feb74992cc3482b350163a1a010</td>
-                            <td>186 MB</td>
-                            <td>17</td>
-                            <td className="unpin">
-                                <a href="" className="svg btn">
-                                    <object type="image/svg+xml" data="assets/svg/location-16px-e_pin-remove.svg"/>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>DJ Day.flac</td>
-                            <td>d9729feb74992cc3482b350163a1a010</td>
-                            <td>186 MB</td>
-                            <td>17</td>
-                            <td className="unpin">
-                                <a href="" className="svg btn">
-                                    <object type="image/svg+xml" data="assets/svg/location-16px-e_pin-remove.svg"/>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>DJ Day.flac</td>
-                            <td>d9729feb74992cc3482b350163a1a010</td>
-                            <td>186 MB</td>
-                            <td>17</td>
-                            <td className="unpin">
-                                <a href="" className="svg btn">
-                                    <object type="image/svg+xml" data="assets/svg/location-16px-e_pin-remove.svg"/>
-                                </a>
-                            </td>
-                        </tr>
+                       
                     </tbody>
                 </table>
             </div>
