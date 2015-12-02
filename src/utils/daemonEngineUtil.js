@@ -6,6 +6,7 @@ import child from 'child';
 import path from 'path';
 import ps from 'xps';
 import ipfsAPI from 'ipfs-api';
+import _ from 'lodash';
 import {
     app
 }
@@ -167,8 +168,8 @@ module.exports = {
                         return new Promise((resolve, reject) => {
                             fs.chmod(installPath, '755', err => {
                                 if (err)
-                                    return reject()
-                                resolve();
+                                    return reject();
+                                _.delay(resolve, 500);
                             });
                         });
                     })
