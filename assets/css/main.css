@@ -130,6 +130,9 @@ label {
 .rig-label {
   color: black; }
 
+.muted {
+  color: #8e8e90; }
+
 /* Buttons */
 .btn {
   transition: all 0.1s;
@@ -158,19 +161,31 @@ label {
 .btn-toggle:hover, .btn-toggle:focus, .btn-toggle:active:hover {
   background-color: white; }
 
+.btn-toggle-primary {
+  border-color: #f2f2f2;
+  margin-right: 5px; }
+
+.btn-toggle-primary.active, .btn-toggle-primary.active.focus, .btn-toggle-primary.active:focus, .btn-toggle-primary.active:hover {
+  background-color: rgba(83, 139, 212, 0.1);
+  border-color: transparent;
+  color: #538Bd4; }
+
+.btn-toggle-primary:hover, .btn-toggle-primary:focus, .btn-toggle-primary:active:hover {
+  background-color: white; }
+
 .svg.btn {
   margin: 0;
   padding: 0;
-  opacity: .5;
-  transition: opacity 0.1s; }
-
-.svg.btn:hover {
   opacity: 1;
   transition: opacity 0.1s; }
 
-.btn-settings {
-  margin-left: 10px !important;
-  margin-top: 1px !important; }
+.svg.btn:hover {
+  opacity: .5;
+  transition: opacity 0.1s; }
+
+.svg.btn.btn-settings {
+  margin-left: 10px;
+  margin-top: 1px; }
 
 /* Form */
 .form-control {
@@ -373,3 +388,17 @@ td.unpin {
 
 .preferences:last-child {
   border-bottom: none; }
+
+/* About */
+.contributors p {
+  color: #38383b; }
+
+.contributors .svg.btn.btn-github {
+  margin-right: 5px; }
+
+.contributors .muted {
+  margin-left: 5px; }
+
+.well.license {
+  color: #8e8e90;
+  font-size: 12px; }
