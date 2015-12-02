@@ -34,17 +34,6 @@ const copy = (input, output) => {
     });
 }
 
-
-const setChmod = installPath => {
-    return new Promise((resolve, reject) => {
-        fs.chmod(installPath, '755', err => {
-            if (err)
-                return reject();
-            resolve();
-        });
-    });
-}
-
 const exec = (execPath, args = [], options = {}) => {
     return new Promise((resolve, reject) => {
         child_process.exec(execPath + ' ' + args.join(' '), options, (error, stdout, stderr) => {
@@ -170,12 +159,21 @@ module.exports = {
                                     code: 8,
                                     error: 'Installation Error'
                                 });
-                                return reject()
+                                return reject();
                             }
-                            resolve(installPath);
+                            resolve();
                         });
                     })
-                    .then(setChmod)
+                    .then(() => {
+                        return new Promise((resolve, reject) => {
+                            try {
+                                fs.chmodSync(installPath, '0755');
+                                resolve();
+                            } catch (e) {
+                                reject();
+                            }
+                        });
+                    })
                     .then(() => {
                         exec(installPath, daemon.args, {
                             cwd: this.installDir
