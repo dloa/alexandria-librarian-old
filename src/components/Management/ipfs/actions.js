@@ -63,12 +63,12 @@ class Actions {
 
     loadLocalDB() {
         this.dispatch();
-        
+
         CommonUtil.readJson(pinnedJson)
             .then(this.actions.loadedDB)
             .catch(e => {
-                console.error(e);
-            })
+                this.actions.loadedDB({})
+            });
 
     }
 
