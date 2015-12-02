@@ -4,6 +4,7 @@ import {
     dialog
 }
 from 'remote';
+import IPFSUtil from '../../../utils/daemon/ipfs';
 
 class Actions {
     constructor() {
@@ -19,7 +20,10 @@ class Actions {
             title: 'Select file',
             properties: ['openFile', 'createDirectory', 'multiSelections'],
         }, filenames => {
-            console.log(filenames)
+            if (filenames)
+                IPFSUtil.addFiles(filenames);
+
+
         });
     }
     pinURL() {

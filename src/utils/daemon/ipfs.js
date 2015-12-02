@@ -97,5 +97,24 @@ module.exports = {
                     console.error('IPFS refreshStats()', err);
                 });
         });
+    },
+    pinHashs(hashs) {
+
+        
+    },
+    addFiles(files) {
+        return new Promise((resolve, reject) => {
+            DaemonEngineStore.getState().enabled.ipfs.api.add(files, {
+                recursive: true
+            }, (err, res) => {
+                if (err || !res) return reject(err)
+
+                resolve(res);
+
+                for (var i = 0; i < res.length; i++) {
+                    console.log('added', res[i].Hash, res[i].Name)
+                }
+            })
+        });
     }
 }
