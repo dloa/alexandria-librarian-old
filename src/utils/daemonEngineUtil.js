@@ -38,8 +38,8 @@ const copy = (input, output) => {
 const exec = (execPath, args = [], options = {}) => {
     return new Promise((resolve, reject) => {
         child_process.exec(execPath + ' ' + args.join(' '), options, (error, stdout, stderr) => {
-            if (error){
-            	console.error(stderr);
+            if (error) {
+                console.error(stderr);
                 return reject(stderr)
             }
             console.log(stdout);
@@ -79,7 +79,7 @@ const checkStartedOkay = (daemon, out) => {
 const checkStartedFail = (daemon, out) => {
     switch (daemon) {
         case 'ipfs':
-            var fail = ['no ipfs repo found', 'repo.lock": has non-zero size'];
+            var fail = ['no ipfs repo found', 'repo.lock": has non-zero size', 'ipfs daemon is running'];
             break;
         case 'florincoind':
             break;
