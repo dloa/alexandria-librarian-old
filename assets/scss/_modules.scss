@@ -160,6 +160,14 @@ a.svg:after {
     margin-right: 5px;
 }
 
+.stats.libraryd .row {
+    padding: 10px 0;
+    border-bottom: 1px solid $ltgray;
+    &:last-child {
+        border-bottom: none;
+    }
+}
+
 /* Toggle */
 .lbl {
     position: relative;

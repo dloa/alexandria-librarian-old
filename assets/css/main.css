@@ -261,6 +261,13 @@ a.svg:after {
 .stats object {
   margin-right: 5px; }
 
+.stats.libraryd .row {
+  padding: 10px 0;
+  border-bottom: 1px solid #f2f2f2; }
+
+.stats.libraryd .row:last-child {
+  border-bottom: none; }
+
 /* Toggle */
 .lbl {
   position: relative;
