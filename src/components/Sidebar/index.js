@@ -27,24 +27,24 @@ default React.createClass({
         return (
             <ul className="sidebar-nav">
                 <li className="sidebar-brand">
-                    <a href="#">
+                    <a href="">
                         <object type="image/svg+xml" data="images/svg/logo-text.svg" className="logo"></object>
                     </a>
                 </li>
                 <li onClick={this.markActive.bind(this, '/')} className={(this.state.active === '/') ? 'active' : ''}>
-                    <a href="#">Dashboard</a>
+                    <a href="">Dashboard</a>
                 </li>
                 <li onClick={this.markActive.bind(this, 'publish/dashboard')} className={(this.state.active === 'publish/dashboard') ? 'active' : ''}>
-                    <a href="#">Publish</a>
+                    <a href="">Publish</a>
                 </li>
                 <li ref="preferences">
-                    <a href="#">Preferences</a>
+                    <a href="">Preferences</a>
+                </li>
+                <li onClick={this.markActive.bind(this, 'management/ipfs')} className={(this.state.active === 'management/ipfs') ? 'active' : ''}>
+                    <a href="">IPFS</a>
                 </li>
                 <li>
-                    <a href="#">IPFS</a>
-                </li>
-                <li>
-                    <a href="#">About</a>
+                    <a href="">About</a>
                 </li>
             </ul>
         );

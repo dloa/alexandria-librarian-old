@@ -5,9 +5,11 @@ import {
 from 'react-router';
 
 import Framework from './components/Framework.react';
+
 import Dashboard from './components/Dashboard';
 import PublishDash from './components/Publish';
 
+import IPFSManagement from './components/Management/ipfs';
 
 export
 default (
@@ -15,6 +17,7 @@ default (
       <IndexRoute component={Dashboard}/>
 
       <Route path="publish/dashboard" component={PublishDash} />
-
+      <Route path="management/ipfs" component={IPFSManagement} />
+      
     </Route>
 );

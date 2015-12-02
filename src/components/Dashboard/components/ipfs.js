@@ -150,13 +150,13 @@ default React.createClass({
     render() {
         let progressInfo = this.enableStats();
         return (
-            <div className="section ipfs">
+            <div className={'section ipfs ' + (this.props.active? 'active' : '')}>
                 <div className="clearfix">
                     <div className="pull-left">
                         <h4 className="title">IPFS</h4>
                     </div>
                     <div className="pull-left">
-                        <a href="#" className="svg btn-settings">
+                        <a href="" className="svg btn-settings">
                             <object type="image/svg+xml" data="images/svg/ui-16px-1_settings-gear-64.svg"/>
                         </a>
                     </div>
@@ -205,10 +205,12 @@ default React.createClass({
                         </div>
                     </div>
                 </If>
-                <div className="detail">
-                    <p>The InterPlanetary File System (IPFS) is a new hypermedia distribution protocol, addressed by content and identities. 
-                    IPFS enables the creation of completely distributed applications. It aims to make the web faster, safer, and more open.</p>
-                </div>
+                <If test={!this.props.active}>
+                    <div className="detail">
+                        <p>The InterPlanetary File System (IPFS) is a new hypermedia distribution protocol, addressed by content and identities. 
+                        IPFS enables the creation of completely distributed applications. It aims to make the web faster, safer, and more open.</p>
+                    </div>
+                </If>
             </div>
         );
     }
