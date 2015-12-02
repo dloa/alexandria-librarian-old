@@ -37,20 +37,38 @@
     margin-right: 5px;
 }
 
+.btn-toggle-primary {
+    border-color: $ltgray;
+    &.active,
+    &.active.focus,
+    &.active:focus,
+    &.active:hover {
+        background-color: rgba($primary, .1);
+        border-color: transparent;
+        color: $primary;
+    }
+    &:hover,
+    &:focus,
+    &:active:hover {
+        background-color: white;
+    }
+    margin-right: 5px;
+}
+
 .svg.btn {
     margin: 0;
     padding: 0;
-    opacity: .5;
+    opacity: 1;
     transition: opacity 0.1s;
     &:hover {
-        opacity: 1;
+        opacity: .5;
         transition: opacity 0.1s;
     }
 }
 
-.btn-settings {
-    margin-left: 10px !important;
-    margin-top: 1px !important;
+.svg.btn.btn-settings {
+    margin-left: 10px;
+    margin-top: 1px;
 }
 
 /* Form */
@@ -158,6 +176,14 @@ a.svg:after {
 
 .stats object {
     margin-right: 5px;
+}
+
+.stats.libraryd .row {
+    padding: 10px 0;
+    border-bottom: 1px solid $ltgray;
+    &:last-child {
+        border-bottom: none;
+    }
 }
 
 /* Toggle */
@@ -286,4 +312,23 @@ td.unpin {
     &:last-child {
         border-bottom: none;
     }
+}
+
+/* About */
+.contributors {
+    p {
+        color: $dkgray;
+    }
+    .svg.btn.btn-github {
+        margin-right: 5px;
+    }
+    .muted {
+        margin-left: 5px;
+    }
+}
+
+.well.license {
+    color: $gray;
+    font-size: 12px;
+    white-space: pre-wrap;
 }
