@@ -40,9 +40,7 @@ default React.createClass({
     },
 
     handelPin() {
-        let pinValue = this.refs['pin-hash'].value;
-
-        console.log('pin called', pinValue)
+        PinActions.pinURL(this.refs['pin-hash'].value);
     },
 
     generatePinRow(file) {

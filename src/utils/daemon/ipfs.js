@@ -30,10 +30,10 @@ const getPinnedSize = () => {
     });
 };
 
-const getPinnedHashsSize = pinned => {
+const getHashsSize = hashs => {
     let total = 0;
     return new Promise((resolve, reject) => {
-        DaemonEngineStore.getState().enabled.ipfs.api.ls(pinned, (err, res) => {
+        DaemonEngineStore.getState().enabled.ipfs.api.ls(hashs, (err, res) => {
             if (!res.Objects)
                 return reject();
             res.Objects.forEach(node => {
@@ -96,6 +96,9 @@ module.exports = {
                     console.error('IPFS refreshStats()', err);
                 });
         });
+    },
+    getHashsSize(hashs) {
+        return getHashsSize(hashs);
     },
     pinHash(hash) {
         return new Promise((resolve, reject) => {

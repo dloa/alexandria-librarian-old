@@ -57,8 +57,41 @@ class Actions {
         });
     }
 
-    pinURL() {
+    pinURL(url) {
         this.dispatch();
+
+        if (path.isAbsolute(url)) {
+
+            Promise.all([IPFSUtil.addFile(url), CommonUtil.folderSize(url)])
+                .spread((hash, size) => {
+                    IPFSUtil.pinHash(hash.Hash).then(res => {
+                        _.defer(() => {
+                            this.actions.pined({
+                                name: path.basename(url),
+                                hash: res,
+                                size: CommonUtil.formatBytes(size.toFixed(3), 2)
+                            });
+                            process.nextTick(next);
+                        });
+                    })
+                })
+                .catch(err => {
+                    console.error(err);
+                    process.nextTick(next);
+                });
+        } else {
+            Promise.all([IPFSUtil.pinHash(url), IPFSUtil.getHashsSize([url])])
+                .spread((hash, size) => {
+                    _.defer(() => {
+                        this.actions.pined({
+                            name: path.basename(url),
+                            hash: hash,
+                            size: size
+                        });
+                    });
+                })
+                .catch(console.error);
+        }
     }
 
     loadLocalDB() {
