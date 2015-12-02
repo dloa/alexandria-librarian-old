@@ -1,6 +1,6 @@
 import React from 'react';
 import path from 'path';
-
+import _ from 'lodash';
 import PinActions from './actions';
 import PinStore from './store';
 
@@ -34,20 +34,28 @@ default React.createClass({
         console.log('pin called', pinValue)
     },
 
-    generateRow(file) {
+    generatePinRow(file) {
         return (
-            <tr>
+            <tr key={file.hash}>
                 <td>{file.name}</td>
-                <td>d9729feb74992cc3482b350163a1a010</td>
-                <td>186 MB</td>
-                <td>17</td>
+                <td>{file.hash}</td>
+                <td>{file.size}</td>
+                <td></td>
                 <td className="unpin">
                     <a href="" className="svg btn">
-                        <object type="image/svg+xml" data="assets/svg/location-16px-e_pin-remove.svg"/>
+                        <object type="image/svg+xml" data="images/svg/location-16px-e_pin-remove.svg"/>
                     </a>
                 </td>
             </tr>
         );
+    },
+
+    generatePined() {
+        var pinned = []
+        _.forEach(this.state.pinned, file => {
+            pinned.push(this.generatePinRow(file));
+        });
+        return pinned;
     },
 
     render() {
@@ -81,7 +89,7 @@ default React.createClass({
                         <col className="col-sm-1"/>
                     </colgroup>
                     <tbody>
-                       
+                        {this.generatePined()}
                     </tbody>
                 </table>
             </div>

@@ -10,7 +10,7 @@ import CommonUtil from '../../../utils/CommonUtil';
 const pinnedJson = path.join(app.getPath('userData'), 'pinned.json');
 
 
-class Store {
+class ipfsManageStore {
     constructor() {
         this.bindActions(Actions);
 
@@ -30,4 +30,4 @@ class Store {
 }
 
 export
-default alt.createStore(Store);
+default alt.createStore(ipfsManageStore);
