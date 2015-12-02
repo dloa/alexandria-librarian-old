@@ -90,7 +90,7 @@ const checkStartedFail = (daemon, out) => {
 const checkInstalledOkay = (daemon, out) => {
     switch (daemon) {
         case 'ipfs':
-            var okay = ['ipfs configuration file already exists'];
+            var okay = ['ipfs configuration file already exists', 'to get started, enter:', 'generating 2048-bit RSA keypair...done'];
             break;
         case 'florincoind':
             break;
