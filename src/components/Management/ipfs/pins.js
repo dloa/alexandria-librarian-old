@@ -8,29 +8,26 @@ export
 default React.createClass({
     getInitialState() {
         return {
-
+            pinned: PinStore.getState().pinned
         };
     },
 
     componentWillMount() {
-
+        PinStore.listen(this.update);
     },
-    componentWillUnmount() {
 
+    componentWillUnmount() {
+        PinStore.unlisten(this.update);
     },
 
     update() {
         if (this.isMounted()) {
             this.setState({
-
+                pinned: PinStore.getState().pinned
             });
         }
     },
-    handleHashInput(event) {
-        this.setState({
 
-        });
-    },
     handelPin() {
         let pinValue = this.refs['pin-hash'].value;
 

@@ -43,7 +43,7 @@ default React.createClass({
         };
     },
 
-    componentDidMount() {
+    componentWillMount() {
         DaemonStore.listen(this.update);
         _.defer(this.refreshStats);
     },
@@ -56,7 +56,7 @@ default React.createClass({
         if (this.state.initStats.code === 7) {
             DaemonActions.ipfs('refresh-stats');
 
-            if (!this.state.gotPinedSize) {
+            if (!this.state.gotPinedSize && this.isMounted()) {
                 this.setState({
                     gotPinedSize: true
                 });

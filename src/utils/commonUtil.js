@@ -1,5 +1,8 @@
 import getFolderSize from 'get-folder-size';
 import Promise from 'bluebird';
+import fs from 'fs';
+import path from 'path';
+
 
 module.exports = {
     folderSize(folder) {
@@ -10,7 +13,22 @@ module.exports = {
             })
         });
     },
-
+    readJson(jsonPath) {
+        return new Promise((resolve, reject) => {
+            fs.readFile(jsonPath, 'utf8', (err, data) => {
+                if (err) return reject(err);
+                resolve(JSON.parse(data));
+            });
+        });
+    },
+    saveJson(jsonPath, json) {
+        return new Promise((resolve, reject) => {
+            fs.writeFile(jsonPath, JSON.stringify(json), (err, data) => {
+                if (err) return reject(err);
+                resolve(data);
+            });
+        });
+    },
     formatBytes(bytes, decimals) {
         if (bytes == 0) return '0 Byte';
         var k = 1000;
