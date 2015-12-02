@@ -38,8 +38,11 @@ const copy = (input, output) => {
 const exec = (execPath, args = [], options = {}) => {
     return new Promise((resolve, reject) => {
         child_process.exec(execPath + ' ' + args.join(' '), options, (error, stdout, stderr) => {
-            if (error)
+            if (error){
+            	console.error(stderr);
                 return reject(stderr)
+            }
+            console.log(stdout);
             resolve(stdout);
         });
     });
