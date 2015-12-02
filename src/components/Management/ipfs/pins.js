@@ -1,6 +1,8 @@
 import React from 'react';
+import path from 'path';
 
-
+import PinActions from './actions';
+import PinStore from './store';
 
 export
 default React.createClass({
@@ -29,17 +31,17 @@ default React.createClass({
 
         });
     },
-    handelPin(event) {
-        console.log('pin called')
+    handelPin() {
+        let pinValue = this.refs['pin-hash'].value;
+
+        console.log('pin called', pinValue)
     },
-    handelBrowseLocal() {
-        console.log('pin called')
-    },
+
     render() {
         return (
             <div className="section ipfs">
                 <form onSubmit={this.handelPin} className="form-inline">
-                    <button onClick={this.handelBrowseLocal} type="button" className="btn btn-default">Browse local</button>
+                    <button onClick={PinActions.pinLocal} type="button" className="btn btn-default">Browse local</button>
                     <p>or</p>
                     <div className="form-group pull-right">
                         <input ref="pin-hash" type="text" className="form-control ipfs" id="" placeholder="Enter Local Path, IPFS hash or URL"/>
