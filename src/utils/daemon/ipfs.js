@@ -102,7 +102,9 @@ module.exports = {
     },
     pinHash(hash) {
         return new Promise((resolve, reject) => {
-            DaemonEngineStore.getState().enabled.ipfs.api.pin.add(hash, (err, res) => {
+            DaemonEngineStore.getState().enabled.ipfs.api.pin.add(hash, {
+                hidden: true
+            }, (err, res) => {
                 if (err || !res) return reject(err);
                 resolve(res.Pinned[0]);
             })
