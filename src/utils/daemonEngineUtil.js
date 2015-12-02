@@ -165,7 +165,7 @@ module.exports = {
                     })
                     .then(() => {
                         return new Promise((resolve, reject) => {
-                            fs.chmod(installPath, 0755, err => {
+                            fs.chmod(installPath, '755', err => {
                                 if (err)
                                     return reject()
                                 resolve();
