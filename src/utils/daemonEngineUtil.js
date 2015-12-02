@@ -38,7 +38,9 @@ const copy = (input, output) => {
 const exec = (execPath, args = [], options = {}) => {
     return new Promise((resolve, reject) => {
         child_process.exec(execPath + ' ' + args.join(' '), options, (error, stdout, stderr) => {
-            resolve(error ? stderr : (stderr || stdout));
+            if (error)
+                return reject(stderr)
+            resolve(stdout);
         });
     });
 }
@@ -179,6 +181,21 @@ module.exports = {
                         exec(execCMD, daemon.args, {
                             cwd: this.installDir
                         }).then(output => {
+                            if (checkInstalledOkay(daemon.id, output)) {
+                                DaemonActions.enabling({
+                                    id: daemon.id,
+                                    code: 3
+                                });
+                                resolve();
+                            } else {
+                                DaemonActions.enabling({
+                                    id: daemon.id,
+                                    code: 8,
+                                    error: 'Installation Error'
+                                });
+                                reject();
+                            }
+                        }).catch(output => {
                             if (checkInstalledOkay(daemon.id, output)) {
                                 DaemonActions.enabling({
                                     id: daemon.id,
