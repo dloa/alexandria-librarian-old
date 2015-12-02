@@ -8,12 +8,22 @@ export
 default React.createClass({
     getInitialState() {
         return {
-            pinned: PinStore.getState().pinned
+            pinned: PinStore.getState().pinned,
+            loadedDB: PinStore.getState().loadedDB
         };
     },
 
     componentWillMount() {
         PinStore.listen(this.update);
+    },
+
+    componentDidMount() {
+        if (!this.state.loadedDB) {
+            this.setState({
+                loadedDB: true
+            });
+            PinActions.loadLocalDB();
+        }
     },
 
     componentWillUnmount() {
@@ -23,7 +33,8 @@ default React.createClass({
     update() {
         if (this.isMounted()) {
             this.setState({
-                pinned: PinStore.getState().pinned
+                pinned: PinStore.getState().pinned,
+                loadedDB: PinStore.getState().loadedDB
             });
         }
     },

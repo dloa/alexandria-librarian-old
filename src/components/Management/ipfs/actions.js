@@ -3,24 +3,29 @@ import Promise from 'bluebird';
 import async from 'async';
 import path from 'path';
 import {
-    dialog
+    dialog, app
 }
 from 'remote';
 import alt from '../../../alt'
 import IPFSUtil from '../../../utils/daemon/ipfs';
 import CommonUtil from '../../../utils/CommonUtil';
 
+const pinnedJson = path.join(app.getPath('userData'), 'pinned.json');
+
 
 class Actions {
     constructor() {
         this.generateActions(
-            'pined'
+            'pined',
+            'loadedDB'
         );
     }
     pinHash() {
 
     }
     pinLocal() {
+        this.dispatch();
+
         dialog.showOpenDialog({
             title: 'Select file',
             properties: ['openFile', 'createDirectory', 'multiSelections'],
@@ -51,9 +56,22 @@ class Actions {
             }
         });
     }
+
     pinURL() {
+        this.dispatch();
+    }
+
+    loadLocalDB() {
+        this.dispatch();
+        
+        CommonUtil.readJson(pinnedJson)
+            .then(this.actions.loadedDB)
+            .catch(e => {
+                console.error(e);
+            })
 
     }
+
 }
 
 

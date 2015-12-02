@@ -15,6 +15,7 @@ class ipfsManageStore {
         this.bindActions(Actions);
 
         this.pinned = {};
+        this.loadedDB = false;
     }
 
     onPined(pin) {
@@ -24,6 +25,13 @@ class ipfsManageStore {
             pinned: pinned
         });
         CommonUtil.saveJson(pinnedJson, pinned);
+    }
+
+    onLoadedDB(db) {
+        this.setState({
+            loadedDB: true,
+            pinned: Object.assign(this.pinned, db)
+        });
     }
 
 
