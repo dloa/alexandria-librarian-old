@@ -43,7 +43,7 @@ default React.createClass({
                 <li onClick={this.markActive.bind(this, 'management/ipfs')} className={(this.state.active === 'management/ipfs') ? 'active' : ''}>
                     <a href="">IPFS</a>
                 </li>
-                <li>
+                <li onClick={this.markActive.bind(this, 'about')} className={(this.state.active === 'about') ? 'active' : ''}>
                     <a href="">About</a>
                 </li>
             </ul>

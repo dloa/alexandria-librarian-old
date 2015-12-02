@@ -1,73 +1,87 @@
 ﻿import React from 'react';
+import shell from 'shell';
+import _ from 'lodash';
 
-import utils from '../utils/util';
-import externalActions from '../actions/externalActions';
-import externalStore from '../stores/externalStore';
-
+import AboutStore from './store';
+import AboutActions from './actions';
 
 export
 default React.createClass({
     getInitialState() {
         return {
-            contributors: externalStore.getState().contributors,
-            license: externalStore.getState().license,
-            version: externalStore.getState().version
+            appInfo: AboutStore.getState().appInfo,
+            contributors: AboutStore.getState().contributors,
+            license: AboutStore.getState().license,
+            requestedInfo: AboutStore.getState().requestedInfo
         }
     },
+
+    componentWillMount() {
+        AboutStore.listen(this.update);
+    },
+
     componentDidMount() {
-        if (!this.state.license || !this.state.contributors || !this.state.version) {
-            externalStore.listen(this.update);
-            if (!this.state.version)
-                externalActions.getVersion();
-            if (!this.state.license)
-                externalActions.getLicense();
-            if (!this.state.contributors)
-                externalActions.getContributors();
-        }
-    },
-    componentWillUnmount() {
-        if (!this.state.license || !this.state.contributors || !this.state.version)
-            externalStore.unlisten(this.update);
-    },
-    update() {
-        if (this.isMounted()) {
+        if (!this.state.requestedInfo) {
             this.setState({
-                contributors: externalStore.getState().contributors,
-                license: externalStore.getState().license,
-                version: externalStore.getState().version
+                requestedInfo: true
+            });
+            _.defer(() => {
+                AboutActions.getContributors();
+                AboutActions.getLicense();
+                AboutActions.getVersion();
             });
         }
     },
-    openGithub(e) {
-        utils.openUrl(e.target.getAttribute('data-github'))
+
+    componentWillUnmount() {
+        AboutStore.unlisten(this.update);
+    },
+
+    update() {
+        if (this.isMounted()) {
+            this.setState({
+                appInfo: AboutStore.getState().appInfo,
+                contributors: AboutStore.getState().contributors,
+                license: AboutStore.getState().license,
+                requestedInfo: AboutStore.getState().requestedInfo
+            });
+        }
+    },
+
+    openURL(event) {
+        shell.openExternal(event.target.getAttribute('data-url'));
     },
 
     render() {
-        var contributors = this.state.contributors ? this.state.contributors : [];
-        var license = this.state.license ? this.state.license : 'Loading...';
-        var version = this.state.version ? this.state.version : 'Loading...';
         return (
-            <div className="content-scroller" id="content">
-                <section>
-                    <h1 className="title">About</h1>
-                    <p className="about" >This is a prototype developer build, and is not representative of the final product.</p>
-                    <br/>
-                <p className="about" >{version}</p>
-                </section>
-                <section>
-                    <h1 className="title">Contributors</h1>
-                        {
-                            contributors.map(function(Contributor, i) {
-                                return (
-                                        <p className="Contributor">{Contributor.name} {Contributor.email} <i data-github={Contributor.github}  onClick={this.openGithub} className="ion-social-github" /></p>
-                                    );
-                                }, this)
-                        }
-                 </section>
-                <section>
-                    <h1 className="title">License</h1>
-                    <textarea className="License"  defaultValue={license} readOnly />
-                </section>
+            <div className="col-lg-12">
+                <div className="section about">
+                    <h4 className="title">About</h4>
+                    <p>ΛLΞXΛNDRIΛ Librarian v{this.state.appInfo.version} - "{this.state.appInfo.releaseName}"</p>
+                    <p>This is a prototype developer build, and is not representative of the final product.</p>
+                </div>
+                <div className="section about contributors">
+                    <h4 className="title">Contributors</h4>
+                    {
+                        this.state.contributors.map((Contributor, i) => {
+                            return (
+                                    <p key={i}>
+                                        <a onClick={this.openURL} data-url={Contributor.url} href="" className="svg btn btn-github">
+                                            <object type="image/svg+xml" data="images/svg/social-16px_logo-github.svg"/>
+                                        </a>
+                                        {Contributor.name} <span className="muted">{Contributor.email}</span>
+                                    </p>
+                                );
+                            }, this)
+                    }
+                    
+                </div>
+                <div className="section about license">
+                    <h4 className="title">License</h4>
+                    <div className="well license">
+                       {this.state.license}
+                    </div>
+                </div>
             </div>
         );
     }
