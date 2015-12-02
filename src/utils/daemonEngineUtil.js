@@ -5,6 +5,7 @@ import fsExtra from 'fs-extra';
 import child from 'child';
 import path from 'path';
 import ps from 'xps';
+import chmod from 'chmod';
 import ipfsAPI from 'ipfs-api';
 import {
     app
@@ -149,34 +150,50 @@ module.exports = {
             let installPath = path.join(this.installDir, execName);
             let sourcePath = path.join(this.binDir, execName);
             try {
-                copy(sourcePath, installPath).then(copyStatus => {
-                    if (!copyStatus)
-                        return DaemonActions.enabling({
-                            id: daemon.id,
-                            code: 8,
-                            error: 'Installation Error'
+                copy(sourcePath, installPath)
+                    .then(copyStatus => {
+                        return new Promise((resolve, reject) => {
+                            if (!copyStatus) {
+                                DaemonActions.enabling({
+                                    id: daemon.id,
+                                    code: 8,
+                                    error: 'Installation Error'
+                                });
+                                return reject()
+                            }
+                            resolve();
                         });
-
-                    exec(installPath, daemon.args, {
-                        cwd: this.installDir
-                    }).then(output => {
-                        if (checkInstalledOkay(daemon.id, output)) {
-                            DaemonActions.enabling({
-                                id: daemon.id,
-                                code: 3
+                    })
+                    .then(() => {
+                        return new Promise(resolve => {
+                            chmod(installPath, {
+                                read: true,
+                                write: true,
+                                execute: true
                             });
                             resolve();
-                        } else {
-                            DaemonActions.enabling({
-                                id: daemon.id,
-                                code: 8,
-                                error: 'Installation Error'
-                            });
-                            reject();
-                        }
+                        });
+                    })
+                    .then(() => {
+                        exec(installPath, daemon.args, {
+                            cwd: this.installDir
+                        }).then(output => {
+                            if (checkInstalledOkay(daemon.id, output)) {
+                                DaemonActions.enabling({
+                                    id: daemon.id,
+                                    code: 3
+                                });
+                                resolve();
+                            } else {
+                                DaemonActions.enabling({
+                                    id: daemon.id,
+                                    code: 8,
+                                    error: 'Installation Error'
+                                });
+                                reject();
+                            }
+                        });
                     });
-                });
-
             } catch (e) {
                 DaemonActions.enabling({
                     id: daemon.id,
