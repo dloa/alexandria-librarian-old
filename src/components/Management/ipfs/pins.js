@@ -72,7 +72,7 @@ default React.createClass({
             <div className="section ipfs">
                 <form onSubmit={this.handelPin} className="form-inline">
                     <button onClick={PinActions.pinLocal} type="button" className="btn btn-default">Browse local</button>
-                    <p>or</p>
+                    <p className="margin">or</p>
                     <div className="form-group pull-right">
                         <input ref="pin-hash" type="text" className="form-control ipfs" id="" placeholder="Enter Local Path, IPFS hash or URL"/>
                         <button type="submit" className="btn btn-primary btn-pin-file">Pin file</button>
