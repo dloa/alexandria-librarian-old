@@ -21,9 +21,18 @@ class Actions {
             properties: ['openFile', 'createDirectory', 'multiSelections'],
         }, filenames => {
             if (filenames)
-                IPFSUtil.addFiles(filenames);
-
-
+                _.forEach(filenames, file => {
+                    IPFSUtil.addFile(file)
+                        .then(res => {
+                            console.log(res)
+                            return IPFSUtil.pinHash(res.Hash);
+                        }).then(res => {
+                            console.log(res);
+                        })
+                        .catch(err => {
+                            console.error(err);
+                        });
+                });
         });
     }
     pinURL() {

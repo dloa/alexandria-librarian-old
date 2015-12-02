@@ -73,7 +73,7 @@ const checkStartedOkay = (daemon, out) => {
 const checkStartedFail = (daemon, out) => {
     switch (daemon) {
         case 'ipfs':
-            var fail = ['no ipfs repo found'];
+            var fail = ['no ipfs repo found', 'repo.lock": has non-zero size'];
             break;
         case 'florincoind':
             break;
@@ -96,7 +96,6 @@ const checkInstalledOkay = (daemon, out) => {
     }
     return new RegExp(okay.join('|')).test(out);
 }
-
 
 
 module.exports = {
@@ -123,7 +122,7 @@ module.exports = {
                 });
             });
         } catch (e) {
-        	console.error(e);
+            console.error(e);
             DaemonActions.enabling({
                 id: daemon.id,
                 code: 8,

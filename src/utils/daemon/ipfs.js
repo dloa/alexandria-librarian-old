@@ -98,22 +98,23 @@ module.exports = {
                 });
         });
     },
-    pinHashs(hashs) {
-
-        
-    },
-    addFiles(files) {
+    pinHash(hash) {
         return new Promise((resolve, reject) => {
-            DaemonEngineStore.getState().enabled.ipfs.api.add(files, {
+            DaemonEngineStore.getState().enabled.ipfs.api.pin.add(hash, {
+                recursive: true
+            }, (err, res) => {
+                if (err || !res) return reject(err);
+                resolve(res.Pinned[0]);
+            })
+        });
+    },
+    addFile(file) {
+        return new Promise((resolve, reject) => {
+            DaemonEngineStore.getState().enabled.ipfs.api.add(file, {
                 recursive: true
             }, (err, res) => {
                 if (err || !res) return reject(err)
-
-                resolve(res);
-
-                for (var i = 0; i < res.length; i++) {
-                    console.log('added', res[i].Hash, res[i].Name)
-                }
+                resolve(res[0]);
             })
         });
     }
