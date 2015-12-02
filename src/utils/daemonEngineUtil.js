@@ -6,6 +6,7 @@ import child from 'child';
 import path from 'path';
 import ps from 'xps';
 import ipfsAPI from 'ipfs-api';
+import chmod from 'chmod';
 import _ from 'lodash';
 import {
     app
@@ -43,7 +44,6 @@ const exec = (execPath, args = [], options = {}) => {
 }
 
 const generateAPI = daemon => {
-
     switch (daemon) {
         case 'ipfs':
             return ipfsAPI('/ip4/127.0.0.1/tcp/5001');
@@ -165,34 +165,36 @@ module.exports = {
                         });
                     })
                     .then(() => {
-                        return new Promise((resolve, reject) => {
-                            try {
-                                fs.chmodSync(installPath, '0755');
-                                resolve();
-                            } catch (e) {
-                                reject();
-                            }
+                        return new Promise(resolve => {
+                            chmod(installPath, {
+                                read: true,
+                                write: true,
+                                execute: true
+                            });
+                            resolve();
                         });
                     })
                     .then(() => {
-                        exec(installPath, daemon.args, {
-                            cwd: this.installDir
-                        }).then(output => {
-                            if (checkInstalledOkay(daemon.id, output)) {
-                                DaemonActions.enabling({
-                                    id: daemon.id,
-                                    code: 3
-                                });
-                                resolve();
-                            } else {
-                                DaemonActions.enabling({
-                                    id: daemon.id,
-                                    code: 8,
-                                    error: 'Installation Error'
-                                });
-                                reject();
-                            }
-                        });
+                        _.delay(() => {
+                            exec(installPath, daemon.args, {
+                                cwd: this.installDir
+                            }).then(output => {
+                                if (checkInstalledOkay(daemon.id, output)) {
+                                    DaemonActions.enabling({
+                                        id: daemon.id,
+                                        code: 3
+                                    });
+                                    resolve();
+                                } else {
+                                    DaemonActions.enabling({
+                                        id: daemon.id,
+                                        code: 8,
+                                        error: 'Installation Error'
+                                    });
+                                    reject();
+                                }
+                            });
+                        }, 500)
                     });
             } catch (e) {
                 DaemonActions.enabling({
