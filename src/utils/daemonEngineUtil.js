@@ -5,7 +5,6 @@ import fsExtra from 'fs-extra';
 import child from 'child';
 import path from 'path';
 import ps from 'xps';
-import chmod from 'chmod';
 import ipfsAPI from 'ipfs-api';
 import {
     app
@@ -165,13 +164,12 @@ module.exports = {
                         });
                     })
                     .then(() => {
-                        return new Promise(resolve => {
-                            chmod(installPath, {
-                                read: true,
-                                write: true,
-                                execute: true
+                        return new Promise((resolve, reject) => {
+                            fs.chmod(installPath, 0755, err => {
+                                if (err)
+                                    return reject()
+                                resolve();
                             });
-                            resolve();
                         });
                     })
                     .then(() => {

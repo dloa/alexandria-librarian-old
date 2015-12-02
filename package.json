@@ -23,7 +23,6 @@
     "bluebird": "^3.0.5",
     "body-parser": "^1.14.1",
     "child": "0.0.3",
-    "chmod": "^0.2.1",
     "decompress-zip": "^0.2.0",
     "express": "^4.13.3",
     "fs-extra": "^0.26.2",
