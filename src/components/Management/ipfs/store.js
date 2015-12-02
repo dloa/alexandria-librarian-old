@@ -1,5 +1,13 @@
+import {
+    app
+}
+from 'remote';
+import path from 'path';
 import alt from '../../../alt';
 import Actions from './actions';
+import CommonUtil from '../../../utils/CommonUtil';
+
+const pinnedJson = path.join(app.getPath('userData'), 'pinned.json');
 
 
 class Store {
@@ -15,6 +23,7 @@ class Store {
         this.setState({
             pinned: pinned
         });
+        CommonUtil.saveJson(pinnedJson, pinned);
     }
 
 
