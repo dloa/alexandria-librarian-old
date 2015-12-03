@@ -139,15 +139,12 @@ const checkInstalledOkay = (daemon, out) => {
     return new RegExp(okay.join('|')).test(out);
 }
 
+
+
 const loadFlorincoinConf = () => {
     return new Promise((resolve, reject) => {
 
         let confFile = path.join(app.getPath('appData'), 'Florincoin', 'Florincoin.conf');
-
-        let auth = [
-            'rpcuser=user',
-            'rpcpassword=password'
-        ];
 
         let conf = [
             'rpcallowip=127.0.0.1',
@@ -157,7 +154,10 @@ const loadFlorincoinConf = () => {
             'server=1',
             'daemon=1',
             'txindex=1'
-        ];
+        ].concat([
+            'rpcuser=user',
+            'rpcpassword=password'
+        ]);
 
         let nodes = [
             '54.209.141.153',
@@ -278,7 +278,8 @@ module.exports = {
                 let installPath = path.join(this.installDir, execName);
                 let sourcePath = path.join(this.binDir, execName);
 
-                copy(sourcePath, installPath)
+                this.checkConfig(daemon.id)
+                    .then(copy.bind(this, sourcePath, installPath))
                     .then(() => {
                         return new Promise(resolve => {
                             chmod(installPath, {
@@ -289,8 +290,11 @@ module.exports = {
                             resolve();
                         });
                     })
-                    .then(this.checkConfig.bind(this, daemon))
+                    .then()
                     .then(opts => {
+                        if (!(daemon.args.length > 0))
+                            return resolve();
+
                         let execCMD = (process.platform === 'win32') ? installPath : "'" + installPath + "'";
                         exec(execCMD, daemon.args, {
                             cwd: this.installDir
@@ -331,7 +335,8 @@ module.exports = {
                     .catch(reject);
 
             } else {
-                extractZIP(this.getExecName(daemon.id, true), this.installDir)
+                this.checkConfig(daemon.id)
+                    .then(extractZIP.bind(this, this.getExecName(daemon.id, true), this.installDir))
                     .then(this.checkConfig.bind(this, daemon))
                     .then(() => {
 
@@ -441,17 +446,21 @@ module.exports = {
     },
 
     checkConfig(daemon) {
-        switch (daemon.id) {
-            case 'ipfs':
-                return true;
-                break;
-            case 'florincoind':
-                return loadFlorincoinConf();
-                break;
-            case 'libraryd':
-                return true;
-                break;
-        }
+        return new Promise((resolve, reject) => {
+            switch (daemon) {
+                case 'ipfs':
+                    resolve();
+                    break;
+                case 'florincoind':
+                    loadFlorincoinConf()
+                        .then(resolve)
+                        .catch(reject);
+                    break;
+                case 'libraryd':
+                    resolve();
+                    break;
+            }
+        });
     },
 
     getExecName(daemon, extract = false) {
