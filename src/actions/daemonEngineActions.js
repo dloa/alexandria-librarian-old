@@ -72,11 +72,11 @@ class daemonEngineActions {
         this.dispatch();
         switch (action) {
             case 'enable':
-                DaemonUtil.checkInstalled('florincoin')
+                DaemonUtil.checkInstalled('florincoind')
                     .then(installed => {
                         if (installed)
                             DaemonUtil.enable({
-                                id: 'florincoin',
+                                id: 'florincoind',
                                 args: []
                             });
                         else
@@ -84,13 +84,13 @@ class daemonEngineActions {
                     });
                 break;
             case 'disable':
-                DaemonUtil.disable('florincoin');
+                DaemonUtil.disable('florincoind');
                 break;
             case 'install':
                 DaemonUtil.install({
-                    id: 'florincoin',
+                    id: 'florincoind',
                     args: []
-                }, (process.platform === 'darwin') ? true : false)
+                }, ((process.platform === 'darwin') ? true : false))
                     .then(this.actions.florincoin.bind(this, 'enable'))
                     .catch(console.error);
                 break;

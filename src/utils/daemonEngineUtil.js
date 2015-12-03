@@ -142,11 +142,8 @@ const loadFlorincoinConf = () => {
 
     return new Promise((resolve, reject) => {
         if (fileExists(confFile)) {
-            let oldConf = [];
-            fs.readFile(confFile, 'utf8', (err, data) => {
-                if (err) return reject(err);
-                console.log(data);
-            });
+            let oldConf = fs.readFileSync(confFile, 'utf8').split('\n');
+            console.log(oldConf)
         } else {
 
         }
@@ -200,12 +197,10 @@ module.exports = {
                 id: daemon.id,
                 code: 2
             });
-
             if (!unzip) {
                 let execName = this.getExecName(daemon.id)
                 let installPath = path.join(this.installDir, execName);
                 let sourcePath = path.join(this.binDir, execName);
-
                 try {
                     copy(sourcePath, installPath)
                         .then(copyStatus => {
@@ -357,8 +352,8 @@ module.exports = {
             id: daemon,
             code: 1
         });
-
         let daemonPath = path.join(this.installDir, this.getExecName(daemon))
+        console.log(daemonPath);
 
         return new Promise((resolve) => {
             fs.stat(daemonPath, (err, status) => {
@@ -412,14 +407,10 @@ module.exports = {
                 return (process.platform === 'win32') ? 'ipfs.exe' : 'ipfs';
                 break;
             case 'florincoind':
-                switch (process.platform) {
-                    case 'darwin':
-                        return extract ? 'florincoind.zip' : 'florincoind';
-                        break;
-                    case 'win32':
-                        return 'florincoind.exe';
-                        break;
-                }
+                if (extract)
+                    return 'florincoind.zip'
+                else
+                    return (process.platform === 'win32') ? 'florincoind.exe' : 'florincoind';
                 break;
             case 'libraryd':
                 return (process.platform === 'win32') ? 'libraryd.exe' : 'libraryd';
