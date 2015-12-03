@@ -80,7 +80,7 @@ class daemonEngineActions {
                         if (installed)
                             DaemonUtil.enable({
                                 id: 'florincoind',
-                                args: []
+                                args: ['--debug', '--debugnet']
                             });
                         else
                             this.actions.florincoind('install');

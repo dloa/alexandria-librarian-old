@@ -139,6 +139,24 @@ const checkInstalledOkay = (daemon, out) => {
     return new RegExp(okay.join('|')).test(out);
 }
 
+const handelListener = (mode, daemon, input) => {
+
+
+    switch (daemon) {
+        case 'ipfs':
+
+            break;
+        case 'florincoind':
+
+            break;
+        case 'libraryd':
+
+            break;
+
+    }
+
+
+}
 
 
 const loadFlorincoinConf = () => {
@@ -152,8 +170,7 @@ const loadFlorincoinConf = () => {
             'rpcallowip=127.0.0.1',
             'rpcallowip=192.168.*.*',
             'server=1',
-            'daemon=1',
-            'txindex=1'
+            'daemon=1'
         ].concat([
             'rpcuser=user',
             'rpcpassword=password'
@@ -167,6 +184,10 @@ const loadFlorincoinConf = () => {
             '198.27.69.59',
             '37.187.27.4'
         ];
+
+        nodes.forEach(node => {
+            conf.push('addnode=' + node);
+        });
 
         if (fileExists(confFile)) {
             let oldConf = fs.readFileSync(confFile, 'utf8');
@@ -195,12 +216,15 @@ const loadFlorincoinConf = () => {
                     copy(confFile, path.join(app.getPath('appData'), 'Florincoin', 'Florincoin.conf.backup'))
                         .then(() => {
                             fs.unlink(confFile, () => {
-                                nodes.forEach(node => {
-                                    conf.push('addnode=' + node);
-                                });
-
                                 fs.writeFile(confFile, conf.join('\n'), (err, data) => {
-                                    if (err) return reject(err);
+                                    if (err) {
+                                        DaemonActions.enabling({
+                                            id: 'florincoind',
+                                            code: 8,
+                                            error: 'Error saving configuration'
+                                        });
+                                        return reject(err);
+                                    }
                                     resolve();
                                 });
                             });
@@ -216,12 +240,17 @@ const loadFlorincoinConf = () => {
                 }
             });
         } else {
-            nodes.forEach(node => {
-                conf.push('addnode=' + node);
+            fs.writeFile(confFile, conf.join('\n'), (err, data) => {
+                if (err) {
+                    DaemonActions.enabling({
+                        id: 'florincoind',
+                        code: 8,
+                        error: 'Error saving configuration'
+                    });
+                    return reject(err);
+                }
+                resolve();
             });
-
-            console.log(conf.join('\n'))
-
         }
 
     });
@@ -405,14 +434,11 @@ module.exports = {
 
 
     checkInstalled(daemon) {
-
         DaemonActions.enabling({
             id: daemon,
             code: 1
         });
         let daemonPath = path.join(this.installDir, this.getExecName(daemon))
-        console.log(daemonPath);
-
         return new Promise((resolve) => {
             fs.stat(daemonPath, (err, status) => {
                 if (err) return resolve(false);
