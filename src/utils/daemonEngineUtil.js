@@ -98,6 +98,7 @@ const checkStartedOkay = (daemon, out) => {
             var okay = ['Daemon is ready'];
             break;
         case 'florincoind':
+            var okay = ['init message: Loading wallet'];
             break;
         case 'libraryd':
             break;
