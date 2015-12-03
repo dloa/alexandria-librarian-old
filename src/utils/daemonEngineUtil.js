@@ -138,13 +138,72 @@ const checkInstalledOkay = (daemon, out) => {
 }
 
 const loadFlorincoinConf = () => {
-    let confFile = path.join(app.getPath('appData'), 'Florincoin', 'Florincoin.conf');
-
     return new Promise((resolve, reject) => {
+
+        let confFile = path.join(app.getPath('appData'), 'Florincoin', 'Florincoin.conf');
+
+        let auth = [
+            'rpcuser=user',
+            'rpcpassword=password'
+        ];
+
+        let conf = [
+            'rpcallowip=127.0.0.1',
+            'rpcport=18322',
+            'rpcallowip=127.0.0.1',
+            'rpcallowip=192.168.*.*',
+            'server=1',
+            'daemon=1',
+            'txindex=1'
+        ];
+
+        let nodes = [
+            '54.209.141.153',
+            '192.241.171.45',
+            '146.185.148.114',
+            '54.164.167.95',
+            '198.27.69.59',
+            '37.187.27.4'
+        ];
+
         if (fileExists(confFile)) {
-            let oldConf = fs.readFileSync(confFile, 'utf8').split('\n');
-            console.log(oldConf)
+            let oldConf = fs.readFileSync(confFile, 'utf8');
+            dialog.showMessageBox({
+                noLink: true,
+                type: 'question',
+                title: 'Alexandria Librarian: Information',
+                message: 'Pre-Exsisting Florincoin config detected!',
+                detail: 'Florincoin daemon requires new entrys to be added to your configuration file, would you like Librarian to automatically add them? (old configuration will be backed up).',
+                buttons: ['Yes', 'No']
+            }, code => {
+                if (code === 1) {
+                    DaemonActions.enabling({
+                        id: 'florincoind',
+                        code: 8,
+                        error: 'Installation Aborted'
+                    });
+                    reject();
+                } else {
+                    copy(confFile, path.join(app.getPath('appData'), 'Florincoin', 'Florincoin.conf.backup'))
+                        .then(() => {
+                            resolve(true);
+                        })
+                        .catch(() => {
+                            DaemonActions.enabling({
+                                id: 'florincoind',
+                                code: 8,
+                                error: 'Problem backing up pre-exsisting configuration; Installation Aborted'
+                            });
+                            reject();
+                        })
+                }
+            });
         } else {
+            nodes.forEach(node => {
+                conf.push('addnode=' + node);
+            });
+
+            console.log(conf.join('\n'))
 
         }
 
@@ -201,76 +260,70 @@ module.exports = {
                 let execName = this.getExecName(daemon.id)
                 let installPath = path.join(this.installDir, execName);
                 let sourcePath = path.join(this.binDir, execName);
-                try {
-                    copy(sourcePath, installPath)
-                        .then(copyStatus => {
-                            return new Promise((resolve, reject) => {
-                                if (!copyStatus) {
-                                    DaemonActions.enabling({
-                                        id: daemon.id,
-                                        code: 8,
-                                        error: 'Installation Error'
-                                    });
-                                    return reject();
-                                }
-                                resolve();
+
+                copy(sourcePath, installPath)
+                    .then(copyStatus => {
+                        return new Promise((resolve, reject) => {
+                            if (!copyStatus) {
+                                DaemonActions.enabling({
+                                    id: daemon.id,
+                                    code: 8,
+                                    error: 'Installation Error'
+                                });
+                                return reject();
+                            }
+                            resolve();
+                        });
+                    })
+                    .then(() => {
+                        return new Promise(resolve => {
+                            chmod(installPath, {
+                                read: true,
+                                write: true,
+                                execute: true
                             });
-                        })
-                        .then(() => {
-                            return new Promise(resolve => {
-                                chmod(installPath, {
-                                    read: true,
-                                    write: true,
-                                    execute: true
+                            resolve();
+                        });
+                    })
+                    .then(this.checkConfig.bind(this, daemon))
+                    .then(opts => {
+                        let execCMD = (process.platform === 'win32') ? installPath : "'" + installPath + "'";
+                        exec(execCMD, daemon.args, {
+                            cwd: this.installDir
+                        }).then(output => {
+                            if (checkInstalledOkay(daemon.id, output)) {
+                                DaemonActions.enabling({
+                                    id: daemon.id,
+                                    code: 3
                                 });
                                 resolve();
-                            });
-                        })
-                        .then(this.checkConfig.bind(this, daemon))
-                        .then(() => {
-                            let execCMD = (process.platform === 'win32') ? installPath : "'" + installPath + "'";
-                            exec(execCMD, daemon.args, {
-                                cwd: this.installDir
-                            }).then(output => {
-                                if (checkInstalledOkay(daemon.id, output)) {
-                                    DaemonActions.enabling({
-                                        id: daemon.id,
-                                        code: 3
-                                    });
-                                    resolve();
-                                } else {
-                                    DaemonActions.enabling({
-                                        id: daemon.id,
-                                        code: 8,
-                                        error: 'Installation Error'
-                                    });
-                                    reject();
-                                }
-                            }).catch(output => {
-                                if (checkInstalledOkay(daemon.id, output)) {
-                                    DaemonActions.enabling({
-                                        id: daemon.id,
-                                        code: 3
-                                    });
-                                    resolve();
-                                } else {
-                                    DaemonActions.enabling({
-                                        id: daemon.id,
-                                        code: 8,
-                                        error: 'Installation Error'
-                                    });
-                                    reject();
-                                }
-                            });
+                            } else {
+                                DaemonActions.enabling({
+                                    id: daemon.id,
+                                    code: 8,
+                                    error: 'Installation Error'
+                                });
+                                reject();
+                            }
+                        }).catch(output => {
+                            if (checkInstalledOkay(daemon.id, output)) {
+                                DaemonActions.enabling({
+                                    id: daemon.id,
+                                    code: 3
+                                });
+                                resolve();
+                            } else {
+                                DaemonActions.enabling({
+                                    id: daemon.id,
+                                    code: 8,
+                                    error: 'Installation Error'
+                                });
+                                reject();
+                            }
                         });
-                } catch (e) {
-                    DaemonActions.enabling({
-                        id: daemon.id,
-                        code: 8,
-                        error: 'Installation Error'
-                    });
-                    reject();
-                }
+                    })
+                    .catch(reject);
+
             } else {
                 extractZIP(this.getExecName(daemon.id, true), this.installDir)
                     .then(this.checkConfig.bind(this, daemon))
@@ -278,14 +331,8 @@ module.exports = {
 
 
 
-                    }).catch(err => {
-                        console.error(err);
-                        DaemonActions.enabling({
-                            id: daemon.id,
-                            code: 8,
-                            error: 'Installation Error'
-                        });
                     })
+                    .catch(reject);
 
             }
 
