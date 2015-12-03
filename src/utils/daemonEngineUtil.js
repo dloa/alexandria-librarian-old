@@ -31,7 +31,9 @@ const killPID = pid => {
 const copy = (input, output) => {
     return new Promise((resolve, reject) => {
         fsExtra.copy(input, output, err => {
-            resolve(err ? false : true);
+            if (err)
+                return reject(err)
+            resolve();
         })
     });
 }
@@ -168,6 +170,12 @@ const loadFlorincoinConf = () => {
 
         if (fileExists(confFile)) {
             let oldConf = fs.readFileSync(confFile, 'utf8');
+            DaemonActions.enabling({
+                id: 'florincoind',
+                code: 3,
+                task: 'Waiting for User Input...',
+                percent: 60
+            });
             dialog.showMessageBox({
                 noLink: true,
                 type: 'question',
@@ -186,7 +194,16 @@ const loadFlorincoinConf = () => {
                 } else {
                     copy(confFile, path.join(app.getPath('appData'), 'Florincoin', 'Florincoin.conf.backup'))
                         .then(() => {
-                            resolve(true);
+                            fs.unlink(confFile, () => {
+                                nodes.forEach(node => {
+                                    conf.push('addnode=' + node);
+                                });
+
+                                fs.writeFile(confFile, conf.join('\n'), (err, data) => {
+                                    if (err) return reject(err);
+                                    resolve();
+                                });
+                            });
                         })
                         .catch(() => {
                             DaemonActions.enabling({
@@ -262,19 +279,6 @@ module.exports = {
                 let sourcePath = path.join(this.binDir, execName);
 
                 copy(sourcePath, installPath)
-                    .then(copyStatus => {
-                        return new Promise((resolve, reject) => {
-                            if (!copyStatus) {
-                                DaemonActions.enabling({
-                                    id: daemon.id,
-                                    code: 8,
-                                    error: 'Installation Error'
-                                });
-                                return reject();
-                            }
-                            resolve();
-                        });
-                    })
                     .then(() => {
                         return new Promise(resolve => {
                             chmod(installPath, {
@@ -290,37 +294,39 @@ module.exports = {
                         let execCMD = (process.platform === 'win32') ? installPath : "'" + installPath + "'";
                         exec(execCMD, daemon.args, {
                             cwd: this.installDir
-                        }).then(output => {
-                            if (checkInstalledOkay(daemon.id, output)) {
-                                DaemonActions.enabling({
-                                    id: daemon.id,
-                                    code: 3
-                                });
-                                resolve();
-                            } else {
-                                DaemonActions.enabling({
-                                    id: daemon.id,
-                                    code: 8,
-                                    error: 'Installation Error'
-                                });
-                                reject();
-                            }
-                        }).catch(output => {
-                            if (checkInstalledOkay(daemon.id, output)) {
-                                DaemonActions.enabling({
-                                    id: daemon.id,
-                                    code: 3
-                                });
-                                resolve();
-                            } else {
-                                DaemonActions.enabling({
-                                    id: daemon.id,
-                                    code: 8,
-                                    error: 'Installation Error'
-                                });
-                                reject();
-                            }
-                        });
+                        })
+                            .then(output => {
+                                if (checkInstalledOkay(daemon.id, output)) {
+                                    DaemonActions.enabling({
+                                        id: daemon.id,
+                                        code: 3
+                                    });
+                                    resolve();
+                                } else {
+                                    DaemonActions.enabling({
+                                        id: daemon.id,
+                                        code: 8,
+                                        error: 'Installation Error'
+                                    });
+                                    reject();
+                                }
+                            })
+                            .catch(output => {
+                                if (checkInstalledOkay(daemon.id, output)) {
+                                    DaemonActions.enabling({
+                                        id: daemon.id,
+                                        code: 3
+                                    });
+                                    resolve();
+                                } else {
+                                    DaemonActions.enabling({
+                                        id: daemon.id,
+                                        code: 8,
+                                        error: 'Installation Error'
+                                    });
+                                    reject();
+                                }
+                            });
                     })
                     .catch(reject);
 

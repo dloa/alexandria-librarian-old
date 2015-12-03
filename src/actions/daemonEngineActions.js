@@ -71,7 +71,7 @@ class daemonEngineActions {
         }
     }
 
-    florincoin(action, params) {
+    florincoind(action, params) {
         this.dispatch();
         switch (action) {
             case 'enable':
@@ -83,7 +83,7 @@ class daemonEngineActions {
                                 args: []
                             });
                         else
-                            this.actions.florincoin('install');
+                            this.actions.florincoind('install');
                     });
                 break;
             case 'disable':
@@ -94,7 +94,7 @@ class daemonEngineActions {
                     id: 'florincoind',
                     args: []
                 }, ((process.platform === 'darwin') ? true : false))
-                    .then(this.actions.florincoin.bind(this, 'enable'))
+                    .then(this.actions.florincoind.bind(this, 'enable'))
                     .catch(console.error);
                 break;
         }

@@ -19,9 +19,11 @@ default React.createClass({
 
     getInitialState() {
         return {
-            enabled: DaemonStore.getState().enabled.florincoin || false,
-            initStats: DaemonStore.getState().enabling.florincoin || {
-                code: 0
+            enabled: DaemonStore.getState().enabled.florincoind || false,
+            initStats: DaemonStore.getState().enabling.florincoind || {
+                code: 0,
+                task: false,
+                percent: false
             },
         };
     },
@@ -38,15 +40,23 @@ default React.createClass({
     update() {
         if (this.isMounted()) {
             this.setState({
-                enabled: DaemonStore.getState().enabled.florincoin || false,
-                initStats: DaemonStore.getState().enabling.florincoin || {
-                    code: 0
+                enabled: DaemonStore.getState().enabled.florincoind || false,
+                initStats: DaemonStore.getState().enabling.florincoind || {
+                    code: 0,
+                    task: false,
+                    percent: false
                 },
             });
         }
     },
 
     enableStats() {
+        if (this.state.initStats.task && this.state.initStats.percent)
+            return {
+                task: this.state.initStats.task,
+                percent: this.state.initStats.percent
+            };
+
         switch (this.state.initStats.code) {
             case 0:
             case 1:
@@ -90,10 +100,10 @@ default React.createClass({
 
     handleChangeEnable() {
         if (this.state.initStats.code === 8)
-            return DaemonActions.florincoin('enable');
+            return DaemonActions.florincoind('enable');
 
         if (this.state.initStats.code === 7 || this.state.initStats.code === 0) {
-            DaemonActions.florincoin(this.state.enabled ? 'disable' : 'enable')
+            DaemonActions.florincoind(this.state.enabled ? 'disable' : 'enable')
         }
     },
 

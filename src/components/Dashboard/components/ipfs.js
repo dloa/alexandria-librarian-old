@@ -97,6 +97,12 @@ default React.createClass({
     },
 
     enableStats() {
+        if (this.state.initStats.task && this.state.initStats.percent)
+            return {
+                task: this.state.initStats.task,
+                percent: this.state.initStats.percent
+            };
+
         switch (this.state.initStats.code) {
             case 0:
             case 1:
