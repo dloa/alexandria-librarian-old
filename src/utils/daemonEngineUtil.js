@@ -92,32 +92,6 @@ const extractZIP = (sourcePath, targetPath) => {
     });
 }
 
-const checkStartedOkay = (daemon, out) => {
-    switch (daemon) {
-        case 'ipfs':
-            var okay = ['Daemon is ready'];
-            break;
-        case 'florincoind':
-            var okay = ['init message: Loading wallet'];
-            break;
-        case 'libraryd':
-            break;
-    }
-    return new RegExp(okay.join('|')).test(out);
-}
-
-const checkStartedFail = (daemon, out) => {
-    switch (daemon) {
-        case 'ipfs':
-            var fail = ['no ipfs repo found', 'repo.lock": has non-zero size', 'ipfs daemon is running'];
-            break;
-        case 'florincoind':
-            break;
-        case 'libraryd':
-            break;
-    }
-    return new RegExp(fail.join('|')).test(out);
-}
 
 const fileExists = filePath => {
     try {
@@ -127,35 +101,92 @@ const fileExists = filePath => {
     }
 }
 
-const checkInstalledOkay = (daemon, out) => {
-    switch (daemon) {
-        case 'ipfs':
-            var okay = ['ipfs configuration file already exists', 'to get started, enter:', 'generating 2048-bit RSA keypair...done'];
-            break;
-        case 'florincoind':
-            break;
-        case 'libraryd':
-            break;
-    }
-    return new RegExp(okay.join('|')).test(out);
-}
 
-const handelListener = (mode, daemon, input) => {
+const handelListener = (mode = 'install', daemon, input = '') => {
+    return new Promise((resolve, reject) => {
+
+        switch (daemon) {
+            case 'ipfs':
+                console.log(daemon + ':', input.toString());
+
+                switch (mode) {
+                    case 'install':
+                        var okay = ['ipfs configuration file already exists', 'to get started, enter:', 'generating 2048-bit RSA keypair...done'];
+                        var fail = [];
+
+                        if (new RegExp(okay.join('|')).test(input)) {
+                            DaemonActions.enabling({
+                                id: 'ipfs',
+                                code: 3
+                            });
+                            resolve();
+                        } else {
+                            DaemonActions.enabling({
+                                id: 'ipfs',
+                                code: 8,
+                                error: 'Installation Error'
+                            });
+                            reject();
+                        }
+                        break;
+                    case 'enable':
+
+                        var okay = ['Daemon is ready'];
+                        var fail = ['no ipfs repo found', 'repo.lock": has non-zero size', 'ipfs daemon is running'];
 
 
-    switch (daemon) {
-        case 'ipfs':
+                        if (new RegExp(okay.join('|')).test(input)) {
+                            DaemonActions.enabling({
+                                id: 'ipfs',
+                                code: 7,
+                                update: {
+                                    key: 'api',
+                                    api: generateAPI(daemon)
+                                }
+                            });
 
-            break;
-        case 'florincoind':
+                        } else if (new RegExp(fail.join('|')).test(input)) {
+                            DaemonActions.enabling({
+                                id: 'ipfs',
+                                code: 8,
+                                error: 'Initialization Error'
+                            });
+                        }
 
-            break;
-        case 'libraryd':
+                        break;
+                }
+                break;
+            case 'florincoind':
 
-            break;
+                switch (mode) {
+                    case 'enable':
 
-    }
+                        var okay = ['init message: Loading wallet'];
+                        var fail = [];
 
+                        if (new RegExp(okay.join('|')).test(input)) {
+                            DaemonActions.enabling({
+                                id: 'florincoind',
+                                code: 3
+                            });
+
+                        } else if (new RegExp(fail.join('|')).test(input)) {
+                            DaemonActions.enabling({
+                                id: 'florincoind',
+                                code: 8,
+                                error: 'Initialization Error'
+                            });
+                        }
+                        break;
+                }
+
+                break;
+            case 'libraryd':
+
+                break;
+
+        }
+    });
 
 }
 
@@ -330,36 +361,14 @@ module.exports = {
                             cwd: this.installDir
                         })
                             .then(output => {
-                                if (checkInstalledOkay(daemon.id, output)) {
-                                    DaemonActions.enabling({
-                                        id: daemon.id,
-                                        code: 3
-                                    });
-                                    resolve();
-                                } else {
-                                    DaemonActions.enabling({
-                                        id: daemon.id,
-                                        code: 8,
-                                        error: 'Installation Error'
-                                    });
-                                    reject();
-                                }
+                                handelListener('install', daemon.id, output.toString())
+                                    .then(resolve)
+                                    .catch(reject);
                             })
                             .catch(output => {
-                                if (checkInstalledOkay(daemon.id, output)) {
-                                    DaemonActions.enabling({
-                                        id: daemon.id,
-                                        code: 3
-                                    });
-                                    resolve();
-                                } else {
-                                    DaemonActions.enabling({
-                                        id: daemon.id,
-                                        code: 8,
-                                        error: 'Installation Error'
-                                    });
-                                    reject();
-                                }
+                                handelListener('install', daemon.id, output.toString())
+                                    .then(resolve)
+                                    .catch(reject);
                             });
                     })
                     .catch(reject);
@@ -395,34 +404,12 @@ module.exports = {
             },
             cbStdout: data => {
                 if (data) {
-                    console.log(daemon.id + ':', data.toString());
-
-                    if (checkStartedOkay(daemon.id, data.toString())) {
-                        DaemonActions.enabling({
-                            id: daemon.id,
-                            code: 7
-                        });
-                        let api = generateAPI(daemon.id);
-                        if (api)
-                            DaemonActions.update({
-                                id: daemon.id,
-                                key: 'api',
-                                api: api
-                            });
-                    }
+                    handelListener('enable', 'ipfs', data.toString())
                 }
             },
             cbStderr: data => {
                 if (data) {
-                    console.error(daemon.id + ':', data.toString());
-
-                    if (checkStartedFail(daemon.id, data.toString())) {
-                        DaemonActions.enabling({
-                            id: daemon.id,
-                            code: 8,
-                            error: 'Initialization Error'
-                        });
-                    }
+                    handelListener('enable', 'ipfs', data.toString())
                 }
             },
             cbClose: exitCode => {
