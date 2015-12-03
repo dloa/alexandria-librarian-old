@@ -1,5 +1,6 @@
 import Promise from 'bluebird';
 import child_process from 'child_process';
+import DecompressZip from 'decompress-zip';
 import fs from 'fs';
 import fsExtra from 'fs-extra';
 import child from 'child';
@@ -9,7 +10,7 @@ import ipfsAPI from 'ipfs-api';
 import chmod from 'chmod';
 import _ from 'lodash';
 import {
-    app
+    app, dialog
 }
 from 'remote';
 import DaemonActions from '../actions/daemonEngineActions';
@@ -62,6 +63,32 @@ const generateAPI = daemon => {
     }
 }
 
+const extractZIP = (sourcePath, targetPath) => {
+    let files = [];
+    return new Promise((resolve, reject) => {
+        new DecompressZip(sourcePath)
+            .on('error', reject)
+            .on('extract', log => {
+                files.forEach(file => {
+                    chmod(path.join(targetPath, file.path), {
+                        read: true,
+                        write: true,
+                        execute: true
+                    });
+                });
+                resolve();
+            })
+            .extract({
+                path: targetPath,
+                filter: entry => {
+                    return files.push({
+                        path: entry.path,
+                        mode: entry.mode.toString(8)
+                    });
+                }
+            });
+    });
+}
 
 const checkStartedOkay = (daemon, out) => {
     switch (daemon) {
@@ -89,6 +116,13 @@ const checkStartedFail = (daemon, out) => {
     return new RegExp(fail.join('|')).test(out);
 }
 
+const fileExists = filePath => {
+    try {
+        return fs.statSync(filePath).isFile();
+    } catch (err) {
+        return false;
+    }
+}
 
 const checkInstalledOkay = (daemon, out) => {
     switch (daemon) {
@@ -102,6 +136,24 @@ const checkInstalledOkay = (daemon, out) => {
     }
     return new RegExp(okay.join('|')).test(out);
 }
+
+const loadFlorincoinConf = () => {
+    let confFile = path.join(app.getPath('appData'), 'Florincoin', 'Florincoin.conf');
+
+    return new Promise((resolve, reject) => {
+        if (fileExists(confFile)) {
+            let oldConf = [];
+            fs.readFile(confFile, 'utf8', (err, data) => {
+                if (err) return reject(err);
+                console.log(data);
+            });
+        } else {
+
+        }
+
+    });
+}
+
 
 
 module.exports = {
@@ -135,13 +187,11 @@ module.exports = {
                 error: 'Initialization Error'
             });
         }
-
     },
 
     disable(daemon) {
         if (DaemonStore.getState().enabled[daemon].daemon)
             DaemonStore.getState().enabled[daemon].daemon.stop(DaemonActions.disabled.bind(this, daemon));
-
     },
 
     install(daemon, unzip = false) {
@@ -151,78 +201,100 @@ module.exports = {
                 code: 2
             });
 
-            let execName = this.getExecName(daemon.id)
-            let installPath = path.join(this.installDir, execName);
-            let sourcePath = path.join(this.binDir, execName);
-            try {
-                copy(sourcePath, installPath)
-                    .then(copyStatus => {
-                        return new Promise((resolve, reject) => {
-                            if (!copyStatus) {
-                                DaemonActions.enabling({
-                                    id: daemon.id,
-                                    code: 8,
-                                    error: 'Installation Error'
-                                });
-                                return reject();
-                            }
-                            resolve();
-                        });
-                    })
-                    .then(() => {
-                        return new Promise(resolve => {
-                            chmod(installPath, {
-                                read: true,
-                                write: true,
-                                execute: true
+            if (!unzip) {
+                let execName = this.getExecName(daemon.id)
+                let installPath = path.join(this.installDir, execName);
+                let sourcePath = path.join(this.binDir, execName);
+
+                try {
+                    copy(sourcePath, installPath)
+                        .then(copyStatus => {
+                            return new Promise((resolve, reject) => {
+                                if (!copyStatus) {
+                                    DaemonActions.enabling({
+                                        id: daemon.id,
+                                        code: 8,
+                                        error: 'Installation Error'
+                                    });
+                                    return reject();
+                                }
+                                resolve();
                             });
-                            resolve();
+                        })
+                        .then(() => {
+                            return new Promise(resolve => {
+                                chmod(installPath, {
+                                    read: true,
+                                    write: true,
+                                    execute: true
+                                });
+                                resolve();
+                            });
+                        })
+                        .then(this.checkConfig.bind(this, daemon))
+                        .then(() => {
+                            let execCMD = (process.platform === 'win32') ? installPath : "'" + installPath + "'";
+                            exec(execCMD, daemon.args, {
+                                cwd: this.installDir
+                            }).then(output => {
+                                if (checkInstalledOkay(daemon.id, output)) {
+                                    DaemonActions.enabling({
+                                        id: daemon.id,
+                                        code: 3
+                                    });
+                                    resolve();
+                                } else {
+                                    DaemonActions.enabling({
+                                        id: daemon.id,
+                                        code: 8,
+                                        error: 'Installation Error'
+                                    });
+                                    reject();
+                                }
+                            }).catch(output => {
+                                if (checkInstalledOkay(daemon.id, output)) {
+                                    DaemonActions.enabling({
+                                        id: daemon.id,
+                                        code: 3
+                                    });
+                                    resolve();
+                                } else {
+                                    DaemonActions.enabling({
+                                        id: daemon.id,
+                                        code: 8,
+                                        error: 'Installation Error'
+                                    });
+                                    reject();
+                                }
+                            });
+                        });
+                } catch (e) {
+                    DaemonActions.enabling({
+                        id: daemon.id,
+                        code: 8,
+                        error: 'Installation Error'
+                    });
+                    reject();
+                }
+            } else {
+                extractZIP(this.getExecName(daemon.id, true), this.installDir)
+                    .then(this.checkConfig.bind(this, daemon))
+                    .then(() => {
+
+
+
+                    }).catch(err => {
+                        console.error(err);
+                        DaemonActions.enabling({
+                            id: daemon.id,
+                            code: 8,
+                            error: 'Installation Error'
                         });
                     })
-                    .then(() => {
-                        let execCMD = (process.platform === 'win32') ? installPath : "'" + installPath + "'";
-                        exec(execCMD, daemon.args, {
-                            cwd: this.installDir
-                        }).then(output => {
-                            if (checkInstalledOkay(daemon.id, output)) {
-                                DaemonActions.enabling({
-                                    id: daemon.id,
-                                    code: 3
-                                });
-                                resolve();
-                            } else {
-                                DaemonActions.enabling({
-                                    id: daemon.id,
-                                    code: 8,
-                                    error: 'Installation Error'
-                                });
-                                reject();
-                            }
-                        }).catch(output => {
-                            if (checkInstalledOkay(daemon.id, output)) {
-                                DaemonActions.enabling({
-                                    id: daemon.id,
-                                    code: 3
-                                });
-                                resolve();
-                            } else {
-                                DaemonActions.enabling({
-                                    id: daemon.id,
-                                    code: 8,
-                                    error: 'Installation Error'
-                                });
-                                reject();
-                            }
-                        });
-                    });
-            } catch (e) {
-                DaemonActions.enabling({
-                    id: daemon.id,
-                    code: 8,
-                    error: 'Installation Error'
-                });
-                reject();
+
             }
+
+
         });
     },
     generate(daemon, args, autoRestart = false, detached = false) {
@@ -320,16 +392,37 @@ module.exports = {
         });
     },
 
-    getExecName(daemon) {
+    checkConfig(daemon) {
+        switch (daemon.id) {
+            case 'ipfs':
+                return true;
+                break;
+            case 'florincoind':
+                return loadFlorincoinConf();
+                break;
+            case 'libraryd':
+                return true;
+                break;
+        }
+    },
+
+    getExecName(daemon, extract = false) {
         switch (daemon) {
             case 'ipfs':
                 return (process.platform === 'win32') ? 'ipfs.exe' : 'ipfs';
                 break;
             case 'florincoind':
-
+                switch (process.platform) {
+                    case 'darwin':
+                        return extract ? 'florincoind.zip' : 'florincoind';
+                        break;
+                    case 'win32':
+                        return 'florincoind.exe';
+                        break;
+                }
                 break;
             case 'libraryd':
-
+                return (process.platform === 'win32') ? 'libraryd.exe' : 'libraryd';
                 break;
 
         }

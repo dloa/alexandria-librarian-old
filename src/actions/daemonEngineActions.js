@@ -52,10 +52,12 @@ class daemonEngineActions {
                 DaemonUtil.disable('ipfs');
                 break;
             case 'pinned-total':
-                IPFSUtil.refreshStats(true).then(this.actions.update);
+                IPFSUtil.refreshStats(true)
+                    .then(this.actions.update);
                 break;
             case 'refresh-stats':
-                IPFSUtil.refreshStats().then(this.actions.update);
+                IPFSUtil.refreshStats()
+                    .then(this.actions.update);
                 break;
             case 'install':
                 DaemonUtil.install({
@@ -66,12 +68,34 @@ class daemonEngineActions {
         }
     }
 
-
     florincoin(action, params) {
-
-
+        this.dispatch();
+        switch (action) {
+            case 'enable':
+                DaemonUtil.checkInstalled('florincoin')
+                    .then(installed => {
+                        if (installed)
+                            DaemonUtil.enable({
+                                id: 'florincoin',
+                                args: []
+                            });
+                        else
+                            this.actions.florincoin('install');
+                    });
+                break;
+            case 'disable':
+                DaemonUtil.disable('florincoin');
+                break;
+            case 'install':
+                DaemonUtil.install({
+                    id: 'florincoin',
+                    args: []
+                }, (process.platform === 'darwin') ? true : false)
+                    .then(this.actions.florincoin.bind(this, 'enable'))
+                    .catch(console.error);
+                break;
+        }
     }
-
 
     libraryd(action, params) {
 
