@@ -356,13 +356,10 @@ module.exports = {
         if (DaemonStore.getState().enabled[daemon].daemon) {
             DaemonStore.getState().enabled[daemon].daemon.stop(DaemonActions.disabled.bind(this, daemon));
         }
-        _.defer(() => {
-            DaemonActions.disabled({
-                id: daemon,
-                code: 0
-            });
+        DaemonActions.disabled({
+            id: daemon,
+            code: 0
         });
-
     },
 
     install(daemon, unzip = false) {
