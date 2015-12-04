@@ -104,7 +104,6 @@ const fileExists = filePath => {
 
 const handelListener = (mode = 'install', daemon, input = '') => {
     return new Promise((resolve, reject) => {
-
         switch (daemon) {
             case 'ipfs':
                 console.log(daemon + ':', input.toString());
@@ -130,10 +129,8 @@ const handelListener = (mode = 'install', daemon, input = '') => {
                         }
                         break;
                     case 'enable':
-
                         var okay = ['Daemon is ready'];
                         var fail = ['no ipfs repo found', 'repo.lock": has non-zero size', 'ipfs daemon is running'];
-
 
                         if (new RegExp(okay.join('|')).test(input)) {
                             DaemonActions.enabling({
@@ -141,7 +138,7 @@ const handelListener = (mode = 'install', daemon, input = '') => {
                                 code: 7,
                                 update: {
                                     key: 'api',
-                                    api: generateAPI(daemon)
+                                    api: generateAPI('ipfs')
                                 }
                             });
 
@@ -152,12 +149,10 @@ const handelListener = (mode = 'install', daemon, input = '') => {
                                 error: 'Initialization Error'
                             });
                         }
-
                         break;
                 }
                 break;
             case 'florincoind':
-
                 switch (mode) {
                     case 'enable':
 
@@ -179,15 +174,12 @@ const handelListener = (mode = 'install', daemon, input = '') => {
                         }
                         break;
                 }
-
                 break;
             case 'libraryd':
 
                 break;
-
         }
     });
-
 }
 
 
