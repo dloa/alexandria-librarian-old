@@ -192,7 +192,6 @@ const handelListener = (mode = 'install', daemon, input = '') => {
 
 var enablingThrottle = _.throttle(params => {
     DaemonActions.enabling(params);
-    console.log(params);
 }, 500);
 
 
