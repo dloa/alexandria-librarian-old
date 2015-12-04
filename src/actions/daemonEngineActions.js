@@ -59,7 +59,11 @@ class daemonEngineActions {
                 break;
             case 'refresh-stats':
                 IPFSUtil.refreshStats()
-                    .then(this.actions.update);
+                    .then(this.actions.update)
+                    .catch(err => {
+                        if (err)
+                            console.error(err)
+                    });
                 break;
             case 'install':
                 DaemonUtil.install({

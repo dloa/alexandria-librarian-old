@@ -1,9 +1,46 @@
 import ipfsAPI from 'ipfs-api';
+import async from 'async';
 import _ from 'lodash';
 import path from 'path';
 import Promise from 'bluebird';
+import {
+    EventEmitter
+}
+from 'events'
 import DaemonEngineStore from '../../stores/daemonEngineStore';
 import CommonUtil from '../../utils/CommonUtil';
+
+var statsUpdateEmitter = new EventEmitter();
+
+var statsUpdateQueue = async.queue((task, next) => {
+    Promise.all([getPeers(), sendCommand('stats/bw'), getPinned()])
+        .spread((peers, bandwidth, pinned) => {
+            statsUpdateEmitter.emit('stats', {
+                id: 'ipfs',
+                key: 'stats',
+                stats: {
+                    peers: peers.length,
+                    pinned: {
+                        size: _.has(DaemonEngineStore.getState().enabled, 'ipfs.stats.pinned.size') ? DaemonEngineStore.getState().enabled.ipfs.stats.pinned.size : ' loading... ',
+                        total: pinned
+                    },
+                    speed: {
+                        up: CommonUtil.formatBytes(bandwidth.RateOut.toFixed(3), 2) + '/s',
+                        down: CommonUtil.formatBytes(bandwidth.RateIn.toFixed(3), 2) + '/s'
+                    },
+                    bw: {
+                        up: CommonUtil.formatBytes(bandwidth.TotalOut.toFixed(3), 2),
+                        down: CommonUtil.formatBytes(bandwidth.TotalIn.toFixed(3), 2)
+                    }
+                }
+            });
+            process.nextTick(next);
+        }).catch(err => {
+            console.error('IPFS refreshStats()', err);
+            process.nextTick(next);
+        });
+}, 1);
+
 
 
 
@@ -70,31 +107,16 @@ module.exports = {
         if (pinned)
             return getPinnedSize();
 
-        return new Promise(resolve => {
-            Promise.all([getPeers(), sendCommand('stats/bw'), getPinned()])
-                .spread((peers, bandwidth, pinned) => {
-                    resolve({
-                        id: 'ipfs',
-                        key: 'stats',
-                        stats: {
-                            peers: peers.length,
-                            pinned: {
-                                size: _.has(DaemonEngineStore.getState().enabled, 'ipfs.stats.pinned.size') ? DaemonEngineStore.getState().enabled.ipfs.stats.pinned.size : ' loading... ',
-                                total: pinned
-                            },
-                            speed: {
-                                up: CommonUtil.formatBytes(bandwidth.RateOut.toFixed(3), 2) + '/s',
-                                down: CommonUtil.formatBytes(bandwidth.RateIn.toFixed(3), 2) + '/s'
-                            },
-                            bw: {
-                                up: CommonUtil.formatBytes(bandwidth.TotalOut.toFixed(3), 2),
-                                down: CommonUtil.formatBytes(bandwidth.TotalIn.toFixed(3), 2)
-                            }
-                        }
-                    })
-                }).catch(err => {
-                    console.error('IPFS refreshStats()', err);
-                });
+
+        return new Promise((resolve, reject) => {
+
+            if (!statsUpdateQueue.idle())
+                return reject();
+
+            statsUpdateQueue.push('getStats');
+
+            statsUpdateEmitter.once('stats', resolve);
+
         });
     },
     getHashsSize(hashs) {
