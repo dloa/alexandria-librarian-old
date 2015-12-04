@@ -155,23 +155,31 @@ const handelListener = (mode = 'install', daemon, input = '') => {
             case 'florincoind':
                 switch (mode) {
                     case 'enable':
+                        _.throttle(() => {
+                            console.log(daemon + ':', input.toString())
+                        }, 100)
 
                         var okay = ['init message: Loading wallet'];
-                        var fail = [];
+                        var fail = ['FAIL'];
 
                         if (new RegExp(okay.join('|')).test(input)) {
+                            console.info(input)
                             DaemonActions.enabling({
                                 id: 'florincoind',
-                                code: 3
+                                code: 7
                             });
 
                         } else if (new RegExp(fail.join('|')).test(input)) {
+                            console.error(input)
                             DaemonActions.enabling({
                                 id: 'florincoind',
                                 code: 8,
                                 error: 'Initialization Error'
                             });
+                        } else {
+                            parseSync('florincoind', input.split('\n'))
                         }
+
                         break;
                 }
                 break;
@@ -182,6 +190,35 @@ const handelListener = (mode = 'install', daemon, input = '') => {
     });
 }
 
+var enablingThrottle = _.throttle(params => {
+    DaemonActions.enabling(params);
+    console.log(params);
+}, 500);
+
+
+const parseSync = (daemon, output) => {
+    switch (daemon) {
+        case 'florincoind':
+
+            output.forEach(line => {
+                if ((line.indexOf('SetBestChain: new best=') > -1) && (line.indexOf('progress=') > -1)) {
+                    let progress = line.split('progress=')[1];
+
+                    if (!isNaN(progress)) {
+                        progress = (progress * 100).toFixed(2);
+                        enablingThrottle({
+                            id: 'florincoind',
+                            code: 6,
+                            task: 'Syncing Blockchain: ' + progress + '%',
+                            percent: progress
+                        })
+                    }
+                }
+            })
+
+            break;
+    }
+}
 
 const loadFlorincoinConf = () => {
     return new Promise((resolve, reject) => {
@@ -316,8 +353,16 @@ module.exports = {
     },
 
     disable(daemon) {
-        if (DaemonStore.getState().enabled[daemon].daemon)
+        if (DaemonStore.getState().enabled[daemon].daemon) {
             DaemonStore.getState().enabled[daemon].daemon.stop(DaemonActions.disabled.bind(this, daemon));
+        }
+        _.defer(() => {
+            DaemonActions.disabled({
+                id: daemon,
+                code: 0
+            });
+        });
+
     },
 
     install(daemon, unzip = false) {
@@ -396,12 +441,12 @@ module.exports = {
             },
             cbStdout: data => {
                 if (data) {
-                    handelListener('enable', 'ipfs', data.toString())
+                    handelListener('enable', daemon.id, data.toString())
                 }
             },
             cbStderr: data => {
                 if (data) {
-                    handelListener('enable', 'ipfs', data.toString())
+                    handelListener('enable', daemon.id, data.toString())
                 }
             },
             cbClose: exitCode => {

@@ -19,6 +19,7 @@ default React.createClass({
 
     getInitialState() {
         return {
+            active: this.props.active ? true : false,
             enabled: DaemonStore.getState().enabled.florincoind || false,
             initStats: DaemonStore.getState().enabling.florincoind || {
                 code: 0,
@@ -102,7 +103,7 @@ default React.createClass({
         if (this.state.initStats.code === 8)
             return DaemonActions.florincoind('enable');
 
-        if (this.state.initStats.code === 7 || this.state.initStats.code === 0) {
+        if (this.state.initStats.code >= 6 || this.state.initStats.code === 0) {
             DaemonActions.florincoind(this.state.enabled ? 'disable' : 'enable')
         }
     },
@@ -110,7 +111,7 @@ default React.createClass({
     render() {
         let progressInfo = this.enableStats();
         return (
-            <div className={'section ipfs ' + (this.props.active? 'active' : '')}>
+            <div className={'section ipfs ' + (this.state.active? 'active' : '')}>
                 <div className="clearfix">
                     <div className="pull-left">
                         <h4 className="title">Florincoin</h4>
@@ -121,10 +122,10 @@ default React.createClass({
                         </a>
                     </div>
                     <div className="pull-right">
-                        <input onChange={this.handleChangeEnable}  type="checkbox" id="florincoin-toggle" className="toggle hidden" checked={(this.state.enabled && this.state.initStats.code === 7)}/>
+                        <input onChange={this.handleChangeEnable}  type="checkbox" id="florincoin-toggle" className="toggle hidden" checked={(this.state.enabled && this.state.initStats.code >= 6)}/>
                         <label htmlFor="florincoin-toggle" className="lbl"></label>   
                     </div>
-                    <If test={(this.state.initStats.code !== 0 && this.state.initStats.code !== 7)}>
+                    <If test={(this.state.initStats.code !== 0 && this.state.initStats.code !== 6 && this.state.initStats.code !== 7)}>
                         <div className="pull-right enabling">
                             <span className={(this.state.initStats.code === 8) ? 'label label-danger' : 'label label-default-flash'}>{(this.state.initStats.code === 8) ? this.state.initStats.error : 'Enabling ...'}</span>
                         </div>
@@ -133,7 +134,7 @@ default React.createClass({
                 <If test={(this.state.initStats.code !== 0 && this.state.initStats.code !== 7 && this.state.initStats.code !== 8)}>
                     <ProgressComponent task={progressInfo.task} percent={progressInfo.percent} />
                 </If>
-                <If test={!this.props.active}>
+                <If test={!this.state.active}>
                     <div className="detail">
                         <p>Florincoin is free software with an open ledger of transaction history known as the block chain. 
                         Florincoin extends the Bitcoin codebase and stores additional information on the network.</p>

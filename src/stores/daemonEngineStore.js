@@ -25,15 +25,17 @@ class DaemonEngineStore {
 
     onEnabling(daemon) {
         let enabling = this.enabling;
-        enabling[daemon.id] = _.omit(daemon, 'id', 'update');
+
 
         if (daemon.code === 8) {
+            enabling[daemon.id] = _.omit(daemon, 'id', 'update');
             this.setState({
                 enabled: _.omit(this.enabled, daemon.id),
                 enabling: enabling
             });
         } else {
             if (daemon.update) {
+                enabling[daemon.id] = _.omit(daemon, 'id', 'update');
                 let enabled = this.enabled;
                 enabled[daemon.id][daemon.update.key] = daemon.update[daemon.update.key];
                 this.setState({
@@ -41,9 +43,15 @@ class DaemonEngineStore {
                     enabling: enabling
                 });
             } else {
+
+                if (this.enabling[daemon.id] && daemon.code === 6 && this.enabling[daemon.id].code === 0)
+                    return
+
+                enabling[daemon.id] = _.omit(daemon, 'id', 'update');
                 this.setState({
                     enabling: enabling
                 });
+
             }
 
         }
@@ -58,9 +66,13 @@ class DaemonEngineStore {
     }
 
     onDisabled(daemon) {
+        let enabling = this.enabling;
+        enabling[daemon.id] = {
+            code: 0
+        };
         this.setState({
-            enabled: _.omit(this.enabled, daemon),
-            enabling: _.omit(this.enabling, daemon)
+            enabled: _.omit(this.enabled, daemon.id),
+            enabling: enabling
         });
     }
 
