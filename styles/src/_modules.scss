@@ -20,18 +20,36 @@
     }
 }
 
-.btn-toggle {
+.btn-default {
+    background-color: transparent;
+    border-color: $ltgray;
+    &:hover,
+    &:focus,
+    &:active:hover,
+    &:active:focus,
     &.active,
     &.active.focus,
     &.active:focus,
     &.active:hover {
+        background-color: $ltgray;
+        border-color: $ltgray;
+    }
+}
+
+.btn-toggle {
+    border-color: $ltgray;
+    &.active,
+    &.active.focus,
+    &.active:focus,
+    &.active:hover,
+    &:active:hover,
+    &:active:focus {
         background-color: rgba($green, .25);
         border-color: transparent;
         color: $green;
     }
     &:hover,
-    &:focus,
-    &:active:hover {
+    &:focus {
         background-color: white;
     }
     margin-right: 5px;
@@ -66,6 +84,11 @@
     }
 }
 
+.input-group-addon {
+    border-color: $ltgray;
+    background-color: $ltgray;
+}
+
 .svg.btn.btn-settings {
     margin-left: 10px;
     margin-top: 1px;
@@ -74,7 +97,7 @@
 /* Form */
 .form-control {
     box-shadow: none;
-    &:hover,
+    border-color: $ltgray;
     &:focus {
         box-shadow: none;
         border-color: $primary;
@@ -331,4 +354,41 @@ td.unpin {
     color: $gray;
     font-size: 12px;
     white-space: pre-wrap;
+}
+
+/* Publish */
+.publish {
+    h5 {
+        color: $dkgray;
+        margin-bottom: 15px;
+        margin-top: 15px;
+    }
+    .publish-section {
+        margin-bottom: 25px;
+    }
+    .artifact-type {
+        .btn {
+            margin-right: 0px;
+        }
+    }
+    .cover-art {
+        width: 100%;
+        border-radius: 3px;
+    }
+    label {
+        font-weight: 300;
+    }
+    .form-horizontal {
+        .control-label {
+            text-align: left;
+        }
+        .col-sm-5 {
+            padding-left: 0;
+            width: 35%;
+        }
+        .col-sm-7 {
+            padding-right: 0;
+            width: 65%;
+        }
+    }
 }

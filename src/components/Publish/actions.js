@@ -4,9 +4,16 @@ class publishingActions {
 
     constructor() {
         this.generateActions(
+        	'setMeta',
+        	'addedFiles',
             'youtubeAuthorized',
             'youtubeContent'
         );
+    }
+
+    processFiles(files){
+
+    	
     }
 
     authorize(service) {
