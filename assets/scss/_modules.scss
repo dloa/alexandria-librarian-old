@@ -362,6 +362,9 @@ td.unpin {
         color: $dkgray;
         margin-bottom: 15px;
         margin-top: 15px;
+        object {
+            margin-right: 5px;
+        }
     }
     .publish-section {
         margin-bottom: 25px;
@@ -389,6 +392,79 @@ td.unpin {
         .col-sm-7 {
             padding-right: 0;
             width: 65%;
+        }
+    }
+    .publish-pricing {
+        background-color: rgba($green, .05);
+        padding: 15px;
+        padding-bottom: 0;
+        margin: 0 -15px;
+        margin-bottom: 35px;
+        border-radius: 6px;
+        .input-group-addon {
+            background: rgba($green, .5);
+            border-color: rgba($green, 0);
+            color: darken($green, 15%);
+        }
+        .form-control {
+            border-color: rgba($green, 0);
+            background-color: rgba($green, .25);
+            color: darken($green, 15%);
+        }
+        h5 {
+            margin-bottom: 25px;
+        }
+        label {
+        }
+        .small {
+            padding-bottom: 15px;
+        }
+        .li-money {
+            position: absolute;
+            right: -50px;
+            margin-top: -15px;
+        }
+        ::-webkit-input-placeholder {
+            color: rgba($green, .5);
+        }
+        ::-moz-placeholder {  /* Firefox 19+ */
+            color: rgba($green, .5);  
+        }
+    }
+    .publish-files {
+        background-color: rgba($ltgray, .25);
+        border-radius: 6px;
+        padding: 15px;
+        margin: 0 -15px;
+        thead {
+        }
+        th {
+            border-bottom: none;
+            padding-left: 4px;
+        }
+        td {
+            padding: 4px;
+            padding-top: 8px;
+            border-top: none;
+            .form-control {
+                margin-top: -4px;
+                padding: 0px 12px;
+                height: 30px;
+            }
+        }
+    }
+    .upload-area {
+        border: 1px dashed rgba(black, .1);
+        border-radius: 6px;
+        text-align: center;
+        padding: 5px;
+        transition: all 0.1s;
+        &:hover {
+            margin: -2px;
+            padding: 15px;
+            border: 2px dashed rgba(black, .1);
+            background-color: rgba(black, .025);
+            transition: all 0.1s;
         }
     }
 }

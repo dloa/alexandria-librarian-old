@@ -424,6 +424,9 @@ td.unpin {
   margin-bottom: 15px;
   margin-top: 15px; }
 
+.publish h5 object {
+  margin-right: 5px; }
+
 .publish .publish-section {
   margin-bottom: 25px; }
 
@@ -447,3 +450,73 @@ td.unpin {
 .publish .form-horizontal .col-sm-7 {
   padding-right: 0;
   width: 65%; }
+
+.publish .publish-pricing {
+  background-color: rgba(101, 208, 128, 0.05);
+  padding: 15px;
+  padding-bottom: 0;
+  margin: 0 -15px;
+  margin-bottom: 35px;
+  border-radius: 6px; }
+
+.publish .publish-pricing .input-group-addon {
+  background: rgba(101, 208, 128, 0.5);
+  border-color: rgba(101, 208, 128, 0);
+  color: #36b256; }
+
+.publish .publish-pricing .form-control {
+  border-color: rgba(101, 208, 128, 0);
+  background-color: rgba(101, 208, 128, 0.25);
+  color: #36b256; }
+
+.publish .publish-pricing h5 {
+  margin-bottom: 25px; }
+
+.publish .publish-pricing .small {
+  padding-bottom: 15px; }
+
+.publish .publish-pricing .li-money {
+  position: absolute;
+  right: -50px;
+  margin-top: -15px; }
+
+.publish .publish-pricing ::-webkit-input-placeholder {
+  color: rgba(101, 208, 128, 0.5); }
+
+.publish .publish-pricing ::-moz-placeholder {
+  /* Firefox 19+ */
+  color: rgba(101, 208, 128, 0.5); }
+
+.publish .publish-files {
+  background-color: rgba(242, 242, 242, 0.25);
+  border-radius: 6px;
+  padding: 15px;
+  margin: 0 -15px; }
+
+.publish .publish-files th {
+  border-bottom: none;
+  padding-left: 4px; }
+
+.publish .publish-files td {
+  padding: 4px;
+  padding-top: 8px;
+  border-top: none; }
+
+.publish .publish-files td .form-control {
+  margin-top: -4px;
+  padding: 0px 12px;
+  height: 30px; }
+
+.publish .upload-area {
+  border: 1px dashed rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  text-align: center;
+  padding: 5px;
+  transition: all 0.1s; }
+
+.publish .upload-area:hover {
+  margin: -2px;
+  padding: 15px;
+  border: 2px dashed rgba(0, 0, 0, 0.1);
+  background-color: rgba(0, 0, 0, 0.025);
+  transition: all 0.1s; }
