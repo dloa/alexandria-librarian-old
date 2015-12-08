@@ -21,7 +21,7 @@ default React.createClass({
     getInitialState() {
         return {
             type: 'album',
-            files: [],
+            files: {},
             meta: {},
             pricing: {}
         };
@@ -90,12 +90,12 @@ default React.createClass({
                         </div>
                     </div>
                     <div className="publish-section publish-pricing">
-                        <img src="images/il-money.png" alt="" className="li-money"/>
-                       <div className="row">
-                           <div className="col-sm-10">
+                        <img src="images/il-money.png" className="li-money"/>
+                        <div className="row">
+                            <div className="col-sm-10">
                                <p className="small">Pick the price for your track and album.</p>
-                           </div>
-                       </div>
+                            </div>
+                        </div>
                         <div className="row">
                             <div className="col col-sm-6">
                                 <h5>Individual Track Pricing</h5>
@@ -145,8 +145,8 @@ default React.createClass({
                             <object type="image/svg+xml" data="images/svg/media-16px-2_note-03.svg"/>
                             Audio Tracks</h5>
 
-                            <TableComponent type="audio" />
-                            
+                            <TableComponent type="audio" files={(this.state.files.audio) ? this.state.files.audio : []} />
+
                             <Dropzone className="upload-area" onDrop={this.handelOnDrop.bind(this, 'audio')}>
                                 <object data="images/svg/arrows-24px-glyph-2_file-upload-88.svg" type="image/svg+xml"/>
                             </Dropzone>
@@ -159,7 +159,7 @@ default React.createClass({
                                 Extra Files
                             </h5>
 
-                            <TableComponent type="extra" />
+                            <TableComponent type="extra" files={(this.state.files.extra) ? this.state.files.extra : []} />
 
                             <Dropzone className="upload-area" onDrop={this.handelOnDrop.bind(this, 'extra')}>
                                 <object data="images/svg/arrows-24px-glyph-2_file-upload-88.svg" type="image/svg+xml"/>
