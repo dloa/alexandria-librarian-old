@@ -89,10 +89,7 @@ default React.createClass({
 
     },
 
-    render() {
-
-        let header = this.getHeader();
-
+    render(header = this.getHeader()) {
         return (
             <table className="table">
                 {header.colgroup}
