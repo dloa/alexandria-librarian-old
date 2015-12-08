@@ -91,7 +91,6 @@ default React.createClass({
         return (
             <table className="table">
                 {header.colgroup}
-                
                 <thead>
                     {header.thead}
                 </thead>
