@@ -1,24 +1,33 @@
 import Promise from 'bluebird';
+import audioMetaData from 'audio-metadata';
 import path from 'path';
+import fs from 'fs';
 import {
     exec
 }
 from 'child_process';
 
-
 module.exports = {
-    audio(file) {
-        this.mediainfo(file).then();
+    audioTag(filePath) {
+        return new Promise((resolve, reject) => {
+            fs.readFile(path.normalize(filePath), (err, file) => {
+                if (err) return reject(err);
+                let meta = audioMetaData.id3v1(file);
+                resolve(meta ? meta : audioMetaData.id3v2(file));
+            });
+        });
     },
 
-    mediainfo(file) {
+    mediaInfo(file) {
         return new Promise((resolve, reject) => {
-            exec(path.join(process.cwd(), 'resources/bin', 'mediaInfo.exe') + ' --Inform="Audio;::%Duration%::%Format%::%BitRate%"', (error, stdout, stderr) => {
-                if (error !== null || stderr !== '') {
+
+            let cmd = '"' + path.join(process.cwd(), 'resources/bin', 'mediaInfo.exe') + '" --Inform="Audio;::%Duration%::%BitRate%" "' + path.normalize(file) + '"';
+
+            exec(cmd, (error, stdout, stderr) => {
+                if (error !== null || stderr !== '')
                     reject('MediaInfo exec error:', (error || stderr));
-                } else {
+                else
                     resolve(stdout.replace('::', '').replace('\n', '').split('::'));
-                }
             });
         });
     }

@@ -1,6 +1,7 @@
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import Dropzone from 'react-dropzone';
+import _ from 'lodash';
 
 import TableComponent from './components/table';
 import PublishActions from './actions';
@@ -43,6 +44,16 @@ default React.createClass({
         });
     },
     handelOnDrop(type, files) {
+        switch (type) {
+            case 'audio':
+                PublishActions.processFiles('audio', _.filter(files, file => {
+                    return (file.type.indexOf('audio') > -1);
+                }));
+                break;
+            case 'extra':
+
+                break;
+        }
         console.log(type, files);
     },
     render() {
