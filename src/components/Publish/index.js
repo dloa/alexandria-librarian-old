@@ -1,5 +1,6 @@
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import Dropzone from 'react-dropzone';
 
 import TableComponent from './components/table';
 import PublishActions from './actions';
@@ -40,6 +41,9 @@ default React.createClass({
         this.setState({
             type: type.replace(/\s/g, '').toLowerCase()
         });
+    },
+    handelOnDrop(type, files) {
+        console.log(type, files);
     },
     render() {
         let selectedType = this.state.type;
@@ -142,10 +146,10 @@ default React.createClass({
                             Audio Tracks</h5>
 
                             <TableComponent type="audio" />
-
-                            <div className="upload-area">
+                            
+                            <Dropzone className="upload-area" onDrop={this.handelOnDrop.bind(this, 'audio')}>
                                 <object data="images/svg/arrows-24px-glyph-2_file-upload-88.svg" type="image/svg+xml"/>
-                            </div>
+                            </Dropzone>
                         </div>
                     </div>
                     <div className="publish-section">
@@ -157,9 +161,9 @@ default React.createClass({
 
                             <TableComponent type="extra" />
 
-                            <div className="upload-area">
+                            <Dropzone className="upload-area" onDrop={this.handelOnDrop.bind(this, 'extra')}>
                                 <object data="images/svg/arrows-24px-glyph-2_file-upload-88.svg" type="image/svg+xml"/>
-                            </div>
+                            </Dropzone>
                         </div>
                     </div>
                 </div>
