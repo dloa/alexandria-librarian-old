@@ -40,7 +40,7 @@ default React.createClass({
                         <h5>Select Artifact type</h5>
                         <div className="artifact-type">
                         <div data-toggle="buttons">
-                            <label className="btn btn-toggle-primary active">
+                            <label className="btn btn-toggle-primary">
                                 <input type="radio" name="options" id="option1" autoComplete="off"/> Archive
                             </label>
                             <label className="btn btn-toggle-primary">
@@ -52,7 +52,7 @@ default React.createClass({
                             <label className="btn btn-toggle-primary">
                                 <input type="radio" name="options" id="option3" autoComplete="off"/> Song
                             </label>
-                            <label className="btn btn-toggle-primary">
+                            <label className="btn btn-toggle-primary active">
                                 <input type="radio" name="options" id="option3" autoComplete="off"/> Album
                             </label>
                             <label className="btn btn-toggle-primary">
