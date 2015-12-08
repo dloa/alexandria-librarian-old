@@ -14,14 +14,30 @@ default React.createClass({
 
     getInitialState() {
         return {
-            active: '/'
+            active: '/',
+            tabs: [{
+                name: 'Dashboard',
+                path: '/'
+            }, {
+                name: 'Publish',
+                path: 'publish/dashboard'
+            }, {
+                name: 'Preferences',
+                path: 'preferences'
+            }, {
+                name: 'IPFS',
+                path: 'management/ipfs'
+            }, {
+                name: 'About',
+                path: 'about'
+            }]
         };
     },
-    markActive(ref, event) {
+    markActive(tab, event) {
         this.setState({
-            active: ref
+            active: tab
         });
-        _.defer(this.history.replaceState.bind(this, null, ref));
+        _.defer(this.history.replaceState.bind(this, null, tab));
     },
     render() {
         return (
@@ -31,21 +47,15 @@ default React.createClass({
                         <object type="image/svg+xml" data="images/svg/logo-text.svg" className="logo"></object>
                     </a>
                 </li>
-                <li onClick={this.markActive.bind(this, '/')} className={(this.state.active === '/') ? 'active' : ''}>
-                    <a href="">Dashboard</a>
-                </li>
-                <li onClick={this.markActive.bind(this, 'publish/dashboard')} className={(this.state.active === 'publish/dashboard') ? 'active' : ''}>
-                    <a href="">Publish</a>
-                </li>
-                <li ref="preferences">
-                    <a href="">Preferences</a>
-                </li>
-                <li onClick={this.markActive.bind(this, 'management/ipfs')} className={(this.state.active === 'management/ipfs') ? 'active' : ''}>
-                    <a href="">IPFS</a>
-                </li>
-                <li onClick={this.markActive.bind(this, 'about')} className={(this.state.active === 'about') ? 'active' : ''}>
-                    <a href="">About</a>
-                </li>
+                {
+                    this.state.tabs.map((tab, idx) => {
+                        return (
+                            <li key={idx} onClick={this.markActive.bind(this, tab.path)} className={(this.state.active === tab.path) ? 'active' : ''}>
+                                <a href="">{tab.name}</a>
+                            </li>
+                            );
+                    }, this)
+                }
             </ul>
         );
     }
