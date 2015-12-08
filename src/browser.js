@@ -13,7 +13,9 @@ app.on('ready', () => {
     const screenSize = require('screen').getPrimaryDisplay().workAreaSize;
 
     var mainWindow = new BrowserWindow({
-        width: screenSize.width * 0.7,
+        minWidth: 960,
+        minHeight: 500,
+        width: 960,
         height: screenSize.height * 0.7,
         icon: 'images/librarian_icon.png',
         'standard-window': true,

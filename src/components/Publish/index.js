@@ -13,7 +13,12 @@ let If = React.createClass({
 export
 default React.createClass({
     getInitialState() {
-        return {};
+        return {
+            type: 'music',
+            files: [],
+            meta: {},
+            pricing: {}
+        };
     },
     componentDidMount() {
         publishStore.listen(this.update);
@@ -36,28 +41,28 @@ default React.createClass({
                         <div className="artifact-type">
                         <div data-toggle="buttons">
                             <label className="btn btn-toggle-primary active">
-                                <input type="radio" name="options" id="option1" autocomplete="off"/> Archive
+                                <input type="radio" name="options" id="option1" autoComplete="off"/> Archive
                             </label>
                             <label className="btn btn-toggle-primary">
-                                <input type="radio" name="options" id="option2" autocomplete="off"/> Movies
+                                <input type="radio" name="options" id="option2" autoComplete="off"/> Movies
                             </label>
                             <label className="btn btn-toggle-primary">
-                                <input type="radio" name="options" id="option3" autocomplete="off"/> Videos
+                                <input type="radio" name="options" id="option3" autoComplete="off"/> Videos
                             </label>
                             <label className="btn btn-toggle-primary">
-                                <input type="radio" name="options" id="option3" autocomplete="off"/> Song
+                                <input type="radio" name="options" id="option3" autoComplete="off"/> Song
                             </label>
                             <label className="btn btn-toggle-primary">
-                                <input type="radio" name="options" id="option3" autocomplete="off"/> Album
+                                <input type="radio" name="options" id="option3" autoComplete="off"/> Album
                             </label>
                             <label className="btn btn-toggle-primary">
-                                <input type="radio" name="options" id="option3" autocomplete="off"/> Podcast
+                                <input type="radio" name="options" id="option3" autoComplete="off"/> Podcast
                             </label>
                             <label className="btn btn-toggle-primary">
-                                <input type="radio" name="options" id="option3" autocomplete="off"/> Recipies
+                                <input type="radio" name="options" id="option3" autoComplete="off"/> Recipies
                             </label>
                             <label className="btn btn-toggle-primary">
-                                <input type="radio" name="options" id="option3" autocomplete="off"/> Things
+                                <input type="radio" name="options" id="option3" autoComplete="off"/> Things
                             </label>
                         </div>
                         </div>
@@ -83,13 +88,19 @@ default React.createClass({
                             </div>
                             <div className="col-sm-4">
                                 <h5>Cover Art</h5>
-                                <img src="assets/img/cover-art-example.png" alt="" className="cover-art"/>
+                                <img src="" alt="" className="cover-art"/>
                             </div>
                         </div>
                     </div>
-                    <div className="publish-section">
+                    <div className="publish-section publish-pricing">
+                        <img src="images/il-money.png" alt="" className="li-money"/>
+                       <div className="row">
+                           <div className="col-sm-10">
+                               <p className="small">Pick the price for your track and album.</p>
+                           </div>
+                       </div>
                         <div className="row">
-                            <div className="col-sm-6">
+                            <div className="col col-sm-6">
                                 <h5>Individual Track Pricing</h5>
                                 <form className="form-horizontal">
                                     <div className="form-group">
@@ -97,7 +108,7 @@ default React.createClass({
                                         <div className="col-sm-5">
                                             <div className="input-group">
                                                 <div className="input-group-addon">$</div>
-                                                <input type="text" className="form-control" id="" placeholder=""/>
+                                                <input type="text" className="form-control" id="" placeholder="0.00"/>
                                             </div>
                                         </div>
                                     </div>
@@ -106,7 +117,7 @@ default React.createClass({
                                         <div className="col-sm-5">
                                             <div className="input-group">
                                                 <div className="input-group-addon">$</div>
-                                                <input type="text" className="form-control" id="" placeholder=""/>
+                                                <input type="text" className="form-control" id="" placeholder="0.00"/>
                                             </div>
                                         </div>
                                     </div>
@@ -115,7 +126,7 @@ default React.createClass({
                                         <div className="col-sm-5">
                                             <div className="input-group">
                                                 <div className="input-group-addon">$</div>
-                                                <input type="text" className="form-control" id="" placeholder=""/>
+                                                <input type="text" className="form-control" id="" placeholder="0.00"/>
                                             </div>
                                         </div>
                                     </div>
@@ -124,13 +135,13 @@ default React.createClass({
                                         <div className="col-sm-5">
                                             <div className="input-group">
                                                 <div className="input-group-addon">$</div>
-                                                <input type="text" className="form-control" id="" placeholder=""/>
+                                                <input type="text" className="form-control" id="" placeholder="0.00"/>
                                             </div>
                                         </div>
                                     </div>
                                 </form>
                             </div>
-                            <div className="col-sm-6">
+                            <div className="col col-sm-6">
                                 <h5>Full Album Pricing</h5>
                                 <form className="form-horizontal">
                                     <div className="form-group">
@@ -138,7 +149,7 @@ default React.createClass({
                                         <div className="col-sm-5">
                                             <div className="input-group">
                                                 <div className="input-group-addon">$</div>
-                                                <input type="text" className="form-control" id="" placeholder=""/>
+                                                <input type="text" className="form-control" id="" placeholder="0.00"/>
                                             </div>
                                         </div>
                                     </div>
@@ -147,7 +158,7 @@ default React.createClass({
                                         <div className="col-sm-5">
                                             <div className="input-group">
                                                 <div className="input-group-addon">$</div>
-                                                <input type="text" className="form-control" id="" placeholder=""/>
+                                                <input type="text" className="form-control" id="" placeholder="0.00"/>
                                             </div>
                                         </div>
                                     </div>
@@ -156,7 +167,7 @@ default React.createClass({
                                         <div className="col-sm-5">
                                             <div className="input-group">
                                                 <div className="input-group-addon">$</div>
-                                                <input type="text" className="form-control" id="" placeholder=""/>
+                                                <input type="text" className="form-control" id="" placeholder="0.00"/>
                                             </div>
                                         </div>
                                     </div>
@@ -165,7 +176,7 @@ default React.createClass({
                                         <div className="col-sm-5">
                                             <div className="input-group">
                                                 <div className="input-group-addon">$</div>
-                                                <input type="text" className="form-control" id="" placeholder=""/>
+                                                <input type="text" className="form-control" id="" placeholder="0.00"/>
                                             </div>
                                         </div>
                                     </div>
@@ -174,13 +185,111 @@ default React.createClass({
                         </div>
                     </div>
                     <div className="publish-section">
-                        <h5>Audio Tracks</h5>
+                        <div className="publish-files audio-tracks">
+                            <h5>
+                            <object type="image/svg+xml" data="images/svg/media-16px-2_note-03.svg"/>
+                            Audio Tracks</h5>
+                            <table className="table">
+                                <colgroup>
+                                    <col className=""/>
+                                    <col className=""/>
+                                    <col style={{width: '75px'}}/>
+                                    <col style={{width: '75px'}}/>
+                                    <col style={{width: '75px'}}/>
+                                    <col className=""/>
+                                </colgroup>
+                                <thead>
+                                    <tr>
+                                        <th>File</th>
+                                        <th>File Name</th>
+                                        <th>File Size</th>
+                                        <th>Duration</th>
+                                        <th>Track</th>
+                                        <th>Display name</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>dj_day.flac</td>
+                                        <td>3.5 MB</td>
+                                        <td>3:27 min</td>
+                                        <td><input type="text" className="form-control" value="1"/></td>
+                                        <td><input type="text" className="form-control" value="DJ Day"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>i_digress.flac</td>
+                                        <td>3.5 MB</td>
+                                        <td>3:27 min</td>
+                                        <td><input type="text" className="form-control" value="2"/></td>
+                                        <td><input type="text" className="form-control" value="I Digress"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>snow_white.flac</td>
+                                        <td>3.5 MB</td>
+                                        <td>3:27 min</td>
+                                        <td><input type="text" className="form-control" value="3"/></td>
+                                        <td><input type="text" className="form-control" value="Snow White"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td>offbeat.flac</td>
+                                        <td>3.5 MB</td>
+                                        <td>3:27 min</td>
+                                        <td><input type="text" className="form-control" value="4"/></td>
+                                        <td><input type="text" className="form-control" value="Offbeat"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div className="upload-area">
+                                <object data="images/svg/arrows-24px-glyph-2_file-upload-88.svg" type="image/svg+xml"/>
+                            </div>
+                        </div>
                     </div>
                     <div className="publish-section">
-                        <h5>Extra Files</h5>
+                        <div className="publish-files extra-files">
+                            <h5>
+                                <object type="image/svg+xml" data="images/svg/files-16px_single-folded-content.svg"/>
+                                Extra Files
+                            </h5>
+                            <table className="table">
+                                <colgroup>
+                                    <col className=""/>
+                                    <col className=""/>
+                                    <col style={{width: '75px'}}/>
+                                    <col className=""/>
+                                </colgroup>
+                                <thead>
+                                    <tr>
+                                        <th>File</th>
+                                        <th>File Name</th>
+                                        <th>File Type</th>
+                                        <th>Display name</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>dj_day.flac</td>
+                                        <td><input type="text" className="form-control" value="1"/></td>
+                                        <td><input type="text" className="form-control" value="DJ Day"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>i_digress.flac</td>
+                                        <td><input type="text" className="form-control" value="2"/></td>
+                                        <td><input type="text" className="form-control" value="I Digress"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div className="upload-area">
+                                <object data="images/svg/arrows-24px-glyph-2_file-upload-88.svg" type="image/svg+xml"/>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                
             </div>
         );
     }
