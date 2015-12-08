@@ -40,32 +40,17 @@ default React.createClass({
                     <div className="publish-section">
                         <h5>Select Artifact type</h5>
                         <div className="artifact-type">
-                        <div data-toggle="buttons">
-                            <label className="btn btn-toggle-primary">
-                                <input type="radio" name="options" id="option1" autoComplete="off"/> Archive
-                            </label>
-                            <label className="btn btn-toggle-primary">
-                                <input type="radio" name="options" id="option2" autoComplete="off"/> Movies
-                            </label>
-                            <label className="btn btn-toggle-primary">
-                                <input type="radio" name="options" id="option3" autoComplete="off"/> Videos
-                            </label>
-                            <label className="btn btn-toggle-primary">
-                                <input type="radio" name="options" id="option3" autoComplete="off"/> Song
-                            </label>
-                            <label className="btn btn-toggle-primary active">
-                                <input type="radio" name="options" id="option3" autoComplete="off"/> Album
-                            </label>
-                            <label className="btn btn-toggle-primary">
-                                <input type="radio" name="options" id="option3" autoComplete="off"/> Podcast
-                            </label>
-                            <label className="btn btn-toggle-primary">
-                                <input type="radio" name="options" id="option3" autoComplete="off"/> Recipies
-                            </label>
-                            <label className="btn btn-toggle-primary">
-                                <input type="radio" name="options" id="option3" autoComplete="off"/> Things
-                            </label>
-                        </div>
+                            <div data-toggle="buttons">
+                                {
+                                    ['Archive','Movies', 'Videos', 'Song', 'Album', 'Podcast', 'Recipies', 'Things' ].map((type, idx) => {
+                                        return (
+                                            <label key={idx} className="btn btn-toggle-primary">
+                                                <input type="radio" name="options" id="option1" autoComplete="off"/> {type}
+                                            </label>
+                                            )
+                                    }, this)
+                                }
+                            </div>
                         </div>
                     </div>
                     <div className="publish-section">
@@ -104,83 +89,41 @@ default React.createClass({
                             <div className="col col-sm-6">
                                 <h5>Individual Track Pricing</h5>
                                 <form className="form-horizontal">
-                                    <div className="form-group">
-                                        <label htmlFor="" className="col-sm-7 control-label">Suggested price / play</label>
-                                        <div className="col-sm-5">
-                                            <div className="input-group">
-                                                <div className="input-group-addon">$</div>
-                                                <input type="text" className="form-control" id="" placeholder="0.00"/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="form-group">
-                                        <label htmlFor="" className="col-sm-7 control-label">Minimum price / play</label>
-                                        <div className="col-sm-5">
-                                            <div className="input-group">
-                                                <div className="input-group-addon">$</div>
-                                                <input type="text" className="form-control" id="" placeholder="0.00"/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="form-group">
-                                        <label htmlFor="" className="col-sm-7 control-label">Suggested price / download</label>
-                                        <div className="col-sm-5">
-                                            <div className="input-group">
-                                                <div className="input-group-addon">$</div>
-                                                <input type="text" className="form-control" id="" placeholder="0.00"/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="form-group">
-                                        <label htmlFor="" className="col-sm-7 control-label">Minimum price / download</label>
-                                        <div className="col-sm-5">
-                                            <div className="input-group">
-                                                <div className="input-group-addon">$</div>
-                                                <input type="text" className="form-control" id="" placeholder="0.00"/>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    {
+                                        ['Suggested price / play', 'Minimum price / play', 'Suggested price / download', 'Minimum price / download'].map((price, idx) => {
+                                            return (
+                                                    <div key={idx} className="form-group">
+                                                        <label htmlFor="" className="col-sm-7 control-label">{price}</label>
+                                                        <div className="col-sm-5">
+                                                            <div className="input-group">
+                                                                <div className="input-group-addon">$</div>
+                                                                <input type="text" className="form-control" id="" placeholder="0.00"/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                )
+                                        }, this)
+                                    }
                                 </form>
                             </div>
                             <div className="col col-sm-6">
                                 <h5>Full Album Pricing</h5>
                                 <form className="form-horizontal">
-                                    <div className="form-group">
-                                        <label htmlFor="" className="col-sm-7 control-label">Suggested price / play</label>
-                                        <div className="col-sm-5">
-                                            <div className="input-group">
-                                                <div className="input-group-addon">$</div>
-                                                <input type="text" className="form-control" id="" placeholder="0.00"/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="form-group">
-                                        <label htmlFor="" className="col-sm-7 control-label">Minimum price / play</label>
-                                        <div className="col-sm-5">
-                                            <div className="input-group">
-                                                <div className="input-group-addon">$</div>
-                                                <input type="text" className="form-control" id="" placeholder="0.00"/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="form-group">
-                                        <label htmlFor="" className="col-sm-7 control-label">Suggested price / download</label>
-                                        <div className="col-sm-5">
-                                            <div className="input-group">
-                                                <div className="input-group-addon">$</div>
-                                                <input type="text" className="form-control" id="" placeholder="0.00"/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="form-group">
-                                        <label htmlFor="" className="col-sm-7 control-label">Minimum price / download</label>
-                                        <div className="col-sm-5">
-                                            <div className="input-group">
-                                                <div className="input-group-addon">$</div>
-                                                <input type="text" className="form-control" id="" placeholder="0.00"/>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    {
+                                        ['Suggested price / play', 'Minimum price / play', 'Suggested price / download', 'Minimum price / download'].map((price, idx) => {
+                                            return (
+                                                    <div key={idx} className="form-group">
+                                                        <label htmlFor="" className="col-sm-7 control-label">{price}</label>
+                                                        <div className="col-sm-5">
+                                                            <div className="input-group">
+                                                                <div className="input-group-addon">$</div>
+                                                                <input type="text" className="form-control" id="" placeholder="0.00"/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                )
+                                        }, this)
+                                    }
                                 </form>
                             </div>
                         </div>
@@ -204,7 +147,7 @@ default React.createClass({
                                 <object type="image/svg+xml" data="images/svg/files-16px_single-folded-content.svg"/>
                                 Extra Files
                             </h5>
-                            
+
                             <TableComponent type="extra" />
 
                             <div className="upload-area">

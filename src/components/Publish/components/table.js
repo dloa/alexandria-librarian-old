@@ -55,6 +55,11 @@ default React.createClass({
         }
     },
 
+
+    setFile(event) {
+
+    },
+
     generateFiles(files) {
 
         switch (this.props.type) {
@@ -65,8 +70,8 @@ default React.createClass({
                         <td>dj_day.flac</td>
                         <td>3.5 MB</td>
                         <td>3:27 min</td>
-                        <td><input type="text" className="form-control" value="1"/></td>
-                        <td><input type="text" className="form-control" value="DJ Day"/></td>
+                        <td><input onChange={this.setFile} type="text" className="form-control" value="1"/></td>
+                        <td><input onChange={this.setFile} type="text" className="form-control" value="DJ Day"/></td>
                     </tr>
                 );
                 break;
@@ -75,8 +80,8 @@ default React.createClass({
                     <tr>
                         <td>1</td>
                         <td>dj_day.flac</td>
-                        <td><input type="text" className="form-control" value="1"/></td>
-                        <td><input type="text" className="form-control" value="DJ Day"/></td>
+                        <td><input onChange={this.setFile} type="text" className="form-control" value="1"/></td>
+                        <td><input onChange={this.setFile} type="text" className="form-control" value="DJ Day"/></td>
                     </tr>
                 );
                 break;
