@@ -1,4 +1,5 @@
 import React from 'react';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 import TableComponent from './components/table';
 import PublishActions from './actions';
@@ -13,9 +14,12 @@ let If = React.createClass({
 
 export
 default React.createClass({
+
+    mixins: [PureRenderMixin],
+
     getInitialState() {
         return {
-            type: 'music',
+            type: 'album',
             files: [],
             meta: {},
             pricing: {}
@@ -32,7 +36,13 @@ default React.createClass({
             this.setState({});
         }
     },
+    handleChangeType(type) {
+        this.setState({
+            type: type.replace(/\s/g, '').toLowerCase()
+        });
+    },
     render() {
+        let selectedType = this.state.type;
         return (
             <div className="col-lg-12">
                 <div className="section publish">
@@ -42,12 +52,12 @@ default React.createClass({
                         <div className="artifact-type">
                             <div data-toggle="buttons">
                                 {
-                                    ['Archive','Movies', 'Videos', 'Song', 'Album', 'Podcast', 'Recipies', 'Things' ].map((type, idx) => {
+                                    ['Archive','Movies', 'Videos', 'Song', 'Album', 'Podcast', 'Recipies', 'Things'].map((type, idx) => {
                                         return (
-                                            <label key={idx} className="btn btn-toggle-primary">
-                                                <input type="radio" name="options" id="option1" autoComplete="off"/> {type}
+                                            <label key={idx} onClick={this.handleChangeType.bind(this, type)} className={ 'btn btn-toggle-primary ' + ((selectedType === type.replace(/\s/g, '').toLowerCase()) ? 'active' : '')}>
+                                                <input type="radio" autoComplete="off"/> {type}
                                             </label>
-                                            )
+                                            );
                                     }, this)
                                 }
                             </div>
@@ -58,18 +68,15 @@ default React.createClass({
                             <div className="col-sm-8">
                                 <h5>Album Information</h5>
                                 <form>
-                                    <div className="form-group">
-                                        <input type="text" className="form-control" id="" placeholder="Artist Name"/>
-                                    </div>
-                                    <div className="form-group">
-                                        <input type="text" className="form-control" id="" placeholder="Album Title"/>
-                                    </div>
-                                    <div className="form-group">
-                                        <input type="text" className="form-control" id="" placeholder="Record Label"/>
-                                    </div>
-                                    <div className="form-group">
-                                        <input type="date" className="form-control" id="" placeholder="Release Date"/>
-                                    </div>
+                                    {
+                                        ['Artist Name','Album Title', 'Record Label', 'Release Date'].map((type, idx) => {
+                                            return (
+                                                <div key={idx} className="form-group">
+                                                    <input type="text" className="form-control" placeholder={type}/>
+                                                </div>
+                                                )
+                                        }, this)
+                                    }
                                 </form>
                             </div>
                             <div className="col-sm-4">
