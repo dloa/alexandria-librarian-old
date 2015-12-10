@@ -193,14 +193,12 @@ const handelListener = (mode = 'install', daemon, input = '') => {
                         var fail = ['environment variable not set'];
 
                         if (new RegExp(okay.join('|')).test(input)) {
-                            console.info(input)
                             DaemonActions.enabling({
                                 id: 'libraryd',
                                 code: 7
                             });
 
                         } else if (new RegExp(fail.join('|')).test(input)) {
-                            console.error(input)
                             DaemonActions.enabling({
                                 id: 'libraryd',
                                 code: 8,
@@ -225,7 +223,6 @@ var enablingThrottle = _.throttle(params => {
 const parseSync = (daemon, output) => {
     switch (daemon) {
         case 'florincoind':
-
             output.forEach(line => {
                 if ((line.indexOf('SetBestChain: new best=') > -1) && (line.indexOf('progress=') > -1)) {
                     let progress = line.split('progress=')[1];
@@ -240,7 +237,9 @@ const parseSync = (daemon, output) => {
                         })
                     }
                 }
-            })
+            });
+            break;
+        case 'libraryd':
 
             break;
     }
