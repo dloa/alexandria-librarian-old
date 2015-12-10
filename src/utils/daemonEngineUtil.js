@@ -184,7 +184,34 @@ const handelListener = (mode = 'install', daemon, input = '') => {
                 }
                 break;
             case 'libraryd':
+                console.log(daemon + ':', input.toString());
+                switch (mode) {
+                    case 'enable':
 
+
+                        var okay = ['init message: Loading wallet'];
+                        var fail = ['environment variable not set'];
+
+                        if (new RegExp(okay.join('|')).test(input)) {
+                            console.info(input)
+                            DaemonActions.enabling({
+                                id: 'libraryd',
+                                code: 7
+                            });
+
+                        } else if (new RegExp(fail.join('|')).test(input)) {
+                            console.error(input)
+                            DaemonActions.enabling({
+                                id: 'libraryd',
+                                code: 8,
+                                error: 'Initialization Error'
+                            });
+                        } else {
+                            parseSync('libraryd', input.split('\n'))
+                        }
+
+                        break;
+                }
                 break;
         }
     });
