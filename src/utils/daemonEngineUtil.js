@@ -452,8 +452,6 @@ module.exports = {
             },
         });
     },
-
-
     checkInstalled(daemon) {
         DaemonActions.enabling({
             id: daemon,

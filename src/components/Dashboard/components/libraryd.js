@@ -112,8 +112,8 @@ default React.createClass({
                         <h4 className="title">Libraryd</h4>
                     </div>
                     <div className="pull-right">
-                        <input onChange={this.handleChangeEnable}  type="checkbox" id="ipfs-toggle" className="toggle hidden" checked={(this.state.enabled && this.state.initStats.code === 7)}/>
-                        <label htmlFor="ipfs-toggle" className="lbl"></label>   
+                        <input onChange={this.handleChangeEnable}  type="checkbox" id="libraryd-toggle" className="toggle hidden" checked={(this.state.enabled && this.state.initStats.code === 7)}/>
+                        <label htmlFor="libraryd-toggle" className="lbl"></label>   
                     </div>
                     <If test={(this.state.initStats.code !== 0 && this.state.initStats.code !== 7)}>
                         <div className="pull-right enabling">

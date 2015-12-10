@@ -100,17 +100,41 @@ class daemonEngineActions {
                     id: 'florincoind',
                     args: []
                 }, ((process.platform === 'darwin') ? true : false))
-                    .then(this.actions.florincoind.bind(this, 'enable'))
+                    .then(this.actions.libraryd.bind(this, 'enable'))
                     .catch(console.error);
                 break;
         }
     }
 
     libraryd(action, params) {
-
-
-
+        this.dispatch();
+        switch (action) {
+            case 'enable':
+                DaemonUtil.checkInstalled('libraryd')
+                    .then(installed => {
+                        if (installed)
+                            DaemonUtil.enable({
+                                id: 'libraryd',
+                                args: []
+                            });
+                        else
+                            this.actions.libraryd('install');
+                    });
+                break;
+            case 'disable':
+                DaemonUtil.disable('libraryd');
+                break;
+            case 'install':
+                DaemonUtil.install({
+                    id: 'libraryd',
+                    args: []
+                }, ((process.platform === 'darwin') ? true : false))
+                    .then(this.actions.libraryd.bind(this, 'enable'))
+                    .catch(console.error);
+                break;
+        }
     }
+
 
 }
 
