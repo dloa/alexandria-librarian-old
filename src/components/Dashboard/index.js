@@ -2,7 +2,8 @@ import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 import IPFS from './components/ipfs';
-import Florincoin from './components/florincoin';
+import Florincoind from './components/florincoin';
+import Libraryd from './components/libraryd';
 
 
 export
@@ -35,7 +36,8 @@ default React.createClass({
         return (
             <div className="col-lg-12">
                 <IPFS/>
-                <Florincoin/>
+                <Florincoind/>
+                <Libraryd/>
             </div>
         );
     }
