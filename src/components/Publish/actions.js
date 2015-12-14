@@ -1,5 +1,10 @@
 import async from 'async';
 import Promise from 'bluebird';
+import {
+    v1 as uuid
+}
+from 'node-uuid';
+import moment from 'moment';
 import _ from 'lodash';
 import alt from '../../alt'
 
@@ -24,9 +29,10 @@ class publishingActions {
 
         let queue = async.queue((file, next) => {
             Promise.all([fileUtil.mediaInfo(file.path), fileUtil.audioTag(file.path), CommonUtil.folderSize(file.path)])
-                .spread((mediaInfo, tags, size) => {
-                    console.log(mediaInfo, tags, size)
-
+                .spread((mediaInfo, tags = {}, size) => {
+                    tags.duration = moment.duration(parseInt(mediaInfo[0]), 'ms').asMinutes().toFixed(2);
+                    tags._id = uuid();
+                    this.actions.addedFiles(tags);
                     process.nextTick(next);
                 })
                 .catch(err => {

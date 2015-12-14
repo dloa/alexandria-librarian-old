@@ -35,13 +35,23 @@ default React.createClass({
     },
     update() {
         if (this.isMounted()) {
-            this.setState({});
+            this.setState({
+
+
+
+            });
         }
     },
     handleChangeType(type) {
         this.setState({
             type: type.replace(/\s/g, '').toLowerCase()
         });
+    },
+
+    handelMetaChange(event) {
+
+
+
     },
     handelOnDrop(type, files) {
         switch (type) {
@@ -54,7 +64,6 @@ default React.createClass({
 
                 break;
         }
-        console.log(type, files);
     },
     render() {
         let selectedType = this.state.type;

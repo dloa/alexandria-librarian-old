@@ -6,6 +6,18 @@ class Store {
     constructor() {
         this.bindActions(Actions);
 
+        this.files = [];
+
+    }
+
+    onAddedFiles(file) {
+        this.files.push(file);
+
+        console.log(this.files);
+        this.setState({
+            files: this.files
+        });
+
 
 
     }
