@@ -22,7 +22,7 @@ default React.createClass({
     getInitialState() {
         return {
             type: 'album',
-            files: {},
+            files: publishStore.getState().files,
             meta: {},
             pricing: {}
         };
@@ -36,9 +36,7 @@ default React.createClass({
     update() {
         if (this.isMounted()) {
             this.setState({
-
-
-
+                files: publishStore.getState().files
             });
         }
     },
@@ -47,7 +45,6 @@ default React.createClass({
             type: type.replace(/\s/g, '').toLowerCase()
         });
     },
-
     handelMetaChange(event) {
 
 

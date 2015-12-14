@@ -24,9 +24,6 @@ class publishingActions {
 
     processFiles(type, files) {
         this.dispatch();
-
-        console.log(files)
-
         let queue = async.queue((file, next) => {
             Promise.all([fileUtil.mediaInfo(file.path), fileUtil.audioTag(file.path), CommonUtil.folderSize(file.path)])
                 .spread((mediaInfo, tags = {}, size) => {

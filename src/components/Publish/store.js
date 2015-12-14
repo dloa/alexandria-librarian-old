@@ -6,20 +6,18 @@ class Store {
     constructor() {
         this.bindActions(Actions);
 
-        this.files = [];
+        this.files = {
+            audio: [],
+            extra: []
+        };
 
     }
 
     onAddedFiles(file) {
-        this.files.push(file);
-
-        console.log(this.files);
+        this.files.audio.push(file);
         this.setState({
             files: this.files
         });
-
-
-
     }
 
 }

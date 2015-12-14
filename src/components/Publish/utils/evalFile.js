@@ -20,9 +20,7 @@ module.exports = {
 
     mediaInfo(file) {
         return new Promise((resolve, reject) => {
-
             let cmd = '"' + path.join(process.cwd(), 'resources/bin', 'mediaInfo.exe') + '" --Inform="Audio;::%Duration%::%BitRate%" "' + path.normalize(file) + '"';
-
             exec(cmd, (error, stdout, stderr) => {
                 if (error !== null || stderr !== '')
                     reject('MediaInfo exec error:', (error || stderr));
