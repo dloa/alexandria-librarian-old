@@ -12,9 +12,9 @@ class Store {
     }
 
     onAddedFiles(file) {
-        this.audio.push(file);
+        this.[file.type].push(file);
         this.setState({
-            audio: this.audio
+            [file.type]: this.audio
         });
     }
 
