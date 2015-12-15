@@ -460,11 +460,20 @@ td.unpin {
         padding: 5px;
         transition: all 0.1s;
         &:hover {
-            margin: -2px;
-            padding: 15px;
-            border: 2px dashed rgba(black, .1);
+            padding: 10px;
+            margin: -5px;
+            border: 1px dashed rgba(black, .1);
             background-color: rgba(black, .025);
             transition: all 0.1s;
+        }
+    }
+    .publish-submit {
+        border: 1px solid $ltgray;
+        padding: 15px;
+        margin: 0 -15px;
+        border-radius: 6px;
+        p {
+            margin-bottom: 0;
         }
     }
 }

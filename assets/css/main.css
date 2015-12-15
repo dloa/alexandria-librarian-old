@@ -515,8 +515,17 @@ td.unpin {
   transition: all 0.1s; }
 
 .publish .upload-area:hover {
-  margin: -2px;
-  padding: 15px;
-  border: 2px dashed rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  margin: -5px;
+  border: 1px dashed rgba(0, 0, 0, 0.1);
   background-color: rgba(0, 0, 0, 0.025);
   transition: all 0.1s; }
+
+.publish .publish-submit {
+  border: 1px solid #f2f2f2;
+  padding: 15px;
+  margin: 0 -15px;
+  border-radius: 6px; }
+
+.publish .publish-submit p {
+  margin-bottom: 0; }
