@@ -126,8 +126,7 @@ default React.createClass({
                 </If>
                 <If test={!this.props.active}>
                     <div className="detail">
-                        <p>The InterPlanetary File System (IPFS) is a new hypermedia distribution protocol, addressed by content and identities. 
-                        IPFS enables the creation of completely distributed applications. It aims to make the web faster, safer, and more open.</p>
+                        <p></p>
                     </div>
                 </If>
             </div>

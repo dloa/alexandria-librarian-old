@@ -164,11 +164,6 @@ default React.createClass({
                     <div className="pull-left">
                         <h4 className="title">IPFS</h4>
                     </div>
-                    <div className="pull-left">
-                        <a href="" className="svg btn-settings">
-                            <object type="image/svg+xml" data="images/svg/ui-16px-1_settings-gear-64.svg"/>
-                        </a>
-                    </div>
                     <div className="pull-right">
                         <input onChange={this.handleChangeEnable}  type="checkbox" id="ipfs-toggle" className="toggle hidden" checked={(this.state.enabled && this.state.initStats.code === 7)}/>
                         <label htmlFor="ipfs-toggle" className="lbl"></label>   
