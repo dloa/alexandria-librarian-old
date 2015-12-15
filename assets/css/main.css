@@ -547,7 +547,7 @@ td.unpin {
   margin-bottom: 0; }
 
 .publish .publish-progress {
-  /* display: none; */
+  display: none;
   position: fixed;
   top: 0;
   left: 1;
