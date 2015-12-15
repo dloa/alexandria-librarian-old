@@ -5,14 +5,6 @@
         <title>Alexandria Librarian</title>
         <link href="assets/css/bootstrap.min.css" rel="stylesheet">
         <link href="assets/css/main.css" rel="stylesheet">
-        <script type="text/javascript">
-            function submit(){
-                $('#progress').fadeIn('slow');
-            }
-            function cancelSubmit(){
-                $('#progress').fadeOut('slow');
-            }
-        </script>
     </head>
     <body>
         <div id="app">
@@ -329,8 +321,6 @@
                                 </div>
                             </div>
                             <div id="progress" class="publish publish-progress">
-                                <div class="col-sm-4">
-                                <center style="padding-top: 300px;">
                                     <p>Adding Files... (4/5)</p>
                                     <div class="progress">
                                         <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
@@ -338,8 +328,6 @@
                                         </div>
                                     </div>
                                     <button onclick="cancelSubmit()" class="btn btn-danger">Cancel</button>
-                                </center>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -353,6 +341,15 @@
             $(function () {
                 $('[data-toggle="tooltip"]').tooltip()
             })
+        </script>
+        <!-- Publish -->
+        <script type="text/javascript">
+            function submit(){
+                $('#progress').fadeIn('fast');
+            }
+            function cancelSubmit(){
+                $('#progress').fadeOut('fast');
+            }
         </script>
     </body>
 </html>
