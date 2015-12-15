@@ -106,7 +106,9 @@ default React.createClass({
                             </div>
                             <div className="col-sm-4">
                                 <h5>Cover Art</h5>
-                                <img src="https://raw.githubusercontent.com/dloa/alexandria-librarian/dev/html/assets/img/cover-art-example.png" alt="" className="cover-art"/>
+                                <Dropzone className="upload-area" onDrop={this.handelOnDrop.bind(this, 'cover-art')}>
+                                    <img src="https://raw.githubusercontent.com/dloa/alexandria-librarian/dev/html/assets/img/cover-art-example.png" alt="" className="cover-art"/>
+                                </Dropzone>
                             </div>
                         </div>
                     </div>
