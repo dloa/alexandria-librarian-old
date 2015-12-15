@@ -102,7 +102,7 @@ default React.createClass({
                             </div>
                             <div className="col-sm-4">
                                 <h5>Cover Art</h5>
-                                <img src="" alt="" className="cover-art"/>
+                                <img src="https://raw.githubusercontent.com/dloa/alexandria-librarian/dev/html/assets/img/cover-art-example.png" alt="" className="cover-art"/>
                             </div>
                         </div>
                     </div>
