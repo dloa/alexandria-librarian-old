@@ -16,6 +16,9 @@ class publishingActions {
         this.generateActions(
             'setMeta',
             'addedFiles',
+            'setCover',
+            'clearType',
+            'removeFile',
             'youtubeAuthorized',
             'youtubeContent'
         );
@@ -31,6 +34,7 @@ class publishingActions {
                             tags.duration = moment.duration(parseInt(mediaInfo[0]), 'ms').asMinutes().toFixed(2);
                             tags._id = uuid();
                             tags.name = file.name;
+                            tags.path = file.path;
                             tags.type = type;
                             tags.size = CommonUtil.formatBytes(size);
                             this.actions.addedFiles(tags);
@@ -41,15 +45,23 @@ class publishingActions {
                             process.nextTick(next);
                         });
                     break;
+                case 'cover-art':
                 case 'extra':
                     CommonUtil.folderSize(file.path)
                         .then(size => {
-                            this.actions.addedFiles({
+                            var fileSt = {
                                 _id: uuid(),
                                 name: file.name,
                                 type: type,
+                                path: file.path,
                                 size: CommonUtil.formatBytes(size)
-                            });
+                            };
+
+                            if (type === 'cover-art') 
+                                this.actions.setCover(fileSt);
+
+                            fileSt.type = 'extra';
+                            this.actions.addedFiles(fileSt);
                             process.nextTick(next);
                         })
                         .catch(err => {

@@ -22,7 +22,8 @@ default React.createClass({
             type: 'album',
             files: {
                 audio: publishStore.getState().audio,
-                extra: publishStore.getState().extra
+                extra: publishStore.getState().extra,
+                cover: publishStore.getState().cover
             },
             meta: {},
             pricing: {}
@@ -39,7 +40,8 @@ default React.createClass({
             this.setState({
                 files: {
                     audio: publishStore.getState().audio,
-                    extra: publishStore.getState().extra
+                    extra: publishStore.getState().extra,
+                    cover: publishStore.getState().cover
                 },
             });
         }
@@ -54,8 +56,9 @@ default React.createClass({
 
 
     },
-    handelMoneyBlur(input){
-        console.log("yep");
+    handelMoneyBlur(event) {
+
+        
     },
     handelOnDrop(type, files) {
         switch (type) {
@@ -66,6 +69,15 @@ default React.createClass({
                 break;
             case 'extra':
                 PublishActions.processFiles('extra', files);
+                break;
+            case 'cover-art':
+
+                if (this.state.files.cover._id)
+                    PublishActions.removeFile(this.state.files.cover._id);
+
+                PublishActions.processFiles('cover-art', _.filter(files, file => {
+                    return (file.type.indexOf('image') > -1);
+                }));
                 break;
         }
     },
@@ -110,7 +122,7 @@ default React.createClass({
                             <div className="col-sm-4">
                                 <h5>Cover Art</h5>
                                 <Dropzone className="upload-area" onDrop={this.handelOnDrop.bind(this, 'cover-art')}>
-                                    <img src="https://raw.githubusercontent.com/dloa/alexandria-librarian/dev/html/assets/img/cover-art-example.png" alt="" className="cover-art"/>
+                                    <img src={this.state.files.cover.path} alt="" className="cover-art"/>
                                 </Dropzone>
                             </div>
                         </div>

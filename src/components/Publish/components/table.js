@@ -87,9 +87,6 @@ default React.createClass({
     },
 
     render(header = this.getHeader()) {
-
-        console.log(this.props)
-
         return (
             <table className="table">
                 {header.colgroup}
@@ -99,7 +96,6 @@ default React.createClass({
                 <tbody>
                     {
                         this.props.files.map((file, idx) => {
-                            console.log(file)
                             return this.generateFile(file, idx)
                         })
                     }
