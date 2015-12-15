@@ -188,9 +188,8 @@ const handelListener = (mode = 'install', daemon, input = '') => {
                 switch (mode) {
                     case 'enable':
 
-
                         var okay = ['init message: Loading wallet'];
-                        var fail = ['environment variable not set'];
+                        var fail = ['connectex: No connection could be made because the target machine actively refused it.', 'Only one usage of each socket address'];
 
                         if (new RegExp(okay.join('|')).test(input)) {
                             DaemonActions.enabling({
@@ -361,7 +360,7 @@ module.exports = {
         let daemonObj = this.generate({
             exec: installPath,
             id: daemon.id
-        }, daemon.args);
+        }, daemon.args, daemon.env);
         try {
             daemonObj.start(pid => {
                 DaemonActions.enabled({
@@ -451,12 +450,13 @@ module.exports = {
 
         });
     },
-    generate(daemon, args, autoRestart = false, detached = false) {
+    generate(daemon, args = [], env = {}, autoRestart = false, detached = false) {
         return child({
             command: daemon.exec,
             args: args,
             options: {
-                detached: detached
+                detached: detached,
+                env: env
             },
             autoRestart: autoRestart,
             restartTimeout: 200,
