@@ -399,8 +399,16 @@ td.unpin {
         }
     }
     .cover-art {
-        width: 100%;
+        width: 180px;
+        height: 180px;
+        display: table; 
+        background: rgba($ltgray, .5);
         border-radius: 3px;
+        p {
+            text-align:center; 
+            vertical-align: middle;
+            display: table-cell;  
+        }
     }
     label {
         font-weight: 300;
