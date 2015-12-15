@@ -12,9 +12,9 @@ class Store {
     }
 
     onAddedFiles(file) {
-        this.[file.type].push(file);
+        this[file.type].push(file);
         this.setState({
-            [file.type]: this.[file.type]
+            [file.type]: this[file.type]
         });
     }
 
