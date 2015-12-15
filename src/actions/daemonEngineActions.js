@@ -1,9 +1,10 @@
 import path from 'path';
+import Promise from 'bluebird';
 import _ from 'lodash';
 import alt from '../alt';
 import DaemonUtil from '../utils/daemonEngineUtil';
 import IPFSUtil from '../utils/daemon/ipfs';
-
+import LibrarydUtil from '../utils/daemon/libraryd';
 
 /*
 
@@ -111,7 +112,8 @@ class daemonEngineActions {
         switch (action) {
             case 'enable':
                 DaemonUtil.checkInstalled('libraryd')
-                    .then(installed => {
+                    .then(LibrarydUtil.getParms)
+                    .then((params, installed) => {
                         if (installed)
                             DaemonUtil.enable({
                                 id: 'libraryd',
@@ -128,8 +130,7 @@ class daemonEngineActions {
                 DaemonUtil.install({
                     id: 'libraryd',
                     args: []
-                }, ((process.platform === 'darwin') ? true : false))
-                    .then(this.actions.libraryd.bind(this, 'enable'))
+                }).then(this.actions.libraryd.bind(this, 'enable'))
                     .catch(console.error);
                 break;
         }
