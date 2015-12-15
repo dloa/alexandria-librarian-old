@@ -54,6 +54,9 @@ default React.createClass({
 
 
     },
+    handelMoneyBlur(input){
+        console.log("yep");
+    },
     handelOnDrop(type, files) {
         switch (type) {
             case 'audio':
@@ -131,7 +134,7 @@ default React.createClass({
                                                         <div className="col-sm-5">
                                                             <div className="input-group">
                                                                 <div className="input-group-addon">$</div>
-                                                                <input type="text" className="form-control" id="" placeholder="0.00"/>
+                                                                <input onBlur={this.handelMoneyBlur(this)} type="text" className="form-control" id="" placeholder="0.00"/>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -151,7 +154,7 @@ default React.createClass({
                                                         <div className="col-sm-5">
                                                             <div className="input-group">
                                                                 <div className="input-group-addon">$</div>
-                                                                <input type="text" className="form-control" id="" placeholder="0.00"/>
+                                                                <input onBlur={this.handelMoneyBlur(this)} type="text" className="form-control" id="" placeholder="0.00"/>
                                                             </div>
                                                         </div>
                                                     </div>
