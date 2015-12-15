@@ -29,6 +29,8 @@ class publishingActions {
                 .spread((mediaInfo, tags = {}, size) => {
                     tags.duration = moment.duration(parseInt(mediaInfo[0]), 'ms').asMinutes().toFixed(2);
                     tags._id = uuid();
+                    tags.name = file.name;
+                    tags.size = CommonUtil.formatBytes(size);
                     this.actions.addedFiles(tags);
                     process.nextTick(next);
                 })

@@ -17,12 +17,13 @@ let If = React.createClass({
 export
 default React.createClass({
 
-    mixins: [PureRenderMixin],
-
     getInitialState() {
         return {
             type: 'album',
-            files: publishStore.getState().files,
+            files: {
+                audio: publishStore.getState().audio,
+                extra: publishStore.getState().extra
+            },
             meta: {},
             pricing: {}
         };
@@ -36,7 +37,10 @@ default React.createClass({
     update() {
         if (this.isMounted()) {
             this.setState({
-                files: publishStore.getState().files
+                files: {
+                    audio: publishStore.getState().audio,
+                    extra: publishStore.getState().extra,
+                },
             });
         }
     },
@@ -162,7 +166,7 @@ default React.createClass({
                             <object type="image/svg+xml" data="images/svg/media-16px-2_note-03.svg"/>
                             Audio Tracks</h5>
 
-                            <TableComponent type="audio" files={(this.state.files.audio) ? this.state.files.audio : []} />
+                            <TableComponent type="audio" files={this.state.files.audio} />
 
                             <Dropzone className="upload-area" onDrop={this.handelOnDrop.bind(this, 'audio')}>
                                 <object data="images/svg/arrows-24px-glyph-2_file-upload-88.svg" type="image/svg+xml"/>
@@ -176,7 +180,7 @@ default React.createClass({
                                 Extra Files
                             </h5>
 
-                            <TableComponent type="extra" files={(this.state.files.extra) ? this.state.files.extra : []} />
+                            <TableComponent type="extra" files={this.state.files.extra} />
 
                             <Dropzone className="upload-area" onDrop={this.handelOnDrop.bind(this, 'extra')}>
                                 <object data="images/svg/arrows-24px-glyph-2_file-upload-88.svg" type="image/svg+xml"/>

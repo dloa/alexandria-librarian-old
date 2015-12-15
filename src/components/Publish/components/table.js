@@ -4,8 +4,6 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 export
 default React.createClass({
 
-    mixins: [PureRenderMixin],
-
     getHeader() {
         switch (this.props.type) {
             case 'audio':
@@ -60,26 +58,18 @@ default React.createClass({
 
     },
 
-    generateFiles(files) {
-
+    generateFile(file, idx) {
         switch (this.props.type) {
             case 'audio':
                 return (
-                        {
-                            // \/ that period breaks it ;)
-                            this.props.files.map((file, idx) => {
-                                return(
-                                        <tr>
-                                            <td>1</td>
-                                            <td>{file.name}</td>
-                                            <td>{file.size}</td>
-                                            <td>{file.length} min</td>
-                                            <td><input onChange={this.setFile} type="text" className="form-control" value={file.track_num}/></td>
-                                            <td><input onChange={this.setFile} type="text" className="form-control" value={file.name}/></td>
-                                        </tr>
-                                    )
-                            })
-                        }
+                    <tr key={idx}>
+                        <td>{idx + 1}</td>
+                        <td>{file.name}</td>
+                        <td>{file.size}</td>
+                        <td>{file.duration} min</td>
+                        <td><input onChange={this.setFile} type="text" className="form-control" value={file.track}/></td>
+                        <td><input onChange={this.setFile} type="text" className="form-control" value={file.title}/></td>
+                    </tr>
                 );
                 break;
             case 'extra':
@@ -97,6 +87,9 @@ default React.createClass({
     },
 
     render(header = this.getHeader()) {
+
+        console.log(this.props)
+
         return (
             <table className="table">
                 {header.colgroup}
@@ -104,7 +97,12 @@ default React.createClass({
                     {header.thead}
                 </thead>
                 <tbody>
-                    {this.generateFiles()}
+                    {
+                        this.props.files.map((file, idx) => {
+                            console.log(file)
+                            return this.generateFile(file, idx)
+                        })
+                    }
                 </tbody>
             </table>
         );
