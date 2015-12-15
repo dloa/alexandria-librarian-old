@@ -41,7 +41,7 @@ and since ΛLΞXΛNDRIΛ Librarian has a large amount of interaction with outsid
 
 ### Guidelines
 
-- Avoid asynchronous code in Actions, Stores or Views. Instead, put code involving callbacks, promises or generators in utils or actions.
+- Avoid asynchronous code in Stores or Views. Instead, put code involving callbacks, promises or generators in utils or actions.
 
 ## Copyright and License
 
