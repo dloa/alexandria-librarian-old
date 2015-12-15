@@ -5,6 +5,12 @@
         <title>Alexandria Librarian</title>
         <link href="assets/css/bootstrap.min.css" rel="stylesheet">
         <link href="assets/css/main.css" rel="stylesheet">
+        <script type="text/javascript">
+            function submit(){
+                console.log("submitted");
+                $('#progress').fadeIn('slow');
+            }
+        </script>
     </head>
     <body>
         <div id="app">
@@ -315,12 +321,14 @@
                                             <p class="small">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam recusandae quae minima accusantium, tempora, sunt quia.</p>
                                         </div>
                                         <div class="col-sm-3 text-right">
-                                            <a href="#" class="btn btn-primary">Publish</a>
+                                            <button onclick="submit()" class="btn btn-primary">Publish</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            
+                            <div id="progress" class="publish publish-progress">
+                                test
+                            </div>
                         </div>
                     </div>
                 </div>
