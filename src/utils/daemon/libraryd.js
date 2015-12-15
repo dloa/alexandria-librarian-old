@@ -35,9 +35,9 @@ default {
                     var res = {};
                     _.forEach(matches, match => {
                         if (match.indexOf('rpcpassword=') > -1)
-                            res.pass = match.split('=').shift();
+                            res.pass = match.split('=').splice(1).join('=');
                         else
-                            res.user = match.split('=').shift();
+                            res.user = match.split('=').splice(1).join('=');
                     });
                     resolve(res);
                 } else {
