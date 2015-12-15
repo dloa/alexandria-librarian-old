@@ -7,8 +7,10 @@
         <link href="assets/css/main.css" rel="stylesheet">
         <script type="text/javascript">
             function submit(){
-                console.log("submitted");
                 $('#progress').fadeIn('slow');
+            }
+            function cancelSubmit(){
+                $('#progress').fadeOut('slow');
             }
         </script>
     </head>
@@ -327,7 +329,7 @@
                                 </div>
                             </div>
                             <div id="progress" class="publish publish-progress">
-                                test
+                                <button onclick="cancelSubmit()" class="btn btn-danger">Cancel</button>
                             </div>
                         </div>
                     </div>
