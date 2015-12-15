@@ -65,14 +65,21 @@ default React.createClass({
         switch (this.props.type) {
             case 'audio':
                 return (
-                    <tr>
-                        <td>1</td>
-                        <td>dj_day.flac</td>
-                        <td>3.5 MB</td>
-                        <td>3:27 min</td>
-                        <td><input onChange={this.setFile} type="text" className="form-control" value="1"/></td>
-                        <td><input onChange={this.setFile} type="text" className="form-control" value="DJ Day"/></td>
-                    </tr>
+                        {
+                            // \/ that period breaks it ;)
+                            this.props.files.map((file, idx) => {
+                                return(
+                                        <tr>
+                                            <td>1</td>
+                                            <td>{file.name}</td>
+                                            <td>{file.size}</td>
+                                            <td>{file.length} min</td>
+                                            <td><input onChange={this.setFile} type="text" className="form-control" value={file.track_num}/></td>
+                                            <td><input onChange={this.setFile} type="text" className="form-control" value={file.name}/></td>
+                                        </tr>
+                                    )
+                            })
+                        }
                 );
                 break;
             case 'extra':
