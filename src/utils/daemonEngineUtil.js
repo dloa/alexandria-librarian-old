@@ -143,6 +143,7 @@ const handelListener = (mode = 'install', daemon, input = '') => {
                             });
 
                         } else if (new RegExp(fail.join('|')).test(input)) {
+                            DaemonStore.getState().enabled['ipfs'].daemon.stop();
                             DaemonActions.enabling({
                                 id: 'ipfs',
                                 code: 8,
@@ -170,6 +171,7 @@ const handelListener = (mode = 'install', daemon, input = '') => {
                             });
 
                         } else if (new RegExp(fail.join('|')).test(input)) {
+                            DaemonStore.getState().enabled['florincoind'].daemon.stop();
                             console.error(input)
                             DaemonActions.enabling({
                                 id: 'florincoind',
@@ -188,8 +190,8 @@ const handelListener = (mode = 'install', daemon, input = '') => {
                 switch (mode) {
                     case 'enable':
 
-                        var okay = ['init message: Loading wallet'];
-                        var fail = ['connectex: No connection could be made because the target machine actively refused it.', 'Only one usage of each socket address'];
+                        var okay = ['Listening on port 41289'];
+                        var fail = ['connectex: No connection could be made because the target machine actively refused it.', 'Only one usage of each socket address', 'Error reading json message: Authentication error.'];
 
                         if (new RegExp(okay.join('|')).test(input)) {
                             DaemonActions.enabling({
@@ -198,6 +200,7 @@ const handelListener = (mode = 'install', daemon, input = '') => {
                             });
 
                         } else if (new RegExp(fail.join('|')).test(input)) {
+                            DaemonStore.getState().enabled['libraryd'].daemon.stop();
                             DaemonActions.enabling({
                                 id: 'libraryd',
                                 code: 8,
