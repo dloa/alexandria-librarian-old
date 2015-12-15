@@ -453,13 +453,13 @@ module.exports = {
 
         });
     },
-    generate(daemon, args = [], env = {}, autoRestart = false, detached = false) {
+    generate(daemon, args = [], env = process.env, autoRestart = false, detached = false) {
         return child({
             command: daemon.exec,
             args: args,
             options: {
                 detached: detached,
-                env: env
+                env: _.defaultsDeep(env, process.env)
             },
             autoRestart: autoRestart,
             restartTimeout: 200,
