@@ -322,6 +322,29 @@ td.unpin {
     margin-top: 25px;
 }
 
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgba(black, 0.1);
+    border-radius: 50px;
+
+    &:hover {
+        background-color: rgba(black, 0.25);
+    }
+}
+
+::-webkit-scrollbar-corner {
+    background-color: rgba(black, 0.1);
+}
+
 /* Settings */
 .settings-toggle {
     margin-bottom: 5px;
@@ -372,6 +395,7 @@ td.unpin {
     .artifact-type {
         .btn {
             margin-right: 0px;
+            padding: 6px 10px;
         }
     }
     .cover-art {
