@@ -17,7 +17,7 @@
   },
   "license": "GPL-3.0",
   "dependencies": {
-    "alt": "^0.18.1",
+    "alt": "^0.17.8",
     "async": "^1.5.0",
     "audio-metadata": "^0.3.0",
     "bluebird": "^3.0.6",
