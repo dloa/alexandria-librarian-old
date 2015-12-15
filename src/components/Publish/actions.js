@@ -6,7 +6,7 @@ from 'node-uuid';
 import moment from 'moment';
 import _ from 'lodash';
 import alt from '../../alt'
-
+import Promise from 'bluebird';
 import fileUtil from './utils/evalFile'
 import CommonUtil from '../../utils/CommonUtil';
 
