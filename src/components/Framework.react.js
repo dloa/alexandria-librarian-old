@@ -1,9 +1,19 @@
 import React from 'react';
-import Router from 'react-router';
-import Sidebar from './Sidebar.react';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
+import {
+    RouteContext
+}
+from 'react-router';
+
+import Sidebar from './Sidebar';
+
+
 
 export
 default React.createClass({
+
+    mixins: [PureRenderMixin, RouteContext],
+
     getInitialState() {
         return {
             sidebarOffset: 0
@@ -22,9 +32,17 @@ default React.createClass({
     },
     render() {
         return (
-            <div className="content-container">
-              <Sidebar />
-              {React.cloneElement(this.props.children, {query: this.props.query})}
+            <div>
+                <div id="sidebar">
+                    <Sidebar />
+                </div>
+                <div id="content" className="dashboard">
+                    <div className="container-fluid">
+                        <div className="row">
+                            {React.cloneElement(this.props.children, {query: this.props.query})}
+                        </div>
+                    </div>
+                </div>
             </div>
         );
     }

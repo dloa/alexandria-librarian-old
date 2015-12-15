@@ -6,12 +6,7 @@ var electron = require('electron-prebuilt');
 module.exports = function(grunt) {
     require('load-grunt-tasks')(grunt);
     var target = grunt.option('target') || 'development';
-    var beta = grunt.option('beta') || false;
-    var alpha = grunt.option('alpha') || false;
-    var env = process.env;
 
-    env.NODE_PATH = '..:' + env.NODE_PATH;
-    env.NODE_ENV = target;
     var os;
     switch (process.platform) {
         case 'win32':
@@ -27,9 +22,6 @@ module.exports = function(grunt) {
             os = process.platform;
     }
 
-
-
-
     var version = function(str) {
         var match = str.match(/(\d+\.\d+\.\d+)/);
         return match ? match[1] : null;
@@ -37,12 +29,6 @@ module.exports = function(grunt) {
 
     var BASENAME = 'ΛLΞXΛNDRIΛ Librarian';
     var APPNAME = BASENAME;
-
-    if (alpha) {
-        APPNAME += ' (Alpha)';
-    } else if (beta) {
-        APPNAME += ' (Beta)';
-    }
 
     var OSX_OUT = './dist';
     var OSX_OUT_X64 = OSX_OUT + '/' + APPNAME + '-darwin-x64';
@@ -195,16 +181,15 @@ module.exports = function(grunt) {
             },
         },
 
-        // styles
-        less: {
+        sass: {
             options: {
-                compress: true,
-                sourceMapFileInline: true
+                outputStyle: 'compressed',
+                sourceMapEmbed: true
             },
             dist: {
                 files: {
-                    'build/css/main.css': 'styles/src/**/*.less',
-                    'build/css/vender.css': ['styles/vender/**/*.less', 'styles/vender/**/*.css']
+                    'build/css/main.css': 'styles/src/main.scss',
+                    'build/css/vender.css': 'styles/vender/**/*.css'
                 }
             }
         },
@@ -214,7 +199,8 @@ module.exports = function(grunt) {
             options: {
                 sourceMap: 'inline',
                 presets: ['es2015', 'react'],
-                compact: true
+                compact: true,
+                comments: false
             },
             dist: {
                 files: [{
@@ -232,7 +218,6 @@ module.exports = function(grunt) {
                 options: {
                     async: true,
                     execOptions: {
-                        env: env,
                         cwd: 'build'
                     }
                 }
@@ -300,9 +285,9 @@ module.exports = function(grunt) {
                 files: ['src/**/*.js'],
                 tasks: ['newer:babel']
             },
-            less: {
-                files: ['styles/**/*.less'],
-                tasks: ['less']
+            sass: {
+                files: ['styles/**/*.scss'],
+                tasks: ['sass']
             },
             copy: {
                 files: ['images/*', 'index.html', 'fonts/*'],
@@ -311,18 +296,18 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.registerTask('default', ['newer:babel', 'less', 'newer:copy:dev', 'shell:electron', 'watchChokidar']);
+    grunt.registerTask('default', ['newer:babel', 'sass', 'newer:copy:dev', 'shell:electron', 'watchChokidar']);
 
-    grunt.registerTask('run', ['shell:electron', 'watchChokidar']);
+    grunt.registerTask('run', ['babel', 'sass', 'shell:electron', 'watchChokidar']);
 
     if (process.platform === 'win32') {
-        grunt.registerTask('release', ['clean:release', 'babel', 'less', 'copy:release', 'electron:windows', 'clean:unusedWin', 'copy:releaseWin', 'compress:windows']);
+        grunt.registerTask('release', ['clean:release', 'babel', 'sass', 'copy:release', 'electron:windows', 'clean:unusedWin', 'copy:releaseWin', 'compress:windows']);
     }
     if (process.platform === 'darwin') {
-        grunt.registerTask('release', ['clean:release', 'babel', 'less', 'copy:release', 'electron:osx', 'copy:releaseOSX', 'shell:zip']);
+        grunt.registerTask('release', ['clean:release', 'babel', 'sass', 'copy:release', 'electron:osx', 'copy:releaseOSX', 'shell:zip']);
     }
     if (process.platform === 'linux') {
-        grunt.registerTask('release', ['clean:release', 'babel', 'less', 'copy:release', 'electron:linux', 'compress:linux']);
+        grunt.registerTask('release', ['clean:release', 'babel', 'sass', 'copy:release', 'electron:linux', 'compress:linux']);
     }
 
     process.on('SIGINT', function() {

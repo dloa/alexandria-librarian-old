@@ -1,5 +1,8 @@
 # ΛLΞXΛNDRIΛ Librarian
 [![Dependency Status](https://david-dm.org/dloa/alexandria-librarian.svg)](https://david-dm.org/dloa/alexandria-librarian) [![devDependency Status](https://david-dm.org/dloa/alexandria-librarian/dev-status.svg)](https://david-dm.org/dloa/alexandria-librarian#info=devDependencies) [![optionalDependency Status](https://david-dm.org/dloa/alexandria-librarian/optional-status.svg)](https://david-dm.org/dloa/alexandria-librarian#info=optionalDependencies)
+
+![](http://i.imgur.com/azl3qlL.png)
+
 ### Getting Started
 
 - `npm install`

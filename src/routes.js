@@ -1,25 +1,25 @@
 import React from 'react';
 import {
-    Router, Route, IndexRoute
+    Route, IndexRoute
 }
 from 'react-router';
 
 import Framework from './components/Framework.react';
-import Dashboard from './components/Dashboard.react';
-import Preferences from './components/Preferences.react';
-import PublishDashboard from './components/PublishDashboard.react';
-import About from './components/About.react';
-import IPFSManagement from './components/IPFSManagement.react';
 
+import Dashboard from './components/Dashboard';
+import About from './components/About';
+import PublishDash from './components/Publish';
+
+import IPFSManagement from './components/Management/ipfs';
 
 export
 default (
     <Route path="/" component={Framework}>
       <IndexRoute component={Dashboard}/>
 
-      <Route path="/publish" component={PublishDashboard}/>
-      <Route path="/preferences" component={Preferences}/>
-      <Route path="/about" component={About}/>
-      <Route path="/IPFSManagement" component={IPFSManagement}/>
+      <Route path="about" component={About} />
+      <Route path="publish/dashboard" component={PublishDash} />
+      <Route path="management/ipfs" component={IPFSManagement} />
+      
     </Route>
 );

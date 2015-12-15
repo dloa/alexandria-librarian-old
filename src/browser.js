@@ -1,21 +1,23 @@
 import app from 'app';
 import BrowserWindow from 'browser-window';
 import path from 'path';
-import trayTemplate from './app-tray';
-import util from './utils/util';
 import yargs from 'yargs';
 
+import trayTemplate from './app-tray';
 
-var args = yargs(process.argv.slice(1)).wrap(100).argv;
+const args = yargs(process.argv.slice(1)).wrap(100).argv;
 
-app.on('ready', function() {
+app.on('ready', () => {
     var checkingQuit = false;
     var canQuit = false;
-    var screenSize = require('screen').getPrimaryDisplay().workAreaSize;
+    const screenSize = require('screen').getPrimaryDisplay().workAreaSize;
 
     var mainWindow = new BrowserWindow({
-        width: screenSize.width * 0.7,
+        minWidth: 960,
+        minHeight: 500,
+        width: 960,
         height: screenSize.height * 0.7,
+        icon: 'images/librarian_icon.png',
         'standard-window': true,
         'auto-hide-menu-bar': true,
         resizable: true,
@@ -34,20 +36,20 @@ app.on('ready', function() {
 
     mainWindow.setMenu(null);
 
-    mainWindow.loadUrl(path.normalize('file://' + path.join(__dirname, '../index.html')));
+    mainWindow.loadURL(path.normalize('file://' + path.join(__dirname, '../index.html')));
 
 
-    mainWindow.webContents.on('new-window', function(e) {
+    mainWindow.webContents.on('new-window', e => {
         e.preventDefault();
     });
 
-    mainWindow.webContents.on('will-navigate', function(e, url) {
+    mainWindow.webContents.on('will-navigate', (e, url) => {
         if (url.indexOf('build/index.html#') < 0) {
             e.preventDefault();
         }
     });
 
-    mainWindow.webContents.on('did-finish-load', function() {
+    mainWindow.webContents.on('did-finish-load', () => {
         mainWindow.setTitle('ΛLΞXΛNDRIΛ Librarian');
         mainWindow.show();
         mainWindow.focus();
@@ -55,7 +57,7 @@ app.on('ready', function() {
 
 
     var helper = {
-        toggleVisibility: function() {
+        toggleVisibility: () => {
             if (mainWindow) {
                 var isVisible = mainWindow.isVisible();
                 if (isVisible) {
@@ -71,15 +73,13 @@ app.on('ready', function() {
                 }
             }
         },
-        quit: function() {
+        quit: () => {
             canQuit = true;
-            util.killAllDaemons()
-                .then(app.quit)
-                .catch(app.quit);
+            app.quit()
         }
     };
 
-    mainWindow.on('close', function(event) {
+    mainWindow.on('close', (event) => {
         if (!canQuit) {
             helper.toggleVisibility();
             return event.preventDefault();
@@ -92,6 +92,4 @@ app.on('ready', function() {
 });
 
 
-app.on('window-all-closed', function() {
-    app.quit();
-});
+app.on('window-all-closed', app.quit);
