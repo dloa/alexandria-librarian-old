@@ -1,5 +1,4 @@
 import async from 'async';
-import Promise from 'bluebird';
 import {
     v1 as uuid
 }
@@ -25,20 +24,40 @@ class publishingActions {
     processFiles(type, files) {
         this.dispatch();
         let queue = async.queue((file, next) => {
-            Promise.all([fileUtil.mediaInfo(file.path), fileUtil.audioTag(file.path), CommonUtil.folderSize(file.path)])
-                .spread((mediaInfo, tags = {}, size) => {
-                    tags.duration = moment.duration(parseInt(mediaInfo[0]), 'ms').asMinutes().toFixed(2);
-                    tags._id = uuid();
-                    tags.name = file.name;
-                    tags.type = type;
-                    tags.size = CommonUtil.formatBytes(size);
-                    this.actions.addedFiles(tags);
-                    process.nextTick(next);
-                })
-                .catch(err => {
-                    console.error(err);
-                    process.nextTick(next);
-                });
+            switch (type) {
+                case 'audio':
+                    Promise.all([fileUtil.mediaInfo(file.path), fileUtil.audioTag(file.path), CommonUtil.folderSize(file.path)])
+                        .spread((mediaInfo, tags = {}, size) => {
+                            tags.duration = moment.duration(parseInt(mediaInfo[0]), 'ms').asMinutes().toFixed(2);
+                            tags._id = uuid();
+                            tags.name = file.name;
+                            tags.type = type;
+                            tags.size = CommonUtil.formatBytes(size);
+                            this.actions.addedFiles(tags);
+                            process.nextTick(next);
+                        })
+                        .catch(err => {
+                            console.error(err);
+                            process.nextTick(next);
+                        });
+                    break;
+                case 'extra':
+                    CommonUtil.folderSize(file.path)
+                        .then(size => {
+                            this.actions.addedFiles({
+                                _id: uuid(),
+                                name: file.name,
+                                type: type,
+                                size: CommonUtil.formatBytes(size)
+                            });
+                            process.nextTick(next);
+                        })
+                        .catch(err => {
+                            console.error(err);
+                            process.nextTick(next);
+                        });
+                    break;
+            }
         });
 
         _.forEach(files, file => {

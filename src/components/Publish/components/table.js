@@ -74,9 +74,9 @@ default React.createClass({
                 break;
             case 'extra':
                 return (
-                    <tr>
-                        <td>1</td>
-                        <td>dj_day.flac</td>
+                    <tr key={idx}>
+                        <td>{idx + 1}</td>
+                        <td>{file.name}</td>
                         <td><input onChange={this.setFile} type="text" className="form-control" defaultValue="1"/></td>
                         <td><input onChange={this.setFile} type="text" className="form-control" defaultValue="DJ Day"/></td>
                     </tr>

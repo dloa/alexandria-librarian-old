@@ -39,7 +39,7 @@ default React.createClass({
             this.setState({
                 files: {
                     audio: publishStore.getState().audio,
-                    extra: publishStore.getState().extra,
+                    extra: publishStore.getState().extra
                 },
             });
         }
@@ -62,7 +62,7 @@ default React.createClass({
                 }));
                 break;
             case 'extra':
-
+                PublishActions.processFiles('extra', files);
                 break;
         }
     },
