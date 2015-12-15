@@ -69,22 +69,6 @@ class publishingActions {
                             process.nextTick(next);
                         });
                     break;
-                case 'cover-art':
-                    CommonUtil.folderSize(file.path)
-                        .then(size => {
-                            this.actions.addedFiles({
-                                _id: uuid(),
-                                name: file.name,
-                                type: type,
-                                size: CommonUtil.formatBytes(size)
-                            });
-                            process.nextTick(next);
-                        })
-                        .catch(err => {
-                            console.error(err);
-                            process.nextTick(next);
-                        });
-                    break;
             }
         });
 
