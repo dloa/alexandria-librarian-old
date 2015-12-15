@@ -457,6 +457,7 @@ td.unpin {
         border: 1px dashed rgba(black, .1);
         border-radius: 6px;
         text-align: center;
+        cursor: pointer;
         padding: 5px;
         transition: all 0.1s;
         &:hover {
