@@ -2,13 +2,12 @@ import _ from 'lodash';
 import Promise from 'bluebird';
 import path from 'path';
 import fs from 'fs';
-import DaemonEngineStore from '../../stores/daemonEngineStore';
+import DaemonActions from '../../actions/daemonEngineActions';
 import CommonUtil from '../../utils/CommonUtil';
 import {
     app, dialog
 }
 from 'remote';
-
 
 
 const fileExists = filePath => {
@@ -20,31 +19,43 @@ const fileExists = filePath => {
 }
 
 
-
-
-
-
 export
 default {
     getParms(installed) {
         return new Promise((resolve, reject) => {
 
-            let confFile = path.join(app.getPath('appData'), 'Florincoin', 'Florincoin.conf');
+            const confFile = path.join(app.getPath('appData'), 'Florincoin', 'Florincoin.conf');
 
             if (fileExists(confFile)) {
-                let oldConf = fs.readFileSync(confFile, 'utf8').split('\n');
-                console.log(oldConf);
-
-
-
+                let Conf = fs.readFileSync(confFile, 'utf8').split('\n');
+                var matches = _.filter(Conf, line => {
+                    return (line.indexOf('rpcuser=') !== -1 || line.indexOf('rpcpassword=') !== -1);
+                });
+                if (matches.length === 2) {
+                    var res = {};
+                    _.forEach(matches, match => {
+                        if (match.indexOf('rpcpassword=') > -1)
+                            res.pass = match.split('=').shift();
+                        else
+                            res.user = match.split('=').shift();
+                    });
+                    resolve(res);
+                } else {
+                    dialog.showMessageBox({
+                        noLink: true,
+                        type: 'error',
+                        title: 'Alexandria Librarian: Error!',
+                        message: 'Invalid Florincoin config detected!',
+                        detail: 'Libraryd daemon requires a valid Florincoin daemon configuration.',
+                        buttons: ['Dissmiss']
+                    });
+                    reject();
+                }
             } else {
-                dialog.showMessageBox({
-                    noLink: true,
-                    type: 'error',
-                    title: 'Alexandria Librarian: Error!',
-                    message: 'Florincoin config not detected!',
-                    detail: 'Libraryd daemon requires a valid Florincoind configuration file to be present, Initialization aborted',
-                    buttons: ['Dissmiss']
+                DaemonActions.enabling({
+                    id: 'libraryd',
+                    code: 8,
+                    error: 'Initialization Error: Florincoind installation not found.'
                 });
             }
 

@@ -87,7 +87,8 @@ class daemonEngineActions {
                         if (installed)
                             DaemonUtil.enable({
                                 id: 'florincoind',
-                                args: ['-printtoconsole']
+                                args: ['-printtoconsole'],
+                                env: {}
                             });
                         else
                             this.actions.florincoind('install');
@@ -99,7 +100,8 @@ class daemonEngineActions {
             case 'install':
                 DaemonUtil.install({
                     id: 'florincoind',
-                    args: []
+                    args: [],
+                    env: {}
                 }, ((process.platform === 'darwin') ? true : false))
                     .then(this.actions.libraryd.bind(this, 'enable'))
                     .catch(console.error);
@@ -112,15 +114,21 @@ class daemonEngineActions {
         switch (action) {
             case 'enable':
                 DaemonUtil.checkInstalled('libraryd')
-                    .then(LibrarydUtil.getParms)
-                    .then((params, installed) => {
-                        if (installed)
-                            DaemonUtil.enable({
-                                id: 'libraryd',
-                                args: []
-                            });
-                        else
+                    .then(installed => {
+                        if (!installed) {
                             this.actions.libraryd('install');
+                        } else
+                            return LibrarydUtil.getParms();
+                    })
+                    .then(params => {
+                        DaemonUtil.enable({
+                            id: 'libraryd',
+                            args: [],
+                            env: {
+                                F_USER: params.user,
+                                F_TOKEN: params.pass
+                            }
+                        });
                     });
                 break;
             case 'disable':
