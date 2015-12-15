@@ -57,10 +57,11 @@ class publishingActions {
                                 size: CommonUtil.formatBytes(size)
                             };
 
-                            if (type === 'cover-art') 
+                            if (type === 'cover-art') {
                                 this.actions.setCover(fileSt);
+                                fileSt.type = 'extra';
+                            }
 
-                            fileSt.type = 'extra';
                             this.actions.addedFiles(fileSt);
                             process.nextTick(next);
                         })
