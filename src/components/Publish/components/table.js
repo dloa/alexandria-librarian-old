@@ -67,18 +67,18 @@ default React.createClass({
                         <td>{file.name}</td>
                         <td>{file.size}</td>
                         <td>{file.duration} min</td>
-                        <td><input onChange={this.setFile} type="text" className="form-control" value={file.track}/></td>
-                        <td><input onChange={this.setFile} type="text" className="form-control" value={file.title}/></td>
+                        <td><input onChange={this.setFile} type="text" className="form-control" defaultValue={file.track}/></td>
+                        <td><input onChange={this.setFile} type="text" className="form-control" defaultValue={file.title}/></td>
                     </tr>
                 );
                 break;
             case 'extra':
                 return (
-                    <tr>
-                        <td>1</td>
-                        <td>dj_day.flac</td>
-                        <td><input onChange={this.setFile} type="text" className="form-control" value="1"/></td>
-                        <td><input onChange={this.setFile} type="text" className="form-control" value="DJ Day"/></td>
+                    <tr key={idx}>
+                        <td>{idx + 1}</td>
+                        <td>{file.name}</td>
+                        <td><input onChange={this.setFile} type="text" className="form-control" value={idx + 1}/></td>
+                        <td><input onChange={this.setFile} type="text" className="form-control" value={file.name}/></td>
                     </tr>
                 );
                 break;
