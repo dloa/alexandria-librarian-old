@@ -36,6 +36,7 @@ default React.createClass({
                         <tr>
                             <th>File</th>
                             <th>File Name</th>
+                            <th>File Size</th>
                             <th>File Type</th>
                             <th>Display name</th>
                         </tr>
@@ -44,6 +45,7 @@ default React.createClass({
                         <colgroup>
                             <col className=""/>
                             <col className=""/>
+                            <col style={{width: '75px'}}/>
                             <col style={{width: '75px'}}/>
                             <col className=""/>
                         </colgroup>
@@ -77,6 +79,7 @@ default React.createClass({
                     <tr key={idx}>
                         <td>{idx + 1}</td>
                         <td>{file.name}</td>
+                        <td>{file.size}</td>
                         <td><input onChange={this.setFile} type="text" className="form-control" defaultValue="1"/></td>
                         <td><input onChange={this.setFile} type="text" className="form-control" defaultValue="DJ Day"/></td>
                     </tr>
