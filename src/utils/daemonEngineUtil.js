@@ -247,8 +247,8 @@ const parseSync = (daemon, output) => {
 
 const loadFlorincoinConf = () => {
     return new Promise((resolve, reject) => {
-
-        let confFile = path.join(app.getPath('appData'), 'Florincoin', 'Florincoin.conf');
+        let confDir = path.join(app.getPath('appData'), 'Florincoin');
+        let confFile = path.join(confDir, 'Florincoin.conf');
 
         let conf = [
             'rpcallowip=127.0.0.1',
@@ -326,6 +326,9 @@ const loadFlorincoinConf = () => {
                 }
             });
         } else {
+            if (!fs.existsSync(confDir))
+                fs.mkdirSync(confDir);
+
             fs.writeFile(confFile, conf.join('\n'), (err, data) => {
                 if (err) {
                     DaemonActions.enabling({
