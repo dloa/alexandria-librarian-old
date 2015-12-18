@@ -29,7 +29,7 @@
     "fs-extra": "^0.26.2",
     "get-folder-size": "^1.0.0",
     "get-port": "^2.1.0",
-    "history": "^1.16.0",
+    "history": "^1.13.1",
     "ipfs-api": "git+https://github.com/luigiplr/js-ipfs-api.git",
     "is-running": "^2.0.0",
     "lodash": "^3.10.1",
