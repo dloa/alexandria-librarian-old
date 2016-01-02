@@ -44,6 +44,29 @@ module.exports = {
                 .then(function() {
                     return util.chmod(path.join(AppData, 'bin', (os === 'win') ? 'libraryd.exe' : 'libraryd'), '0777').catch(resolve);
                 })
+                .then(() => {
+                    return new Promise((resolve, reject) => {
+                        var confDir = path.join(AppData, 'bin', 'config');
+                        util.createDir(confDir).then(() => {
+                            fs.writeFile(path.join(confDir, 'config.json'), JSON.stringify({
+                                "wallet-allow-ip": ["127.0.0.1"],
+                                "blacklist-url": "http://alexandria.media/blacklist.txt"
+                            }), (err, data) => {
+                                if (err) return reject(err);
+                                resolve(data);
+                            });
+                        }).catch((e) => {
+                            console.error(e);
+                            fs.writeFile(path.join(confDir, 'config.json'), JSON.stringify({
+                                "wallet-allow-ip": ["127.0.0.1"],
+                                "blacklist-url": "http://alexandria.media/blacklist.txt"
+                            }), (err, data) => {
+                                if (err) return reject(err);
+                                resolve(data);
+                            });
+                        });
+                    });
+                })
                 .then(function() {
                     this.enable();
                     librarydActionHandler.librarydInstalled(true);

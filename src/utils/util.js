@@ -124,17 +124,18 @@ module.exports = {
     createDir: function(dir) {
         dir = path.normalize(dir);
         return new Promise((resolve, reject) => {
-            module.exports.exists(dir).then(function(exists) {
-                if (!exists)
-                    mkdirp(dir, function(err) {
-                        if (err)
-                            reject(err);
-                        else
-                            resolve(true);
-                    });
-                else
-                    resolve(true);
-            })
+            module.exports.exists(dir)
+                .then(function(exists) {
+                    if (!exists)
+                        mkdirp(dir, function(err) {
+                            if (err)
+                                reject(err);
+                            else
+                                resolve(true);
+                        });
+                    else
+                        resolve(true);
+                })
         });
     },
     getOS: function() {
