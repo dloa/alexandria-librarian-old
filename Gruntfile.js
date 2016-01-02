@@ -29,7 +29,6 @@ module.exports = function(grunt) {
 
 
 
-
     var version = function(str) {
         var match = str.match(/(\d+\.\d+\.\d+)/);
         return match ? match[1] : null;
@@ -71,8 +70,7 @@ module.exports = function(grunt) {
                     version: packagejson['electron-version'],
                     platform: 'win32',
                     arch: 'ia32',
-                    prune: true,
-                    asar: true
+                    prune: true
                 }
             },
             linux: {
@@ -83,8 +81,7 @@ module.exports = function(grunt) {
                     version: packagejson['electron-version'],
                     platform: 'linux',
                     arch: process.arch,
-                    asar: true,
-                    prune: true
+                    asar: false
                 }
             },
             osx: {
@@ -95,8 +92,7 @@ module.exports = function(grunt) {
                     version: packagejson['electron-version'],
                     platform: 'darwin',
                     arch: 'x64',
-                    asar: true,
-                    prune: true,
+                    asar: false,
                     'app-bundle-id': 'io.ΛLΞXΛNDRIΛ.Librarian',
                     'app-version': packagejson.version
                 }
@@ -127,13 +123,6 @@ module.exports = function(grunt) {
                     cwd: 'fonts/',
                     src: ['**/*'],
                     dest: 'build/fonts/'
-                }, {
-                    cwd: 'node_modules/',
-                    src: Object.keys(packagejson.dependencies).map(function(dep) {
-                        return dep + '/**/*';
-                    }),
-                    dest: 'build/node_modules/',
-                    expand: true
                 }]
             },
             release: {
@@ -152,13 +141,6 @@ module.exports = function(grunt) {
                     cwd: 'fonts/',
                     src: ['**/*'],
                     dest: 'build/fonts/'
-                }, {
-                    cwd: 'node_modules/',
-                    src: Object.keys(packagejson.dependencies).map(function(dep) {
-                        return dep + '/**/*';
-                    }),
-                    dest: 'build/node_modules/',
-                    expand: true
                 }]
             },
             releaseWin: {
@@ -245,9 +227,15 @@ module.exports = function(grunt) {
                     'codesign -vvv --display <%= OSX_DIST_X64 %>',
                     'codesign -v --verify <%= OSX_DIST_X64 %>'
                 ].join(' && '),
-            },
-            zip: {
-                command: 'ditto -c -k --sequesterRsrc --keepParent <%= OSX_FILENAME_ESCAPED %> dist/' + BASENAME + '-' + packagejson.version + '-Mac.zip',
+            }
+        },
+
+        'npm-command': {
+            release: {
+                options: {
+                    cwd: 'build/',
+                    args: ['--production', '--no-optional']
+                }
             }
         },
 
@@ -314,13 +302,13 @@ module.exports = function(grunt) {
     grunt.registerTask('run', ['shell:electron', 'watchChokidar']);
 
     if (process.platform === 'win32') {
-        grunt.registerTask('release', ['clean:release', 'babel', 'less', 'copy:release', 'electron:windows', 'clean:unusedWin', 'copy:releaseWin', 'compress:windows']);
+        grunt.registerTask('release', ['clean:release', 'babel', 'less', 'copy:release', 'npm-command:release', 'electron:windows', 'clean:unusedWin', 'copy:releaseWin', 'compress:windows']);
     }
     if (process.platform === 'darwin') {
-        grunt.registerTask('release', ['clean:release', 'babel', 'less', 'copy:release', 'electron:osx', 'copy:releaseOSX', 'shell:zip']);
+        grunt.registerTask('release', ['clean:release', 'babel', 'less', 'copy:release', 'npm-command:release', 'electron:osx', 'copy:releaseOSX', 'shell:zip']);
     }
     if (process.platform === 'linux') {
-        grunt.registerTask('release', ['clean:release', 'babel', 'less', 'copy:release', 'electron:linux', 'compress:linux']);
+        grunt.registerTask('release', ['clean:release', 'babel', 'less', 'copy:release', 'npm-command:release', 'electron:linux', 'compress:linux']);
     }
 
     process.on('SIGINT', function() {
