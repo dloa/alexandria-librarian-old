@@ -49,7 +49,7 @@ module.exports = {
         else
             console.info('Checking for updates for client v.' + version);
 
-        getJson('https://api.github.com/repos/dloa/alexandria-librarian/releases/latest' + (annon ? '' : '?client_id=1ea858d6adf0ab363200&client_secret=e027441f3392b790aa857d2267b25684af5370e6'))
+        getJson('https://api.github.com/repos/dloa/alexandria-librarian/releases/latest' + (annon ? '' : '?client_id=3a8100c5af732bf04980&client_secret=e3645e45ec7bf7643a6c2c207b100eeecbcf8dcf'))
             .then(json => {
 
                 if (version === json.tag_name || json.prerelease)
