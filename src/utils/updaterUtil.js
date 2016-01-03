@@ -29,7 +29,7 @@ const getJson = url => {
         request(url, {
             json: true,
             headers: {
-                'User-Agent': 'Netify Jump v.' + version
+                'User-Agent': 'Alexandria Librarian v.' + version
             }
         }, (error, response, body) => {
             if (!error && response.statusCode == 200)
