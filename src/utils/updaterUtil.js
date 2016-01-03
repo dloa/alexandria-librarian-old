@@ -1,6 +1,7 @@
 import Promise from 'bluebird';
 import request from 'request';
 import _ from 'lodash';
+import path from 'path';
 import url from 'url';
 import shell from 'shell';
 import notifier from 'node-notifier';
@@ -11,7 +12,7 @@ from '../../package.json';
 var tryedAgain = false;
 
 
-const notifyUpdate = (version) => {
+const notifyUpdate = (version, url) => {
     notifier.notify({
         title: 'Librarian ' + version + ' update available',
         message: 'Click to view',
@@ -20,9 +21,7 @@ const notifyUpdate = (version) => {
         wait: true
     });
 
-    notifier.on('click', () => {
-        console.log('open url!')
-    });
+    notifier.on('click', () => shell.openExternal(url));
 }
 
 const getJson = url => {
@@ -51,7 +50,7 @@ module.exports = {
 
         getJson('https://api.github.com/repos/dloa/alexandria-librarian/releases/latest' + (annon ? '' : '?client_id=3a8100c5af732bf04980&client_secret=e3645e45ec7bf7643a6c2c207b100eeecbcf8dcf'))
             .then(json => {
-
+                
                 if (version === json.tag_name || json.prerelease)
                     return console.info('No new updates available');
 
@@ -69,7 +68,7 @@ module.exports = {
 
                 if (candidate) {
                     console.info('New update available v.' + json.tag_name);
-                    notifyUpdate(json.tag_name);
+                    notifyUpdate(json.tag_name, json.html_url);
                 }
 
             })
