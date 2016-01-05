@@ -227,6 +227,9 @@ module.exports = function(grunt) {
                     'codesign -vvv --display <%= OSX_DIST_X64 %>',
                     'codesign -v --verify <%= OSX_DIST_X64 %>'
                 ].join(' && '),
+            },
+            zip: {
+                command: 'ditto -c -k --sequesterRsrc --keepParent <%= OSX_FILENAME_ESCAPED %> dist/' + BASENAME + '-' + packagejson.version + '-Mac.zip',
             }
         },
 
