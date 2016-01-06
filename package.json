@@ -43,7 +43,7 @@
     "request": "^2.65.0",
     "rimraf": "^2.4.3",
     "xps": "^1.0.2",
-    "yargs": "^3.29.0",
+    "yargs": "^3.29.0"
   },
   "devDependencies": {
     "babel": "^6.0.15",
