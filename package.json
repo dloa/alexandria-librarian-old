@@ -42,11 +42,8 @@
     "react-router": "^1.0.0",
     "request": "^2.65.0",
     "rimraf": "^2.4.3",
-    "twitter": "^1.2.5",
     "xps": "^1.0.2",
     "yargs": "^3.29.0",
-    "youtube-api": "^1.2.1",
-    "youtube-dl": "^1.10.5"
   },
   "devDependencies": {
     "babel": "^6.0.15",
