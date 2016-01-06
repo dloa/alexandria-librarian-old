@@ -11,12 +11,7 @@ default class extends React.Component {
     constructor() {
         super();
 
-        this.state = {
-            appInfo: AboutStore.getState().appInfo,
-            contributors: AboutStore.getState().contributors,
-            license: AboutStore.getState().license,
-            requestedInfo: AboutStore.getState().requestedInfo
-        };
+        this.state = AboutStore.getState();
 
         this._update = this._update.bind(this);
     }
@@ -43,14 +38,12 @@ default class extends React.Component {
     }
 
     _update() {
-
         this.setState({
             appInfo: AboutStore.getState().appInfo,
             contributors: AboutStore.getState().contributors,
             license: AboutStore.getState().license,
             requestedInfo: AboutStore.getState().requestedInfo
         });
-
     }
 
     _openURL(event) {
@@ -79,7 +72,6 @@ default class extends React.Component {
                                 );
                             }, this)
                     }
-                    
                 </div>
                 <div className="section about license">
                     <h4 className="title">License</h4>

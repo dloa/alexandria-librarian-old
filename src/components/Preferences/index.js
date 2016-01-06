@@ -3,34 +3,38 @@ import remote from 'remote';
 
 
 export
-default React.createClass({
-    getInitialState() {
-        return {};
-    },
-    handleChangeAnalytics(e) {
-        var checked = e.target.checked;
+default class extends React.Component {
+    constructor() {
+        super();
 
+        this.state = {};
+
+        this._update = this._update.bind(this);
+    }
+
+    componentWillMount() {
+    }
+
+    componentDidMount() {
+    }
+
+    componentWillUnmount() {
+    }
+
+    _update() {
         this.setState({
-            Analytics: checked
+
         });
+    }
 
-    },
-    handleChangeFlorincoindCreds(e) {
-        var target = e.target.id;
+    _openURL(event) {
+        shell.openExternal(event.target.getAttribute('data-url'));
+    }
 
-        if (target === 'Florincoind-username')
-            this.setState({
-                FlorincoindUsername: e.target.value
-            });
-        else
-            this.setState({
-                FlorincoindPassword: e.target.value
-            });
-        Settings.save(e.target.id, e.target.value);
-    },
-    handleOpenDevTools() {
-        require('remote').getCurrentWindow().toggleDevTools();
-    },
+    _handleOpenDevTools() {
+        remote.getCurrentWindow().toggleDevTools();
+    }
+
     render() {
         return (
             <div className="section preferences">
@@ -103,4 +107,4 @@ default React.createClass({
             </div>
         );
     }
-});
+}
