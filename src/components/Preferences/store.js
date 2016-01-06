@@ -1,8 +1,9 @@
 import ls from 'local-storage';
+import _ from 'lodash';
 import {
     v4 as uuid
 }
-from 'uuid';
+from 'node-uuid';
 import alt from '../../alt';
 import PreferencesActions from './actions';
 
@@ -25,18 +26,23 @@ class PreferencesStore {
     constructor() {
         this.bindActions(PreferencesActions);
 
-        this.httpAPI = {
-            port: ls.isSet('httpAPI:port') ? ls.get('httpAPI:port') : this._getAndSet('httpAPI:active', defaultSettings.httpAPI.port),
-            active: ls.isSet('httpAPI:active') ? ls.get('httpAPI:active') : this._getAndSet('httpAPI:active', defaultSettings.httpAPI.active),
-        };
-
-        this.startOnLogin = ls.isSet('startOnLogin') ? ls.get('startOnLogin') : this._getAndSet('startOnLogin', defaultSettings.startOnLogin);
-
-        this.florincoind = {
-            user: ls.isSet('florincoind:user') ? ls.get('florincoind:user') : this._getAndSet('florincoind:user', 'default'),
-            pass: ls.isSet('florincoind:pass') ? ls.get('florincoind:pass') : this._getAndSet('florincoind:pass', uuid()),
-        };
-
+        _.forEach(defaultSettings, (value, index) => {
+            if (typeof value === 'object') {
+                this[index] = {};
+                _.forEach(value, (subValue, subValueIndex) => {
+                    let parm = index + ':' + subValueIndex;
+                    if (!ls.isSet(parm))
+                        this[index][subValueIndex] = this._getAndSet(parm, subValue);
+                    else
+                        this[index][subValueIndex] = ls.get(parm);
+                });
+            } else {
+                if (!ls.get(index))
+                    this[index] = this._getAndSet(index, value);
+                else
+                    this[index] = ls.get(index);
+            }
+        });
     }
 
     _getAndSet(parm, opts) {
