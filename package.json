@@ -32,6 +32,7 @@
     "history": "^1.13.1",
     "ipfs-api": "git+https://github.com/luigiplr/js-ipfs-api.git",
     "is-running": "^2.0.0",
+    "local-storage": "^1.4.2",
     "lodash": "^3.10.1",
     "mkdirp": "^0.5.1",
     "moment": "^2.10.6",

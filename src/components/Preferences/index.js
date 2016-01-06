@@ -1,4 +1,5 @@
 import React from 'react';
+import ls from 'local-storage';
 import remote from 'remote';
 
 
@@ -29,6 +30,10 @@ default class extends React.Component {
 
     _openURL(event) {
         shell.openExternal(event.target.getAttribute('data-url'));
+    }
+
+    _handleResetSettings() {
+        ls.clear();
     }
 
     _handleOpenDevTools() {
@@ -92,7 +97,7 @@ default class extends React.Component {
                 <div className="settings-section">
                     <h4 className="title">Other</h4>
                     <p>
-                        <button className="btn btn-default">Reset Settings</button>
+                        <button onClick={this._handleResetSettings} className="btn btn-default">Reset Settings</button>
                     </p>
                     <p>
                         <button className="btn btn-default">Uninstall All Daemons</button>
