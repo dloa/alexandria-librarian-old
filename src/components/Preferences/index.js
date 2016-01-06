@@ -42,17 +42,17 @@ default class extends React.Component {
                     <h4 className="title">General</h4>
                     <div className="settings-toggle clearfix">
                         <div className="pull-left">
-                            <input type="checkbox" id="checked" className="toggle hidden" checked/>
-                            <label htmlFor="checked" className="lbl"/>
+                            <input type="checkbox" id="login" className="toggle hidden" checked/>
+                            <label htmlFor="login" className="lbl"/>
                         </div>
                         <div className="pull-left">
-                            <p>Start Alexandria Librarian on boot</p>
+                            <p>Start Alexandria Librarian on login</p>
                         </div>
                     </div>
                     <div className="settings-toggle clearfix">
                         <div className="pull-left">
-                            <input type="checkbox" id="checked" className="toggle hidden" checked/>
-                            <label htmlFor="checked" className="lbl"/> 
+                            <input type="checkbox" id="tray" className="toggle hidden" checked/>
+                            <label htmlFor="tray" className="lbl"/> 
                         </div>
                         <div className="pull-left">
                             <p>Start in tray</p>
@@ -63,8 +63,8 @@ default class extends React.Component {
                     <h4 className="title">Web Interface</h4>
                     <div className="settings-toggle clearfix">
                         <div className="pull-left">
-                            <input type="checkbox" id="checked" className="toggle hidden" checked/>
-                            <label htmlFor="checked" className="lbl"/>
+                            <input type="checkbox" id="httpapi" className="toggle hidden" checked/>
+                            <label htmlFor="httpapi" className="lbl"/>
                         </div>
                         <div className="pull-left">
                             <p>Enable HTTP API</p>
@@ -73,7 +73,7 @@ default class extends React.Component {
                     <form className="form-inline">
                         <div className="form-group">
                             <p>Port:</p>
-                            <input type="text" className="form-control port" value="8079"/>
+                            <input type="text" className="form-control port" defaultValue="8079"/>
                         </div>
                     </form>
                 </div>
@@ -101,7 +101,7 @@ default class extends React.Component {
                         <button className="btn btn-default">Uninstall & Reset Settings (dev)</button>
                     </p>
                     <p>
-                        <button className="btn btn-default">Open Dev tools</button>
+                        <button onClick={this._handleOpenDevTools} className="btn btn-default">Open Dev tools</button>
                     </p>
                 </div>
             </div>
