@@ -2,30 +2,30 @@ import React from 'react';
 import ls from 'local-storage';
 import remote from 'remote';
 
+import PreferencesStore from './store';
+import PreferencesActions from './actions';
+
 
 export
 default class extends React.Component {
     constructor() {
         super();
 
-        this.state = {};
+        this.state = PreferencesStore.getState();
 
         this._update = this._update.bind(this);
     }
 
     componentWillMount() {
-    }
-
-    componentDidMount() {
+        PreferencesStore.listen(this._update);
     }
 
     componentWillUnmount() {
+        PreferencesStore.unlisten(this._update);
     }
 
     _update() {
-        this.setState({
-
-        });
+        this.setState(PreferencesStore.getState());
     }
 
     _openURL(event) {
