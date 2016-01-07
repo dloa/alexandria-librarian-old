@@ -14,6 +14,7 @@ default class extends React.Component {
         this.state = PreferencesStore.getState();
 
         this._update = this._update.bind(this);
+        this._handleToggleMinimizeToTray = this._handleToggleMinimizeToTray.bind(this);
     }
 
     componentWillMount() {
@@ -36,6 +37,13 @@ default class extends React.Component {
         ls.clear();
     }
 
+    _handleToggleMinimizeToTray() {
+        PreferencesActions.set({
+            setting: 'minimizeToTray',
+            value: !this.state.minimizeToTray
+        });
+    }
+
     _handleOpenDevTools() {
         remote.getCurrentWindow().toggleDevTools();
     }
@@ -47,7 +55,7 @@ default class extends React.Component {
                     <h4 className="title">General</h4>
                     <div className="settings-toggle clearfix">
                         <div className="pull-left">
-                            <input type="checkbox" id="login" className="toggle hidden" checked/>
+                            <input type="checkbox" id="login" className="toggle hidden" checked={this.state.startOnLogin}/>
                             <label htmlFor="login" className="lbl"/>
                         </div>
                         <div className="pull-left">
@@ -56,8 +64,8 @@ default class extends React.Component {
                     </div>
                     <div className="settings-toggle clearfix">
                         <div className="pull-left">
-                            <input type="checkbox" id="tray" className="toggle hidden" checked/>
-                            <label htmlFor="tray" className="lbl"/> 
+                            <input type="checkbox" id="ToggleMinimizeToTray" className="toggle hidden" onChange={this._handleToggleMinimizeToTray} checked={this.state.minimizeToTray}/>
+                            <label htmlFor="ToggleMinimizeToTray" className="lbl"/> 
                         </div>
                         <div className="pull-left">
                             <p>Start in tray</p>

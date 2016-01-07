@@ -13,6 +13,7 @@ const defaultSettings = {
         port: 8079,
         active: false
     },
+    minimizeToTray: true,
     startOnLogin: true,
     florincoind: {
         user: 'default',
@@ -51,11 +52,11 @@ class PreferencesStore {
     }
 
     onSet(opts) {
-        const [setting, value] = opts;
 
-        this[setting] = value;
+        const setting = opts.setting;
+        const value = opts.value;
 
-        return this._getAndSet(setting, value);
+        this[setting] = this._getAndSet(setting, value);
     }
 
 
