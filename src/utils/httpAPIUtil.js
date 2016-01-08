@@ -55,7 +55,6 @@ class HttpAPI extends Preferences {
 
         this._api.get('*', (req, res) => res.redirect('/'));
 
-
         _.each(extensions, extension => this['_' + extension]());
 
         if (this.settings.httpAPI.active)
@@ -129,6 +128,31 @@ class HttpAPI extends Preferences {
             docs: 'https://ipfs.io/docs/api'
         }));
 
+        this._APIRouter.get('/ipfs/add', (req, res) => {
+            if (!DaemonEngineStore.getState().enabled.ipfs)
+                return res.json({
+                    status: 'error',
+                    error: 'IPFS daemon not running!'
+                });
+
+            if (!req.query || !req.query.file)
+                return res.json({
+                    status: 'error',
+                    error: 'No file specified'
+                });
+
+            const file = req.query.file;
+            delete req.query.file;
+            if (!req.query)
+                req.query = {}
+
+            DaemonEngineStore.getState().enabled.ipfs.api.add(file, req.query, (err, output) => {
+                res.json({
+                    status: (err || !output) ? 'error' : 'ok',
+                    output: (err || !output) ? err : output
+                });
+            })
+        });
 
         this._APIRouter.use('/ipfs/*', expressProxy('localhost:5001', {
             forwardPath: (req, res) => {
