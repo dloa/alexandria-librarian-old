@@ -1,5 +1,7 @@
 import express from 'express';
 import morgan from 'morgan';
+import url from 'url';
+import expressProxy from 'express-http-proxy';
 import Promise from 'bluebird';
 import enableDestroy from 'server-destroy';
 import bodyParser from 'body-parser';
@@ -108,33 +110,19 @@ class HttpAPI extends Preferences {
     _ipfs() {
         console.log('Loading IPFS HTTPAPI Extension');
 
-        this._APIRouter.get('/ipfs/:action/:subAction?', (req, res) => {
-            res.header('Access-Control-Allow-Origin', '*');
 
-            const action = _.unescape(req.params.action);
-            const subAction = (req.params.subAction !== undefined) ? _.unescape(req.params.subAction) : false;
+        this._APIRouter.get('/ipfs', (req, res) => res.json({
+            status: DaemonEngineStore.getState().enabled.ipfs ? 'online' : 'offline',
+            docs: 'https://ipfs.io/docs/api'
+        }));
 
-            let argsArray = [];
-
-            if (action === 'send') {
-                argsArray = [_.unescape(subAction), (req.query.key ? _.unescape(req.query.key) : null), (req.query.opts ? JSON.parse(_.unescape(req.query.opts)) : {})];
-                DaemonEngineStore.getState().enabled.ipfs.api.send(...argsArray, null, (err, data) => res.json({
-                    status: err ? 'error' : 'ok',
-                    output: err ? err : data[0]
-                }));
-            } else {
-                _.each(req.query, query => argsArray.push(_.unescape(query)));
-
-                argsArray.push((err, data) => res.json({
-                    status: (err ? 'error' : 'ok'),
-                    output: (err ? err : data[0])
-                }));
-                if (!subAction)
-                    DaemonEngineStore.getState().enabled.ipfs.api[action](...argsArray);
-                else
-                    DaemonEngineStore.getState().enabled.ipfs.api[action][subAction](...argsArray);
+        this._APIRouter.use('/ipfs/*', expressProxy('localhost:5001', {
+            forwardPath: (req, res) => {
+                return '/api/v0/' + req.originalUrl.replace('/api/ipfs/', '');
             }
-        });
+        }));
+
+
 
         this.loadedExtensions.push('ipfs');
     }
