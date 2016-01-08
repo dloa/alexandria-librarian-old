@@ -39,7 +39,7 @@ var statsUpdateQueue = async.queue((task, next) => {
             console.error('IPFS refreshStats()', err);
             process.nextTick(next);
         });
-}, 1);
+});
 
 
 
@@ -77,7 +77,7 @@ const getHashsSize = hashs => {
                 if (node.Links.length > 0) {
                     node.Links.forEach(link => {
                         total = total + link.Size;
-                    })
+                    });
                 }
             })
             resolve(CommonUtil.formatBytes(total.toFixed(3), 2));
