@@ -129,6 +129,7 @@ class HttpAPI extends Preferences {
             docs: 'https://ipfs.io/docs/api'
         }));
 
+
         this._APIRouter.use('/ipfs/*', expressProxy('localhost:5001', {
             forwardPath: (req, res) => {
                 return '/api/v0/' + req.originalUrl.replace('/api/ipfs/', '');
