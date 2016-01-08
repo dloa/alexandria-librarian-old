@@ -132,7 +132,7 @@ class HttpAPI extends Preferences {
                 if (!subAction)
                     DaemonEngineStore.getState().enabled.ipfs.api[action](...argsArray);
                 else
-                    DaemonEngineStore.getState().enabled.ipfs.api[action][subAction ? subAction : null](...argsArray);
+                    DaemonEngineStore.getState().enabled.ipfs.api[action][subAction](...argsArray);
             }
         });
 
