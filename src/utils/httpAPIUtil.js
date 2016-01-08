@@ -83,14 +83,6 @@ class HttpAPI extends Preferences {
     _ipfs() {
         console.log('Loading IPFS HttpAPI Extension');
 
-        const sendCommand = (cmd, key = null, opts = {}) => {
-            return new Promise((resolve, reject) => {
-                DaemonEngineStore.getState().enabled.ipfs.api.send(cmd, key, opts, null, (err, output) => {
-                    err ? reject(err) : resolve(output[0]);
-                });
-            });
-        }
-
         this._APIRouter.get('/ipfs/:action/:subAction?', (req, res) => {
             res.header('Access-Control-Allow-Origin', '*');
 
