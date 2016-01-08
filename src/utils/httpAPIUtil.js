@@ -65,12 +65,16 @@ class HttpAPI extends Preferences {
     /**
      */
     add(extension) {
+        if (!extension)
+            return 'no extension provided';
 
     }
 
     /**
      */
     remove(extension) {
+        if (!extension)
+            return 'no extension provided';
 
     }
 
@@ -79,8 +83,8 @@ class HttpAPI extends Preferences {
      * @param {boolean} [force=false] - Force close any exsisting HTTP API instances
      * @type {Function}
      */
-    start(force = false) {
-        if (this._server)
+    start() {
+        if (force && this._server)
             this.stop();
 
         this._server = this._api.listen(this.settings.httpAPI.port, () => console.info('HTTPAPI listening at http://%s:%s', this._server.address().address, this._server.address().port));
@@ -102,7 +106,7 @@ class HttpAPI extends Preferences {
      * @private
      */
     _ipfs() {
-        console.log('Loading IPFS HttpAPI Extension');
+        console.log('Loading IPFS HTTPAPI Extension');
 
         this._APIRouter.get('/ipfs/:action/:subAction?', (req, res) => {
             res.header('Access-Control-Allow-Origin', '*');
