@@ -22,6 +22,7 @@ class HttpAPI extends Preferences {
         super();
 
         this.logs = [];
+        this.port = this.settings.httpAPI.port;
         this._api = express();
         this.loadedExtensions = [];
 
@@ -61,6 +62,11 @@ class HttpAPI extends Preferences {
             this.start();
 
         this.emitter.on('httpAPI:active', state => state ? this.start() : this.stop());
+
+        this.emitter.on('httpAPI:port', port => {
+            this.port = port;
+            this.restart();
+        });
     }
 
     /**
@@ -80,6 +86,14 @@ class HttpAPI extends Preferences {
     }
 
     /**
+     * Restarts the HTTP API server
+     * @type {Function}
+     */
+    restart() {
+        this._server.destroy(_.defer(this.start.bind(this)));
+    }
+
+    /**
      * Starts HTTP API server
      * @param {boolean} [force=false] - Force close any exsisting HTTP API instances
      * @type {Function}
@@ -88,7 +102,7 @@ class HttpAPI extends Preferences {
         if (force && this._server)
             this.stop();
 
-        this._server = this._api.listen(this.settings.httpAPI.port, () => console.info('HTTPAPI listening at http://localhost:%s', this._server.address().port));
+        this._server = this._api.listen(this.port, () => console.info('HTTPAPI listening at http://localhost:%s', this._server.address().port));
         enableDestroy(this._server);
     }
 
@@ -120,7 +134,7 @@ class HttpAPI extends Preferences {
                 return '/api/v0/' + req.originalUrl.replace('/api/ipfs/', '');
             }
         }));
-        
+
         this.loadedExtensions.push('ipfs');
     }
 

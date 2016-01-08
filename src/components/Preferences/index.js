@@ -1,5 +1,5 @@
 import React from 'react';
-import ls from 'local-storage';
+import _ from 'lodash';
 import remote from 'remote';
 
 import PreferencesStore from './store';
@@ -16,6 +16,7 @@ default class extends React.Component {
         this._update = this._update.bind(this);
         this._handleToggleMinimizeToTray = this._handleToggleMinimizeToTray.bind(this);
         this._handleToggleHTTPAPI = this._handleToggleHTTPAPI.bind(this);
+        this._handleChangeHTTPAPIPort = _.throttle(this._handleChangeHTTPAPIPort, 400);
     }
 
     componentWillMount() {
@@ -34,14 +35,19 @@ default class extends React.Component {
         shell.openExternal(event.target.getAttribute('data-url'));
     }
 
-    _handleResetSettings() {
-        ls.clear();
-    }
-
     _handleToggleMinimizeToTray() {
         PreferencesActions.changed({
             setting: 'minimizeToTray',
             value: !this.state.minimizeToTray
+        });
+    }
+
+    _handleChangeHTTPAPIPort(event) {
+        if (!event.target.value > 0)
+            return false;
+        PreferencesActions.changed({
+            setting: 'httpAPI:port',
+            value: event.target.value
         });
     }
 
@@ -94,7 +100,7 @@ default class extends React.Component {
                     <form className="form-inline">
                         <div className="form-group">
                             <p>Port:</p>
-                            <input type="text" className="form-control port" defaultValue="8079"/>
+                            <input type="number" min="0" step="1" onChange={this._handleChangeHTTPAPIPort} className="form-control port" defaultValue={this.state.httpAPI.port}/>
                         </div>
                     </form>
                 </div>
@@ -113,7 +119,7 @@ default class extends React.Component {
                 <div className="settings-section">
                     <h4 className="title">Other</h4>
                     <p>
-                        <button onClick={this._handleResetSettings} className="btn btn-default">Reset Settings</button>
+                        <button onClick={PreferencesActions.reset} className="btn btn-default">Reset Settings</button>
                     </p>
                     <p>
                         <button className="btn btn-default">Uninstall All Daemons</button>
