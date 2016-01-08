@@ -110,7 +110,6 @@ class HttpAPI extends Preferences {
     _ipfs() {
         console.log('Loading IPFS HTTPAPI Extension');
 
-
         this._APIRouter.get('/ipfs', (req, res) => res.json({
             status: DaemonEngineStore.getState().enabled.ipfs ? 'online' : 'offline',
             docs: 'https://ipfs.io/docs/api'
@@ -121,9 +120,7 @@ class HttpAPI extends Preferences {
                 return '/api/v0/' + req.originalUrl.replace('/api/ipfs/', '');
             }
         }));
-
-
-
+        
         this.loadedExtensions.push('ipfs');
     }
 
