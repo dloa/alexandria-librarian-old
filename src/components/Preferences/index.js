@@ -11,10 +11,11 @@ default class extends React.Component {
     constructor() {
         super();
 
-        this.state = PreferencesStore.getState();
+        this.state = PreferencesStore.getState().settings;
 
         this._update = this._update.bind(this);
         this._handleToggleMinimizeToTray = this._handleToggleMinimizeToTray.bind(this);
+        this._handleToggleHTTPAPI = this._handleToggleHTTPAPI.bind(this);
     }
 
     componentWillMount() {
@@ -26,7 +27,7 @@ default class extends React.Component {
     }
 
     _update() {
-        this.setState(PreferencesStore.getState());
+        this.setState(PreferencesStore.getState().settings);
     }
 
     _openURL(event) {
@@ -38,9 +39,16 @@ default class extends React.Component {
     }
 
     _handleToggleMinimizeToTray() {
-        PreferencesActions.set({
+        PreferencesActions.changed({
             setting: 'minimizeToTray',
             value: !this.state.minimizeToTray
+        });
+    }
+
+    _handleToggleHTTPAPI() {
+        PreferencesActions.changed({
+            setting: 'httpAPI:active',
+            value: !this.state.httpAPI.active
         });
     }
 
@@ -76,7 +84,7 @@ default class extends React.Component {
                     <h4 className="title">Web Interface</h4>
                     <div className="settings-toggle clearfix">
                         <div className="pull-left">
-                            <input type="checkbox" id="httpapi" className="toggle hidden" checked/>
+                            <input type="checkbox" id="httpapi" className="toggle hidden" onChange={this._handleToggleHTTPAPI} checked={this.state.httpAPI.active} />
                             <label htmlFor="httpapi" className="lbl"/>
                         </div>
                         <div className="pull-left">

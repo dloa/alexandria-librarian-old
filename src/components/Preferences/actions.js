@@ -6,7 +6,7 @@ class PreferencesActions {
 
     constructor() {
         this.generateActions(
-            'set',
+            'changed',
             'remove',
             'reset'
         );

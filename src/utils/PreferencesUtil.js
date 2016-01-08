@@ -4,6 +4,10 @@ import {
     v4 as uuid
 }
 from 'node-uuid';
+import {
+    EventEmitter
+}
+from 'events';
 
 const defaultSettings = {
     httpAPI: {
@@ -18,9 +22,12 @@ const defaultSettings = {
     }
 };
 
+const SettingsEmiiter = new EventEmitter();
+
 export
 default class {
     constructor() {
+        this.emitter = SettingsEmiiter;
         this.settings = {};
 
         _.forEach(defaultSettings, (value, index) => {
@@ -42,8 +49,19 @@ default class {
         });
     }
 
-    getAndSet(parm, opts) {
-        ls.set(parm, opts);
-        return opts;
+    set(setting, value) {
+        if (setting.includes(':')) {
+            let splitSetting = setting.split(':');
+            this.settings[splitSetting[0]][splitSetting[1]] = value;
+        } else
+            this.settings[setting] = value;
+        ls.set(setting, value);
+        this.emitter.emit(setting, value);
+    }
+
+    getAndSet(setting, value) {
+        ls.set(setting, value);
+        this.emitter.emit(setting, value);
+        return value;
     }
 };

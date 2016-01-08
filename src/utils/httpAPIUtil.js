@@ -1,6 +1,7 @@
 import express from 'express';
 import morgan from 'morgan';
 import Promise from 'bluebird';
+import enableDestroy from 'server-destroy';
 import bodyParser from 'body-parser';
 import _ from 'lodash';
 import request from 'request';
@@ -35,7 +36,7 @@ class HttpAPI extends Preferences {
             stream: {
                 write: str => {
                     this.logs.push(str);
-                    console.info('HTTPAPI:', str)
+                    console.info('HTTPAPI:', str);
                 }
             }
         }));
@@ -51,15 +52,13 @@ class HttpAPI extends Preferences {
 
         this._api.get('*', (req, res) => res.redirect('/'));
 
-        /**
-         * Starts HTTP API server
-         * @param {boolean} [force=false] - Force close any exsisting HTTP API instances
-         * @type {Function}
-         */
+
         _.each(extensions, extension => this['_' + extension]());
 
         if (this.settings.httpAPI.active)
             this.start();
+
+        this.emitter.on('httpAPI:active', state => state ? this.start() : this.stop());
     }
 
     /**
@@ -83,20 +82,21 @@ class HttpAPI extends Preferences {
      * @param {boolean} [force=false] - Force close any exsisting HTTP API instances
      * @type {Function}
      */
-    start() {
+    start(force) {
         if (force && this._server)
             this.stop();
 
-        this._server = this._api.listen(this.settings.httpAPI.port, () => console.info('HTTPAPI listening at http://%s:%s', this._server.address().address, this._server.address().port));
+        this._server = this._api.listen(this.settings.httpAPI.port, () => console.info('HTTPAPI listening at http://localhost:%s', this._server.address().port));
+        enableDestroy(this._server);
     }
 
     /**
-     * Stops HTTP API server & unloads all extensions
+     * Stops HTTP API server
      * @type {Function}
      */
     stop() {
-        this._server.close();
-        this.loadedExtensions = [];
+        console.info('Killing HTTPAPI at %s', this._server.address().port);
+        this._server.destroy();
     }
 
     /**
