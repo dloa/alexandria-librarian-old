@@ -8,28 +8,14 @@ from 'react-router';
 import Sidebar from './Sidebar';
 
 
+@RouteContext
+class Framework extends React.Component {
 
-export
-default React.createClass({
+    constructor() {
+        super();
 
-    mixins: [PureRenderMixin, RouteContext],
+    }
 
-    getInitialState() {
-        return {
-            sidebarOffset: 0
-        };
-    },
-    handleScroll(e) {
-        if (e.target.scrollTop > 0 && !this.state.sidebarOffset) {
-            this.setState({
-                sidebarOffset: e.target.scrollTop
-            });
-        } else if (e.target.scrollTop === 0 && this.state.sidebarOffset) {
-            this.setState({
-                sidebarOffset: 0
-            });
-        }
-    },
     render() {
         return (
             <div>
@@ -46,4 +32,8 @@ default React.createClass({
             </div>
         );
     }
-});
+};
+
+
+export
+default Framework;

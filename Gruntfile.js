@@ -199,6 +199,7 @@ module.exports = function(grunt) {
             options: {
                 sourceMap: 'inline',
                 presets: ['es2015', 'react'],
+                plugins: ["syntax-decorators"],
                 compact: true,
                 comments: false
             },
