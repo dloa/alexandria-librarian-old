@@ -7,7 +7,7 @@ from 'react-router';
 
 import Sidebar from './Sidebar';
 
-
+@PureRenderMixin
 @RouteContext
 class Framework extends React.Component {
 
