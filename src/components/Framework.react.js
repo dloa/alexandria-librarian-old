@@ -3,8 +3,8 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {
     RouteContext
 }
-from 'react-router';
-
+from 'react-router'; 
+import HTTPAPI from '../utils/httpAPIUtil'; 
 import Sidebar from './Sidebar';
 
 @PureRenderMixin
@@ -13,7 +13,10 @@ class Framework extends React.Component {
 
     constructor() {
         super();
+    }
 
+    componentWillMount() {
+        new HTTPAPI();
     }
 
     render() {
