@@ -5,20 +5,20 @@ import _ from 'lodash';
 import AboutStore from './store';
 import AboutActions from './actions';
 
+
 export
-default React.createClass({
-    getInitialState() {
-        return {
-            appInfo: AboutStore.getState().appInfo,
-            contributors: AboutStore.getState().contributors,
-            license: AboutStore.getState().license,
-            requestedInfo: AboutStore.getState().requestedInfo
-        }
-    },
+default class extends React.Component {
+    constructor() {
+        super();
+
+        this.state = AboutStore.getState();
+
+        this._update = this._update.bind(this);
+    }
 
     componentWillMount() {
-        AboutStore.listen(this.update);
-    },
+        AboutStore.listen(this._update);
+    }
 
     componentDidMount() {
         if (!this.state.requestedInfo) {
@@ -31,26 +31,24 @@ default React.createClass({
                 AboutActions.getVersion();
             });
         }
-    },
+    }
 
     componentWillUnmount() {
-        AboutStore.unlisten(this.update);
-    },
+        AboutStore.unlisten(this._update);
+    }
 
-    update() {
-        if (this.isMounted()) {
-            this.setState({
-                appInfo: AboutStore.getState().appInfo,
-                contributors: AboutStore.getState().contributors,
-                license: AboutStore.getState().license,
-                requestedInfo: AboutStore.getState().requestedInfo
-            });
-        }
-    },
+    _update() {
+        this.setState({
+            appInfo: AboutStore.getState().appInfo,
+            contributors: AboutStore.getState().contributors,
+            license: AboutStore.getState().license,
+            requestedInfo: AboutStore.getState().requestedInfo
+        });
+    }
 
-    openURL(event) {
+    _openURL(event) {
         shell.openExternal(event.target.getAttribute('data-url'));
-    },
+    }
 
     render() {
         return (
@@ -66,7 +64,7 @@ default React.createClass({
                         this.state.contributors.map((Contributor, i) => {
                             return (
                                     <p key={i}>
-                                        <a onClick={this.openURL} data-url={Contributor.url} href="" className="svg btn btn-github">
+                                        <a onClick={this._openURL} data-url={Contributor.url} href="" className="svg btn btn-github">
                                             <object type="image/svg+xml" data="images/svg/social-16px_logo-github.svg"/>
                                         </a>
                                         {Contributor.name} <span className="muted">{Contributor.email}</span>
@@ -74,7 +72,6 @@ default React.createClass({
                                 );
                             }, this)
                     }
-                    
                 </div>
                 <div className="section about license">
                     <h4 className="title">License</h4>
@@ -85,4 +82,4 @@ default React.createClass({
             </div>
         );
     }
-});
+}

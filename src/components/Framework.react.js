@@ -3,33 +3,22 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {
     RouteContext
 }
-from 'react-router';
-
+from 'react-router'; 
+import HTTPAPI from '../utils/httpAPIUtil'; 
 import Sidebar from './Sidebar';
 
+@PureRenderMixin
+@RouteContext
+class Framework extends React.Component {
 
+    constructor() {
+        super();
+    }
 
-export
-default React.createClass({
+    componentWillMount() {
+        new HTTPAPI();
+    }
 
-    mixins: [PureRenderMixin, RouteContext],
-
-    getInitialState() {
-        return {
-            sidebarOffset: 0
-        };
-    },
-    handleScroll(e) {
-        if (e.target.scrollTop > 0 && !this.state.sidebarOffset) {
-            this.setState({
-                sidebarOffset: e.target.scrollTop
-            });
-        } else if (e.target.scrollTop === 0 && this.state.sidebarOffset) {
-            this.setState({
-                sidebarOffset: 0
-            });
-        }
-    },
     render() {
         return (
             <div>
@@ -46,4 +35,8 @@ default React.createClass({
             </div>
         );
     }
-});
+};
+
+
+export
+default Framework;
