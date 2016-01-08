@@ -9,7 +9,7 @@ import Preferences from './PreferencesUtil';
 import DaemonEngineStore from '../stores/daemonEngineStore';
 
 /**
- * Base Http API for both the web interface & daemon aips
+ * Base Http API for both the web interface & daemon apis
  * @param {extensions} [extensions=['ipfs']] array of extensions to be loaded
  * @extends Preferences
  */
@@ -107,20 +107,13 @@ class HttpAPI extends Preferences {
         this._APIRouter.get('/ipfs/:action/:subAction?', (req, res) => {
             res.header('Access-Control-Allow-Origin', '*');
 
-            //http://localhost:8079/api/ipfs/stats%2Fbw
-
             const action = _.unescape(req.params.action);
-
             const subAction = (req.params.subAction !== undefined) ? _.unescape(req.params.subAction) : false;
 
             let argsArray = [];
 
             if (action === 'send') {
-
-                argsArray.push(_.unescape(subAction))
-                argsArray.push(req.query.key ? _.unescape(req.query.key) : null)
-                argsArray.push(req.query.opts ? JSON.parse(_.unescape(req.query.opts)) : {});
-
+                argsArray = [_.unescape(subAction), (req.query.key ? _.unescape(req.query.key) : null), (req.query.opts ? JSON.parse(_.unescape(req.query.opts)) : {})];
                 DaemonEngineStore.getState().enabled.ipfs.api.send(...argsArray, null, (err, data) => res.json({
                     status: err ? 'error' : 'ok',
                     output: err ? err : data[0]
