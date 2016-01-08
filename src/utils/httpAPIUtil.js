@@ -141,10 +141,8 @@ class HttpAPI extends Preferences {
                     error: 'No file specified'
                 });
 
-            const file = req.query.file;
+            const file = _.unescape(req.query.file);
             delete req.query.file;
-            if (!req.query)
-                req.query = {}
 
             DaemonEngineStore.getState().enabled.ipfs.api.add(file, req.query, (err, output) => {
                 res.json({
