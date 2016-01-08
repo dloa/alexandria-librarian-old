@@ -10,8 +10,8 @@ import DaemonEngineStore from '../stores/daemonEngineStore';
 
 /**
  * Base Http API for both the web interface & daemon aips
- * @param {extensions} array of extensions to be loaded
- * @constructor
+ * @param {extensions} [extensions=['ipfs']] array of extensions to be loaded
+ * @extends Preferences
  */
 
 class HttpAPI extends Preferences {
@@ -29,6 +29,8 @@ class HttpAPI extends Preferences {
         }));
 
         this._api.use('/api', this._APIRouter);
+
+        // Log all server hits to console & push to array for use in GUI console
         this._api.use(morgan('combined', {
             stream: {
                 write: str => {
@@ -37,47 +39,66 @@ class HttpAPI extends Preferences {
                 }
             }
         }));
+
         this._api.use(bodyParser.urlencoded({
             extended: true
         }));
         this._api.use(bodyParser.json());
 
         this._api.get('/', (req, res) => res.json({
-            paths: ['/api/<Daemon>/<action>/<command>/<OptionalParams>', '/web/']
+            paths: ['/api/<daemon>/<action>/<command>?<optname>=<opt>', '/web/']
         }));
 
         this._api.get('*', (req, res) => res.redirect('/'));
 
+        /**
+         * Starts HTTP API server
+         * @param {boolean} [force=false] - Force close any exsisting HTTP API instances
+         * @type {Function}
+         */
         _.each(extensions, extension => this['_' + extension]());
 
-        //if (this.settings.httpAPI.active)
-        this.start();
+        if (this.settings.httpAPI.active)
+            this.start();
     }
 
+    /**
+     */
     add(extension) {
 
     }
 
+    /**
+     */
     remove(extension) {
-
-
 
     }
 
-    start() {
+    /**
+     * Starts HTTP API server
+     * @param {boolean} [force=false] - Force close any exsisting HTTP API instances
+     * @type {Function}
+     */
+    start(force = false) {
         if (this._server)
             this.stop();
 
         this._server = this._api.listen(this.settings.httpAPI.port, () => console.info('HTTPAPI listening at http://%s:%s', this._server.address().address, this._server.address().port));
     }
 
+    /**
+     * Stops HTTP API server & unloads all extensions
+     * @type {Function}
+     */
     stop() {
         this._server.close();
+        this.loadedExtensions = [];
     }
 
     /**
-     * Loads http ipfs api extension
+     * Loads Http IPFS API extension
      * @type {Function}
+     * @description Serves as an http abstraction layer for https://github.com/ipfs/js-ipfs-api
      * @private
      */
     _ipfs() {
@@ -116,7 +137,6 @@ class HttpAPI extends Preferences {
                 else
                     DaemonEngineStore.getState().enabled.ipfs.api[action][subAction ? subAction : null](...argsArray);
             }
-
         });
 
         this.loadedExtensions.push('ipfs');
