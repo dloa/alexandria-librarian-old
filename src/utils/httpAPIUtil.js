@@ -1,9 +1,18 @@
 import express from 'express';
 import morgan from 'morgan';
+import Promise from 'bluebird';
 import bodyParser from 'body-parser';
 import _ from 'lodash';
 import request from 'request';
 import Preferences from './PreferencesUtil';
+
+import DaemonEngineStore from '../stores/daemonEngineStore';
+
+/**
+ * Base Http API for both the web interface & daemon aips
+ * @param {extensions} array of extensions to be loaded
+ * @constructor
+ */
 
 class HttpAPI extends Preferences {
     constructor(extensions = ['ipfs']) {
@@ -62,36 +71,60 @@ class HttpAPI extends Preferences {
         this._server = this._api.listen(this.settings.httpAPI.port, () => console.info('HTTPAPI listening at http://%s:%s', this._server.address().address, this._server.address().port));
     }
 
-
     stop() {
         this._server.close();
     }
 
+    /**
+     * Loads http ipfs api extension
+     * @type {Function}
+     * @private
+     */
     _ipfs() {
         console.log('Loading IPFS HttpAPI Extension');
 
-        this._APIRouter.get('/ipfs/:action/:command?/:params?', (req, res) => {
+        const sendCommand = (cmd, key = null, opts = {}) => {
+            return new Promise((resolve, reject) => {
+                DaemonEngineStore.getState().enabled.ipfs.api.send(cmd, key, opts, null, (err, output) => {
+                    err ? reject(err) : resolve(output[0]);
+                });
+            });
+        }
+
+        this._APIRouter.get('/ipfs/:action/:subAction?', (req, res) => {
             res.header('Access-Control-Allow-Origin', '*');
 
-            /*
-            var action = req.params.action;
-            var command = req.params.command;
-            var params = req.params.params ? req.params.params.split('&&') : undefined;
-            var cliArray = [action, command].concat(params).filter(n => {
-                return n != undefined
-            });
+            //http://localhost:8079/api/ipfs/stats%2Fbw
 
+            const action = _.unescape(req.params.action);
 
-            ipfsUtil.cli(cliArray).then(output => {
-                res.json({
-                    status: 'ok',
-                    output: output
-                });
-            }).catch(err => res.json({
-                status: 'error',
-                error: err
-            }));
-*/
+            const subAction = (req.params.subAction !== undefined) ? _.unescape(req.params.subAction) : false;
+
+            let argsArray = [];
+
+            if (action === 'send') {
+
+                argsArray.push(_.unescape(subAction))
+                argsArray.push(req.query.key ? _.unescape(req.query.key) : null)
+                argsArray.push(req.query.opts ? JSON.parse(_.unescape(req.query.opts)) : {});
+
+                DaemonEngineStore.getState().enabled.ipfs.api.send(...argsArray, null, (err, data) => res.json({
+                    status: err ? 'error' : 'ok',
+                    output: err ? err : data[0]
+                }));
+            } else {
+                _.each(req.query, query => argsArray.push(_.unescape(query)));
+
+                argsArray.push((err, data) => res.json({
+                    status: (err ? 'error' : 'ok'),
+                    output: (err ? err : data[0])
+                }));
+                if (!subAction)
+                    DaemonEngineStore.getState().enabled.ipfs.api[action](...argsArray);
+                else
+                    DaemonEngineStore.getState().enabled.ipfs.api[action][subAction ? subAction : null](...argsArray);
+            }
+
         });
 
         this.loadedExtensions.push('ipfs');
