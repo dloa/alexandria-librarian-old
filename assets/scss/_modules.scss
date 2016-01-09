@@ -379,6 +379,36 @@ td.unpin {
     white-space: pre-wrap;
 }
 
+/* Tabs */
+.nav-pills {
+    li {
+        &.active a {
+            background-color: rgba($primary, .1);
+            color: $primary;
+            &:hover,
+            &:focus {
+                background-color: rgba($primary, .1);
+                color: $primary;
+                transition: 0.1s all;
+            }
+        }
+        a {
+            border-radius: 3px;
+            margin-right: 5px;
+            padding: 6px 12px;
+            border: 1px solid $ltgray;
+            color: $gray;
+            transition: 0.1s all;
+            &:hover,
+            &:focus {
+                background: rgba($primary, .05);
+                color: $gray;
+                transition: 0.1s all;
+            }
+        }
+    }
+}
+
 /* Publish */
 .publish {
     h5 {

@@ -51,290 +51,276 @@
 
                                     <h5>Select Artifact type</h5>
                                     <div class="artifact-type">
-
-                                    <div data-toggle="buttons">
-                                        <label class="btn btn-toggle-primary active">
-                                            <input type="radio" name="options" id="option1" autocomplete="off"> Archive
-                                        </label>
-                                        <label class="btn btn-toggle-primary">
-                                            <input type="radio" name="options" id="option2" autocomplete="off"> Movies
-                                        </label>
-                                        <label class="btn btn-toggle-primary">
-                                            <input type="radio" name="options" id="option3" autocomplete="off"> Videos
-                                        </label>
-                                        <label class="btn btn-toggle-primary">
-                                            <input type="radio" name="options" id="option3" autocomplete="off"> Song
-                                        </label>
-                                        <label class="btn btn-toggle-primary">
-                                            <input type="radio" name="options" id="option3" autocomplete="off"> Album
-                                        </label>
-                                        <label class="btn btn-toggle-primary">
-                                            <input type="radio" name="options" id="option3" autocomplete="off"> Podcast
-                                        </label>
-                                        <label class="btn btn-toggle-primary">
-                                            <input type="radio" name="options" id="option3" autocomplete="off"> Recipies
-                                        </label>
-                                        <label class="btn btn-toggle-primary">
-                                            <input type="radio" name="options" id="option3" autocomplete="off"> Things
-                                        </label>
-                                    </div>
+                                    
+                                        <ul class="nav nav-pills" role="tablist">
+                                            <li class="active"><a href="#music" data-toggle="tab">Music</a></li>
+                                            <li><a href="#podcast" data-toggle="tab">Podcasts</a></li>
+                                            <li><a href="#video" data-toggle="tab">Videos</a></li>
+                                        </ul>
 
                                     </div>
                                 </div>
-                                
-                                <div class="publish-section">
-                                    <div class="row">
-                                        <div class="col-sm-8">
-                                            <h5>Album Information</h5>
-                                            <form>
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control" id="" placeholder="Artist Name">
+
+                                <div class="tab-content">
+                                    <div class="tab-pane fade in active" id="music">
+                                        <div class="publish-section">
+                                            <div class="row">
+                                                <div class="col-sm-8">
+
+                                                    <h5>Album Information</h5>
+                                                    <form>
+                                                        <div class="form-group">
+                                                            <input type="text" class="form-control" id="" placeholder="Artist Name">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <input type="text" class="form-control" id="" placeholder="Album Title">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <input type="text" class="form-control" id="" placeholder="Record Label">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <input type="date" class="form-control" id="" placeholder="Release Date">
+                                                        </div>
+                                                    </form>
                                                 </div>
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control" id="" placeholder="Album Title">
+                                                <div class="col-sm-4">
+                                                    <h5>Cover Art</h5>
+                                                    <div class="cover-art">
+                                                        <p>Cover art</p>
+                                                    </div>
                                                 </div>
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control" id="" placeholder="Record Label">
-                                                </div>
-                                                <div class="form-group">
-                                                    <input type="date" class="form-control" id="" placeholder="Release Date">
-                                                </div>
-                                            </form>
+                                            </div>
                                         </div>
-                                        <div class="col-sm-4">
-                                            <h5>Cover Art</h5>
-                                            <div class="cover-art">
-                                                <p>Cover art</p>
+
+                                        <div class="publish-section publish-pricing">
+                                            <div class="row">
+                                                <div class="col-sm-10">
+                                                    <p class="small">Pick the price for your track and album, lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit distinctio doloribus maiores ducimus.</p>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col col-sm-6">
+                                                    <h5>Individual Track Pricing</h5>
+                                                    <form class="form-horizontal">
+                                                        <div class="form-group">
+                                                            <label for="" class="col-sm-7 control-label">Suggested price / play</label>
+                                                            <div class="col-sm-5">
+                                                                <div class="input-group">
+                                                                    <div class="input-group-addon">$</div>
+                                                                    <input type="text" class="form-control" id="" placeholder="0.00">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="" class="col-sm-7 control-label">Minimum price / play</label>
+                                                            <div class="col-sm-5">
+                                                                <div class="input-group">
+                                                                    <div class="input-group-addon">$</div>
+                                                                    <input type="text" class="form-control" id="" placeholder="0.00">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="" class="col-sm-7 control-label">Suggested price / download</label>
+                                                            <div class="col-sm-5">
+                                                                <div class="input-group">
+                                                                    <div class="input-group-addon">$</div>
+                                                                    <input type="text" class="form-control" id="" placeholder="0.00">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="" class="col-sm-7 control-label">Minimum price / download</label>
+                                                            <div class="col-sm-5">
+                                                                <div class="input-group">
+                                                                    <div class="input-group-addon">$</div>
+                                                                    <input type="text" class="form-control" id="" placeholder="0.00">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div class="col col-sm-6">
+                                                    <h5>Full Album Pricing</h5>
+                                                    <form class="form-horizontal">
+                                                        <div class="form-group">
+                                                            <label for="" class="col-sm-7 control-label">Suggested price / play</label>
+                                                            <div class="col-sm-5">
+                                                                <div class="input-group">
+                                                                    <div class="input-group-addon">$</div>
+                                                                    <input type="text" class="form-control" id="" placeholder="0.00">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="" class="col-sm-7 control-label">Minimum price / play</label>
+                                                            <div class="col-sm-5">
+                                                                <div class="input-group">
+                                                                    <div class="input-group-addon">$</div>
+                                                                    <input type="text" class="form-control" id="" placeholder="0.00">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="" class="col-sm-7 control-label">Suggested price / download</label>
+                                                            <div class="col-sm-5">
+                                                                <div class="input-group">
+                                                                    <div class="input-group-addon">$</div>
+                                                                    <input type="text" class="form-control" id="" placeholder="0.00">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="" class="col-sm-7 control-label">Minimum price / download</label>
+                                                            <div class="col-sm-5">
+                                                                <div class="input-group">
+                                                                    <div class="input-group-addon">$</div>
+                                                                    <input type="text" class="form-control" id="" placeholder="0.00">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="publish-section">
+                                            <div class="publish-files audio-tracks">
+                                                <h5>
+                                                    <object type="image/svg+xml" data="assets/svg/media-16px-2_note-03.svg"></object>
+                                                    Audio Tracks</h5>
+                                                <table class="table">
+                                                    <colgroup>
+                                                        <col class="">
+                                                        <col class="">
+                                                        <col style="width: 75px;">
+                                                        <col style="width: 75px;">
+                                                        <col style="width: 75px;">
+                                                        <col class="">
+                                                    </colgroup>
+                                                    <thead>
+                                                        <tr>
+                                                            <th>File</th>
+                                                            <th>File Name</th>
+                                                            <th>File Size</th>
+                                                            <th>Duration</th>
+                                                            <th>Track</th>
+                                                            <th>Display name</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>1</td>
+                                                            <td>dj_day.flac</td>
+                                                            <td>3.5 MB</td>
+                                                            <td>3:27 min</td>
+                                                            <td><input type="text" class="form-control" value="1"></td>
+                                                            <td><input type="text" class="form-control" value="DJ Day"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>2</td>
+                                                            <td>i_digress.flac</td>
+                                                            <td>3.5 MB</td>
+                                                            <td>3:27 min</td>
+                                                            <td><input type="text" class="form-control" value="2"></td>
+                                                            <td><input type="text" class="form-control" value="I Digress"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>3</td>
+                                                            <td>snow_white.flac</td>
+                                                            <td>3.5 MB</td>
+                                                            <td>3:27 min</td>
+                                                            <td><input type="text" class="form-control" value="3"></td>
+                                                            <td><input type="text" class="form-control" value="Snow White"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>4</td>
+                                                            <td>offbeat.flac</td>
+                                                            <td>3.5 MB</td>
+                                                            <td>3:27 min</td>
+                                                            <td><input type="text" class="form-control" value="4"></td>
+                                                            <td><input type="text" class="form-control" value="Offbeat"></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <!-- Upload effect is on CSS :hover state, make it for drag & drop only -->
+                                                <div class="upload-area">
+                                                    <object data="assets/svg/arrows-24px-glyph-2_file-upload-88.svg" type="image/svg+xml"></object>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="publish-section">
+                                            <div class="publish-files extra-files">
+                                                <h5>
+                                                    <object type="image/svg+xml" data="assets/svg/files-16px_single-folded-content.svg"></object>
+                                                    Extra Files
+                                                </h5>
+                                                <table class="table">
+                                                    <colgroup>
+                                                        <col class="">
+                                                        <col class="">
+                                                        <col style="width: 125px;">
+                                                        <col class="">
+                                                    </colgroup>
+                                                    <thead>
+                                                        <tr>
+                                                            <th>File</th>
+                                                            <th>File Name</th>
+                                                            <th>File Type</th>
+                                                            <th>Display name</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>1</td>
+                                                            <td>dj_day.flac</td>
+                                                            <td>
+                                                                <select class="form-control" id="sel1">
+                                                                    <option>Artwork</option>
+                                                                    <option>Zip File</option>
+                                                                    <option>Thingy</option>
+                                                                    <option>Luigi was not here</option>
+                                                                </select>
+                                                            </td>
+                                                            <td><input type="text" class="form-control" value="DJ Day"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>2</td>
+                                                            <td>i_digress.flac</td>
+                                                            <td>
+                                                                <select class="form-control" id="sel1">
+                                                                    <option>Artwork</option>
+                                                                    <option>Zip File</option>
+                                                                    <option>Thingy</option>
+                                                                    <option>Luigi was not here</option>
+                                                                </select>
+                                                            </td>
+                                                            <td><input type="text" class="form-control" value="I Digress"></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <div class="upload-area">
+                                                    <object data="assets/svg/arrows-24px-glyph-2_file-upload-88.svg" type="image/svg+xml"></object>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="publish-section publish-submit">
+                                            <div class="row">
+                                                <div class="col-sm-9">
+                                                    <p class="small">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam recusandae quae minima accusantium, tempora, sunt quia.</p>
+                                                </div>
+                                                <div class="col-sm-3 text-right">
+                                                    <button onclick="submit()" class="btn btn-primary">Publish</button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-
-                                <div class="publish-section publish-pricing">
-                                    <img src="assets/img/il-money.png" alt="" class="li-money">
-                                   <div class="row">
-                                       <div class="col-sm-10">
-                                           <p class="small">Pick the price for your track and album, lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit distinctio doloribus maiores ducimus.</p>
-                                       </div>
-                                   </div>
-                                    <div class="row">
-                                        <div class="col col-sm-6">
-                                            <h5>Individual Track Pricing</h5>
-                                            <form class="form-horizontal">
-                                                <div class="form-group">
-                                                    <label for="" class="col-sm-7 control-label">Suggested price / play</label>
-                                                    <div class="col-sm-5">
-                                                        <div class="input-group">
-                                                            <div class="input-group-addon">$</div>
-                                                            <input type="text" class="form-control" id="" placeholder="0.00">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="" class="col-sm-7 control-label">Minimum price / play</label>
-                                                    <div class="col-sm-5">
-                                                        <div class="input-group">
-                                                            <div class="input-group-addon">$</div>
-                                                            <input type="text" class="form-control" id="" placeholder="0.00">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="" class="col-sm-7 control-label">Suggested price / download</label>
-                                                    <div class="col-sm-5">
-                                                        <div class="input-group">
-                                                            <div class="input-group-addon">$</div>
-                                                            <input type="text" class="form-control" id="" placeholder="0.00">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="" class="col-sm-7 control-label">Minimum price / download</label>
-                                                    <div class="col-sm-5">
-                                                        <div class="input-group">
-                                                            <div class="input-group-addon">$</div>
-                                                            <input type="text" class="form-control" id="" placeholder="0.00">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                        <div class="col col-sm-6">
-                                            <h5>Full Album Pricing</h5>
-                                            <form class="form-horizontal">
-                                                <div class="form-group">
-                                                    <label for="" class="col-sm-7 control-label">Suggested price / play</label>
-                                                    <div class="col-sm-5">
-                                                        <div class="input-group">
-                                                            <div class="input-group-addon">$</div>
-                                                            <input type="text" class="form-control" id="" placeholder="0.00">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="" class="col-sm-7 control-label">Minimum price / play</label>
-                                                    <div class="col-sm-5">
-                                                        <div class="input-group">
-                                                            <div class="input-group-addon">$</div>
-                                                            <input type="text" class="form-control" id="" placeholder="0.00">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="" class="col-sm-7 control-label">Suggested price / download</label>
-                                                    <div class="col-sm-5">
-                                                        <div class="input-group">
-                                                            <div class="input-group-addon">$</div>
-                                                            <input type="text" class="form-control" id="" placeholder="0.00">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="" class="col-sm-7 control-label">Minimum price / download</label>
-                                                    <div class="col-sm-5">
-                                                        <div class="input-group">
-                                                            <div class="input-group-addon">$</div>
-                                                            <input type="text" class="form-control" id="" placeholder="0.00">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
+                                    <div class="tab-pane fade" id="podcast">Podcast</div>
+                                    <div class="tab-pane fade" id="video">Video</div>
                                 </div>
                                 
-                                <div class="publish-section">
-                                    <div class="publish-files audio-tracks">
-                                        <h5>
-                                        <object type="image/svg+xml" data="assets/svg/media-16px-2_note-03.svg"></object>
-                                        Audio Tracks</h5>
-                                        <table class="table">
-                                            <colgroup>
-                                                <col class="">
-                                                <col class="">
-                                                <col style="width: 75px;">
-                                                <col style="width: 75px;">
-                                                <col style="width: 75px;">
-                                                <col class="">
-                                            </colgroup>
-                                            <thead>
-                                                <tr>
-                                                    <th>File</th>
-                                                    <th>File Name</th>
-                                                    <th>File Size</th>
-                                                    <th>Duration</th>
-                                                    <th>Track</th>
-                                                    <th>Display name</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>1</td>
-                                                    <td>dj_day.flac</td>
-                                                    <td>3.5 MB</td>
-                                                    <td>3:27 min</td>
-                                                    <td><input type="text" class="form-control" value="1"></td>
-                                                    <td><input type="text" class="form-control" value="DJ Day"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>2</td>
-                                                    <td>i_digress.flac</td>
-                                                    <td>3.5 MB</td>
-                                                    <td>3:27 min</td>
-                                                    <td><input type="text" class="form-control" value="2"></td>
-                                                    <td><input type="text" class="form-control" value="I Digress"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>3</td>
-                                                    <td>snow_white.flac</td>
-                                                    <td>3.5 MB</td>
-                                                    <td>3:27 min</td>
-                                                    <td><input type="text" class="form-control" value="3"></td>
-                                                    <td><input type="text" class="form-control" value="Snow White"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>4</td>
-                                                    <td>offbeat.flac</td>
-                                                    <td>3.5 MB</td>
-                                                    <td>3:27 min</td>
-                                                    <td><input type="text" class="form-control" value="4"></td>
-                                                    <td><input type="text" class="form-control" value="Offbeat"></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                        <!-- Upload effect is on CSS :hover state, make it for drag & drop only -->
-                                        <div class="upload-area">
-                                            <object data="assets/svg/arrows-24px-glyph-2_file-upload-88.svg" type="image/svg+xml"></object>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="publish-section">
-                                    <div class="publish-files extra-files">
-                                        <h5>
-                                            <object type="image/svg+xml" data="assets/svg/files-16px_single-folded-content.svg"></object>
-                                            Extra Files
-                                        </h5>
-                                        <table class="table">
-                                            <colgroup>
-                                                <col class="">
-                                                <col class="">
-                                                <col style="width: 125px;">
-                                                <col class="">
-                                            </colgroup>
-                                            <thead>
-                                                <tr>
-                                                    <th>File</th>
-                                                    <th>File Name</th>
-                                                    <th>File Type</th>
-                                                    <th>Display name</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>1</td>
-                                                    <td>dj_day.flac</td>
-                                                    <td>
-                                                        <select class="form-control" id="sel1">
-                                                            <option>Artwork</option>
-                                                            <option>Zip File</option>
-                                                            <option>Thingy</option>
-                                                            <option>Luigi was not here</option>
-                                                        </select>
-                                                    </td>
-                                                    <td><input type="text" class="form-control" value="DJ Day"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>2</td>
-                                                    <td>i_digress.flac</td>
-                                                    <td>
-                                                        <select class="form-control" id="sel1">
-                                                            <option>Artwork</option>
-                                                            <option>Zip File</option>
-                                                            <option>Thingy</option>
-                                                            <option>Luigi was not here</option>
-                                                        </select>
-                                                    </td>
-                                                    <td><input type="text" class="form-control" value="I Digress"></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                        <div class="upload-area">
-                                            <object data="assets/svg/arrows-24px-glyph-2_file-upload-88.svg" type="image/svg+xml"></object>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="publish-section publish-submit">
-                                    <div class="row">
-                                        <div class="col-sm-9">
-                                            <p class="small">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam recusandae quae minima accusantium, tempora, sunt quia.</p>
-                                        </div>
-                                        <div class="col-sm-3 text-right">
-                                            <button onclick="submit()" class="btn btn-primary">Publish</button>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                             <div id="progress" class="publish publish-progress">
                                     <p>Adding Files... (4/5)</p>

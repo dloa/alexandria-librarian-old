@@ -433,6 +433,29 @@ td.unpin {
   font-size: 12px;
   white-space: pre-wrap; }
 
+/* Tabs */
+.nav-pills li.active a {
+  background-color: rgba(83, 139, 212, 0.1);
+  color: #538bd4; }
+
+.nav-pills li.active a:hover, .nav-pills li.active a:focus {
+  background-color: rgba(83, 139, 212, 0.1);
+  color: #538bd4;
+  transition: 0.1s all; }
+
+.nav-pills li a {
+  border-radius: 3px;
+  margin-right: 5px;
+  padding: 6px 12px;
+  border: 1px solid #f2f2f2;
+  color: #8e8e90;
+  transition: 0.1s all; }
+
+.nav-pills li a:hover, .nav-pills li a:focus {
+  background: rgba(83, 139, 212, 0.05);
+  color: #8e8e90;
+  transition: 0.1s all; }
+
 /* Publish */
 .publish h5 {
   color: #38383b;
@@ -535,6 +558,7 @@ td.unpin {
   border: 1px dashed rgba(0, 0, 0, 0.1);
   border-radius: 6px;
   text-align: center;
+  cursor: pointer;
   padding: 5px;
   transition: all 0.1s; }
 
