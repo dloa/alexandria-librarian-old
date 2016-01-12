@@ -217,9 +217,7 @@ const handelListener = (mode = 'install', daemon, input = '') => {
     });
 }
 
-var enablingThrottle = _.throttle(params => {
-    DaemonActions.enabling(params);
-}, 500);
+var enablingThrottle = _.throttle(params => DaemonActions.enabling(params), 500);
 
 
 const parseSync = (daemon, output) => {
@@ -441,11 +439,6 @@ module.exports = {
                 this.checkConfig(daemon.id)
                     .then(extractZIP.bind(this, this.getExecName(daemon.id, true), this.installDir))
                     .then(this.checkConfig.bind(this, daemon))
-                    .then(() => {
-
-
-
-                    })
                     .catch(reject);
 
             }
@@ -459,6 +452,7 @@ module.exports = {
             args: args,
             options: {
                 detached: detached,
+                cwd: this.installDir,
                 env: _.defaultsDeep(env, process.env)
             },
             autoRestart: autoRestart,
