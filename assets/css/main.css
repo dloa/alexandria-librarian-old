@@ -460,7 +460,7 @@ td.unpin {
 .publish h5 {
   color: #38383b;
   margin-bottom: 15px;
-  margin-top: 15px; }
+  margin-top: 0px; }
 
 .publish h5 object {
   margin-right: 5px; }
@@ -468,9 +468,27 @@ td.unpin {
 .publish .publish-section {
   margin-bottom: 25px; }
 
+.publish .artifact-type {
+  border: 1px solid #f2f2f2;
+  border-radius: 3px;
+  margin: -15px;
+  margin-bottom: 25px;
+  margin-top: 25px;
+  padding: 15px; }
+
 .publish .artifact-type .btn {
   margin-right: 0px;
   padding: 6px 10px; }
+
+.publish form .row .col-sm-6:first-child {
+  padding-right: 7.5px; }
+
+.publish form .row .col-sm-6:last-child {
+  padding-left: 7.5px; }
+
+.publish .information textarea {
+  max-width: 100%;
+  min-height: 75px; }
 
 .publish .cover-art {
   width: 180px;
