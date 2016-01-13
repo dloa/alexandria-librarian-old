@@ -297,7 +297,7 @@ a.svg:after {
 .stats.libraryd .row:last-child {
   border-bottom: none; }
 
-/* Toggle */
+/* Toggle Switch */
 .lbl {
   position: relative;
   display: block;
@@ -317,7 +317,7 @@ a.svg:after {
   height: 22px;
   border-radius: 100px;
   background: white;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   content: '';
   transition: all 0.3s ease; }
 
