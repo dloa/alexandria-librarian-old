@@ -103,7 +103,7 @@ class daemonEngineActions {
                     args: [],
                     env: {}
                 }, ((process.platform === 'darwin') ? true : false))
-                    .then(this.actions.libraryd.bind(this, 'enable'))
+                    .then(this.actions.florincoind.bind(this, 'enable'))
                     .catch(console.error);
                 break;
         }
