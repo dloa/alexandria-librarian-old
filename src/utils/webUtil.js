@@ -1,16 +1,6 @@
-var WebUtil = {
-    addLiveReload: () => {
-
-        var head = document.getElementsByTagName('head')[0];
-        var script = document.createElement('script');
-        script.type = 'text/javascript';
-        script.src = 'http://localhost:35729/livereload.js';
-        head.appendChild(script);
-
-    },
+module.exports = {
     disableGlobalBackspace: () => {
-        document.onkeydown = function(e) {
-            e = e || window.event;
+        document.onkeydown = (e = window.event) => {
             var doPrevent;
             if (e.keyCode === 8) {
                 var d = e.srcElement || e.target;
@@ -26,7 +16,5 @@ var WebUtil = {
                 e.preventDefault();
             }
         };
-    },
+    }
 };
-
-module.exports = WebUtil;

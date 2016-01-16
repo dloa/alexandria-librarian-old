@@ -21,6 +21,16 @@ const fileExists = filePath => {
 
 export
 default {
+    newApi() {
+        return class {
+            constructor() {
+
+            }
+
+
+        };
+    },
+
     loadConf() {
         return new Promise((resolve, reject) => {
             const confDir = path.join(app.getPath('appData'), 'Florincoin');
