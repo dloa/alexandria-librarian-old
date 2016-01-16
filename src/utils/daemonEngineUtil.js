@@ -72,13 +72,11 @@ const extractZIP = (sourcePath, targetPath) => {
         new DecompressZip(sourcePath)
             .on('error', reject)
             .on('extract', log => {
-                files.forEach(file => {
-                    chmod(path.join(targetPath, file.path), {
-                        read: true,
-                        write: true,
-                        execute: true
-                    });
-                });
+                files.forEach(file => chmod(path.join(targetPath, file.path), {
+                    read: true,
+                    write: true,
+                    execute: true
+                }));
                 resolve();
             })
             .extract({
@@ -157,9 +155,7 @@ const handelListener = (mode = 'install', daemon, input = '') => {
             case 'florincoind':
                 switch (mode) {
                     case 'enable':
-                        _.throttle(() => {
-                            console.log(daemon + ':', input.toString())
-                        }, 100)
+                        _.throttle(() => console.log(daemon + ':', input.toString()), 100)
 
                         var okay = ['init message: Loading wallet'];
                         var fail = ['FAIL'];

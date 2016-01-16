@@ -1,4 +1,8 @@
 import _ from 'lodash';
+import {
+    Client as bitcoinClient
+}
+from 'bitcoin';
 import Promise from 'bluebird';
 import path from 'path';
 import fs from 'fs';
@@ -21,17 +25,21 @@ const fileExists = filePath => {
 
 export
 default {
-    newApi() {
-        return class {
-            constructor() {
-
+    api() {
+        return class extends bitcoinClient {
+            constructor(user, pass, port = 8332, host = 'localhost') {
+                super({
+                    host,
+                    port,
+                    user,
+                    pass,
+                    timeout: 30000
+                });
             }
-
-
         };
     },
 
-    loadConf() {
+    loadConf(user, password) {
         return new Promise((resolve, reject) => {
             const confDir = path.join(app.getPath('appData'), 'Florincoin');
             const confFile = path.join(confDir, 'Florincoin.conf');
@@ -44,11 +52,11 @@ default {
                 'server=1',
                 'daemon=1'
             ].concat([
-                'rpcuser=user',
-                'rpcpassword=password'
+                `rpcuser=${user}`,
+                `rpcpassword=${password}`
             ]);
 
-            let nodes = [
+            const nodes = [
                 '54.209.141.153',
                 '192.241.171.45',
                 '146.185.148.114',
@@ -57,7 +65,7 @@ default {
                 '37.187.27.4'
             ];
 
-            nodes.forEach(node => conf.push('addnode=' + node));
+            nodes.forEach(node => conf.push(`addnode=${node}`));
 
             if (fileExists(confFile)) {
                 let oldConf = fs.readFileSync(confFile, 'utf8');
@@ -110,7 +118,6 @@ default {
             } else {
                 if (!fs.existsSync(confDir))
                     fs.mkdirSync(confDir);
-
                 fs.writeFile(confFile, conf.join('\n'), (err, data) => {
                     if (err) {
                         DaemonActions.enabling({
