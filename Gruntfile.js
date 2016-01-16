@@ -57,8 +57,7 @@ module.exports = function(grunt) {
                     version: packagejson.optionalDependencies['electron-prebuilt'],
                     platform: 'win32',
                     arch: 'ia32',
-                    prune: true,
-                    asar: true
+                    asar: false
                 }
             },
             linux: {
@@ -69,8 +68,7 @@ module.exports = function(grunt) {
                     version: packagejson.optionalDependencies['electron-prebuilt'],
                     platform: 'linux',
                     arch: process.arch,
-                    asar: true,
-                    prune: true
+                    asar: false
                 }
             },
             osx: {
@@ -81,8 +79,7 @@ module.exports = function(grunt) {
                     version: packagejson.optionalDependencies['electron-prebuilt'],
                     platform: 'darwin',
                     arch: 'x64',
-                    asar: true,
-                    prune: true,
+                    asar: false,
                     'app-bundle-id': 'io.ΛLΞXΛNDRIΛ.Librarian',
                     'app-version': packagejson.version
                 }
