@@ -1,7 +1,9 @@
 var path = require('path');
 var execFile = require('child_process').execFile;
 var packagejson = require('./package.json');
-var electron = require('electron-prebuilt');
+try{
+    var electron = require('electron-prebuilt');
+}catch(e){}
 
 module.exports = function(grunt) {
     require('load-grunt-tasks')(grunt);
@@ -16,7 +18,6 @@ module.exports = function(grunt) {
     env.NODE_ENV = 'development';
 
     grunt.initConfig({
-        // electron
         electron: {
             win32: {
                 options: {
