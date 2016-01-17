@@ -3,9 +3,8 @@ var execFile = require('child_process').execFile;
 var packagejson = require('./package.json');
 try{
     var electron = require('electron-prebuilt');
-}catch(e){
-    
-}
+}catch(e){}
+
 
 module.exports = function(grunt) {
     require('load-grunt-tasks')(grunt);
