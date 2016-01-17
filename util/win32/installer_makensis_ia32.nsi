@@ -1,5 +1,4 @@
-﻿;Butter
-;Installer Source for NSIS 3.0 or higher
+﻿;Installer Source for NSIS 3.0 or higher
 
 ;Enable Unicode encoding
 Unicode True
