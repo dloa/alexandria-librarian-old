@@ -245,7 +245,7 @@ const parseSync = (daemon, output) => {
 
 module.exports = {
 
-    binDir: path.join(process.cwd(), 'resources/bin'),
+    binDir: path.join('../../', 'bin'),
     installDir: path.join(app.getPath('userData'), 'bin'),
 
     enable(daemon) {

@@ -7,56 +7,25 @@ module.exports = function(grunt) {
     require('load-grunt-tasks')(grunt);
     var target = grunt.option('target') || 'development';
 
-    var os;
-    switch (process.platform) {
-        case 'win32':
-            os = 'win';
-            break;
-        case 'linux':
-            os = 'linux';
-            break;
-        case 'darwin':
-            os = 'osx';
-            break;
-        default:
-            os = process.platform;
-    }
-
-    var version = function(str) {
-        var match = str.match(/(\d+\.\d+\.\d+)/);
-        return match ? match[1] : null;
-    };
-
     var BASENAME = 'ΛLΞXΛNDRIΛ Librarian';
-    var APPNAME = BASENAME;
+    var arch = grunt.option('arch') ? grunt.option('arch') : 'ia32';
 
-    var OSX_OUT = './dist';
-    var OSX_OUT_X64 = OSX_OUT + '/' + APPNAME + '-darwin-x64';
-    var OSX_FILENAME = OSX_OUT_X64 + '/' + APPNAME + '.app';
+    var platform = grunt.option('platform') ? grunt.option('platform') : process.platform;
 
-    var OSX_DIST_X64 = OSX_OUT + '/' + APPNAME + '-' + packagejson.version + '.pkg';
+    var env = process.env;
+    env.NODE_ENV = 'development';
 
     grunt.initConfig({
-        IDENTITY: 'Developer ID Application: Luigi Poole',
-        APPNAME: APPNAME,
-        APPNAME_ESCAPED: APPNAME.replace(/ /g, '\\ ').replace(/\(/g, '\\(').replace(/\)/g, '\\)'),
-        OSX_OUT: OSX_OUT,
-        OSX_OUT_ESCAPED: OSX_OUT.replace(/ /g, '\\ ').replace(/\(/g, '\\(').replace(/\)/g, '\\)'),
-        OSX_OUT_X64: OSX_OUT_X64,
-        OSX_FILENAME: OSX_FILENAME,
-        OSX_FILENAME_ESCAPED: OSX_FILENAME.replace(/ /g, '\\ ').replace(/\(/g, '\\(').replace(/\)/g, '\\)'),
-        OSX_DIST_X64: OSX_DIST_X64,
-        OSX_DIST_X64_ESCAPED: OSX_DIST_X64.replace(/ /g, '\\ ').replace(/\(/g, '\\(').replace(/\)/g, '\\)'),
         // electron
         electron: {
-            windows: {
+            win32: {
                 options: {
                     name: BASENAME,
                     dir: 'build/',
                     out: 'dist',
                     version: packagejson.optionalDependencies['electron-prebuilt'],
                     platform: 'win32',
-                    arch: 'ia32',
+                    arch: arch,
                     asar: false
                 }
             },
@@ -67,13 +36,13 @@ module.exports = function(grunt) {
                     out: 'dist',
                     version: packagejson.optionalDependencies['electron-prebuilt'],
                     platform: 'linux',
-                    arch: process.arch,
+                    arch: arch,
                     asar: false
                 }
             },
-            osx: {
+            darwin: {
                 options: {
-                    name: APPNAME,
+                    name: BASENAME,
                     dir: 'build/',
                     out: 'dist',
                     version: packagejson.optionalDependencies['electron-prebuilt'],
@@ -85,15 +54,12 @@ module.exports = function(grunt) {
                 }
             }
         },
-
-
-        // images
         copy: {
             dev: {
                 files: [{
                     expand: true,
                     cwd: '.',
-                    src: ['*.md', 'package.json', 'settings.json', 'index.html', 'OAuth.json'],
+                    src: ['*.md', 'package.json', 'settings.json', 'index.html'],
                     dest: 'build/'
                 }, {
                     expand: true,
@@ -102,21 +68,9 @@ module.exports = function(grunt) {
                     dest: 'build/images/'
                 }, {
                     expand: true,
-                    cwd: 'bin/' + os + '/',
-                    src: ['**/*'],
-                    dest: 'build/resources/bin/',
-                }, {
-                    expand: true,
                     cwd: 'fonts/',
                     src: ['**/*'],
                     dest: 'build/fonts/'
-                }, {
-                    cwd: 'node_modules/',
-                    src: Object.keys(packagejson.dependencies).map(function(dep) {
-                        return dep + '/**/*';
-                    }),
-                    dest: 'build/node_modules/',
-                    expand: true
                 }]
             },
             release: {
@@ -135,40 +89,10 @@ module.exports = function(grunt) {
                     cwd: 'fonts/',
                     src: ['**/*'],
                     dest: 'build/fonts/'
-                }, {
-                    cwd: 'node_modules/',
-                    src: Object.keys(packagejson.dependencies).map(function(dep) {
-                        return dep + '/**/*';
-                    }),
-                    dest: 'build/node_modules/',
-                    expand: true
                 }]
             },
-            releaseWin: {
+            'release-darwin': {
                 files: [{
-                    expand: true,
-                    cwd: 'util/images/',
-                    src: ['librarian_icon.ico', 'librarian_icon.png'],
-                    dest: 'dist/ΛLΞXΛNDRIΛ Librarian-win32-ia32/resources/'
-                }, {
-                    expand: true,
-                    cwd: 'bin/' + os + '/',
-                    src: ['**/*'],
-                    dest: 'dist/ΛLΞXΛNDRIΛ Librarian-win32-ia32/resources/bin/'
-                }]
-            },
-            releaseOSX: {
-                files: [{
-                    expand: true,
-                    cwd: 'util/images/',
-                    src: ['librarian_icon.png'],
-                    dest: 'dist/ΛLΞXΛNDRIΛ Librarian-win32-ia32/resources/'
-                }, {
-                    expand: true,
-                    cwd: 'bin/' + os + '/',
-                    src: ['**/*'],
-                    dest: 'dist/<%= OSX_FILENAME %>/Contents/Resources/bin/'
-                }, {
                     src: 'util/images/librarian_icon.icns',
                     dest: '<%= OSX_FILENAME %>/Contents/Resources/atom.icns'
                 }],
@@ -177,7 +101,14 @@ module.exports = function(grunt) {
                 }
             },
         },
-
+        'npm-command': {
+            release: {
+                options: {
+                    cwd: 'build/',
+                    args: ['--production', '--no-optional']
+                }
+            }
+        },
         sass: {
             options: {
                 outputStyle: 'compressed',
@@ -190,8 +121,6 @@ module.exports = function(grunt) {
                 }
             }
         },
-
-        // javascript
         babel: {
             options: {
                 sourceMap: 'inline',
@@ -209,7 +138,6 @@ module.exports = function(grunt) {
                 }]
             }
         },
-
         shell: {
             electron: {
                 command: electron + ' . ' + (grunt.option('dev') ? '--dev' : ''),
@@ -219,56 +147,13 @@ module.exports = function(grunt) {
                         cwd: 'build'
                     }
                 }
-            },
-            macdist: {
-                options: {
-                    failOnError: false,
-                },
-                command: [
-                    'util/mac/mac-dist',
-                    'codesign -v -f -s "<%= IDENTITY %>" <%= OSX_DIST_X64 %>',
-                    'codesign -vvv --display <%= OSX_DIST_X64 %>',
-                    'codesign -v --verify <%= OSX_DIST_X64 %>'
-                ].join(' && '),
-            },
-            zip: {
-                command: 'ditto -c -k --sequesterRsrc --keepParent <%= OSX_FILENAME_ESCAPED %> dist/' + BASENAME + '-' + packagejson.version + '-Mac.zip',
             }
         },
-
         clean: {
-            unusedWin: ['dist/ΛLΞXΛNDRIΛ Librarian-win32-ia32/resources/default_app'],
-            release: ['build/', 'dist/'],
+            build: ['build/'],
+            dist: ['dist/'],
+            release: ['release/']
         },
-
-        compress: {
-            windows: {
-                options: {
-                    archive: './dist/' + BASENAME + '-' + packagejson.version + '-Windows-Alpha.zip',
-                    mode: 'zip'
-                },
-                files: [{
-                    expand: true,
-                    dot: true,
-                    cwd: './dist/ΛLΞXΛNDRIΛ Librarian-win32-ia32',
-                    src: '**/*'
-                }]
-            },
-            linux: {
-                options: {
-                    archive: './dist/' + BASENAME + '-' + packagejson.version + '-Linux-' + process.arch + '-Alpha.zip',
-                    mode: 'zip'
-                },
-                files: [{
-                    expand: true,
-                    dot: true,
-                    cwd: './dist/ΛLΞXΛNDRIΛ Librarian-linux-' + process.arch,
-                    src: '**/*'
-                }]
-            },
-        },
-
-        // livereload
         watchChokidar: {
             options: {
                 spawn: true
@@ -296,17 +181,11 @@ module.exports = function(grunt) {
 
     grunt.registerTask('default', ['newer:babel', 'sass', 'newer:copy:dev', 'shell:electron', 'watchChokidar']);
 
-    grunt.registerTask('run', ['babel', 'sass', 'shell:electron', 'watchChokidar']);
+    grunt.registerTask('run', ['newer:babel', 'shell:electron', 'watchChokidar']);
 
-    if (process.platform === 'win32') {
-        grunt.registerTask('release', ['clean:release', 'babel', 'sass', 'copy:release', 'electron:windows', 'clean:unusedWin', 'copy:releaseWin', 'compress:windows']);
-    }
-    if (process.platform === 'darwin') {
-        grunt.registerTask('release', ['clean:release', 'babel', 'sass', 'copy:release', 'electron:osx', 'copy:releaseOSX', 'shell:zip']);
-    }
-    if (process.platform === 'linux') {
-        grunt.registerTask('release', ['clean:release', 'babel', 'sass', 'copy:release', 'electron:linux', 'compress:linux']);
-    }
+    grunt.registerTask('clean:all', ['clean:build', 'clean:dist', 'clean:release']); 
+
+    grunt.registerTask('release', ['babel', 'sass', 'copy:release', 'npm-command:release', 'electron:' + platform]);
 
     process.on('SIGINT', function() {
         grunt.task.run(['shell:electron:kill']);
