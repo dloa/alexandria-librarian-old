@@ -51,9 +51,9 @@ VIAddVersionKey "CompanyName" "${COMPANY_NAME}"
 VIAddVersionKey "LegalCopyright" "${APP_URL}"
 VIProductVersion "${LIBRARIAN_VERSION_CLEAN}.0"
 !ifdef WIN_PATHS
-    OutFile "..\..\release\${APP_NAME}-${LIBRARIAN_VERSION}-Windows-ia32-Setup.exe"
+    OutFile "..\..\release\${APP_NAME}-${LIBRARIAN_VERSION}-Windows-x64-Setup.exe"
 !else
-    OutFile "../../release/${APP_NAME}-${LIBRARIAN_VERSION}-Windows-ia32-Setup.exe"
+    OutFile "../../release/${APP_NAME}-${LIBRARIAN_VERSION}-Windows-x64-Setup.exe"
 !endif
 
 CRCCheck on
@@ -373,7 +373,7 @@ Section
 
     ;Add the files
     !ifdef WIN_PATHS
-        File /r "..\..\dist\ΛLΞXΛNDRIΛ Librarian-win32-ia32\"
+        File /r "..\..\dist\ΛLΞXΛNDRIΛ Librarian-win32-x64\"
     !endif
 
     ;Create uninstaller
