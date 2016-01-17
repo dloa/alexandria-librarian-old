@@ -17,7 +17,7 @@ app.on('ready', () => {
         minHeight: 500,
         width: 960,
         height: screenSize.height * 0.7,
-        icon: 'images/librarian_icon.png',
+        icon: 'images/icons/librarian_icon.png',
         'standard-window': true,
         'auto-hide-menu-bar': true,
         resizable: true,
