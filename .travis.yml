@@ -6,11 +6,4 @@ install:
   -  npm install --no-optional
 script:
   -  grunt clean:all && mkdir release
-  -  chmod +x util/travis/windows.sh && ./util/travis/windows.sh
-deploy:
-  provider: releases
-  api_key: "9dc512803e5f9be359f723f698695a177e10062b"
-  file: "releases/*/**"
-  skip_cleanup: true
-  on:
-    tags: true
+  -  chmod +x util/win32.sh && ./util/win32.sh
