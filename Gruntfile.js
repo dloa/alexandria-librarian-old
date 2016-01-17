@@ -63,6 +63,11 @@ module.exports = function(grunt) {
                     dest: 'build/'
                 }, {
                     expand: true,
+                    cwd: 'bin/' + platform + '/',
+                    src: ['**/*'],
+                    dest: 'build/bin/',
+                }, {
+                    expand: true,
                     cwd: 'images/',
                     src: ['**/*'],
                     dest: 'build/images/'
@@ -79,6 +84,11 @@ module.exports = function(grunt) {
                     cwd: '.',
                     src: ['*.md', 'package.json', 'settings.json', 'index.html'],
                     dest: 'build/'
+                }, {
+                    expand: true,
+                    cwd: 'bin/' + platform + '/',
+                    src: ['**/*'],
+                    dest: 'build/bin/',
                 }, {
                     expand: true,
                     cwd: 'images/',
