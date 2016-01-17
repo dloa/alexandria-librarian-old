@@ -17,7 +17,7 @@ app.on('ready', () => {
         minHeight: 500,
         width: 960,
         height: screenSize.height * 0.7,
-        icon: 'images/librarian_icon.png',
+        icon: 'images/icons/librarian_icon.png',
         'standard-window': true,
         'auto-hide-menu-bar': true,
         resizable: true,
@@ -38,10 +38,7 @@ app.on('ready', () => {
 
     mainWindow.loadURL(path.normalize('file://' + path.join(__dirname, '../index.html')));
 
-
-    mainWindow.webContents.on('new-window', e => {
-        e.preventDefault();
-    });
+    mainWindow.webContents.on('new-window', e => e.preventDefault());
 
     mainWindow.webContents.on('will-navigate', (e, url) => {
         if (url.indexOf('build/index.html#') < 0) {
@@ -55,11 +52,10 @@ app.on('ready', () => {
         mainWindow.focus();
     });
 
-
-    var helper = {
+    const helper = {
         toggleVisibility: () => {
             if (mainWindow) {
-                var isVisible = mainWindow.isVisible();
+                const isVisible = mainWindow.isVisible();
                 if (isVisible) {
                     if (process.platform == 'darwin') {
                         app.dock.hide();
@@ -88,7 +84,6 @@ app.on('ready', () => {
     });
 
     trayTemplate.init(helper);
-
 });
 
 

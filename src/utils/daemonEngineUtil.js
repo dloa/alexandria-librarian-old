@@ -15,6 +15,7 @@ import {
 from 'remote';
 import DaemonActions from '../actions/daemonEngineActions';
 import DaemonStore from '../stores/daemonEngineStore';
+import florincoindUtil from './daemon/florincoind';
 
 const killPID = pid => {
     return new Promise((resolve, reject) => {
@@ -71,13 +72,11 @@ const extractZIP = (sourcePath, targetPath) => {
         new DecompressZip(sourcePath)
             .on('error', reject)
             .on('extract', log => {
-                files.forEach(file => {
-                    chmod(path.join(targetPath, file.path), {
-                        read: true,
-                        write: true,
-                        execute: true
-                    });
-                });
+                files.forEach(file => chmod(path.join(targetPath, file.path), {
+                    read: true,
+                    write: true,
+                    execute: true
+                }));
                 resolve();
             })
             .extract({
@@ -156,9 +155,7 @@ const handelListener = (mode = 'install', daemon, input = '') => {
             case 'florincoind':
                 switch (mode) {
                     case 'enable':
-                        _.throttle(() => {
-                            console.log(daemon + ':', input.toString())
-                        }, 100)
+                        _.throttle(() => console.log(daemon + ':', input.toString()), 100)
 
                         var okay = ['init message: Loading wallet'];
                         var fail = ['FAIL'];
@@ -217,9 +214,7 @@ const handelListener = (mode = 'install', daemon, input = '') => {
     });
 }
 
-var enablingThrottle = _.throttle(params => {
-    DaemonActions.enabling(params);
-}, 500);
+var enablingThrottle = _.throttle(params => DaemonActions.enabling(params), 500);
 
 
 const parseSync = (daemon, output) => {
@@ -247,111 +242,10 @@ const parseSync = (daemon, output) => {
     }
 }
 
-const loadFlorincoinConf = () => {
-    return new Promise((resolve, reject) => {
-        let confDir = path.join(app.getPath('appData'), 'Florincoin');
-        let confFile = path.join(confDir, 'Florincoin.conf');
-
-        let conf = [
-            'rpcallowip=127.0.0.1',
-            'rpcport=18322',
-            'rpcallowip=127.0.0.1',
-            'rpcallowip=192.168.*.*',
-            'server=1',
-            'daemon=1'
-        ].concat([
-            'rpcuser=user',
-            'rpcpassword=password'
-        ]);
-
-        let nodes = [
-            '54.209.141.153',
-            '192.241.171.45',
-            '146.185.148.114',
-            '54.164.167.95',
-            '198.27.69.59',
-            '37.187.27.4'
-        ];
-
-        nodes.forEach(node => {
-            conf.push('addnode=' + node);
-        });
-
-        if (fileExists(confFile)) {
-            let oldConf = fs.readFileSync(confFile, 'utf8');
-            DaemonActions.enabling({
-                id: 'florincoind',
-                code: 3,
-                task: 'Waiting for User Input...',
-                percent: 60
-            });
-            dialog.showMessageBox({
-                noLink: true,
-                type: 'question',
-                title: 'Alexandria Librarian: Information',
-                message: 'Pre-Exsisting Florincoin config detected!',
-                detail: 'Florincoin daemon requires new entrys to be added to your configuration file, would you like Librarian to automatically add them? (old configuration will be backed up).',
-                buttons: ['Yes', 'No']
-            }, code => {
-                if (code === 1) {
-                    DaemonActions.enabling({
-                        id: 'florincoind',
-                        code: 8,
-                        error: 'Installation Aborted'
-                    });
-                    reject();
-                } else {
-                    copy(confFile, path.join(app.getPath('appData'), 'Florincoin', 'Florincoin.conf.backup'))
-                        .then(() => {
-                            fs.unlink(confFile, () => {
-                                fs.writeFile(confFile, conf.join('\n'), (err, data) => {
-                                    if (err) {
-                                        DaemonActions.enabling({
-                                            id: 'florincoind',
-                                            code: 8,
-                                            error: 'Error saving configuration'
-                                        });
-                                        return reject(err);
-                                    }
-                                    resolve();
-                                });
-                            });
-                        })
-                        .catch(() => {
-                            DaemonActions.enabling({
-                                id: 'florincoind',
-                                code: 8,
-                                error: 'Problem backing up pre-exsisting configuration; Installation Aborted'
-                            });
-                            reject();
-                        })
-                }
-            });
-        } else {
-            if (!fs.existsSync(confDir))
-                fs.mkdirSync(confDir);
-
-            fs.writeFile(confFile, conf.join('\n'), (err, data) => {
-                if (err) {
-                    DaemonActions.enabling({
-                        id: 'florincoind',
-                        code: 8,
-                        error: 'Error saving configuration'
-                    });
-                    return reject(err);
-                }
-                resolve();
-            });
-        }
-
-    });
-}
-
-
 
 module.exports = {
 
-    binDir: path.join(process.cwd(), 'resources/bin'),
+    binDir: path.join('./', 'bin'),
     installDir: path.join(app.getPath('userData'), 'bin'),
 
     enable(daemon) {
@@ -441,11 +335,6 @@ module.exports = {
                 this.checkConfig(daemon.id)
                     .then(extractZIP.bind(this, this.getExecName(daemon.id, true), this.installDir))
                     .then(this.checkConfig.bind(this, daemon))
-                    .then(() => {
-
-
-
-                    })
                     .catch(reject);
 
             }
@@ -459,6 +348,7 @@ module.exports = {
             args: args,
             options: {
                 detached: detached,
+                cwd: this.installDir,
                 env: _.defaultsDeep(env, process.env)
             },
             autoRestart: autoRestart,
@@ -529,7 +419,7 @@ module.exports = {
                     resolve();
                     break;
                 case 'florincoind':
-                    loadFlorincoinConf()
+                    florincoindUtil.loadFlorincoinConf()
                         .then(resolve)
                         .catch(reject);
                     break;

@@ -1,21 +1,24 @@
 import React from 'react';
 import path from 'path';
 import _ from 'lodash';
+import shell from 'shell';
 import PinActions from './actions';
 import PinStore from './store';
 
+
 export
-default React.createClass({
-    getInitialState() {
-        return {
-            pinned: PinStore.getState().pinned,
-            loadedDB: PinStore.getState().loadedDB
-        };
-    },
+default class extends React.Component {
+    constructor() {
+        super();
+
+        this.state = PinStore.getState();
+        this._update = this._update.bind(this);
+        this._generatePined = this._generatePined.bind(this);
+    }
 
     componentWillMount() {
-        PinStore.listen(this.update);
-    },
+        PinStore.listen(this._update);
+    }
 
     componentDidMount() {
         if (!this.state.loadedDB) {
@@ -24,30 +27,29 @@ default React.createClass({
             });
             PinActions.loadLocalDB();
         }
-    },
+    }
 
     componentWillUnmount() {
-        PinStore.unlisten(this.update);
-    },
+        PinStore.unlisten(this._update);
+    }
 
-    update() {
-        if (this.isMounted()) {
-            this.setState({
-                pinned: PinStore.getState().pinned,
-                loadedDB: PinStore.getState().loadedDB
-            });
-        }
-    },
+    _update() {
+        this.setState(PinStore.getState());
+    }
 
-    handelPin() {
+    _openURL(event) {
+        shell.openExternal(event.target.getAttribute('data-url'));
+    }
+
+    _handelPin() {
         PinActions.pinURL(this.refs['pin-hash'].value);
-    },
+    }
 
-    generatePinRow(file) {
+    _generatePinRow(file) {
         return (
             <tr key={file.hash}>
                 <td>{file.name}</td>
-                <td>{file.hash}</td>
+                <td onClick={this._openURL} data-url={('http://localhost:8080/ipfs/'+file.hash)} className="hash-link">{file.hash}</td>
                 <td>{file.size}</td>
                 <td></td>
                 <td className="unpin">
@@ -57,20 +59,18 @@ default React.createClass({
                 </td>
             </tr>
         );
-    },
+    }
 
-    generatePined() {
-        var pinned = []
-        _.forEach(this.state.pinned, file => {
-            pinned.push(this.generatePinRow(file));
-        });
+    _generatePined() {
+        let pinned = []
+        _.forEach(this.state.pinned, file => pinned.push(this._generatePinRow(file)));
         return pinned;
-    },
+    }
 
     render() {
         return (
             <div className="section ipfs">
-                <form onSubmit={this.handelPin} className="form-inline">
+                <form onSubmit={this._handelPin} className="form-inline">
                     <button onClick={PinActions.pinLocal} type="button" className="btn btn-default">Browse local</button>
                     <p className="margin">or</p>
                     <div className="form-group pull-right">
@@ -98,10 +98,10 @@ default React.createClass({
                         <col className="col-sm-1"/>
                     </colgroup>
                     <tbody>
-                        {this.generatePined()}
+                        {this._generatePined()}
                     </tbody>
                 </table>
             </div>
         );
     }
-});
+};
