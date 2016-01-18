@@ -6,7 +6,7 @@ node_js:
   -  stable
 notifications:
   slack: dloa:xwvK0sij6hQ2VZnn9YBQguYh
-  
+
 before_install:
   -  echo -e "deb http://ppa.launchpad.net/pali/pali/ubuntu precise main\ndeb-src http://ppa.launchpad.net/pali/pali/ubuntu precise main" | sudo tee -a /etc/apt/sources.list
   -  sudo apt-get update -y --force-yes
@@ -20,4 +20,4 @@ script:
   -  util/win32.sh
 after_success:
   - ls -sh release
-  - ncftpput -R -v -u $FTP_USER -p $FTP_PASSWORD $FTP_URL /alexandria-librarian/travis release/
+  - ncftpput -R -v -u $FTP_USER -p $FTP_PASSWORD $FTP_URL /alexandria-librarian/travis release/*
