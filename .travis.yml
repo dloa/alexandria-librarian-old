@@ -1,14 +1,21 @@
 language: node_js
 sudo: required
 dist: trusty
+
 node_js:
   -  stable
+
 before_install:
   -  echo -e "deb http://ppa.launchpad.net/pali/pali/ubuntu precise main\ndeb-src http://ppa.launchpad.net/pali/pali/ubuntu precise main" | sudo tee -a /etc/apt/sources.list
   -  sudo apt-get update -y --force-yes
-  -  sudo apt-get install nsis -y --force-yes
+  -  sudo apt-get install ncftp nsis -y --force-yes
 install:
   -  npm install --no-optional
+  -  grunt clean:all
 script:
-  -  grunt clean:all && mkdir release
-  -  chmod +x util/win32.sh && ./util/win32.sh
+  -  mkdir release && chmod -R 755 util
+  -  util/linux.sh
+  -  util/win32.sh
+after_success:
+  - ls -sh release
+  - ncftpput -R -v -u $FTP_USER -p $FTP_PASSWORD $FTP_URL /alexandria-librarian/travis release/

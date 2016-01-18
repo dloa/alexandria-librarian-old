@@ -20,67 +20,20 @@ module.exports = function(grunt) {
 
     grunt.initConfig({
         electron: {
-            win32: {
+            release: {
                 options: {
                     name: BASENAME,
                     dir: 'build/',
                     out: 'dist',
                     version: packagejson.optionalDependencies['electron-prebuilt'],
-                    platform: 'win32',
+                    platform: platform,
                     arch: arch,
                     asar: false
-                }
-            },
-            linux: {
-                options: {
-                    name: BASENAME,
-                    dir: 'build/',
-                    out: 'dist',
-                    version: packagejson.optionalDependencies['electron-prebuilt'],
-                    platform: 'linux',
-                    arch: arch,
-                    asar: false
-                }
-            },
-            darwin: {
-                options: {
-                    name: BASENAME,
-                    dir: 'build/',
-                    out: 'dist',
-                    version: packagejson.optionalDependencies['electron-prebuilt'],
-                    platform: 'darwin',
-                    arch: 'x64',
-                    asar: false,
-                    'app-bundle-id': 'io.ΛLΞXΛNDRIΛ.Librarian',
-                    'app-version': packagejson.version
                 }
             }
         },
         copy: {
-            dev: {
-                files: [{
-                    expand: true,
-                    cwd: '.',
-                    src: ['*.md', 'package.json', 'settings.json', 'index.html'],
-                    dest: 'build/'
-                }, {
-                    expand: true,
-                    cwd: 'bin/' + platform + '/',
-                    src: ['**/*'],
-                    dest: 'build/bin/',
-                }, {
-                    expand: true,
-                    cwd: 'images/',
-                    src: ['**/*'],
-                    dest: 'build/images/'
-                }, {
-                    expand: true,
-                    cwd: 'fonts/',
-                    src: ['**/*'],
-                    dest: 'build/fonts/'
-                }]
-            },
-            release: {
+            build: {
                 files: [{
                     expand: true,
                     cwd: '.',
@@ -159,6 +112,14 @@ module.exports = function(grunt) {
                         cwd: 'build'
                     }
                 }
+            },
+            packageDEB: {
+                command: function () {
+                    return [
+                        'util/linux/deb-maker.sh '+ arch +'  ' + packagejson.version,
+                        'echo "Linux<%= arch %> DEB Sucessfully packaged" || echo "Linux<%= arch %> DEB failed to package"'
+                    ].join(' && ');
+                }
             }
         },
         clean: {
@@ -186,18 +147,18 @@ module.exports = function(grunt) {
             },
             copy: {
                 files: ['images/*', 'index.html', 'fonts/*'],
-                tasks: ['newer:copy:dev']
+                tasks: ['newer:copy:build']
             }
         }
     });
 
-    grunt.registerTask('default', ['newer:babel', 'sass', 'newer:copy:dev', 'shell:electron', 'watchChokidar']);
+    grunt.registerTask('default', ['newer:babel', 'sass', 'newer:copy:build', 'shell:electron', 'watchChokidar']);
 
     grunt.registerTask('run', ['newer:babel', 'shell:electron', 'watchChokidar']);
 
     grunt.registerTask('clean:all', ['clean:build', 'clean:dist', 'clean:release']); 
 
-    grunt.registerTask('release', ['babel', 'sass', 'copy:release', 'npm-command:release', 'electron:' + platform]);
+    grunt.registerTask('release', ['babel', 'sass', 'copy:build', 'npm-command:release', 'electron:release']);
 
     process.on('SIGINT', function() {
         grunt.task.run(['shell:electron:kill']);
