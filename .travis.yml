@@ -5,7 +5,7 @@ dist: trusty
 node_js:
   -  stable
 notifications:
-  slack: dloa:$SLACK_TOKEN
+  slack: dloa:xwvK0sij6hQ2VZnn9YBQguYh
   
 before_install:
   -  echo -e "deb http://ppa.launchpad.net/pali/pali/ubuntu precise main\ndeb-src http://ppa.launchpad.net/pali/pali/ubuntu precise main" | sudo tee -a /etc/apt/sources.list
