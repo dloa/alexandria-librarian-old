@@ -8,7 +8,7 @@ else
   real_arch="amd64"
 fi
 cwd="build/deb-package/$arch"
-name="alexandria-librarian"
+name="ΛLΞXΛNDRIΛ Librarian"
 github="https://github.com/dloa/alexandria-librarian"
 projectName="alexandria-librarian"
 description="Alexandria's background process manager."
@@ -33,7 +33,7 @@ mkdir -p $cwd/$package_name/usr/share/icons #icon
 
 ### COPY FILES
 #base
-cp -r "dist/ΛLΞXΛNDRIΛ Librarian-linux-ia32/" $cwd/$package_name/opt/$projectName/
+cp -r "dist/$name-linux-$arch/" $cwd/$package_name/opt/$projectName/
 
 #icon
 cp $icon $cwd/$package_name/usr/share/icons/$projectName.png
