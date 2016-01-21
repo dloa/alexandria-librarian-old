@@ -43,8 +43,73 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-lg-12">
+                            
+                            <div class="section publish" id="publishAuth">
+                                <h4 class="title">Publisher Authentication</h4>
+                                
+                                <form class="important">
+                                    <p class="text-right">Mandatory</p>
+                                    <label for="">Florincoin address:</label>
+                                    <div class="form-inline">
+                                        <div class="form-group">
+                                            <select class="form-control" id="sel1">
+                                                <option>Artwork</option>
+                                                <option>Zip File</option>
+                                                <option>Thingy</option>
+                                                <option>Luigi was not here</option>
+                                            </select>
+                                        </div>
+                                        <button class="btn btn-default">Generate new</button>
+                                    </div>
+                                    <label for="">Publisher name:</label>
+                                    <div class="form-inline">
+                                        <div class="form-group">
+                                            <select class="form-control" id="sel1">
+                                                <option>Artwork</option>
+                                                <option>Zip File</option>
+                                                <option>Thingy</option>
+                                                <option>Luigi was not here</option>
+                                            </select>
+                                        </div>
+                                        <a onclick="createNewPublisherName()" class="btn btn-default">Create new</a>
+                                    </div>
+                                    <div id="createNewPublisherName" style="display: none;">
+                                        <label for="">Create new publisher name</label>
+                                        <div class="form-inline">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control">
+                                            </div>
+                                            <button class="btn btn-default">Create new</button>
+                                        </div>
+                                    </div>
+                                </form>
+                                
 
-                            <div class="section publish">
+                                <form class="optional">
+                                    <p class="text-right">Optional</p>
+                                    <div class="form-group">
+                                        <div class="form-inline">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" placeholder="Namespace URL">
+                                            </div>
+                                            <p>.alexandria.media</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="" placeholder="Email address">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="" placeholder="Bitmessage address">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="" placeholder="Bitcoin address">
+                                    </div>
+                                </form>
+
+                                <button onclick="publishArtifact()" class="btn btn-primary btn-next">Continue to publish artifact</button>
+                            </div>
+
+                            <div class="section publish" id="publishArtifact" style="display: none;">
                                 <h4 class="title">Publish Artifact</h4>
                                 
                                 <div class="publish-section artifact-type">
@@ -112,55 +177,7 @@
                                             </div>
                                             <div class="row">
 
-                                                <div class="col col-sm-3">
-                                                    <h5>Price to Play</h5>
-                                                    <form class="form-horizontal">
-                                                        <div class="form-group">
-                                                            <label for="" class="col-sm-5 control-label">Suggested:</label>
-                                                            <div class="col-sm-7">
-                                                                <div class="input-group">
-                                                                    <div class="input-group-addon">$</div>
-                                                                    <input type="text" class="form-control" id="" placeholder="0.00">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="" class="col-sm-5 control-label">Minimum:</label>
-                                                            <div class="col-sm-7">
-                                                                <div class="input-group">
-                                                                    <div class="input-group-addon">$</div>
-                                                                    <input type="text" class="form-control" id="" placeholder="0.00">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                                
-                                                <div class="col col-sm-3">
-                                                    <h5>Price to Purchase</h5>
-                                                    <form class="form-horizontal">
-                                                        <div class="form-group">
-                                                            <label for="" class="col-sm-5 control-label">Suggested:</label>
-                                                            <div class="col-sm-7">
-                                                                <div class="input-group">
-                                                                    <div class="input-group-addon">$</div>
-                                                                    <input type="text" class="form-control" id="" placeholder="0.00">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="" class="col-sm-5 control-label">Minimum:</label>
-                                                            <div class="col-sm-7">
-                                                                <div class="input-group">
-                                                                    <div class="input-group-addon">$</div>
-                                                                    <input type="text" class="form-control" id="" placeholder="0.00">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </form>
-                                                </div>
-
-                                                <div class="col col-sm-3">
+                                                <div class="col col-sm-6">
                                                     <h5>Price to Play</h5>
                                                     <form class="form-horizontal">
                                                         <div class="form-group">
@@ -184,7 +201,7 @@
                                                     </form>
                                                 </div>
 
-                                                <div class="col col-sm-3">
+                                                <div class="col col-sm-6">
                                                     <h5>Price to Purchase</h5>
                                                     <form class="form-horizontal">
                                                         <div class="form-group">
@@ -207,10 +224,57 @@
                                                         </div>
                                                     </form>
                                                 </div>
-                                                
+
+                                                <div class="col col-sm-6">
+                                                    <h5>Price to Play</h5>
+                                                    <form class="form-horizontal">
+                                                        <div class="form-group">
+                                                            <label for="" class="col-sm-5 control-label">Suggested:</label>
+                                                            <div class="col-sm-7">
+                                                                <div class="input-group">
+                                                                    <div class="input-group-addon">$</div>
+                                                                    <input type="text" class="form-control" id="" placeholder="0.00">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="" class="col-sm-5 control-label">Minimum:</label>
+                                                            <div class="col-sm-7">
+                                                                <div class="input-group">
+                                                                    <div class="input-group-addon">$</div>
+                                                                    <input type="text" class="form-control" id="" placeholder="0.00">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+
+                                                <div class="col col-sm-6">
+                                                    <h5>Price to Purchase</h5>
+                                                    <form class="form-horizontal">
+                                                        <div class="form-group">
+                                                            <label for="" class="col-sm-5 control-label">Suggested:</label>
+                                                            <div class="col-sm-7">
+                                                                <div class="input-group">
+                                                                    <div class="input-group-addon">$</div>
+                                                                    <input type="text" class="form-control" id="" placeholder="0.00">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="" class="col-sm-5 control-label">Minimum:</label>
+                                                            <div class="col-sm-7">
+                                                                <div class="input-group">
+                                                                    <div class="input-group-addon">$</div>
+                                                                    <input type="text" class="form-control" id="" placeholder="0.00">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+
                                             </div>
                                         </div>
-
                                         <div class="publish-section">
                                             <div class="publish-files audio-tracks">
                                                 <h5>
@@ -384,12 +448,13 @@
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="col col-sm-3">
+
+                                                <div class="col col-sm-6">
                                                     <h5>Price to Play</h5>
                                                     <form class="form-horizontal">
                                                         <div class="form-group">
-                                                            <label for="" class="col-sm-7 control-label">Suggested:</label>
-                                                            <div class="col-sm-5">
+                                                            <label for="" class="col-sm-5 control-label">Suggested:</label>
+                                                            <div class="col-sm-7">
                                                                 <div class="input-group">
                                                                     <div class="input-group-addon">$</div>
                                                                     <input type="text" class="form-control" id="" placeholder="0.00">
@@ -397,8 +462,8 @@
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
-                                                            <label for="" class="col-sm-7 control-label">Minimum:</label>
-                                                            <div class="col-sm-5">
+                                                            <label for="" class="col-sm-5 control-label">Minimum:</label>
+                                                            <div class="col-sm-7">
                                                                 <div class="input-group">
                                                                     <div class="input-group-addon">$</div>
                                                                     <input type="text" class="form-control" id="" placeholder="0.00">
@@ -407,12 +472,13 @@
                                                         </div>
                                                     </form>
                                                 </div>
+
                                                 <div class="col col-sm-6">
-                                                    <h5>Full Album Pricing</h5>
+                                                    <h5>Price to Purchase</h5>
                                                     <form class="form-horizontal">
                                                         <div class="form-group">
-                                                            <label for="" class="col-sm-7 control-label">Suggested price / play</label>
-                                                            <div class="col-sm-5">
+                                                            <label for="" class="col-sm-5 control-label">Suggested:</label>
+                                                            <div class="col-sm-7">
                                                                 <div class="input-group">
                                                                     <div class="input-group-addon">$</div>
                                                                     <input type="text" class="form-control" id="" placeholder="0.00">
@@ -420,26 +486,8 @@
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
-                                                            <label for="" class="col-sm-7 control-label">Minimum price / play</label>
-                                                            <div class="col-sm-5">
-                                                                <div class="input-group">
-                                                                    <div class="input-group-addon">$</div>
-                                                                    <input type="text" class="form-control" id="" placeholder="0.00">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="" class="col-sm-7 control-label">Suggested price / download</label>
-                                                            <div class="col-sm-5">
-                                                                <div class="input-group">
-                                                                    <div class="input-group-addon">$</div>
-                                                                    <input type="text" class="form-control" id="" placeholder="0.00">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="" class="col-sm-7 control-label">Minimum price / download</label>
-                                                            <div class="col-sm-5">
+                                                            <label for="" class="col-sm-5 control-label">Minimum:</label>
+                                                            <div class="col-sm-7">
                                                                 <div class="input-group">
                                                                     <div class="input-group-addon">$</div>
                                                                     <input type="text" class="form-control" id="" placeholder="0.00">
@@ -448,6 +496,55 @@
                                                         </div>
                                                     </form>
                                                 </div>
+
+                                                <div class="col col-sm-6">
+                                                    <h5>Price to Play</h5>
+                                                    <form class="form-horizontal">
+                                                        <div class="form-group">
+                                                            <label for="" class="col-sm-5 control-label">Suggested:</label>
+                                                            <div class="col-sm-7">
+                                                                <div class="input-group">
+                                                                    <div class="input-group-addon">$</div>
+                                                                    <input type="text" class="form-control" id="" placeholder="0.00">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="" class="col-sm-5 control-label">Minimum:</label>
+                                                            <div class="col-sm-7">
+                                                                <div class="input-group">
+                                                                    <div class="input-group-addon">$</div>
+                                                                    <input type="text" class="form-control" id="" placeholder="0.00">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+
+                                                <div class="col col-sm-6">
+                                                    <h5>Price to Purchase</h5>
+                                                    <form class="form-horizontal">
+                                                        <div class="form-group">
+                                                            <label for="" class="col-sm-5 control-label">Suggested:</label>
+                                                            <div class="col-sm-7">
+                                                                <div class="input-group">
+                                                                    <div class="input-group-addon">$</div>
+                                                                    <input type="text" class="form-control" id="" placeholder="0.00">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="" class="col-sm-5 control-label">Minimum:</label>
+                                                            <div class="col-sm-7">
+                                                                <div class="input-group">
+                                                                    <div class="input-group-addon">$</div>
+                                                                    <input type="text" class="form-control" id="" placeholder="0.00">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+
                                             </div>
                                         </div>
 
@@ -625,12 +722,13 @@
                                                 </div>
                                             </div>
                                             <div class="row">
+
                                                 <div class="col col-sm-6">
-                                                    <h5>Individual Track Pricing</h5>
+                                                    <h5>Price to Play</h5>
                                                     <form class="form-horizontal">
                                                         <div class="form-group">
-                                                            <label for="" class="col-sm-7 control-label">Suggested price / play</label>
-                                                            <div class="col-sm-5">
+                                                            <label for="" class="col-sm-5 control-label">Suggested:</label>
+                                                            <div class="col-sm-7">
                                                                 <div class="input-group">
                                                                     <div class="input-group-addon">$</div>
                                                                     <input type="text" class="form-control" id="" placeholder="0.00">
@@ -638,26 +736,8 @@
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
-                                                            <label for="" class="col-sm-7 control-label">Minimum price / play</label>
-                                                            <div class="col-sm-5">
-                                                                <div class="input-group">
-                                                                    <div class="input-group-addon">$</div>
-                                                                    <input type="text" class="form-control" id="" placeholder="0.00">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="" class="col-sm-7 control-label">Suggested price / download</label>
-                                                            <div class="col-sm-5">
-                                                                <div class="input-group">
-                                                                    <div class="input-group-addon">$</div>
-                                                                    <input type="text" class="form-control" id="" placeholder="0.00">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="" class="col-sm-7 control-label">Minimum price / download</label>
-                                                            <div class="col-sm-5">
+                                                            <label for="" class="col-sm-5 control-label">Minimum:</label>
+                                                            <div class="col-sm-7">
                                                                 <div class="input-group">
                                                                     <div class="input-group-addon">$</div>
                                                                     <input type="text" class="form-control" id="" placeholder="0.00">
@@ -666,12 +746,13 @@
                                                         </div>
                                                     </form>
                                                 </div>
+
                                                 <div class="col col-sm-6">
-                                                    <h5>Full Album Pricing</h5>
+                                                    <h5>Price to Purchase</h5>
                                                     <form class="form-horizontal">
                                                         <div class="form-group">
-                                                            <label for="" class="col-sm-7 control-label">Suggested price / play</label>
-                                                            <div class="col-sm-5">
+                                                            <label for="" class="col-sm-5 control-label">Suggested:</label>
+                                                            <div class="col-sm-7">
                                                                 <div class="input-group">
                                                                     <div class="input-group-addon">$</div>
                                                                     <input type="text" class="form-control" id="" placeholder="0.00">
@@ -679,26 +760,8 @@
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
-                                                            <label for="" class="col-sm-7 control-label">Minimum price / play</label>
-                                                            <div class="col-sm-5">
-                                                                <div class="input-group">
-                                                                    <div class="input-group-addon">$</div>
-                                                                    <input type="text" class="form-control" id="" placeholder="0.00">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="" class="col-sm-7 control-label">Suggested price / download</label>
-                                                            <div class="col-sm-5">
-                                                                <div class="input-group">
-                                                                    <div class="input-group-addon">$</div>
-                                                                    <input type="text" class="form-control" id="" placeholder="0.00">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="" class="col-sm-7 control-label">Minimum price / download</label>
-                                                            <div class="col-sm-5">
+                                                            <label for="" class="col-sm-5 control-label">Minimum:</label>
+                                                            <div class="col-sm-7">
                                                                 <div class="input-group">
                                                                     <div class="input-group-addon">$</div>
                                                                     <input type="text" class="form-control" id="" placeholder="0.00">
@@ -707,6 +770,55 @@
                                                         </div>
                                                     </form>
                                                 </div>
+
+                                                <div class="col col-sm-6">
+                                                    <h5>Price to Play</h5>
+                                                    <form class="form-horizontal">
+                                                        <div class="form-group">
+                                                            <label for="" class="col-sm-5 control-label">Suggested:</label>
+                                                            <div class="col-sm-7">
+                                                                <div class="input-group">
+                                                                    <div class="input-group-addon">$</div>
+                                                                    <input type="text" class="form-control" id="" placeholder="0.00">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="" class="col-sm-5 control-label">Minimum:</label>
+                                                            <div class="col-sm-7">
+                                                                <div class="input-group">
+                                                                    <div class="input-group-addon">$</div>
+                                                                    <input type="text" class="form-control" id="" placeholder="0.00">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+
+                                                <div class="col col-sm-6">
+                                                    <h5>Price to Purchase</h5>
+                                                    <form class="form-horizontal">
+                                                        <div class="form-group">
+                                                            <label for="" class="col-sm-5 control-label">Suggested:</label>
+                                                            <div class="col-sm-7">
+                                                                <div class="input-group">
+                                                                    <div class="input-group-addon">$</div>
+                                                                    <input type="text" class="form-control" id="" placeholder="0.00">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="" class="col-sm-5 control-label">Minimum:</label>
+                                                            <div class="col-sm-7">
+                                                                <div class="input-group">
+                                                                    <div class="input-group-addon">$</div>
+                                                                    <input type="text" class="form-control" id="" placeholder="0.00">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+
                                             </div>
                                         </div>
 
@@ -869,12 +981,21 @@
                 $('[data-toggle="tooltip"]').tooltip()
             })
 
-
-            function submit(){
+            function submit() {
                 $('#progress').fadeIn('fast');
             }
-            function cancelSubmit(){
+            
+            function cancelSubmit() {
                 $('#progress').fadeOut('fast');
+            }
+            
+            function publishArtifact() {
+                $('#publishAuth').fadeOut('fast');
+                $('#publishArtifact').fadeIn('fast');
+            }
+            
+            function createNewPublisherName() {
+                $('#createNewPublisherName').slideDown();
             }
         </script>
     </body>

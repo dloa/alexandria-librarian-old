@@ -230,6 +230,43 @@ label {
 input.rating {
   max-width: 65px; }
 
+form.important {
+  background-color: rgba(239, 239, 239, 0.25);
+  border-radius: 3px;
+  margin-left: -15px;
+  margin-right: -15px;
+  padding: 15px; }
+
+form .form-last {
+  margin-bottom: 0; }
+
+#publishAuth form.important {
+  margin-bottom: 25px; }
+
+#publishAuth form.important .form-group {
+  width: calc(100% - 125px); }
+
+#publishAuth form.important .form-control {
+  width: 100%; }
+
+#publishAuth form.important .btn {
+  min-width: 120px; }
+
+#publishAuth form.important .form-inline {
+  margin-bottom: 15px; }
+
+#publishAuth form.important .form-inline:last-child {
+  margin-bottom: 0; }
+
+#publishAuth #createNewPublisherName {
+  padding: 15px;
+  border: 1px solid #efefef;
+  border-radius: 4px;
+  background: white; }
+
+#publishAuth .btn-next {
+  margin-top: 25px; }
+
 /* Progress */
 .progress-container {
   padding: 15px;
@@ -536,13 +573,11 @@ td.unpin {
   text-align: left; }
 
 .publish .publish-pricing h5 {
-  margin-bottom: 15px; }
+  margin-bottom: 15px;
+  margin-top: 25px; }
 
 .publish .publish-pricing label {
   text-align: left; }
-
-.publish .publish-pricing .small {
-  padding-bottom: 15px; }
 
 .publish .publish-pricing .li-money {
   position: absolute;

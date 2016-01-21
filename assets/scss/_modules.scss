@@ -123,6 +123,49 @@ input.rating {
     max-width: 65px;
 }
 
+form {
+    &.important {
+        background-color: rgba($ltgray, .25);
+        border-radius: 3px;
+        margin-left: -15px;
+        margin-right: -15px;
+        padding: 15px;
+    }
+    .form-last {
+        margin-bottom: 0;
+    }
+}
+
+#publishAuth {
+    form.important {
+        margin-bottom: 25px;
+        .form-group {
+            width: calc(100% - 125px);
+        }
+        .form-control {
+            width: 100%;
+        }
+        .btn {
+            min-width: 120px;
+        }
+        .form-inline {
+            margin-bottom: 15px;
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+    }
+    #createNewPublisherName {
+        padding: 15px;
+        border: 1px solid $ltgray;
+        border-radius: 4px;
+        background: white;
+    }
+    .btn-next {
+        margin-top: 25px;
+    }
+}
+
 /* Progress */
 .progress-container {
     padding: 15px;
@@ -488,12 +531,12 @@ td.unpin {
         }
         h5 {
             margin-bottom: 15px;
+            margin-top: 25px;
         }
         label {
             text-align: left;
         }
         .small {
-            padding-bottom: 15px;
         }
         .li-money {
             position: absolute;
