@@ -227,7 +227,7 @@ a.svg:after {
         width: 22px;
         height: 22px;
         border-radius: 100px;
-        background: white;
+        background: darken($ltgray, 10%);
         box-shadow: 0 0 10px rgba(black, .1);
         content: '';
         transition: all 0.3s ease;
@@ -235,11 +235,11 @@ a.svg:after {
 }
 .toggle {
     &:checked ~ label {
-        background: rgba($green, .25);
+        background: rgba($primary, .25);
         &:after {
             left: 20px;
-            background: $green;
-            box-shadow: 0 0 10px rgba($green, .5);
+            background: $primary;
+            box-shadow: 0 0 10px rgba($primary, .5);
         }
     }
     &:disabled ~ label {
@@ -454,7 +454,7 @@ td.unpin {
         width: 180px;
         height: 180px;
         display: table; 
-        background: rgba($ltgray, .5);
+        background: $ltgray;
         border-radius: 3px;
         p {
             text-align:center; 
@@ -464,19 +464,6 @@ td.unpin {
     }
     label {
         font-weight: 300;
-    }
-    .form-horizontal {
-        .control-label {
-            text-align: left;
-        }
-        .col-sm-5 {
-            padding-left: 0;
-            width: 35%;
-        }
-        .col-sm-7 {
-            padding-right: 0;
-            width: 65%;
-        }
     }
     .publish-pricing {
         background-color: rgba($green, .05);
@@ -494,11 +481,16 @@ td.unpin {
             border-color: rgba($green, 0);
             background-color: rgba($green, .25);
             color: darken($green, 15%);
+            max-width: 65px;
+        }
+        .col-sm-7 {
+            text-align: left;
         }
         h5 {
-            margin-bottom: 25px;
+            margin-bottom: 15px;
         }
         label {
+            text-align: left;
         }
         .small {
             padding-bottom: 15px;
@@ -513,6 +505,12 @@ td.unpin {
         }
         ::-moz-placeholder {  /* Firefox 19+ */
             color: rgba($green, .5);  
+        }
+        .form-group {
+            label {
+            }
+            .col-sm-6:last-child {
+            }
         }
     }
     .publish-files {
