@@ -20,4 +20,5 @@ script:
   -  util/win32.sh
 after_success:
   - ls -sh release
-  - ncftpput -R -v -u $FTP_USER -p $FTP_PASSWORD $FTP_URL /alexandria-librarian/travis release/*
+  - mkdir -p travis_upload/$TRAVIS_JOB_NUMBER && mv release/* travis_upload/$TRAVIS_JOB_NUMBER
+  - ncftpput -R -v -u $FTP_USER -p $FTP_PASSWORD $FTP_URL /alexandria-librarian travis_upload/$TRAVIS_JOB_NUMBER
