@@ -13,16 +13,6 @@ import {
 }
 from 'remote';
 
-
-const fileExists = filePath => {
-    try {
-        return fs.statSync(filePath).isFile();
-    } catch (err) {
-        return false;
-    }
-}
-
-
 export
 default {
     api() {
@@ -67,7 +57,10 @@ default {
 
             nodes.forEach(node => conf.push(`addnode=${node}`));
 
-            if (fileExists(confFile)) {
+
+            console.log(conf)
+
+            if (CommonUtil.fileExists(confFile)) {
                 let oldConf = fs.readFileSync(confFile, 'utf8');
                 DaemonActions.enabling({
                     id: 'florincoind',
@@ -91,9 +84,8 @@ default {
                         });
                         reject();
                     } else {
-                        copy(confFile, path.join(app.getPath('appData'), 'Florincoin', 'Florincoin.conf.backup'))
-                            .then(() => {
-                                fs.unlink(confFile, () => fs.writeFile(confFile, conf.join('\n'), (err, data) => {
+                        CommonUtil.copy(confFile, path.join(app.getPath('appData'), 'Florincoin', 'Florincoin.conf.backup'))
+                            .then(() => fs.unlink(confFile, () => fs.writeFile(confFile, conf.join('\n'), (err, data) => {
                                     if (err) {
                                         DaemonActions.enabling({
                                             id: 'florincoind',
@@ -102,16 +94,15 @@ default {
                                         });
                                         return reject(err);
                                     }
-                                    resolve();
-                                }));
-                            })
+                                    return resolve();
+                            })))
                             .catch(() => {
                                 DaemonActions.enabling({
                                     id: 'florincoind',
                                     code: 8,
                                     error: 'Problem backing up pre-exsisting configuration; Installation Aborted'
                                 });
-                                reject();
+                                return reject();
                             })
                     }
                 });
@@ -132,5 +123,4 @@ default {
             }
         });
     }
-
 }

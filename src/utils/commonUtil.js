@@ -1,10 +1,27 @@
 import getFolderSize from 'get-folder-size';
 import Promise from 'bluebird';
+import fsExtra from 'fs-extra';
 import fs from 'fs';
 import path from 'path';
 
 
 module.exports = {
+    copy(input, output) {
+        return new Promise((resolve, reject) => {
+            fsExtra.copy(input, output, err => {
+                if (err)
+                    return reject(err)
+                resolve();
+            })
+        });
+    },
+    fileExists(filePath) {
+        try {
+            return fs.statSync(filePath).isFile();
+        } catch (err) {
+            return false;
+        }
+    },
     folderSize(folder) {
         return new Promise((resolve, reject) => {
             getFolderSize(folder, (err, total) => {

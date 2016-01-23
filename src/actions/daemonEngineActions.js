@@ -102,8 +102,11 @@ class daemonEngineActions {
                     id: 'florincoind',
                     args: [],
                     env: {}
-                }, ((process.platform === 'darwin') ? true : false))
-                    .then(this.actions.florincoind.bind(this, 'enable'))
+                }, (process.platform === 'darwin'))
+                    .then(() => {
+                        console.log('installed');
+                        this.actions.florincoind('enable');
+                    })
                     .catch(console.error);
                 break;
         }
